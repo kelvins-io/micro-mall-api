@@ -1,0 +1,12 @@
+package code
+
+const (
+	SUCCESS              = 200
+	INVALID_PARAMS       = 400
+	ID_NOT_EMPTY         = 4001
+	ERROR_TOKEN_EMPTY    = 4002
+	ERROR_TOKEN_INVALID  = 4003
+	ERROR_TOKEN_EXPIRE   = 4004
+	ERROR_USER_NOT_EXIST = 4005
+	ERROR                = 500
+)
