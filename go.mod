@@ -1,4 +1,4 @@
-module gitee.com/cristiane/web_gin_template
+module gitee.com/cristiane/micro-mall-api
 
 go 1.13
 
