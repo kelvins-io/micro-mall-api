@@ -10,7 +10,7 @@ import (
 
 func MarkErrors(ctx context.Context, errors []*validation.Error) {
 	for _, err := range errors {
-		vars.BusinessLogger.Error(ctx, err.Key, err.Message)
+		vars.AccessLogger.Error(ctx, err.Key, err.Message)
 	}
 	return
 }

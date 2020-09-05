@@ -1,5 +1,5 @@
 package client
 
 const (
-	token = "xx.xxxx.xxxx"
+	token = "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLmnajlrZDohb4iLCJ1aWQiOjEwMDE1LCJleHAiOjE1OTkzMDI0ODgsImlzcyI6IndlYl9naW5fdGVtcGxhdGUifQ.O32i647M-jQlOwtNCFDpcRnpN3lY29Q4ao2u4csJ9wsWC_YSAtdMJWZJL1y1JUZD"
 )

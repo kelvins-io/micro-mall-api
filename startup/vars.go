@@ -25,21 +25,28 @@ func SetupVars() error {
 		return err
 	}
 
-	if vars.MysqlSettingXXXDB != nil && vars.MysqlSettingXXXDB.Host != "" {
-		vars.DBEngineXORM, err = setup.NewMySQLXORMEngine(vars.MysqlSettingXXXDB)
+	if vars.MysqlSettingMicroMall != nil && vars.MysqlSettingMicroMall.Host != "" {
+		vars.DBEngineXORM, err = setup.NewMySQLXORMEngine(vars.MysqlSettingMicroMall)
 		if err != nil {
 			return err
 		}
-		vars.DBEngineGORM, err = setup.NewMySQLGORMEngine(vars.MysqlSettingXXXDB)
+		vars.DBEngineGORM, err = setup.NewMySQLGORMEngine(vars.MysqlSettingMicroMall)
 		if err != nil {
 			return err
 		}
 	}
-	if vars.RedisSetting != nil && vars.RedisSetting.Host != "" {
-		vars.RedisPool, err = setup.NewRedis(vars.RedisSetting)
+	if vars.RedisSettingMicroMall != nil && vars.RedisSettingMicroMall.Host != "" {
+		vars.RedisPoolMicroMall, err = setup.NewRedis(vars.RedisSettingMicroMall)
 		if err != nil {
 			return err
 		}
+	}
+	if vars.QueueAMQPSettingUserRegisterNotice != nil && vars.QueueAMQPSettingUserRegisterNotice.Broker != "" {
+		vars.QueueServerUserRegisterNotice = setup.SetUpAMQPQueue(vars.QueueAMQPSettingUserRegisterNotice, nil)
+	}
+
+	if vars.QueueAMQPSettingUserStateNotice != nil && vars.QueueAMQPSettingUserStateNotice.Broker != "" {
+		vars.QueueServerUserStateNotice = setup.SetUpAMQPQueue(vars.QueueAMQPSettingUserStateNotice, nil)
 	}
 
 	return nil

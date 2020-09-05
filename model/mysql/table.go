@@ -1,5 +1,7 @@
 package mysql
 
 const (
-	TableConfigKvStore = "qqq"
+	TableConfigKvStore    = "qqq"
+	TableUser             = "user"
+	TableVerifyCodeRecord = "verify_code_record"
 )

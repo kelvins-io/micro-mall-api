@@ -1,4 +1,4 @@
-package middleware
+package util
 
 import (
 	"gitee.com/cristiane/micro-mall-api/vars"
@@ -37,7 +37,7 @@ func GenerateToken(username string, uid int) (string, error) {
 			Issuer:    "web_gin_template",
 		},
 	}
-	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS384, claims)
 	token, err := tokenClaims.SignedString([]byte(secret))
 	return token, err
 }
