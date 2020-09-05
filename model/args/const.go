@@ -17,6 +17,10 @@ const (
 )
 
 const (
+	RpcServiceMicroMallUsers = "micro-mall-users"
+)
+
+const (
 	CacheKeyUserSate = "user_state_"
 )
 

@@ -12,4 +12,5 @@
 *.out
 .idea/
 logs/
+/etc
 vendor

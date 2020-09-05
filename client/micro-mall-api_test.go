@@ -17,12 +17,12 @@ const (
 )
 
 const (
-	noticeList              = "/xxx/notice/list"
 	verifyCodeSend          = "/common/verify_code/send"
 	registerUser            = "/common/register"
 	loginUserWithVerifyCode = "/common/login/verify_code"
 	loginUserWithPwd        = "/common/login/pwd"
 	userPwdReset            = "/user/password/reset"
+	userInfo                = "/user/user_info"
 )
 
 const (
@@ -40,6 +40,7 @@ func TestGateway(t *testing.T) {
 	t.Run("登录用户-验证码", TestLoginUserWithVerifyCode)
 	t.Run("登录用户-密码", TestLoginUserWithPwd)
 	t.Run("重置密码", TestLoginUserPwdReset)
+	t.Run("获取用户信息", TestGetUserInfo)
 }
 
 const (
@@ -52,8 +53,8 @@ type HttpCommonRsp struct {
 	Msg  string      `json:"msg"`
 }
 
-func TestNoticeList(t *testing.T) {
-	r := baseUrl + noticeList + "?xx=xx&xx=3"
+func TestGetUserInfo(t *testing.T) {
+	r := baseUrl + userInfo
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {

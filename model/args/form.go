@@ -116,3 +116,21 @@ func (t *PasswordResetArgs) Valid(v *validation.Validation) {
 // 商户申请
 type MerchantsCertificationApplyArgs struct {
 }
+
+type UserInfoRsp struct {
+	Id          int    `json:"id"`
+	AccountId   string `json:"account_id"`
+	UserName    string `json:"user_name"`
+	Sex         int    `json:"sex"`
+	Phone       string `json:"phone"`
+	CountryCode string `json:"country_code"`
+	Email       string `json:"email"`
+	State       int    `json:"state"`
+	IdCardNo    string `json:"id_card_no"`
+	Inviter     int    `json:"inviter"`
+	InviteCode  string `json:"invite_code"`
+	ContactAddr string `json:"contact_addr"`
+	Age         int    `json:"age"`
+	CreateTime  string `json:"create_time"`
+	UpdateTime  string `json:"update_time"`
+}

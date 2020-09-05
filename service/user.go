@@ -13,6 +13,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/pkg/util/cache"
 	"gitee.com/cristiane/micro-mall-api/pkg/util/email"
+	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/repository"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"strings"
@@ -42,7 +43,7 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode i
 	salt := password.GenerateSalt()
 	pwd := password.GeneratePassword(userInfo.Password, salt)
 
-	var user = mysql.User{
+	var user = mysql.UserInfo{
 		AccountId:    GenAccountId(),
 		UserName:     userInfo.UserName,
 		Password:     pwd,
@@ -278,4 +279,48 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	}
 
 	return code.SUCCESS
+}
+
+func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
+	var result args.UserInfoRsp
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return &result, code.ERROR
+	}
+	defer conn.Close()
+
+	client := users.NewUsersServiceClient(conn)
+	r := users.GetUserInfoRequest{
+		Uid: 10009,
+	}
+	userInfo, err := client.GetUserInfo(ctx, &r)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, r)
+		return &result, code.ERROR
+	} else {
+		if userInfo != nil && userInfo.Common != nil && userInfo.Common.Code == users.RetCode_SUCCESS {
+			result = args.UserInfoRsp{
+				Id:          uid,
+				AccountId:   userInfo.Info.AccountId,
+				UserName:    userInfo.Info.UserName,
+				Sex:         int(userInfo.Info.Sex),
+				Phone:       userInfo.Info.Phone,
+				CountryCode: userInfo.Info.CountryCode,
+				Email:       userInfo.Info.Email,
+				State:       int(userInfo.Info.State),
+				IdCardNo:    userInfo.Info.IdCardNo,
+				Inviter:     int(userInfo.Info.Inviter),
+				InviteCode:  userInfo.Info.InviterCode,
+				ContactAddr: userInfo.Info.ContactAddr,
+				Age:         int(userInfo.Info.Age),
+				CreateTime:  userInfo.Info.ContactAddr,
+				UpdateTime:  userInfo.Info.CreateTime,
+			}
+			return &result, code.SUCCESS
+		}
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, userInfo: %+v", serverName, err, userInfo)
+		return &result, code.ERROR
+	}
 }

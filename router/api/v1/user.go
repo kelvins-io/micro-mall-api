@@ -92,3 +92,20 @@ func PasswordResetApi(c *gin.Context) {
 	retCode := service.PasswordReset(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
 }
+
+func GetUserInfoApi(c *gin.Context) {
+	var uid int
+	value, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		return
+	}
+	uid, ok := value.(int)
+	if !ok {
+		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		return
+	}
+
+	userInfo, retCode := service.GetUserInfo(c, uid)
+	app.JsonResponse(c, http.StatusOK, retCode, userInfo)
+}

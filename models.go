@@ -4,7 +4,19 @@ import (
 	"time"
 )
 
-type User struct {
+type MerchantInfo struct {
+	MerchantId   int       `xorm:"not null pk autoincr comment('商户号ID') INT"`
+	Uid          int       `xorm:"not null comment('用户ID') unique INT"`
+	RegisterAddr string    `xorm:"not null comment('注册地址') TEXT"`
+	HealthCardNo string    `xorm:"not null comment('健康证号') index CHAR(30)"`
+	Identity     int       `xorm:"comment('身份属性，1-临时店员，2-正式店员，3-经理，4-店长') TINYINT"`
+	State        int       `xorm:"comment('状态，0-未审核，1-审核中，2-审核不通过，3-已审核') TINYINT"`
+	TaxCardNo    string    `xorm:"comment('纳税账户号') index CHAR(30)"`
+	CreateTime   time.Time `xorm:"default CURRENT_TIMESTAMP comment('创建时间') DATETIME"`
+	UpdateTime   time.Time `xorm:"default CURRENT_TIMESTAMP comment('修改时间') DATETIME"`
+}
+
+type UserInfo struct {
 	Id           int       `xorm:"not null pk autoincr comment('自增ID') INT"`
 	AccountId    string    `xorm:"not null comment('账户ID，全局唯一') unique CHAR(36)"`
 	UserName     string    `xorm:"not null comment('用户名') index VARCHAR(255)"`
@@ -20,6 +32,8 @@ type User struct {
 	InviteCode   string    `xorm:"comment('邀请码') CHAR(20)"`
 	CreateTime   time.Time `xorm:"not null default CURRENT_TIMESTAMP comment('创建时间') DATETIME"`
 	UpdateTime   time.Time `xorm:"not null default CURRENT_TIMESTAMP comment('修改时间') DATETIME"`
+	ContactAddr  string    `xorm:"comment('联系地址') TEXT"`
+	Age          int       `xorm:"comment('年龄') INT"`
 }
 
 type VerifyCodeRecord struct {

@@ -38,6 +38,7 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	apiUser.Use(middleware.CheckUserToken())
 	{
 		apiUser.PUT("/password/reset", v1.PasswordResetApi)
+		apiUser.GET("/user_info", v1.GetUserInfoApi)
 		apiMerchants := apiUser.Group("/merchants")
 		{
 			apiMerchants.PUT("/material", v1.MerchantsMaterialApi) // 商户提交材料

@@ -5,20 +5,20 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 )
 
-func CreateUser(user *mysql.User) (err error) {
+func CreateUser(user *mysql.UserInfo) (err error) {
 	_, err = vars.DBEngineXORM.Table(mysql.TableUser).Insert(user)
 	return
 }
 
-func GetUserByUserName(username string) (*mysql.User, error) {
-	var user mysql.User
+func GetUserByUserName(username string) (*mysql.UserInfo, error) {
+	var user mysql.UserInfo
 	var err error
 	_, err = vars.DBEngineXORM.Table(mysql.TableUser).Where("user_name = ?", username).Get(&user)
 	return &user, err
 }
 
-func GetUserByUid(uid int) (*mysql.User, error) {
-	var user mysql.User
+func GetUserByUid(uid int) (*mysql.UserInfo, error) {
+	var user mysql.UserInfo
 	var err error
 	_, err = vars.DBEngineXORM.Table(mysql.TableUser).Where("id = ?", uid).Get(&user)
 	return &user, err
@@ -29,15 +29,15 @@ func UpdateUserInfo(query, maps map[string]interface{}) (err error) {
 	return
 }
 
-func GetUserByPhone(countryCode, phone string) (*mysql.User, error) {
-	var user mysql.User
+func GetUserByPhone(countryCode, phone string) (*mysql.UserInfo, error) {
+	var user mysql.UserInfo
 	var err error
 	_, err = vars.DBEngineXORM.Table(mysql.TableUser).Where("country_code = ? and phone = ?", countryCode, phone).Get(&user)
 	return &user, err
 }
 
 func CheckUserExistByPhone(countryCode, phone string) (exist bool, err error) {
-	var user mysql.User
+	var user mysql.UserInfo
 	exist, err = vars.DBEngineXORM.Table(mysql.TableUser).
 		Select("id").
 		Where("country_code = ? and phone = ?", countryCode, phone).Get(&user)
