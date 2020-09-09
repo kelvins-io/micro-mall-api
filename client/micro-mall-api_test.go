@@ -1,12 +1,17 @@
 package client
 
 import (
+	"fmt"
 	"gitee.com/cristiane/go-common/json"
+	"github.com/google/uuid"
 	"io/ioutil"
+	"math"
+	"math/rand"
 	"net/http"
 	"net/url"
 	"strings"
 	"testing"
+	"time"
 )
 
 const (
@@ -23,6 +28,11 @@ const (
 	loginUserWithPwd        = "/common/login/pwd"
 	userPwdReset            = "/user/password/reset"
 	userInfo                = "/user/user_info"
+	merchantsMaterial       = "/user/merchants/material"
+	shopBusinessApply       = "/shop_business/shop/apply"
+	skuBusinessPutAway      = "/sku_business/sku/put_away"
+	skuBusinessGetSkuList   = "/sku_business/sku/list"
+	skuBusinessSupplement   = "/sku_business/sku/supplement"
 )
 
 const (
@@ -31,7 +41,7 @@ const (
 )
 
 var apiVersion = apiV1
-var qToken = token
+var qToken = token_10009
 var baseUrl = baseUrlLocal + apiVersion
 
 func TestGateway(t *testing.T) {
@@ -41,6 +51,11 @@ func TestGateway(t *testing.T) {
 	t.Run("登录用户-密码", TestLoginUserWithPwd)
 	t.Run("重置密码", TestLoginUserPwdReset)
 	t.Run("获取用户信息", TestGetUserInfo)
+	t.Run("用户申请提交审核资料", TestMerchantsMaterial)
+	t.Run("商户提交开店材料", TestShopBusinessApply)
+	t.Run("店铺上架商品", TestSkuBusinessPutAway)
+	t.Run("获取店铺上架商品列表", TestGetSkuList)
+	t.Run("补充商品属性", TestSkuBusinessSupplement)
 }
 
 const (
@@ -61,52 +76,10 @@ func TestGetUserInfo(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	req.Header.Set("token", qToken)
-	rsp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
-		return
-	}
+	commonTest(r, req, t)
 }
 
-func TestVerifyCodeSend(t *testing.T) {
-	r := baseUrl + verifyCodeSend
-	t.Logf("request url: %s", r)
-	data := url.Values{}
-	data.Set("country_code", "86")
-	data.Set("phone", "18319430520")
-	data.Set("business_type", "2")
-	data.Set("receive_email", "565608463@qq.com")
-	t.Logf("req data: %v", data)
-	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("token", qToken)
+func commonTest(r string, req *http.Request, t *testing.T) {
 	t.Logf("request token=%v", qToken)
 	rsp, err := http.DefaultClient.Do(req)
 	if err != nil {
@@ -133,8 +106,28 @@ func TestVerifyCodeSend(t *testing.T) {
 	}
 	if obj.Code != SuccessBusinessCode {
 		t.Errorf("business code != %v", SuccessBusinessCode)
+		t.Errorf("obj ==%+v,obj", obj)
 		return
 	}
+}
+
+func TestVerifyCodeSend(t *testing.T) {
+	r := baseUrl + verifyCodeSend
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("country_code", "86")
+	data.Set("phone", "18319430520")
+	data.Set("business_type", "2")
+	data.Set("receive_email", "565608463@qq.com")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
 }
 
 func TestRegisterUser(t *testing.T) {
@@ -156,34 +149,7 @@ func TestRegisterUser(t *testing.T) {
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
-	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
-		return
-	}
+	commonTest(r, req, t)
 }
 
 func TestLoginUserWithVerifyCode(t *testing.T) {
@@ -192,7 +158,7 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "18319430520")
-	data.Set("verify_code", "804814")
+	data.Set("verify_code", "469992")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -201,34 +167,7 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
-	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
-		return
-	}
+	commonTest(r, req, t)
 }
 
 func TestLoginUserWithPwd(t *testing.T) {
@@ -246,33 +185,54 @@ func TestLoginUserWithPwd(t *testing.T) {
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
-	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
+	commonTest(r, req, t)
+}
+
+func BenchmarkTestLoginUserWithPwd(b *testing.B) {
+	r := baseUrl + loginUserWithPwd
+	b.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("country_code", "86")
+	data.Set("phone", "15501707783")
+	data.Set("password", "07030501310")
+	b.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
-		t.Error(err)
+		b.Error(err)
 		return
 	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
-		return
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	for i := 0; i < math.MaxInt32; i++ {
+		//b.Logf("request token=%v", qToken)
+		rsp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		//b.Logf("req url: %v status : %v", r, rsp.Status)
+		if rsp.StatusCode != http.StatusOK {
+			b.Error("StatusCode != 200")
+			return
+		}
+		body, err := ioutil.ReadAll(rsp.Body)
+		defer rsp.Body.Close()
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		//b.Logf("req url: %v body : \n%s", r, body)
+		var obj HttpCommonRsp
+		err = json.Unmarshal(string(body), &obj)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		if obj.Code != SuccessBusinessCode {
+			b.Errorf("business code != %v", SuccessBusinessCode)
+			b.Errorf("obj ==%+v,obj", obj)
+			return
+		}
 	}
 }
 
@@ -290,32 +250,178 @@ func TestLoginUserPwdReset(t *testing.T) {
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
-	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
+	commonTest(r, req, t)
+}
+
+func TestMerchantsMaterial(t *testing.T) {
+	r := baseUrl + merchantsMaterial
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("operation_type", "0")
+	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-深圳星光无限实业有限责任公司")
+	data.Set("health_card_no", "R8nJ65TDUGAlqSdb9")
+	data.Set("identity", "1")
+	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestShopBusinessApply(t *testing.T) {
+	r := baseUrl + shopBusinessApply
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("operation_type", "0")
+	data.Set("shop_id", "123")
+	data.Set("nick_name", "良品铺子京东旗舰店")
+	data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
+	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
+	data.Set("merchant_id", "1015")
+	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
+	data.Set("business_license", "qX2MkznWrlvO4sIp7")
+	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
+	data.Set("business_desc", "qX2MkznWrlvO4sIp7")
+	data.Set("social_credit_code", "qX2MkznWrlvO4sIp7")
+	data.Set("organization_code", "qX2MkznWrlvO4sIp7")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSkuBusinessPutAway(t *testing.T) {
+	r := baseUrl + skuBusinessPutAway
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("operation_type", "0")
+	data.Set("shop_id", "29912")
+	data.Set("sku_code", uuid.New().String())
+	data.Set("name", "盼盼铜锣烧")
+	data.Set("price", "184.32")
+	data.Set("title", "盼盼，铜锣烧，办公室零食,盼盼铜锣烧红豆味量贩箱装1000g*1")
+	data.Set("sub_title", "盼盼 铜锣烧 面包饼干休闲零食量贩装红豆味1000g")
+	data.Set("desc", "满满的一箱，铜锣烧，独立包装，味道不错，软软的，甜甜的，豆沙馅儿，倍儿好吃。不错的休闲食品，出去游玩携带方便，首选休闲食品。京东快递速度快，昨天晚上拍的，今天就到了。非常时期，宅在家里，享受着美味食品，支持京东")
+	data.Set("production", "福建盼盼食品股份有限公司")
+	data.Set("supplier", "京东盼盼食品旗舰店")
+	data.Set("category", "11010")
+	data.Set("color", "黄色")
+	data.Set("color_code", "100")
+	data.Set("specification", "整箱/30包装")
+	data.Set("desc_link", "https://item.jd.com/3230143.html")
+	data.Set("state", "1")
+	data.Set("amount", "89")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestGetSkuList(t *testing.T) {
+	r := baseUrl + skuBusinessGetSkuList + "?"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
 		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSkuBusinessSupplement(t *testing.T) {
+	r := baseUrl + skuBusinessSupplement
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("operation_type", "0")
+	data.Set("shop_id", "29914")
+	data.Set("sku_code", uuid.New().String())
+	data.Set("name", "农夫山泉-矿泉水")
+	data.Set("size", "200cm x 189cm")
+	data.Set("shape", "完整包装")
+	data.Set("production_country", "农夫山泉")
+	data.Set("production_date", "2019/10/19 15:20")
+	data.Set("shelf_life", "2年")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func BenchmarkTestShopBusinessApply(b *testing.B) {
+	r := baseUrl + shopBusinessApply
+	b.Logf("request url: %s", r)
+	for i := 0; i < math.MaxInt16; i++ {
+		time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+		data := url.Values{}
+		data.Set("operation_type", "0")
+		data.Set("shop_id", "123")
+		data.Set("nick_name", fmt.Sprintf("良品铺子京东旗舰店-%v", uuid.New().String()))
+		data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
+		data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
+		data.Set("merchant_id", "1009")
+		data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
+		data.Set("business_license", "qX2MkznWrlvO4sIp7")
+		data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
+		data.Set("business_desc", "qX2MkznWrlvO4sIp7")
+		data.Set("social_credit_code", "qX2MkznWrlvO4sIp7")
+		data.Set("organization_code", "qX2MkznWrlvO4sIp7")
+		b.Logf("req data: %v", data)
+		req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		req.Header.Set("token", qToken)
+		b.Logf("request token=%v", qToken)
+		rsp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		b.Logf("req url: %v status : %v", r, rsp.Status)
+		if rsp.StatusCode != http.StatusOK {
+			b.Error("StatusCode != 200")
+			return
+		}
+		body, err := ioutil.ReadAll(rsp.Body)
+		defer rsp.Body.Close()
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		b.Logf("req url: %v body : \n%s", r, body)
+		var obj HttpCommonRsp
+		err = json.Unmarshal(string(body), &obj)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		if obj.Code != SuccessBusinessCode {
+			b.Errorf("business code != %v", SuccessBusinessCode)
+			b.Errorf("obj ==%+v,obj", obj)
+			return
+		}
 	}
 }

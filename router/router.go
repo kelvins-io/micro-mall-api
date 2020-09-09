@@ -43,10 +43,26 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 		{
 			apiMerchants.PUT("/material", v1.MerchantsMaterialApi) // 商户提交材料
 		}
-		apiShop := apiUser.Group("/shop")
+	}
+
+	apiShopBusiness := apiV1.Group("/shop_business")
+	apiShopBusiness.Use(middleware.CheckUserToken())
+	{
+		apiShop := apiShopBusiness.Group("/shop")
 		{
 			apiShop.POST("/apply", v1.ShopApplyApi)  // 申请店铺
 			apiShop.PUT("/pledge", v1.ShopPledgeApi) // 店铺质押，交保证金
+		}
+	}
+
+	apiSkuBusiness := apiV1.Group("/sku_business")
+	apiSkuBusiness.Use(middleware.CheckUserToken())
+	{
+		apiSku := apiSkuBusiness.Group("/sku")
+		{
+			apiSku.POST("/put_away", v1.SkuBusinessPutAwayApi)             // 上架商品
+			apiSku.PUT("/supplement", v1.SkuBusinessSupplementPropertyApi) // 补充商品属性
+			apiSku.GET("/list", v1.GetSkuListApi)                          // 获取sku
 		}
 	}
 

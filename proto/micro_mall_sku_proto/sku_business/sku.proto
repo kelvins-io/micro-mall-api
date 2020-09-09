@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package sku_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+service SkuBusinessService {
+    // 上架商品
+    rpc PutAwaySku(PutAwaySkuRequest) returns (PutAwaySkuResponse) {
+        option (google.api.http) = {
+            post: "/v1/sku/put_away"
+            body:"*"
+        };
+    }
+    // 获取店铺sku列表
+    rpc GetSkuList(GetSkuListRequest) returns (GetSkuListResponse) {
+        option (google.api.http) = {
+            get: "/v1/sku/list"
+        };
+    }
+    // 补充sku商品属性
+    rpc SupplementSkuProperty(SupplementSkuPropertyRequest) returns (SupplementSkuPropertyResponse) {
+        option (google.api.http) = {
+            put: "/v1/sku/property/supplement"
+            body:"*"
+        };
+    }
+}
+
+message SupplementSkuPropertyRequest {
+    int64 op_uid = 1; // 操作员
+    string op_ip = 2; // 操作员IP
+
+    int64 shop_id = 11;
+    string sku_code = 12; // 商品唯一sku
+    string size = 13;
+    string shape = 14;
+    string production_country = 15;
+    string production_date = 16;
+    string shelf_life = 17;
+    string name = 18;
+
+
+    OperationType operation_type = 4999;
+}
+
+message SupplementSkuPropertyResponse {
+    CommonResponse common = 1;
+}
+
+message GetSkuListRequest {
+    int64 shop_id = 1; // 指定店铺搜索，为0则搜索全部
+}
+
+message GetSkuListResponse {
+    repeated SkuInventoryInfo list = 1;
+}
+
+// 商品库存数据
+message SkuInventoryInfo {
+    string sku_code = 1; // 商品唯一标识，代表同一个商品
+    string name = 2;
+    string price = 3;
+    string title = 4;
+    string sub_title = 5;
+    string desc = 6;
+    string production = 7;
+    string supplier = 8;
+    int32 category = 9;
+    string color = 10;
+    int32 color_code = 11;
+    string specification = 12;
+    string desc_link = 13;
+    int32 state = 14;
+
+    int64 amount = 198; // 入库数量
+    int64 shop_id = 199; // 店铺id
+}
+
+message PutAwaySkuRequest {
+    int64 op_uid = 1; // 操作员
+    string op_ip = 2; // 操作员IP
+    SkuInventoryInfo sku = 3;
+    OperationType operation_type = 299;
+}
+
+message PutAwaySkuResponse {
+    CommonResponse common = 1;
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    SHOP_NOT_EXIST = 50005;
+    SHOP_EXIST = 50006;
+    SKU_NOT_EXIST = 50007;
+    SKU_EXIST = 50008;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+    PUT_AWAY = 4;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}

@@ -520,7 +520,7 @@ var (
 
 	pattern_MerchantsService_GetMerchantsMaterial_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"v1", "user", "merchants", "material"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_MerchantsService_MerchantsAssociateShop_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "user", "merchants", "associate", "shop"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_MerchantsService_MerchantsAssociateShop_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"v1", "user", "merchants", "associate", "shop_business"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (

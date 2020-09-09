@@ -38,7 +38,7 @@ service MerchantsService {
     // 商户关联店铺
     rpc MerchantsAssociateShop(MerchantsAssociateShopRequest) returns (MerchantsAssociateShopResponse) {
         option (google.api.http) = {
-            put: "/v1/user/merchants/associate/shop"
+            put: "/v1/user/merchants/associate/shop_business"
             body: "*"
         };
     }
@@ -48,6 +48,16 @@ enum RetCode {
     SUCCESS = 0;
     ERROR = 500;
     USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
 }
 
 message GetUserInfoRequest {
@@ -69,6 +79,7 @@ message UserInfo {
     string contact_addr = 12;
     int32 age = 13;
     string create_time = 14;
+    string update_time = 15;
 }
 
 message GetUserInfoResponse {
@@ -88,10 +99,12 @@ message MerchantsMaterialInfo {
 
 message MerchantsMaterialRequest {
     MerchantsMaterialInfo info =1;
+    OperationType operation_type =2;
 }
 
 message MerchantsMaterialResponse {
     CommonResponse common =1;
+    int64 material_id =2;
 }
 
 message GetMerchantsMaterialRequest {

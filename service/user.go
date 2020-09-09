@@ -239,8 +239,6 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	return code.SUCCESS
 }
 
-const subject = "10692349936138639271"
-
 func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int) {
 	var err error
 	user, err := repository.GetUserByPhone(req.CountryCode, req.Phone)
@@ -255,7 +253,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	verifyCode := random.KrandNum(6)
 	notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), 10)
 
-	err = email.SendEmailNotice(ctx, req.ReceiveEmail, subject, notice)
+	err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
 		return code.ERROR_EMAIL_SEND
@@ -303,20 +301,20 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 		if userInfo != nil && userInfo.Common != nil && userInfo.Common.Code == users.RetCode_SUCCESS {
 			result = args.UserInfoRsp{
 				Id:          uid,
-				AccountId:   userInfo.Info.AccountId,
-				UserName:    userInfo.Info.UserName,
-				Sex:         int(userInfo.Info.Sex),
-				Phone:       userInfo.Info.Phone,
-				CountryCode: userInfo.Info.CountryCode,
-				Email:       userInfo.Info.Email,
-				State:       int(userInfo.Info.State),
-				IdCardNo:    userInfo.Info.IdCardNo,
-				Inviter:     int(userInfo.Info.Inviter),
-				InviteCode:  userInfo.Info.InviterCode,
-				ContactAddr: userInfo.Info.ContactAddr,
-				Age:         int(userInfo.Info.Age),
-				CreateTime:  userInfo.Info.ContactAddr,
-				UpdateTime:  userInfo.Info.CreateTime,
+				AccountId:   userInfo.GetInfo().GetAccountId(),
+				UserName:    userInfo.GetInfo().GetUserName(),
+				Sex:         int(userInfo.GetInfo().GetSex()),
+				Phone:       userInfo.GetInfo().GetPhone(),
+				CountryCode: userInfo.GetInfo().GetCountryCode(),
+				Email:       userInfo.GetInfo().GetEmail(),
+				State:       int(userInfo.GetInfo().GetState()),
+				IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
+				Inviter:     int(userInfo.GetInfo().GetInviter()),
+				InviteCode:  userInfo.GetInfo().GetInviterCode(),
+				ContactAddr: userInfo.GetInfo().GetContactAddr(),
+				Age:         int(userInfo.GetInfo().GetAge()),
+				CreateTime:  userInfo.GetInfo().GetCreateTime(),
+				UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
 			}
 			return &result, code.SUCCESS
 		}

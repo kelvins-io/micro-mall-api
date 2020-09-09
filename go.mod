@@ -5,7 +5,7 @@ go 1.13
 require (
 	gitee.com/cristiane/go-common v1.0.1
 	gitee.com/kelvins-io/common v1.0.2
-	gitee.com/kelvins-io/kelvins v1.1.1
+	gitee.com/kelvins-io/kelvins v1.1.2
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -15,6 +15,7 @@ require (
 	github.com/golang/mock v1.4.4 // indirect
 	github.com/golang/protobuf v1.4.2
 	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/google/uuid v1.1.1
 	github.com/grpc-ecosystem/grpc-gateway v1.13.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/prometheus/client_golang v1.7.1

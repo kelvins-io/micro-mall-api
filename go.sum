@@ -44,6 +44,8 @@ gitee.com/kelvins-io/common v1.0.2 h1:euEsPWBkWvIo9SRjV7cy7iQPqgdsINxCDIkPs/ty3U
 gitee.com/kelvins-io/common v1.0.2/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
 gitee.com/kelvins-io/kelvins v1.1.1 h1:ez+NGENM4JLslxMPvlY73JJ3fMqqeG67nz6mbA9r2qg=
 gitee.com/kelvins-io/kelvins v1.1.1/go.mod h1:htfrz3VuFQgo9mLILIjYtVZSixYm1/Kchj/WeuPs6C8=
+gitee.com/kelvins-io/kelvins v1.1.2 h1:Fs2nwYWVskG9tvBnyhmNHAwPX0ehp4JRtAFnXbC8d6I=
+gitee.com/kelvins-io/kelvins v1.1.2/go.mod h1:htfrz3VuFQgo9mLILIjYtVZSixYm1/Kchj/WeuPs6C8=
 gitee.com/kelvins-io/service-config v1.0.0/go.mod h1:htuk7Oj0ifRcwgqSJf45IsN1rSq9kEsje/fcQClQS+Y=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=

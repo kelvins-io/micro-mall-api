@@ -114,7 +114,174 @@ func (t *PasswordResetArgs) Valid(v *validation.Validation) {
 }
 
 // 商户申请
-type MerchantsCertificationApplyArgs struct {
+type MerchantsMaterialArgs struct {
+	OperationType int    `form:"operation_type" json:"operation_type"`
+	Uid           int    `json:"uid"`
+	RegisterAddr  string `form:"register_addr" json:"register_addr"`
+	HealthCardNo  string `form:"health_card_no" json:"health_card_no"`
+	Identity      int    `form:"identity" json:"identity"`
+	TaxCardNo     string `form:"tax_card_no" json:"tax_card_no"`
+}
+
+func (t *MerchantsMaterialArgs) Valid(v *validation.Validation) {
+	if len(t.RegisterAddr) < 1 {
+		v.SetError("RegisterAddr", "注册地址不能为空")
+	}
+	if len(t.HealthCardNo) > 30 {
+		v.SetError("HealthCardNo", "健康证号需要小于30位")
+	}
+	if len(t.HealthCardNo) < 10 {
+		v.SetError("HealthCardNo", "健康证号需要大于等于10位")
+	}
+	if !util.IntSliceContainsItem([]int{1, 2, 3, 4, 5}, t.Identity) {
+		v.SetError("Identity", "身份属性必须大于0,小于5")
+	}
+	if len(t.TaxCardNo) < 15 {
+		v.SetError("TaxCardNo", "商户纳税号不能小于15位")
+	}
+	if !util.IntSliceContainsItem([]int{0, 1, 2, 3}, t.OperationType) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+}
+
+type ShopBusinessInfoArgs struct {
+	Uid              int
+	OpIp             string
+	OperationType    int    `form:"operation_type" json:"operation_type"`
+	ShopId           int    `form:"shop_id" json:"shop_id"`
+	NickName         string `form:"nick_name" json:"nick_name"`
+	FullName         string `form:"full_name" json:"full_name"`
+	RegisterAddr     string `form:"register_addr" json:"register_addr"`
+	MerchantId       int    `form:"merchant_id" json:"merchant_id"`
+	BusinessAddr     string `form:"business_addr" json:"business_addr"`
+	BusinessLicense  string `form:"business_license" json:"business_license"`
+	TaxCardNo        string `form:"tax_card_no" json:"tax_card_no"`
+	BusinessDesc     string `form:"business_desc" json:"business_desc"`
+	SocialCreditCode string `form:"social_credit_code" json:"social_credit_code"`
+	OrganizationCode string `form:"organization_code" json:"organization_code"`
+}
+
+func (t *ShopBusinessInfoArgs) Valid(v *validation.Validation) {
+	if !util.IntSliceContainsItem([]int{0, 1, 2, 3}, t.OperationType) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+	if util.IntSliceContainsItem([]int{1, 2, 3}, t.OperationType) {
+		if t.ShopId <= 0 {
+			v.SetError("ShopId", "需要大于0")
+		}
+	} else {
+		if t.MerchantId <= 0 {
+			v.SetError("MerchantId", "需要大于0")
+		}
+	}
+	if t.NickName == "" {
+		v.SetError("NickName", "不能为空")
+	}
+	if t.FullName == "" {
+		v.SetError("FullName", "不能为空")
+	}
+}
+
+type SkuBusinessPutAwayArgs struct {
+	Uid           int
+	OpIp          string
+	OperationType int32  `form:"operation_type" json:"operation_type"`
+	SkuCode       string `form:"sku_code" json:"sku_code"`
+	Name          string `form:"name" json:"name"`
+	Price         string `form:"price" json:"price"`
+	Title         string `form:"title" json:"title"`
+	SubTitle      string `form:"sub_title" json:"sub_title"`
+	Desc          string `form:"desc" json:"desc"`
+	Production    string `form:"production" json:"production"`
+	Supplier      string `form:"supplier" json:"supplier"`
+	Category      int32  `form:"category" json:"category"`
+	Color         string `form:"color" json:"color"`
+	ColorCode     int32  `form:"color_code" json:"color_code"`
+	Specification string `form:"specification" json:"specification"`
+	DescLink      string `form:"desc_link" json:"desc_link"`
+	State         int32  `form:"state" json:"state"`
+
+	Amount int64 `form:"amount" json:"amount"`
+	ShopId int64 `form:"shop_id" json:"shop_id"`
+}
+
+type SkuPropertyExArgs struct {
+	Uid               int
+	OpIp              string
+	OperationType     int32  `form:"operation_type" json:"operation_type"`
+	ShopId            int64  `form:"shop_id" json:"shop_id"`
+	SkuCode           string `form:"sku_code" json:"sku_code"`
+	Name              string `form:"name" json:"name"`
+	Size              string `form:"size" json:"size"`
+	Shape             string `form:"shape" json:"shape"`
+	ProductionCountry string `form:"production_country" json:"production_country"`
+	ProductionDate    string `form:"production_date" json:"production_date"`
+	ShelfLife         string `form:"shelf_life" json:"shelf_life"`
+}
+
+func (t *SkuPropertyExArgs) Valid(v *validation.Validation) {
+	if !util.IntSliceContainsItem([]int{0, 1, 2, 3}, int(t.OperationType)) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+	if t.SkuCode == "" {
+		v.SetError("SkuCode", "商品唯一code不能为空")
+	}
+	if t.OperationType == 0 {
+		if t.ShopId <= 0 {
+			v.SetError("ShopId", "上架商品店铺ID需要大于0")
+		}
+	}
+}
+
+type SkuPropertyExRsp struct {
+}
+
+func (t *SkuBusinessPutAwayArgs) Valid(v *validation.Validation) {
+	if !util.IntSliceContainsItem([]int{0, 1, 2, 3}, int(t.OperationType)) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+	if t.SkuCode == "" {
+		v.SetError("SkuCode", "商品唯一code不能为空")
+	}
+	if t.Amount <= 0 {
+		v.SetError("Amount", "商品数量需要大于0")
+	}
+	if t.OperationType == 0 {
+		if t.ShopId <= 0 {
+			v.SetError("ShopId", "上架商品店铺ID需要大于0")
+		}
+	}
+	if t.Price == "" {
+		v.SetError("Price", "需要大于0")
+	}
+	if t.Name == "" {
+		v.SetError("Name", "不能为空")
+	}
+	if t.Title == "" {
+		v.SetError("Title", "不能为空")
+	}
+	if t.SubTitle == "" {
+		v.SetError("SubTitle", "不能为空")
+	}
+}
+
+type SkuBusinessPutAwayRsp struct {
+}
+
+type GetSkuListArgs struct {
+	ShopId int64 `form:"shop_id" json:"shop_id"`
+}
+
+type GetSkuListRsp struct {
+	SkuInventoryInfoList []SkuInventoryInfo `json:"sku_inventory_info_list"`
+}
+
+type ShopBusinessInfoRsp struct {
+	ShopId int `json:"shop_id"`
+}
+
+type MerchantsMaterialRsp struct {
+	MerchantId int64 `json:"merchant_id"`
 }
 
 type UserInfoRsp struct {

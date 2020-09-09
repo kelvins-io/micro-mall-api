@@ -1,6 +1,6 @@
 package util
 
-func IntSliceContainsItem(array []int, item interface{}) bool {
+func IntSliceContainsItem(array []int, item int) bool {
 	if array == nil || len(array) == 0 {
 		return false
 	}
