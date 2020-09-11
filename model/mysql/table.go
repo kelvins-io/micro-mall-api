@@ -6,9 +6,7 @@ import (
 )
 
 const (
-	TableConfigKvStore    = "qqq"
-	TableUser             = "user_info"
-	TableMerchantInfo     = "merchant_info"
+	TableUser             = "user"
 	TableVerifyCodeRecord = "verify_code_record"
 )
 

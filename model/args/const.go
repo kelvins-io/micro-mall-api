@@ -17,9 +17,10 @@ const (
 )
 
 const (
-	RpcServiceMicroMallUsers = "micro-mall-users"
-	RpcServiceMicroMallShop  = "micro-mall-shop"
-	RpcServiceMicroMallSku   = "micro-mall-sku"
+	RpcServiceMicroMallUsers   = "micro-mall-users"
+	RpcServiceMicroMallShop    = "micro-mall-shop"
+	RpcServiceMicroMallSku     = "micro-mall-sku"
+	RpcServiceMicroMallTrolley = "micro-mall-trolley"
 )
 
 const (

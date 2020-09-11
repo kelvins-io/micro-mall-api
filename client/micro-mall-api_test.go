@@ -33,6 +33,9 @@ const (
 	skuBusinessPutAway      = "/sku_business/sku/put_away"
 	skuBusinessGetSkuList   = "/sku_business/sku/list"
 	skuBusinessSupplement   = "/sku_business/sku/supplement"
+	skuJoinUserTrolley      = "/user/trolley/sku/join"
+	skuRemoveUserTrolley    = "/user/trolley/sku/remove"
+	skuUserTrolleyList      = "/user/trolley/sku/list"
 )
 
 const (
@@ -56,6 +59,9 @@ func TestGateway(t *testing.T) {
 	t.Run("店铺上架商品", TestSkuBusinessPutAway)
 	t.Run("获取店铺上架商品列表", TestGetSkuList)
 	t.Run("补充商品属性", TestSkuBusinessSupplement)
+	t.Run("添加商品到购物车", TestSkuJoinUserTrolley)
+	t.Run("从购物车移除商品", TestSkuRemoveUserTrolley)
+	t.Run("获取用户购物车列表", TestGetUserTrolleyList)
 }
 
 const (
@@ -76,6 +82,19 @@ func TestGetUserInfo(t *testing.T) {
 		t.Error(err)
 		return
 	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestGetUserTrolleyList(t *testing.T) {
+	r := baseUrl + skuUserTrolleyList
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
 
@@ -308,7 +327,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	data.Set("shop_id", "29912")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "盼盼铜锣烧")
-	data.Set("price", "184.32")
+	data.Set("price", "29.32")
 	data.Set("title", "盼盼，铜锣烧，办公室零食,盼盼铜锣烧红豆味量贩箱装1000g*1")
 	data.Set("sub_title", "盼盼 铜锣烧 面包饼干休闲零食量贩装红豆味1000g")
 	data.Set("desc", "满满的一箱，铜锣烧，独立包装，味道不错，软软的，甜甜的，豆沙馅儿，倍儿好吃。不错的休闲食品，出去游玩携带方便，首选休闲食品。京东快递速度快，昨天晚上拍的，今天就到了。非常时期，宅在家里，享受着美味食品，支持京东")
@@ -359,6 +378,42 @@ func TestSkuBusinessSupplement(t *testing.T) {
 	data.Set("shelf_life", "2年")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSkuJoinUserTrolley(t *testing.T) {
+	r := baseUrl + skuJoinUserTrolley
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("shop_id", "29914")
+	data.Set("sku_code", "df1a9633-b060-4682-9502-bc934f89392b")
+	data.Set("count", "534252790")
+	data.Set("time", "2020-09-08 23:32:35")
+	data.Set("selected", "true")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSkuRemoveUserTrolley(t *testing.T) {
+	r := baseUrl + skuRemoveUserTrolley
+	t.Logf("request url: %s", r)
+	skuCode := "df1a9633-b060-4682-9502-bc934f89392b"
+	shopId := "29914"
+	r += "?sku_code=" + skuCode + "&shop_id=" + shopId
+	req, err := http.NewRequest("DELETE", r, nil)
 	if err != nil {
 		t.Error(err)
 		return

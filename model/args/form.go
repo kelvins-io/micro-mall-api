@@ -205,6 +205,63 @@ type SkuBusinessPutAwayArgs struct {
 	ShopId int64 `form:"shop_id" json:"shop_id"`
 }
 
+type SkuJoinUserTrolleyArgs struct {
+	Uid      int
+	SkuCode  string `form:"sku_code" json:"sku_code"`
+	ShopId   int    `form:"shop_id" json:"shop_id"`
+	Count    int    `form:"count" json:"count"`
+	Time     string `form:"time" json:"time"`
+	Selected bool   `form:"selected" json:"selected"`
+}
+
+func (t *SkuJoinUserTrolleyArgs) Valid(v *validation.Validation) {
+	if t.SkuCode == "" {
+		v.SetError("SkuCode", "商品唯一code不能为空")
+	}
+	if t.Count <= 0 {
+		v.SetError("Count", "数量需要大于0")
+	}
+	if t.ShopId <= 0 {
+		v.SetError("ShopId", "店铺ID需要大于0")
+	}
+	if t.Time == "" {
+		v.SetError("Time", "时间不能为空")
+	}
+}
+
+type SkuJoinUserTrolleyRsp struct {
+}
+
+type SkuRemoveUserTrolleyArgs struct {
+	Uid     int
+	SkuCode string `form:"sku_code" json:"sku_code"`
+	ShopId  int    `form:"shop_id" json:"shop_id"`
+}
+
+func (t *SkuRemoveUserTrolleyArgs) Valid(v *validation.Validation) {
+	if t.SkuCode == "" {
+		v.SetError("SkuCode", "商品唯一code不能为空")
+	}
+	if t.ShopId <= 0 {
+		v.SetError("ShopId", "店铺ID需要大于0")
+	}
+}
+
+type SkuRemoveUserTrolleyRsp struct {
+}
+
+type UserTrolleyListRsp struct {
+	List []UserTrolleyRecord `json:"list"`
+}
+
+type UserTrolleyRecord struct {
+	SkuCode  string `json:"sku_code"`
+	ShopId   int64  `json:"shop_id"`
+	Count    int64  `json:"count"`
+	Time     string `json:"time"`
+	Selected bool   `json:"selected"`
+}
+
 type SkuPropertyExArgs struct {
 	Uid               int
 	OpIp              string

@@ -43,6 +43,12 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 		{
 			apiMerchants.PUT("/material", v1.MerchantsMaterialApi) // 商户提交材料
 		}
+		apiTrolley := apiUser.Group("/trolley")
+		{
+			apiTrolley.PUT("/sku/join", v1.SkuJoinUserTrolleyApi)        // 商品添加到购物车
+			apiTrolley.DELETE("/sku/remove", v1.SkuRemoveUserTrolleyApi) // 从购物车移除商品
+			apiTrolley.GET("/sku/list", v1.GetUserTrolleyListApi)        // 获取用户购物车中商品列表
+		}
 	}
 
 	apiShopBusiness := apiV1.Group("/shop_business")
