@@ -20,7 +20,8 @@ import (
 	"time"
 )
 
-func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode int) {
+func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (*args.RegisterUserRsp, int) {
+	var result args.RegisterUserRsp
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodeRegister,
 		countryCode:  userInfo.CountryCode,
@@ -28,16 +29,26 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode i
 		verifyCode:   userInfo.VerifyCode,
 	}
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
-		return retCode
+		return &result, retCode
 	}
 
 	exist, err := repository.CheckUserExistByPhone(userInfo.CountryCode, userInfo.Phone)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "CheckUserExistByPhone err: %v, userInfo: %+v", err, userInfo)
-		return code.ERROR
+		return &result, code.ERROR
 	}
 	if exist {
-		return code.ERROR_USER_EXIST
+		return &result, code.ERROR_USER_EXIST
+	}
+
+	// 检查邀请码
+	userRecord, err := repository.GetUserByInviteCode(userInfo.InviteCode)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserByInviteCode err: %v, InviteCode: %+v", err, userInfo.InviteCode)
+		return &result, code.ERROR
+	}
+	if userRecord.Id <= 0 {
+		return &result, code.ERROR_INVITE_CODE_NOT_EXIST
 	}
 
 	salt := password.GenerateSalt()
@@ -56,7 +67,7 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode i
 		IdCardNo: sql.NullString{
 			String: userInfo.IdCardNo,
 		},
-		Inviter:    userInfo.Inviter,
+		Inviter:    userRecord.Id,
 		InviteCode: GenInviterCode(),
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
@@ -65,10 +76,12 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode i
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "CreateUser err: %v, user: %+v", err, user)
 		if strings.Contains(err.Error(), code.GetMsg(code.DB_DUPLICATE_ENTRY)) {
-			return code.ERROR_USER_EXIST
+			return &result, code.ERROR_USER_EXIST
 		}
-		return code.ERROR
+		return &result, code.ERROR
 	}
+	result.InviteCode = user.InviteCode
+
 	pushNoticeService := NewPushNoticeService(vars.QueueServerUserRegisterNotice, PushMsgTag{
 		DeliveryTag:    args.TaskNameUserRegisterNotice,
 		DeliveryErrTag: args.TaskNameUserRegisterNoticeErr,
@@ -84,11 +97,11 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (retCode i
 	msgUUID, retCode := pushNoticeService.PushMessage(ctx, userRegisterNotice)
 	if retCode != code.SUCCESS {
 		vars.ErrorLogger.Errorf(ctx, "user: %+v register notice send err: ", userInfo, code.GetMsg(retCode))
-		return code.ERROR
+		return &result, code.ERROR
 	}
 	vars.BusinessLogger.Infof(ctx, "user: %+v register notice :%v", userInfo, msgUUID)
 
-	return code.SUCCESS
+	return &result, code.SUCCESS
 }
 
 func LoginUserWithVerifyCode(ctx context.Context, userInfo *args.LoginUserWithVerifyCodeArgs) (string, int) {

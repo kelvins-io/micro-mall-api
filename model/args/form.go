@@ -14,7 +14,7 @@ type RegisterUserArgs struct {
 	Phone       string `form:"phone" json:"phone"`
 	VerifyCode  string `form:"verify_code" json:"verify_code"`
 	IdCardNo    string `form:"id_card_no" json:"id_card_no"`
-	Inviter     int    `form:"inviter" json:"inviter"`
+	InviteCode  string `form:"invite_code" json:"invite_code"`
 }
 
 func (t *RegisterUserArgs) Valid(v *validation.Validation) {
@@ -38,9 +38,10 @@ func (t *RegisterUserArgs) Valid(v *validation.Validation) {
 			v.SetError("IdCardNo", "身份证号码必须18位")
 		}
 	}
-	if t.Inviter < 0 {
-		v.SetError("Inviter", "邀请人UID必须大于0")
-	}
+}
+
+type RegisterUserRsp struct {
+	InviteCode string `json:"invite_code"` // 注册成功返回邀请码
 }
 
 type LoginUserWithVerifyCodeArgs struct {

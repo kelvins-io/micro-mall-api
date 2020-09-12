@@ -17,6 +17,13 @@ func GetUserByUserName(username string) (*mysql.UserInfo, error) {
 	return &user, err
 }
 
+func GetUserByInviteCode(inviteCode string) (*mysql.UserInfo, error) {
+	var user mysql.UserInfo
+	var err error
+	_, err = vars.DBEngineXORM.Table(mysql.TableUser).Select("id").Where("invite_code = ?", inviteCode).Get(&user)
+	return &user, err
+}
+
 func GetUserByUid(uid int) (*mysql.UserInfo, error) {
 	var user mysql.UserInfo
 	var err error

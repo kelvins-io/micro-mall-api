@@ -18,8 +18,8 @@ func RegisterUserApi(c *gin.Context) {
 		return
 	}
 
-	retCode := service.CreateUser(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
+	rsp, retCode := service.CreateUser(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }
 
 func LoginUserWithVerifyCodeApi(c *gin.Context) {

@@ -24,6 +24,7 @@ var MsgFlags = map[int]string{
 	ERROR_SKU_CODE_NOT_EXIST:      "商品唯一code不存在",
 	ERROR_SHOP_ID_NOT_EXIST:       "店铺ID不存在",
 	ERROR_SHOP_ID_EXIST:           "店铺ID已存在",
+	ERROR_INVITE_CODE_NOT_EXIST:   "邀请码不存在",
 }
 
 func GetMsg(code int) string {
