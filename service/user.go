@@ -88,18 +88,24 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (*args.Reg
 		RetryCount:     vars.QueueAMQPSettingUserRegisterNotice.TaskRetryCount,
 		RetryTimeout:   vars.QueueAMQPSettingUserRegisterNotice.TaskRetryTimeout,
 	})
-	userRegisterNotice := args.UserRegisterNotice{
-		CountryCode: userInfo.CountryCode,
-		Phone:       userInfo.Phone,
-		Time:        util.ParseTimeOfStr(time.Now().Unix()),
-		State:       0,
+
+	businessMsg := args.CommonBusinessMsg{
+		Type: args.UserStateEventTypeRegister,
+		Tag:  args.GetMsg(args.UserStateEventTypeRegister),
+		UUID: genUUID(),
+		Msg: json.MarshalToStringNoError(args.UserRegisterNotice{
+			CountryCode: userInfo.CountryCode,
+			Phone:       userInfo.Phone,
+			Time:        util.ParseTimeOfStr(time.Now().Unix()),
+			State:       0,
+		}),
 	}
-	msgUUID, retCode := pushNoticeService.PushMessage(ctx, userRegisterNotice)
+	taskUUID, retCode := pushNoticeService.PushMessage(ctx, businessMsg)
 	if retCode != code.SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "user: %+v register notice send err: ", userInfo, code.GetMsg(retCode))
+		vars.ErrorLogger.Errorf(ctx, "businessMsg: %+v register notice send err: ", businessMsg, code.GetMsg(retCode))
 		return &result, code.ERROR
 	}
-	vars.BusinessLogger.Infof(ctx, "user: %+v register notice :%v", userInfo, msgUUID)
+	vars.BusinessLogger.Infof(ctx, "businessMsg: %+v register notice taskUUID :%v", businessMsg, taskUUID)
 
 	return &result, code.SUCCESS
 }
@@ -136,11 +142,10 @@ func LoginUserWithVerifyCode(ctx context.Context, userInfo *args.LoginUserWithVe
 }
 
 func updateUserStateLogin(ctx context.Context, uid int) int {
-	state := args.UserStateNotice{
-		Uid:       uid,
-		EventType: 2,
-		Event:     "online",
-		Time:      util.ParseTimeOfStr(time.Now().Unix()),
+	state := args.UserOnlineState{
+		Uid:   uid,
+		State: "online",
+		Time:  util.ParseTimeOfStr(time.Now().Unix()),
 	}
 	userLoginKey := fmt.Sprintf("%v%d", args.CacheKeyUserSate, uid)
 	err := cache.Set(vars.RedisPoolMicroMall, userLoginKey, json.MarshalToStringNoError(state), 7200)
@@ -216,18 +221,23 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		RetryCount:     vars.QueueAMQPSettingUserStateNotice.TaskRetryCount,
 		RetryTimeout:   vars.QueueAMQPSettingUserStateNotice.TaskRetryTimeout,
 	})
-	userStateNotice := args.UserStateNotice{
-		Uid:       user.Id,
-		EventType: args.UserStateEventTypePwdModify,
-		Event:     args.GetMsg(args.UserStateEventTypePwdModify),
-		Time:      util.ParseTimeOfStr(time.Now().Unix()),
+
+	businessMsg := args.CommonBusinessMsg{
+		Type: args.UserStateEventTypePwdModify,
+		Tag:  args.GetMsg(args.UserStateEventTypePwdModify),
+		UUID: genUUID(),
+		Msg: json.MarshalToStringNoError(args.UserStateNotice{
+			Uid:  user.Id,
+			Time: util.ParseTimeOfStr(time.Now().Unix()),
+		}),
 	}
-	msgUUID, retCode := pushNoticeService.PushMessage(ctx, userStateNotice)
+
+	taskUUID, retCode := pushNoticeService.PushMessage(ctx, businessMsg)
 	if retCode != code.SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "PasswordReset: %+v  notice send err: ", userStateNotice, code.GetMsg(retCode))
+		vars.ErrorLogger.Errorf(ctx, "Password Reset businessMsg: %+v  notice send err: ", businessMsg, code.GetMsg(retCode))
 		return code.ERROR
 	}
-	vars.BusinessLogger.Infof(ctx, "PasswordReset: %+v  notice :%v", userStateNotice, msgUUID)
+	vars.BusinessLogger.Infof(ctx, "Password Reset businessMsg: %+v  taskUUID :%v", businessMsg, taskUUID)
 
 	return code.SUCCESS
 }
@@ -276,7 +286,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		Uid:          user.Id,
 		BusinessType: req.BusinessType,
 		VerifyCode:   verifyCode,
-		Expire:       int(time.Now().Add(10 * time.Minute).Unix()),
+		Expire:       int(time.Now().Add(time.Duration(vars.VerifyCodeSetting.ExpireMinute) * time.Minute).Unix()),
 		CountryCode:  req.CountryCode,
 		Phone:        req.Phone,
 		Email:        req.ReceiveEmail,

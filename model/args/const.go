@@ -28,9 +28,10 @@ const (
 )
 
 const (
-	UserStateEventTypeLogin     = 10010
-	UserStateEventTypeLogout    = 10011
-	UserStateEventTypePwdModify = 10012
+	UserStateEventTypeRegister  = 10010
+	UserStateEventTypeLogin     = 10011
+	UserStateEventTypeLogout    = 10012
+	UserStateEventTypePwdModify = 10013
 )
 
 var (
@@ -42,9 +43,17 @@ var MsgFlags = map[int]string{
 	VerifyCodeRegister:          "注册",
 	VerifyCodeLogin:             "登录",
 	VerifyCodePassword:          "修改/重置密码",
+	UserStateEventTypeRegister:  "注册",
 	UserStateEventTypePwdModify: "修改密码",
 	UserStateEventTypeLogin:     "登录上线",
 	UserStateEventTypeLogout:    "退出登录",
+}
+
+type CommonBusinessMsg struct {
+	Type int    `json:"type"`
+	Tag  string `json:"tag"`
+	UUID string `json:"uuid"`
+	Msg  string `json:"msg"`
 }
 
 type UserRegisterNotice struct {
@@ -55,10 +64,14 @@ type UserRegisterNotice struct {
 }
 
 type UserStateNotice struct {
-	Uid       int    `json:"uid"`
-	EventType int    `json:"event_type"`
-	Event     string `json:"event"`
-	Time      string `json:"time"`
+	Uid  int    `json:"uid"`
+	Time string `json:"time"`
+}
+
+type UserOnlineState struct {
+	Uid   int    `json:"uid"`
+	State string `json:"state"`
+	Time  string `json:"time"`
 }
 
 type SkuInventoryInfo struct {

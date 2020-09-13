@@ -11,3 +11,7 @@ type EmailConfigSettingS struct {
 	Host     string `json:"host"`
 	Port     string `json:"port"`
 }
+
+type VerifyCodeSettingS struct {
+	ExpireMinute int `json:"expire_minute"`
+}

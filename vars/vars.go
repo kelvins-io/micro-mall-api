@@ -25,6 +25,7 @@ var (
 	MysqlSettingMicroMall              *setting.MysqlSettingS
 	RedisSettingMicroMall              *setting.RedisSettingS
 	EmailConfigSetting                 *EmailConfigSettingS
+	VerifyCodeSetting                  *VerifyCodeSettingS
 	RedisPoolMicroMall                 *redis.Pool
 	QueueAMQPSettingUserRegisterNotice *setting.QueueAMQPSettingS
 	QueueServerUserRegisterNotice      *queue.MachineryQueue

@@ -11,6 +11,7 @@ const (
 	SectionMysqlMicroMall          = "micro-mall-mysql"
 	SectionRedisMicroMall          = "micro-mall-redis"
 	SectionEmailConfig             = "email-config"
+	SectionVerifyCode              = "micro-mall-verify_code"
 	SectionQueueUserRegisterNotice = "queue-user-register-notice"
 	SectionQueueUserStateNotice    = "queue-user-state-notice"
 )
@@ -31,6 +32,10 @@ func LoadConfig() error {
 	log.Printf("[info] Load default config %s", SectionEmailConfig)
 	vars.EmailConfigSetting = new(vars.EmailConfigSettingS)
 	config.MapConfig(SectionEmailConfig, vars.EmailConfigSetting)
+	// 加载验证码配置
+	log.Printf("[info] Load default config %s", SectionVerifyCode)
+	vars.VerifyCodeSetting = new(vars.VerifyCodeSettingS)
+	config.MapConfig(SectionVerifyCode, vars.VerifyCodeSetting)
 	// 用户注册通知
 	log.Printf("[info] Load default config %s", SectionQueueUserRegisterNotice)
 	vars.QueueAMQPSettingUserRegisterNotice = new(setting.QueueAMQPSettingS)
