@@ -157,9 +157,9 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("password", "07030501310")
 	data.Set("sex", "1")
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430527")
+	data.Set("phone", "18319430521")
 	data.Set("email", "1225807604@qq.com")
-	data.Set("verify_code", "291630")
+	data.Set("verify_code", "321754")
 	data.Set("invite_code", "46a576fc4000065")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -260,7 +260,7 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "106956")
+	data.Set("verify_code", "517843")
 	data.Set("password", "12345678")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))

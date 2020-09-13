@@ -274,7 +274,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	//}
 
 	verifyCode := random.KrandNum(6)
-	notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), 10)
+	notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
 
 	err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
 	if err != nil {
