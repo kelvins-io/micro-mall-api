@@ -17,10 +17,18 @@ const (
 )
 
 const (
+	UserStateEventTypeRegister  = 10010
+	UserStateEventTypeLogin     = 10011
+	UserStateEventTypeLogout    = 10012
+	UserStateEventTypePwdModify = 10013
+)
+
+const (
 	RpcServiceMicroMallUsers   = "micro-mall-users"
 	RpcServiceMicroMallShop    = "micro-mall-shop"
 	RpcServiceMicroMallSku     = "micro-mall-sku"
 	RpcServiceMicroMallTrolley = "micro-mall-trolley"
+	RpcServiceMicroMallOrder   = "micro-mall-order"
 )
 
 const (
@@ -28,14 +36,13 @@ const (
 )
 
 const (
-	UserStateEventTypeRegister  = 10010
-	UserStateEventTypeLogin     = 10011
-	UserStateEventTypeLogout    = 10012
-	UserStateEventTypePwdModify = 10013
+	CNY = 0
+	USD = 1
 )
 
 var (
 	VerifyCodeTypes = []int{VerifyCodeRegister, VerifyCodeLogin, VerifyCodePassword}
+	CoinTypes       = []int{CNY, USD}
 )
 
 var MsgFlags = map[int]string{

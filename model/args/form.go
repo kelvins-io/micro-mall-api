@@ -3,6 +3,7 @@ package args
 import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"github.com/astaxie/beego/validation"
+	"strconv"
 )
 
 type RegisterUserArgs struct {
@@ -358,4 +359,95 @@ type UserInfoRsp struct {
 	Age         int    `json:"age"`
 	CreateTime  string `json:"create_time"`
 	UpdateTime  string `json:"update_time"`
+}
+
+type OrderShopGoods struct {
+	SkuCode string `json:"sku_code"`
+	Price   string `json:"price"`
+	Amount  int64  `json:"amount"`
+	Name    string `json:"name"`
+}
+
+type OrderShopSceneInfo struct {
+	StoreInfo *OrderShopStoreInfo `json:"store_info"`
+}
+
+type OrderShopStoreInfo struct {
+	Id       int64  `json:"id"`
+	Name     string `json:"name"`
+	AreaCode string `json:"area_code"`
+	Address  string `json:"address"`
+}
+
+type OrderShopDetail struct {
+	ShopId    int64               `json:"shop_id"`
+	CoinType  int32               `json:"coin_type"`
+	Goods     []*OrderShopGoods   `json:"goods"`
+	SceneInfo *OrderShopSceneInfo `json:"scene_info"`
+}
+
+type CreateTradeOrderArgs struct {
+	Uid         int64
+	ClientIp    string             `json:"client_ip"`
+	Description string             `json:"description"`
+	DeviceId    string             `json:"device_id"`
+	Detail      []*OrderShopDetail `json:"detail"`
+}
+
+func (t *CreateTradeOrderArgs) Valid(v *validation.Validation) {
+	if len(t.Detail) <= 0 {
+		v.SetError("Detail", "至少包含一个店铺的订单")
+		return
+	}
+	for i := 0; i < len(t.Detail); i++ {
+		if t.Detail[i].ShopId <= 0 {
+			v.SetError("ShopId", "店铺ID需要大于0")
+			return
+		}
+		if !util.IntSliceContainsItem(CoinTypes, int(t.Detail[i].CoinType)) {
+			v.SetError("CoinTypes", "不支持的币种符号")
+			return
+		}
+		if len(t.Detail[i].Goods) <= 0 {
+			v.SetError("Goods", "一个店铺至少包含一个商品")
+			return
+		}
+		goods := t.Detail[i].Goods
+		for j := 0; j < len(goods); j++ {
+			if goods[j].SkuCode == "" {
+				v.SetError("SkuCode", "商品sku_code不能为空")
+				return
+			}
+			if goods[j].Name == "" {
+				v.SetError("Name", "商品名称不能为空")
+				return
+			}
+			if goods[j].Amount <= 0 {
+				v.SetError("Amount", "商品数量需要大于0")
+				return
+			}
+			if goods[j].Price == "" {
+				_ = v.SetError("Price", "商品价格不能为空")
+				return
+			}
+			p, err := strconv.ParseFloat(goods[j].Price, 64)
+			if err != nil {
+				_ = v.SetError("Price", "商品价格格式不正确")
+				return
+			}
+			if p < 0 {
+				_ = v.SetError("Price", "商品价格需要大于等于0")
+				return
+			}
+		}
+	}
+}
+
+type CreateTradeOrderRsp struct {
+	OrderEntryList []OrderEntry `json:"order_entry_list"`
+}
+
+type OrderEntry struct {
+	OrderCode   string `json:"order_code"`
+	OrderExpire string `json:"order_expire"`
 }

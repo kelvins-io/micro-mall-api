@@ -58,7 +58,7 @@ func runApp(webApp *vars.WEBApplication) error {
 
 	//4.  setup server monitor
 	go func() {
-		addr := "0.0.0.0:" + strconv.Itoa(webApp.MonitorEndPort)
+		addr := "127.0.0.1:" + strconv.Itoa(webApp.MonitorEndPort)
 		logging.Infof("App run monitor server addr: %v", addr)
 		err := http.ListenAndServe(addr, webApp.Mux)
 		if err != nil {
@@ -82,9 +82,9 @@ func runApp(webApp *vars.WEBApplication) error {
 	// 6. set init service port
 	var addr string
 	if webApp.EndPort != 0 {
-		addr = "0.0.0.0:" + strconv.Itoa(webApp.EndPort)
+		addr = "127.0.0.1:" + strconv.Itoa(webApp.EndPort)
 	} else if vars.ServerSetting.EndPort != 0 {
-		addr = "0.0.0.0:" + strconv.Itoa(vars.ServerSetting.EndPort)
+		addr = "127.0.0.1:" + strconv.Itoa(vars.ServerSetting.EndPort)
 	}
 
 	// 7. run http server

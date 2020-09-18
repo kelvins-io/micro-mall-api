@@ -72,5 +72,11 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 		}
 	}
 
+	apiOrder := apiV1.Group("/order")
+	apiOrder.Use(middleware.CheckUserToken())
+	{
+		apiOrder.POST("/create", v1.CreateTradeOrderApi)
+	}
+
 	return r
 }
