@@ -8,6 +8,7 @@ require (
 	gitee.com/kelvins-io/kelvins v1.1.3
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
+	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.60.2
@@ -26,6 +27,7 @@ require (
 	go.elastic.co/apm v1.8.0 // indirect
 	golang.org/x/net v0.0.0-20200822124328-c89045814202
 	google.golang.org/grpc v1.32.0
+	google.golang.org/protobuf v1.25.0
 	gopkg.in/ini.v1 v1.60.2 // indirect
 	xorm.io/xorm v1.0.4
 )

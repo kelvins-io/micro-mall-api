@@ -25,6 +25,15 @@ var MsgFlags = map[int]string{
 	ERROR_SHOP_ID_NOT_EXIST:       "店铺ID不存在",
 	ERROR_SHOP_ID_EXIST:           "店铺ID已存在",
 	ERROR_INVITE_CODE_NOT_EXIST:   "邀请码不存在",
+	ERROR_SKU_AMOUNT_NOT_ENOUGH:   "商品库存不够",
+	USER_BALANCE_NOT_ENOUGH:       "用户余额不足",
+	USER_ACCOUNT_STATE_LOCK:       "用户账户被锁定",
+	USER_ACCOUNT_NOT_EXIST:        "用户账户不存在",
+	MERCHANT_ACCOUNT_NOT_EXIST:    "商户账户不存在",
+	MERCHANT_ACCOUNT_STATE_LOCK:   "商户账户被锁定",
+	DECIMAL_PARSE_ERR:             "金额格式解析错误",
+	TRANSACTION_FAILED:            "事务执行失败",
+	TXCODE_NOT_EXIST:              "交易号不存在",
 }
 
 func GetMsg(code int) string {

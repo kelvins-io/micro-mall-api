@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	SignKey = "xxxx"
+	SignKey = "&WJof0jaY4ByTHR2"
 )
 
 var (

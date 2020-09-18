@@ -36,6 +36,8 @@ const (
 	skuJoinUserTrolley      = "/user/trolley/sku/join"
 	skuRemoveUserTrolley    = "/user/trolley/sku/remove"
 	skuUserTrolleyList      = "/user/trolley/sku/list"
+	tradeCreateOrder        = "/order/create"
+	tradeOrderPay           = "/order/trade"
 )
 
 const (
@@ -62,6 +64,8 @@ func TestGateway(t *testing.T) {
 	t.Run("添加商品到购物车", TestSkuJoinUserTrolley)
 	t.Run("从购物车移除商品", TestSkuRemoveUserTrolley)
 	t.Run("获取用户购物车列表", TestGetUserTrolleyList)
+	t.Run("创建交易订单", TestTradeCreateOrder)
+	t.Run("交易订单支付", TestOrderTradePay)
 }
 
 const (
@@ -128,6 +132,119 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 		t.Errorf("obj ==%+v,obj", obj)
 		return
 	}
+}
+
+type OrderShopGoods struct {
+	SkuCode string `form:"sku_code" json:"sku_code"`
+	Price   string `form:"price" json:"price"`
+	Amount  int64  `form:"amount" json:"amount"`
+	Name    string `form:"name" json:"name"`
+}
+
+type OrderShopSceneInfo struct {
+	StoreInfo *OrderShopStoreInfo `form:"store_info" json:"store_info"`
+}
+
+type OrderShopStoreInfo struct {
+	Id       int64  `form:"id" json:"id"`
+	Name     string `form:"name" json:"name"`
+	AreaCode string `form:"area_code" json:"area_code"`
+	Address  string `form:"address" json:"address"`
+}
+
+type OrderShopDetail struct {
+	ShopId    int64               `form:"shop_id" json:"shop_id"`
+	CoinType  int32               `form:"coin_type" json:"coin_type"`
+	Goods     []*OrderShopGoods   `form:"goods" json:"goods"`
+	SceneInfo *OrderShopSceneInfo `form:"scene_info" json:"scene_info"`
+}
+
+type CreateTradeOrderArgs struct {
+	Uid         int64              `json:"uid"`
+	ClientIp    string             `json:"client_ip"`
+	Description string             `form:"description" json:"description"`
+	DeviceId    string             `form:"device_id" json:"device_id"`
+	Detail      []*OrderShopDetail `json:"detail"`
+}
+
+func TestOrderTradePay(t *testing.T) {
+	r := baseUrl + tradeOrderPay
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("tx_code", "a9478d52-f111-45e1-b68a-d602c2f0f1b3")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestTradeCreateOrder(t *testing.T) {
+	r := baseUrl + tradeCreateOrder
+	t.Logf("request url: %s", r)
+	goods1 := OrderShopGoods{
+		SkuCode: "38d9d035-00ed-40ed-aa83-abe90b59c055",
+		Price:   "184.32",
+		Amount:  5,
+		Name:    "盼盼铜锣烧",
+	}
+	goods2 := OrderShopGoods{
+		SkuCode: "b363e9f4-3bae-4103-86a6-5e4b83b70303",
+		Price:   "184.32",
+		Amount:  5,
+		Name:    "盼盼铜锣烧",
+	}
+	// b882a5c9-564a-4912-a5d4-ce77de71577c
+	detail := OrderShopDetail{
+		ShopId:   29912,
+		CoinType: 1, // 1-rmb,2-usdt
+		Goods:    []*OrderShopGoods{&goods1, &goods2},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       29912,
+				Name:     "良品铺子京东旗舰店1",
+				AreaCode: "深圳",
+				Address:  "深圳市宝安区",
+			},
+		},
+	}
+	goods3 := OrderShopGoods{
+		SkuCode: "b882a5c9-564a-4912-a5d4-ce77de71577c",
+		Price:   "184.32",
+		Amount:  5,
+		Name:    "盼盼铜锣烧-2",
+	}
+	detail2 := OrderShopDetail{
+		ShopId:   29911,
+		CoinType: 0,
+		Goods:    []*OrderShopGoods{&goods3},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       29911,
+				Name:     "良品铺子京东旗舰店-2",
+				AreaCode: "广州",
+				Address:  "广州市海珠区",
+			},
+		},
+	}
+	data := CreateTradeOrderArgs{
+		Description: "网络购物",
+		DeviceId:    "iphone-x",
+		Detail:      []*OrderShopDetail{&detail, &detail2},
+	}
+	t.Logf("req data: %v", json.MarshalToStringNoError(data))
+	req, err := http.NewRequest("POST", r, strings.NewReader(json.MarshalToStringNoError(data)))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
 }
 
 func TestVerifyCodeSend(t *testing.T) {
@@ -392,9 +509,9 @@ func TestSkuJoinUserTrolley(t *testing.T) {
 	r := baseUrl + skuJoinUserTrolley
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("shop_id", "29914")
-	data.Set("sku_code", "df1a9633-b060-4682-9502-bc934f89392b")
-	data.Set("count", "534252790")
+	data.Set("shop_id", "29912")
+	data.Set("sku_code", "b363e9f4-3bae-4103-86a6-5e4b83b70303")
+	data.Set("count", "5")
 	data.Set("time", "2020-09-08 23:32:35")
 	data.Set("selected", "true")
 	t.Logf("req data: %v", data)
