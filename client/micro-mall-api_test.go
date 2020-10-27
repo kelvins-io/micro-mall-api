@@ -22,22 +22,22 @@ const (
 )
 
 const (
-	verifyCodeSend          = "/common/verify_code/send"
-	registerUser            = "/common/register"
-	loginUserWithVerifyCode = "/common/login/verify_code"
-	loginUserWithPwd        = "/common/login/pwd"
+	verifyCodeSend          = "/verify_code/send"
+	registerUser            = "/register"
+	loginUserWithVerifyCode = "/login/verify_code"
+	loginUserWithPwd        = "/login/pwd"
 	userPwdReset            = "/user/password/reset"
 	userInfo                = "/user/user_info"
 	merchantsMaterial       = "/user/merchants/material"
-	shopBusinessApply       = "/shop_business/shop/apply"
-	skuBusinessPutAway      = "/sku_business/sku/put_away"
-	skuBusinessGetSkuList   = "/sku_business/sku/list"
-	skuBusinessSupplement   = "/sku_business/sku/supplement"
+	shopBusinessApply       = "/user/shop_business/shop/apply"
+	skuBusinessPutAway      = "/user/sku_business/sku/put_away"
+	skuBusinessGetSkuList   = "/user/sku_business/sku/list"
+	skuBusinessSupplement   = "/user/sku_business/sku/supplement"
 	skuJoinUserTrolley      = "/user/trolley/sku/join"
 	skuRemoveUserTrolley    = "/user/trolley/sku/remove"
 	skuUserTrolleyList      = "/user/trolley/sku/list"
-	tradeCreateOrder        = "/order/create"
-	tradeOrderPay           = "/order/trade"
+	tradeCreateOrder        = "/user/order/create"
+	tradeOrderPay           = "/user/order/trade"
 )
 
 const (

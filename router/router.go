@@ -27,13 +27,10 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	r.GET("/ping", v1.PingApi)
 	apiG := r.Group("/api")
 	apiV1 := apiG.Group("/v1")
-	apiCommon := apiV1.Group("/common")
-	{
-		apiCommon.POST("/verify_code/send", v1.GetVerifyCodeApi)
-		apiCommon.POST("/register", v1.RegisterUserApi)
-		apiCommon.POST("/login/verify_code", v1.LoginUserWithVerifyCodeApi)
-		apiCommon.POST("/login/pwd", v1.LoginUserWithPwdApi)
-	}
+	apiV1.POST("/verify_code/send", v1.GetVerifyCodeApi)
+	apiV1.POST("/register", v1.RegisterUserApi)
+	apiV1.POST("/login/verify_code", v1.LoginUserWithVerifyCodeApi)
+	apiV1.POST("/login/pwd", v1.LoginUserWithPwdApi)
 	apiUser := apiV1.Group("/user")
 	apiUser.Use(middleware.CheckUserToken())
 	{
@@ -49,34 +46,28 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 			apiTrolley.DELETE("/sku/remove", v1.SkuRemoveUserTrolleyApi) // 从购物车移除商品
 			apiTrolley.GET("/sku/list", v1.GetUserTrolleyListApi)        // 获取用户购物车中商品列表
 		}
-	}
-
-	apiShopBusiness := apiV1.Group("/shop_business")
-	apiShopBusiness.Use(middleware.CheckUserToken())
-	{
-		apiShop := apiShopBusiness.Group("/shop")
+		apiShopBusiness := apiUser.Group("/shop_business")
 		{
-			apiShop.POST("/apply", v1.ShopApplyApi)  // 申请店铺
-			apiShop.PUT("/pledge", v1.ShopPledgeApi) // 店铺质押，交保证金
+			apiShop := apiShopBusiness.Group("/shop")
+			{
+				apiShop.POST("/apply", v1.ShopApplyApi)  // 申请店铺
+				apiShop.PUT("/pledge", v1.ShopPledgeApi) // 店铺质押，交保证金
+			}
 		}
-	}
-
-	apiSkuBusiness := apiV1.Group("/sku_business")
-	apiSkuBusiness.Use(middleware.CheckUserToken())
-	{
-		apiSku := apiSkuBusiness.Group("/sku")
+		apiSkuBusiness := apiUser.Group("/sku_business")
 		{
-			apiSku.POST("/put_away", v1.SkuBusinessPutAwayApi)             // 上架商品
-			apiSku.PUT("/supplement", v1.SkuBusinessSupplementPropertyApi) // 补充商品属性
-			apiSku.GET("/list", v1.GetSkuListApi)                          // 获取sku
+			apiSku := apiSkuBusiness.Group("/sku")
+			{
+				apiSku.POST("/put_away", v1.SkuBusinessPutAwayApi)             // 上架商品
+				apiSku.PUT("/supplement", v1.SkuBusinessSupplementPropertyApi) // 补充商品属性
+				apiSku.GET("/list", v1.GetSkuListApi)                          // 获取sku
+			}
 		}
-	}
-
-	apiOrder := apiV1.Group("/order")
-	apiOrder.Use(middleware.CheckUserToken())
-	{
-		apiOrder.POST("/create", v1.CreateTradeOrderApi) // 生成订单
-		apiOrder.POST("/trade", v1.OrderTradeApi)        // 订单支付
+		apiOrder := apiUser.Group("/order")
+		{
+			apiOrder.POST("/create", v1.CreateTradeOrderApi) // 生成订单
+			apiOrder.POST("/trade", v1.OrderTradeApi)        // 订单支付
+		}
 	}
 
 	return r

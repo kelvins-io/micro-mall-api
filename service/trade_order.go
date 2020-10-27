@@ -20,9 +20,7 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		return &result, code.ERROR
 	}
 	defer conn.Close()
-
 	client := order_business.NewOrderBusinessServiceClient(conn)
-
 	r := order_business.CreateOrderRequest{
 		Uid:           req.Uid,
 		Time:          util.ParseTimeOfStr(time.Now().Unix()),
@@ -69,24 +67,21 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		return &result, code.ERROR
 	}
 
-	if rsp == nil || rsp.Common == nil {
+	if rsp == nil || rsp.Common == nil || rsp.Common.Code == order_business.RetCode_ERROR {
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 		return &result, code.ERROR
 	}
-	if rsp.Common.Code != order_business.RetCode_SUCCESS {
-		if rsp.Common.Code == order_business.RetCode_USER_NOT_EXIST {
-			return &result, code.ERROR_USER_NOT_EXIST
-		} else if rsp.Common.Code == order_business.RetCode_USER_EXIST {
-			return &result, code.ERROR_USER_EXIST
-		} else if rsp.Common.Code == order_business.RetCode_SHOP_EXIST {
-			return &result, code.ERROR_SHOP_BUSINESS_EXIST
-		} else if rsp.Common.Code == order_business.RetCode_SHOP_NOT_EXIST {
-			return &result, code.ERROR_SHOP_BUSINESS_NOT_EXIST
-		} else if rsp.Common.Code == order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH {
-			return &result, code.ERROR_SKU_AMOUNT_NOT_ENOUGH
-		} else {
-			return &result, code.ERROR
-		}
+	switch rsp.Common.Code {
+	case order_business.RetCode_USER_NOT_EXIST:
+		return &result, code.ERROR_USER_NOT_EXIST
+	case order_business.RetCode_USER_EXIST:
+		return &result, code.ERROR_USER_EXIST
+	case order_business.RetCode_SHOP_EXIST:
+		return &result, code.ERROR_SHOP_BUSINESS_EXIST
+	case order_business.RetCode_SHOP_NOT_EXIST:
+		return &result, code.ERROR_SHOP_BUSINESS_NOT_EXIST
+	case order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH:
+		return &result, code.ERROR_SKU_AMOUNT_NOT_ENOUGH
 	}
 	result.TxCode = rsp.TxCode
 
@@ -169,25 +164,26 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		retCode = code.ERROR
 		return
 	}
-	if payRsp.Common.Code == pay_business.RetCode_USER_ACCOUNT_NOT_EXIST {
+	switch payRsp.Common.Code {
+	case pay_business.RetCode_USER_ACCOUNT_NOT_EXIST:
 		retCode = code.USER_ACCOUNT_NOT_EXIST
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_USER_BALANCE_NOT_ENOUGH {
+	case pay_business.RetCode_USER_BALANCE_NOT_ENOUGH:
 		retCode = code.USER_BALANCE_NOT_ENOUGH
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_USER_ACCOUNT_STATE_LOCK {
+	case pay_business.RetCode_USER_ACCOUNT_STATE_LOCK:
 		retCode = code.USER_ACCOUNT_STATE_LOCK
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_MERCHANT_ACCOUNT_NOT_EXIST {
+	case pay_business.RetCode_MERCHANT_ACCOUNT_NOT_EXIST:
 		retCode = code.MERCHANT_ACCOUNT_NOT_EXIST
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_MERCHANT_ACCOUNT_STATE_LOCK {
+	case pay_business.RetCode_MERCHANT_ACCOUNT_STATE_LOCK:
 		retCode = code.MERCHANT_ACCOUNT_STATE_LOCK
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_DECIMAL_PARSE_ERR {
+	case pay_business.RetCode_DECIMAL_PARSE_ERR:
 		retCode = code.DECIMAL_PARSE_ERR
 		return
-	} else if payRsp.Common.Code == pay_business.RetCode_TRANSACTION_FAILED {
+	case pay_business.RetCode_TRANSACTION_FAILED:
 		retCode = code.TRANSACTION_FAILED
 		return
 	}
