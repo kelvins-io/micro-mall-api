@@ -24,12 +24,13 @@ const (
 )
 
 const (
-	RpcServiceMicroMallUsers   = "micro-mall-users"
-	RpcServiceMicroMallShop    = "micro-mall-shop"
-	RpcServiceMicroMallSku     = "micro-mall-sku"
-	RpcServiceMicroMallTrolley = "micro-mall-trolley"
-	RpcServiceMicroMallOrder   = "micro-mall-order"
-	RpcServiceMicroMallPay     = "micro-mall-pay"
+	RpcServiceMicroMallUsers     = "micro-mall-users"     // 用户服务
+	RpcServiceMicroMallShop      = "micro-mall-shop"      // 店铺服务
+	RpcServiceMicroMallSku       = "micro-mall-sku"       // 商品服务
+	RpcServiceMicroMallTrolley   = "micro-mall-trolley"   // 购物车
+	RpcServiceMicroMallOrder     = "micro-mall-order"     // 订单服务
+	RpcServiceMicroMallPay       = "micro-mall-pay"       // 支付服务
+	RpcServiceMicroMallLogistics = "micro-mall-logistics" // 物流服务
 )
 
 const (

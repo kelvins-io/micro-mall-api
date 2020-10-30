@@ -6,6 +6,47 @@ import (
 	"strconv"
 )
 
+type UpdateLogisticsRecordArgs struct {
+	Uid int `json:"uid"`
+}
+
+type UpdateLogisticsRecordRsp struct {
+}
+
+type QueryLogisticsRecordArgs struct {
+	Uid int `json:"uid"`
+}
+
+type QueryLogisticsRecordRsp struct {
+}
+
+type ApplyLogisticsArgs struct {
+	Uid          int              `json:"uid"`
+	OutTradeNo   string           `json:"out_trade_no" form:"out_trade_no"`
+	Courier      string           `json:"courier" form:"courier"`
+	CourierType  int              `json:"courier_type" form:"courier_type"`
+	ReceiveType  int              `json:"receive_type" form:"receive_type"`
+	SendUser     string           `json:"send_user" form:"send_user"`
+	SendAddr     string           `json:"send_addr" form:"send_addr"`
+	SendPhone    string           `json:"send_phone" form:"send_phone"`
+	SendTime     string           `json:"send_time" form:"send_time"`
+	ReceiveUser  string           `json:"receive_user" form:"receive_user"`
+	ReceiveAddr  string           `json:"receive_addr" form:"receive_addr"`
+	ReceivePhone string           `json:"receive_phone" form:"receive_phone"`
+	Goods        []GoodsLogistics `json:"goods"`
+}
+
+type GoodsLogistics struct {
+	SkuCode string `json:"sku_code" form:"sku_code"`
+	Name    string `json:"name" form:"name"`
+	Kind    string `json:"kind" form:"kind"`
+	Count   int64  `json:"count" form:"count"`
+}
+
+type ApplyLogisticsRsp struct {
+	LogisticsCode string `json:"logistics_code"`
+}
+
 type RegisterUserArgs struct {
 	UserName    string `form:"user_name" json:"user_name"`
 	Password    string `form:"password" json:"password"`
