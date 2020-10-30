@@ -33,7 +33,7 @@ type ApplyLogisticsArgs struct {
 	ReceiveUser  string           `json:"receive_user" form:"receive_user"`
 	ReceiveAddr  string           `json:"receive_addr" form:"receive_addr"`
 	ReceivePhone string           `json:"receive_phone" form:"receive_phone"`
-	Goods        []GoodsLogistics `json:"goods"`
+	Goods        []GoodsLogistics `json:"goods" form:"goods"`
 }
 
 type GoodsLogistics struct {

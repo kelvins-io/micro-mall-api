@@ -5,6 +5,7 @@ import (
 	"gitee.com/cristiane/go-common/json"
 	"github.com/google/uuid"
 	"io/ioutil"
+	"log"
 	"math"
 	"math/rand"
 	"net/http"
@@ -38,6 +39,7 @@ const (
 	skuUserTrolleyList      = "/user/trolley/sku/list"
 	tradeCreateOrder        = "/user/order/create"
 	tradeOrderPay           = "/user/order/trade"
+	logisticsApply          = "/user/logistics/apply"
 )
 
 const (
@@ -66,6 +68,7 @@ func TestGateway(t *testing.T) {
 	t.Run("获取用户购物车列表", TestGetUserTrolleyList)
 	t.Run("创建交易订单", TestTradeCreateOrder)
 	t.Run("交易订单支付", TestOrderTradePay)
+	t.Run("申请物流", TestLogisticsApply)
 }
 
 const (
@@ -183,6 +186,49 @@ func TestOrderTradePay(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+type GoodsLogistics struct {
+	SkuCode string `json:"sku_code" form:"sku_code"`
+	Name    string `json:"name" form:"name"`
+	Kind    string `json:"kind" form:"kind"`
+	Count   int64  `json:"count" form:"count"`
+}
+
+func TestLogisticsApply(t *testing.T) {
+	r := baseUrl + logisticsApply
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("out_trade_no", "a9478d52-f111-45e1-b68a-d602c2f0f1b3")
+	data.Set("courier", "微商城快递")
+	data.Set("courier_type", "1")
+	data.Set("receive_type", "1")
+	data.Set("send_user", "李云龙")
+	data.Set("send_addr", "河北省石家庄市丰县迎宾路123号")
+	data.Set("send_phone", "18319430520")
+	data.Set("send_time", "2020-10-09 12:12:12")
+	data.Set("receive_user", "马司令")
+	data.Set("receive_addr", "浙江省杭州市余杭区西湖南路111雅静别院")
+	data.Set("receive_phone", "18319430520")
+	goods := []GoodsLogistics{
+		{
+			SkuCode: "2131d-f111-45e1-b68a-d602c2f0f1b3",
+			Name:    "怡宝矿泉水",
+			Kind:    "饮用水",
+			Count:   98,
+		},
+	}
+	log.Println(json.MarshalToStringNoError(goods))
+	data.Set("goods", json.MarshalToStringNoError(goods))
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
 func TestTradeCreateOrder(t *testing.T) {
 	r := baseUrl + tradeCreateOrder
 	t.Logf("request url: %s", r)
@@ -236,6 +282,7 @@ func TestTradeCreateOrder(t *testing.T) {
 		DeviceId:    "iphone-x",
 		Detail:      []*OrderShopDetail{&detail, &detail2},
 	}
+	log.Println(json.MarshalToStringNoError(data))
 	t.Logf("req data: %v", json.MarshalToStringNoError(data))
 	req, err := http.NewRequest("POST", r, strings.NewReader(json.MarshalToStringNoError(data)))
 	if err != nil {

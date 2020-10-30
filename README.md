@@ -4,10 +4,10 @@
 微商城-api
 
 #### 软件架构
-go + xorm + mysql + redis + rabbitmq + grpc + etcd + rocketmq + protobuf    
-服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq，交易订单消息事件采用rocketmq   
-protobuf v3   
-
+go + xorm + mysql + redis + rabbitmq + grpc + etcd + protobuf    
+服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq
+protobuf v3     
+![avatar](https://www.processon.com/view/link/5f9c248de401fd767b5395f1)
 #### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
@@ -56,32 +56,43 @@ gRPC应用模板：https://gitee.com/kelvins-io/kelvins-template
 
 
 返回码code：   
-4003 	 token无效   
-4009 	 商户认证资料已存在   
-4011 	 商户未提交过店铺认证资料   
-4007 	 用户密码错误   
-4012 	 商品唯一code已存在系统   
-4013 	 商品唯一code不存在   
-200 	 ok   
-500 	 服务器出错   
-400 	 请求参数错误   
-4006 	 用户已存在   
-50002 	 验证码为空   
-4015 	 店铺ID已存在   
-50004 	 验证码过期   
-50000 	 Duplicate entry   
-4008 	 商户未提交过认证资料   
-4001 	 ID为空   
-4002 	 token为空   
-4004 	 token过期   
-4005 	 用户不存在   
-50003 	 验证码无效    
-4010 	 店铺认证资料已存在   
-50001 	 邮件发送错误   
-4014 	 店铺ID不存在   
-4016     邀请码不存在   
+200 		 ok   
+500 		 服务器出错   
+4001 		 ID为空   
+4002 		 token为空   
+4007 		 用户密码错误   
+4012 		 商品唯一code已存在系统   
+4015 		 店铺ID已存在   
+4016 		 邀请码不存在   
+600000 		 金额格式解析错误   
+4003 		 token无效   
+50003 		 验证码无效   
+600002 		 用户账户被锁定   
+600004 		 商户账户不存在   
+400 		 请求参数错误   
+50004 		 验证码过期   
+600010 		 事务执行失败   
+4005 		 用户不存在   
+50002 		 验证码为空   
+4008 		 商户未提交过认证资料   
+4011 		 商户未提交过店铺认证资料   
+600001 		 用户余额不足   
+600003 		 用户账户不存在   
+4009 		 商户认证资料已存在   
+4014 		 店铺ID不存在   
+600011 		 交易号不存在   
+4004 		 token过期   
+4006 		 用户已存在   
+50001 		 邮件发送错误   
+50000 		 Duplicate entry   
+4010 		 店铺认证资料已存在   
+4013 		 商品唯一code不存在   
+50005 		 商品库存不够   
+600005 		 商户账户被锁定    
+
+
 接口列表：   
-首页   
+1 首页   
 GET    /               
 返回body   
 
@@ -94,7 +105,7 @@ GET    /
 ```
 
 
-在线检测          
+2 在线检测          
 GET    /ping                      
 
 返回body   
@@ -107,7 +118,7 @@ GET    /ping
 }
 ```
 
-发送验证码   
+3 发送验证码   
 POST   /api/v1/common/verify_code/send   
 请求参数：   
 
@@ -123,7 +134,7 @@ receive_email |接收验证码邮箱 | string | xxxx@xx.com
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
-注册用户   
+4 注册用户   
 POST   /api/v1/common/register   
 请求参数：   
 
@@ -145,7 +156,7 @@ invite_code |邀请码 | string | xxx
 {"code":200,"data":{"invite_code":"46e4eabbf000065"},"msg":"ok"}
 ```
 
-验证码登陆   
+5 验证码登陆   
 POST   /api/v1/common/login/verify_code   
 请求参数：   
 
@@ -161,7 +172,7 @@ verify_code |验证码 | string | 6位验证码
 {"code":200,"data":"token","msg":"ok"}
 ```
 
-密码登陆   
+6 密码登陆   
 POST   /api/v1/common/login/pwd   
 请求参数：   
 
@@ -176,7 +187,7 @@ password | 密码 | string | 可传md5值
 {"code":200,"data":{},"msg":"ok"}
 ```
 
-重置用户密码   
+7 重置用户密码   
 PUT    /api/v1/user/password/reset   
 header token   
 请求参数：   
@@ -191,7 +202,7 @@ password | 密码 | string | 可传md5值
 {"code":200,"data":"token","msg":"ok"}
 ```
 
-获取用户信息   
+8 获取用户信息   
 GET    /api/v1/user/user_info     
 header token   
 
@@ -220,7 +231,7 @@ header token
 }
 ```
 
-提交商户认证资料   
+9 提交商户认证资料   
 PUT    /api/v1/user/merchants/material   
 header token   
 请求参数：    
@@ -241,7 +252,7 @@ tax_card_no | 纳税人证号 | string | 大于16位字符
 
 ```
 
-添加商品到购物车   
+10 添加商品到购物车   
 PUT    /api/v1/user/trolley/sku/join   
 header token   
 请求参数：   
@@ -259,7 +270,7 @@ selected | 是否选中 | bool | true,false
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
-从购物车中移除商品   
+11 从购物车中移除商品   
 DELETE /api/v1/user/trolley/sku/remove   
 header token   
 请求参数：   
@@ -274,7 +285,7 @@ shop_id | 店铺ID | int | 商品所属店铺ID
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
-获取用户购物车   
+12  获取用户购物车   
 GET    /api/v1/user/trolley/sku/list   
 header token   
 返回body： 
@@ -282,7 +293,7 @@ header token
 {"code":200,"data":{"list":[{"sku_code":"df1a9633-b060-4682-9502-bc934f89392b","shop_id":29914,"count":534252790,"time":"2020-09-11 23:01:25","selected":true}]},"msg":"ok"}
 ```
 
-商户申请店铺   
+13  商户申请店铺   
 POST   /api/v1/shop_business/shop/apply   
 header token   
 请求参数：   
@@ -309,12 +320,12 @@ organization_code | 组织结构代码 | string | 不能为空
 
 ```
 
-店铺质押保证金   
+14  店铺质押保证金   
 PUT    /api/v1/shop_business/shop/pledge   
 暂时未实现   
 
 
-商品上架   
+15  商品上架   
 POST   /api/v1/sku_business/sku/put_away   
 header token   
 请求参数：   
@@ -346,7 +357,7 @@ shop_id | 店铺ID | int | 商品所属店铺ID
 
 ```
 
-补充商品扩展信息   
+16   补充商品扩展信息   
 PUT    /api/v1/sku_business/sku/supplement   
 header token   
 请求参数：   
@@ -370,7 +381,7 @@ shelf_life | 有效期 | string | 描述过期截止时间
 
 ```
 
-获取店铺上架商品列表   
+17   获取店铺上架商品列表   
 GET    /api/v1/sku_business/sku/list   
 header token   
 返回body： 
@@ -380,6 +391,149 @@ header token
 
 ```
 
+18   添加商品到购物车   
+post /user/trolley/sku/join   
+header token  
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+sku_code | 商品sku | string | 商品唯一code
+shop_id | 店铺ID | int | 商品所属店铺ID
+count | 数量 | int | 最少为1
+time | 时间 | string | 如2020-12-11 09:09
+selected | 是否选中 | bool | true表示选中，false表示未选中
+
+返回body   
+```
+
+```
+
+19   从购物车移除商品
+get /user/trolley/sku/remove   
+header token  
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+sku_code | 商品sku | string | 商品唯一code
+shop_id | 店铺ID | int | 商品所属店铺ID
+
+返回body   
+```
+
+```
+
+20   获取用户购物车列表   
+get /user/trolley/sku/list   
+header token  
+
+返回body   
+```
+
+```
+
+21  创建订单   
+post /user/order/create   
+header token  
+请求参数：   
+
+```
+{
+	"uid": 100098,
+	"client_ip": "127.0.0.1",
+	"description": "网络购物",
+	"device_id": "iphone-x",
+	"detail": [{
+		"shop_id": 29912,
+		"coin_type": 1,
+		"goods": [{
+			"sku_code": "38d9d035-00ed-40ed-aa83-abe90b59c055",
+			"price": "184.32",
+			"amount": 5,
+			"name": "盼盼铜锣烧"
+		}, {
+			"sku_code": "b363e9f4-3bae-4103-86a6-5e4b83b70303",
+			"price": "184.32",
+			"amount": 5,
+			"name": "盼盼铜锣烧"
+		}],
+		"scene_info": {
+			"store_info": {
+				"id": 29912,
+				"name": "良品铺子京东旗舰店1",
+				"area_code": "深圳",
+				"address": "深圳市宝安区"
+			}
+		}
+	}, {
+		"shop_id": 29911,
+		"coin_type": 0,
+		"goods": [{
+			"sku_code": "b882a5c9-564a-4912-a5d4-ce77de71577c",
+			"price": "184.32",
+			"amount": 5,
+			"name": "盼盼铜锣烧-2"
+		}],
+		"scene_info": {
+			"store_info": {
+				"id": 29911,
+				"name": "良品铺子京东旗舰店-2",
+				"area_code": "广州",
+				"address": "广州市海珠区"
+			}
+		}
+	}]
+}
+```
+返回body   
+```
+
+```
+
+22  订单支付   
+post /user/order/trade   
+header token  
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+tx_code | 订单交易号 | string | 不能为空
+
+返回body   
+```
+
+```
+
+23  申请物流
+post /user/logistics/apply   
+header token  
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+out_trade_no | 订单交易号 | string | 不能为空
+courier | 承运人 | string | 如，微商城快递
+courier_type | 承运类型 | string | 0-普通，1-铁路，2-空运，3-加急，4-延迟
+receive_type | 收件类型 | string | 0-普通，1-本人接收，2-代理接收
+send_user | 发送方 | string | 李云龙
+send_addr | 发送地址 | string | 河北省邯郸市东方路198号怡和豪庭10栋
+send_phone | 发送方联系方式 | string | 如，13683749374
+send_time | 发送时间 | string | 如，2020-10-10 10:10:10
+receive_user | 接收方 | string | 赵富贵
+receive_addr | 接收方地址 | string | 四川省成都市武侯区98号
+receive_phone | 接收方联系方式 | string | 如，0838-10182827
+goods | 需要承运的货物 | string | 如，下面序列化后的值
+
+goods示范
+```
+[{
+	"sku_code": "2131d-f111-45e1-b68a-d602c2f0f1b3",
+	"name": "怡宝矿泉水",
+	"kind": "饮用水",
+	"count": 98
+}]
+```
 
 #### 使用说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   

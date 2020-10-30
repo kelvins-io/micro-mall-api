@@ -1,5 +1,7 @@
 package code
 
+import "fmt"
+
 var MsgFlags = map[int]string{
 	SUCCESS:                       "ok",
 	ERROR:                         "服务器出错",
@@ -34,6 +36,12 @@ var MsgFlags = map[int]string{
 	DECIMAL_PARSE_ERR:             "金额格式解析错误",
 	TRANSACTION_FAILED:            "事务执行失败",
 	TXCODE_NOT_EXIST:              "交易号不存在",
+}
+
+func init() {
+	for k, v := range MsgFlags {
+		fmt.Println(k, "\t\t", v, "\t\t\t")
+	}
 }
 
 func GetMsg(code int) string {
