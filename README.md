@@ -7,7 +7,7 @@
 go + xorm + mysql + redis + rabbitmq + grpc + etcd + protobuf    
 服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq
 protobuf v3     
-![avatar](https://www.processon.com/view/link/5f9c248de401fd767b5395f1)
+![avatar](./系统架构设计.png)
 #### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
