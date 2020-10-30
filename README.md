@@ -50,7 +50,7 @@ gRPC应用模板：https://gitee.com/kelvins-io/kelvins-template
 脚手架：https://gitee.com/kelvins-io/kelvins
 
 
-#### 安装教程
+#### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   
 监控地址：http://localhost:52002/debug/pprof/   
 
@@ -535,7 +535,7 @@ goods示范
 }]
 ```
 
-#### 使用说明
+#### 配置说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   
 请先将根目录micro-mall.sql导入数据库创建相应的表   
 
