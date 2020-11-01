@@ -67,8 +67,10 @@ gRPC应用模板：https://gitee.com/kelvins-io/kelvins-template
 
 #### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   
-监控地址：http://localhost:52002/debug/pprof/   
-
+监控地址：   
+pprof：http://localhost:52002/debug/pprof/   
+Elastic：http://localhost:52002/debug/vars   
+Prometheus：http://localhost:52002/metrics   
 
 返回码code：   
 200 		 ok   
