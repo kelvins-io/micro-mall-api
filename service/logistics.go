@@ -53,10 +53,20 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		retCode = code.ERROR
 		return
 	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == logistics_business.RetCode_ERROR {
+	if rsp == nil || rsp.Common == nil {
 		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, rsp: %+v", serverName, err, rsp)
 		retCode = code.ERROR
 		return
+	}
+	if rsp.Common.Code != logistics_business.RetCode_SUCCESS {
+		switch rsp.Common.Code {
+		case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
+			retCode = code.LOGISTICS_RECORD_EXIST
+			return
+		case logistics_business.RetCode_LOGISTICS_CODE_NOT_EXIST:
+			retCode = code.LOGISTICS_RECORD_NOT_EXIST
+			return
+		}
 	}
 	result.LogisticsCode = rsp.LogisticsCode
 	return result, retCode

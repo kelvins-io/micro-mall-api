@@ -20,54 +20,55 @@ import (
 	"time"
 )
 
-func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (*args.RegisterUserRsp, int) {
+func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.RegisterUserRsp, int) {
 	var result args.RegisterUserRsp
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodeRegister,
-		countryCode:  userInfo.CountryCode,
-		phone:        userInfo.Phone,
-		verifyCode:   userInfo.VerifyCode,
+		countryCode:  req.CountryCode,
+		phone:        req.Phone,
+		verifyCode:   req.VerifyCode,
 	}
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
 		return &result, retCode
 	}
 
-	exist, err := repository.CheckUserExistByPhone(userInfo.CountryCode, userInfo.Phone)
+	exist, err := repository.CheckUserExistByPhone(req.CountryCode, req.Phone)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CheckUserExistByPhone err: %v, userInfo: %+v", err, userInfo)
+		vars.ErrorLogger.Errorf(ctx, "CheckUserExistByPhone err: %v, userInfo: %+v", err, req)
 		return &result, code.ERROR
 	}
 	if exist {
 		return &result, code.ERROR_USER_EXIST
 	}
-
-	// 检查邀请码
-	userRecord, err := repository.GetUserByInviteCode(userInfo.InviteCode)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserByInviteCode err: %v, InviteCode: %+v", err, userInfo.InviteCode)
-		return &result, code.ERROR
+	inviteId := 0
+	if req.InviteCode != "" {
+		// 检查邀请码
+		userRecord, err := repository.GetUserByInviteCode(req.InviteCode)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetUserByInviteCode err: %v, InviteCode: %+v", err, req.InviteCode)
+			return &result, code.ERROR
+		}
+		if userRecord.Id <= 0 {
+			return &result, code.ERROR_INVITE_CODE_NOT_EXIST
+		}
+		inviteId = userRecord.Id
 	}
-	if userRecord.Id <= 0 {
-		return &result, code.ERROR_INVITE_CODE_NOT_EXIST
-	}
-
 	salt := password.GenerateSalt()
-	pwd := password.GeneratePassword(userInfo.Password, salt)
-
+	pwd := password.GeneratePassword(req.Password, salt)
 	var user = mysql.UserInfo{
 		AccountId:    GenAccountId(),
-		UserName:     userInfo.UserName,
+		UserName:     req.UserName,
 		Password:     pwd,
 		PasswordSalt: salt,
-		Sex:          userInfo.Sex,
-		Phone:        userInfo.Phone,
-		CountryCode:  userInfo.CountryCode,
-		Email:        userInfo.Email,
+		Sex:          req.Sex,
+		Phone:        req.Phone,
+		CountryCode:  req.CountryCode,
+		Email:        req.Email,
 		State:        0,
 		IdCardNo: sql.NullString{
-			String: userInfo.IdCardNo,
+			String: req.IdCardNo,
 		},
-		Inviter:    userRecord.Id,
+		Inviter:    inviteId,
 		InviteCode: GenInviterCode(),
 		CreateTime: time.Now(),
 		UpdateTime: time.Now(),
@@ -94,8 +95,8 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (*args.Reg
 		Tag:  args.GetMsg(args.UserStateEventTypeRegister),
 		UUID: genUUID(),
 		Msg: json.MarshalToStringNoError(args.UserRegisterNotice{
-			CountryCode: userInfo.CountryCode,
-			Phone:       userInfo.Phone,
+			CountryCode: req.CountryCode,
+			Phone:       req.Phone,
 			Time:        util.ParseTimeOfStr(time.Now().Unix()),
 			State:       0,
 		}),
@@ -112,7 +113,6 @@ func CreateUser(ctx context.Context, userInfo *args.RegisterUserArgs) (*args.Reg
 
 func LoginUserWithVerifyCode(ctx context.Context, userInfo *args.LoginUserWithVerifyCodeArgs) (string, int) {
 	var token string
-
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodeLogin,
 		countryCode:  userInfo.CountryCode,

@@ -186,6 +186,12 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	case pay_business.RetCode_TRANSACTION_FAILED:
 		retCode = code.TRANSACTION_FAILED
 		return
+	case pay_business.RetCode_TRADE_PAY_RUN:
+		retCode = code.TRADE_PAY_RUN
+		return
+	case pay_business.RetCode_TRADE_PAY_SUCCESS:
+		retCode = code.TRADE_PAY_SUCCESS
+		return
 	}
 	result.IsSuccess = true
 

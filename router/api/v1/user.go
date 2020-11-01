@@ -17,7 +17,6 @@ func RegisterUserApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
 		return
 	}
-
 	rsp, retCode := service.CreateUser(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

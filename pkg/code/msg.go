@@ -36,6 +36,10 @@ var MsgFlags = map[int]string{
 	DECIMAL_PARSE_ERR:             "金额格式解析错误",
 	TRANSACTION_FAILED:            "事务执行失败",
 	TXCODE_NOT_EXIST:              "交易号不存在",
+	TRADE_PAY_RUN:                 "订单正在支付中",
+	TRADE_PAY_SUCCESS:             "订单已完成支付",
+	LOGISTICS_RECORD_EXIST:        "物流记录已存在",
+	LOGISTICS_RECORD_NOT_EXIST:    "物流记录不存在",
 }
 
 func init() {

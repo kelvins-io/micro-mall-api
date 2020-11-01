@@ -174,7 +174,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "a9478d52-f111-45e1-b68a-d602c2f0f1b3")
+	data.Set("tx_code", "54d57f17-7370-4e0b-b838-bd2c5177c924")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -184,6 +184,22 @@ func TestOrderTradePay(t *testing.T) {
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
+}
+
+type ApplyLogisticsArgs struct {
+	Uid          int              `json:"uid"`
+	OutTradeNo   string           `json:"out_trade_no" form:"out_trade_no"`
+	Courier      string           `json:"courier" form:"courier"`
+	CourierType  int              `json:"courier_type" form:"courier_type"`
+	ReceiveType  int              `json:"receive_type" form:"receive_type"`
+	SendUser     string           `json:"send_user" form:"send_user"`
+	SendAddr     string           `json:"send_addr" form:"send_addr"`
+	SendPhone    string           `json:"send_phone" form:"send_phone"`
+	SendTime     string           `json:"send_time" form:"send_time"`
+	ReceiveUser  string           `json:"receive_user" form:"receive_user"`
+	ReceiveAddr  string           `json:"receive_addr" form:"receive_addr"`
+	ReceivePhone string           `json:"receive_phone" form:"receive_phone"`
+	Goods        []GoodsLogistics `json:"goods" form:"goods"`
 }
 
 type GoodsLogistics struct {
@@ -196,35 +212,36 @@ type GoodsLogistics struct {
 func TestLogisticsApply(t *testing.T) {
 	r := baseUrl + logisticsApply
 	t.Logf("request url: %s", r)
-	data := url.Values{}
-	data.Set("out_trade_no", "a9478d52-f111-45e1-b68a-d602c2f0f1b3")
-	data.Set("courier", "微商城快递")
-	data.Set("courier_type", "1")
-	data.Set("receive_type", "1")
-	data.Set("send_user", "李云龙")
-	data.Set("send_addr", "河北省石家庄市丰县迎宾路123号")
-	data.Set("send_phone", "18319430520")
-	data.Set("send_time", "2020-10-09 12:12:12")
-	data.Set("receive_user", "马司令")
-	data.Set("receive_addr", "浙江省杭州市余杭区西湖南路111雅静别院")
-	data.Set("receive_phone", "18319430520")
-	goods := []GoodsLogistics{
-		{
-			SkuCode: "2131d-f111-45e1-b68a-d602c2f0f1b3",
-			Name:    "怡宝矿泉水",
-			Kind:    "饮用水",
-			Count:   98,
+	applyReq := ApplyLogisticsArgs{
+		Uid:          0,
+		OutTradeNo:   "a9478d52-f111-45e1-b68a-d602c2f0f1b30",
+		Courier:      "微商城快递",
+		CourierType:  1,
+		ReceiveType:  1,
+		SendUser:     "李云龙",
+		SendAddr:     "河北省石家庄市丰县迎宾路123号",
+		SendPhone:    "18319430520",
+		SendTime:     "2020-10-09 12:12:12",
+		ReceiveUser:  "马司令",
+		ReceiveAddr:  "浙江省杭州市余杭区西湖南路111雅静别院",
+		ReceivePhone: "18319430520",
+		Goods: []GoodsLogistics{
+			{
+				SkuCode: "2131d-f111-45e1-b68a-d602c2f0f1b3",
+				Name:    "怡宝矿泉水",
+				Kind:    "饮用水",
+				Count:   98,
+			},
 		},
 	}
-	log.Println(json.MarshalToStringNoError(goods))
-	data.Set("goods", json.MarshalToStringNoError(goods))
+	data := json.MarshalToStringNoError(applyReq)
 	t.Logf("req data: %v", data)
-	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	req, err := http.NewRequest("POST", r, strings.NewReader(data))
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
@@ -300,7 +317,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "18319430520")
-	data.Set("business_type", "3")
+	data.Set("business_type", "1")
 	data.Set("receive_email", "565608463@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -321,10 +338,10 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("password", "07030501310")
 	data.Set("sex", "1")
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430521")
+	data.Set("phone", "18319430520")
 	data.Set("email", "1225807604@qq.com")
-	data.Set("verify_code", "321754")
-	data.Set("invite_code", "46a576fc4000065")
+	data.Set("verify_code", "790109")
+	data.Set("invite_code", "")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -359,7 +376,7 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "15501707783")
+	data.Set("phone", "18319430520")
 	data.Set("password", "07030501310")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -466,7 +483,7 @@ func TestShopBusinessApply(t *testing.T) {
 	data.Set("nick_name", "良品铺子京东旗舰店")
 	data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
 	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
-	data.Set("merchant_id", "1015")
+	data.Set("merchant_id", "10032")
 	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -489,7 +506,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "29912")
+	data.Set("shop_id", "30047")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "盼盼铜锣烧")
 	data.Set("price", "29.32")

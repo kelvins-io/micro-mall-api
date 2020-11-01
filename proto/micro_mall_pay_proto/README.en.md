@@ -1,7 +1,7 @@
-# micro-mall-api
+# micro-mall-pay-proto
 
 #### Description
-微商城-api
+微商城-支付系统proto
 
 #### Software Architecture
 Software architecture description

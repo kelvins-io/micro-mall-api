@@ -4,10 +4,10 @@
 微商城-api
 
 #### 软件架构
-go + xorm + mysql + redis + rabbitmq + grpc + etcd + protobuf    
+go + xorm + mysql + redis + rabbitmq + grpc + etcd + protobuf + prometheus     
 服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq
 protobuf v3     
-![avatar](./系统架构设计.png)
+![avatar](./微商城系统架构设计.png)
 #### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
