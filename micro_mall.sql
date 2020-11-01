@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 18/10/2020 20:56:19
+ Date: 01/11/2020 13:29:08
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `account` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `account_index` (`owner`,`account_type`,`coin_type`) USING BTREE COMMENT '账户索引',
   KEY `create_time_index` (`create_time`) USING BTREE COMMENT '创建时间'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='账户表';
 
 -- ----------------------------
 -- Table structure for config_kv_store
@@ -56,6 +56,25 @@ CREATE TABLE `config_kv_store` (
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COMMENT='参数配置';
 
 -- ----------------------------
+-- Table structure for logistics_record
+-- ----------------------------
+DROP TABLE IF EXISTS `logistics_record`;
+CREATE TABLE `logistics_record` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `logistics_code` char(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '物流单号',
+  `location` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '位置',
+  `state` tinyint DEFAULT '0' COMMENT '当前状态',
+  `description` text COLLATE utf8mb4_general_ci COMMENT '描述',
+  `flag` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标记',
+  `operator` varchar(512) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作员',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `logistics_code_index` (`logistics_code`) USING BTREE COMMENT '物流单号',
+  KEY `operator_index` (`operator`) USING BTREE COMMENT '操作员'
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物流记录';
+
+-- ----------------------------
 -- Table structure for merchant
 -- ----------------------------
 DROP TABLE IF EXISTS `merchant`;
@@ -73,7 +92,7 @@ CREATE TABLE `merchant` (
   PRIMARY KEY (`merchant_id`),
   UNIQUE KEY `uid_index` (`uid`) USING BTREE COMMENT '商户用户ID',
   KEY `merchant_code_index` (`merchant_code`) USING BTREE COMMENT '商户code唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1028 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商户属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=1034 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商户属性表';
 
 -- ----------------------------
 -- Table structure for order
@@ -108,7 +127,58 @@ CREATE TABLE `order` (
   KEY `shop_name_index` (`shop_name`) USING BTREE COMMENT '店铺名索引',
   KEY `description_index` (`description`) USING BTREE COMMENT '订单描述索引',
   KEY `order_time_index` (`order_time`) USING BTREE COMMENT '订单创建时间索引'
-) ENGINE=InnoDB AUTO_INCREMENT=142 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8 COMMENT='订单表';
+
+-- ----------------------------
+-- Table structure for order_estimate
+-- ----------------------------
+DROP TABLE IF EXISTS `order_estimate`;
+CREATE TABLE `order_estimate` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `estimate_code` char(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '评论code',
+  `sku_code` char(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '商品sku',
+  `order_code` char(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '订单code',
+  `uid` bigint DEFAULT NULL COMMENT '用户uid',
+  `shop_id` bigint DEFAULT NULL COMMENT '店铺ID',
+  `content` text COLLATE utf8mb4_general_ci COMMENT '内容',
+  `star` int DEFAULT NULL COMMENT '星级',
+  `state` tinyint DEFAULT '0' COMMENT '状态，0-有效',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `estimate_code_shop_id` (`estimate_code`,`shop_id`) USING BTREE COMMENT '评论code-店铺ID',
+  KEY `uid_index` (`uid`) USING BTREE COMMENT '用户ID',
+  KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID',
+  KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code'
+) ENGINE=InnoDB AUTO_INCREMENT=500 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单评论表';
+
+-- ----------------------------
+-- Table structure for order_logistics
+-- ----------------------------
+DROP TABLE IF EXISTS `order_logistics`;
+CREATE TABLE `order_logistics` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+  `logistics_code` char(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '运单号',
+  `order_code` char(40) COLLATE utf8mb4_general_ci NOT NULL COMMENT '订单ID',
+  `state` tinyint DEFAULT NULL COMMENT '物流状态，0-已下单，1-已取消，2-延迟处理，3-仓库处理中，4-运输中，5-派送中，6-已签收',
+  `courier` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '国内承运人',
+  `from_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '发货地址',
+  `to_address` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收获地址',
+  `sender` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '发货人',
+  `receiver` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接收人',
+  `receiver_phone` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收货人联系方式',
+  `sender_phone` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '发送人联系方式',
+  `transport_kind` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '运送方式',
+  `receiver_kind` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '收货方式',
+  `goods` text COLLATE utf8mb4_general_ci COMMENT '货物',
+  `send_time` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '派送时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `logistics_code_order_code` (`logistics_code`,`order_code`) USING BTREE COMMENT '物流单号-订单号',
+  KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单号',
+  KEY `courier_index` (`courier`) USING BTREE COMMENT '国内承运人'
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单物流表';
 
 -- ----------------------------
 -- Table structure for order_sku
@@ -129,7 +199,7 @@ CREATE TABLE `order_sku` (
   KEY `name_index` (`name`) USING BTREE COMMENT '商品名称索引',
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺索引',
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku索引'
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
 
 -- ----------------------------
 -- Table structure for pay_record
@@ -157,7 +227,7 @@ CREATE TABLE `pay_record` (
   KEY `merchant_index` (`merchant`) USING BTREE COMMENT '外部商户ID',
   KEY `user_index` (`user`) USING BTREE COMMENT '外部用户ID',
   KEY `tx_id_index` (`tx_id`) USING BTREE COMMENT '批次交易号'
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8 COMMENT='支付记录';
+) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8 COMMENT='支付记录';
 
 -- ----------------------------
 -- Table structure for shop_business
@@ -183,7 +253,7 @@ CREATE TABLE `shop_business` (
   UNIQUE KEY `legal_person_nick_name_index` (`legal_person`,`nick_name`) USING BTREE COMMENT '法人店铺名索引',
   UNIQUE KEY `shop_code_index` (`shop_code`) USING BTREE COMMENT '店铺唯一code',
   KEY `legal_person_index` (`legal_person`) USING BTREE COMMENT '店铺f法人'
-) ENGINE=InnoDB AUTO_INCREMENT=30046 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='店铺主体登记表';
+) ENGINE=InnoDB AUTO_INCREMENT=30048 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='店铺主体登记表';
 
 -- ----------------------------
 -- Table structure for sku_inventory
@@ -273,7 +343,7 @@ CREATE TABLE `transaction` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
 
 -- ----------------------------
 -- Table structure for user
@@ -303,7 +373,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `id_card_no_index` (`id_card_no`) USING BTREE COMMENT '身份证号索引',
   KEY `user_name_index` (`user_name`) USING BTREE COMMENT '用户名索引',
   KEY `email_index` (`email`) USING BTREE COMMENT '邮箱索引'
-) ENGINE=InnoDB AUTO_INCREMENT=10032 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=10033 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 -- ----------------------------
 -- Table structure for user_trolley
@@ -345,6 +415,6 @@ CREATE TABLE `verify_code_record` (
   KEY `country_code_phone_index` (`country_code`,`phone`) USING BTREE COMMENT '手机号索引',
   KEY `email_index` (`email`) USING BTREE COMMENT '邮箱索引',
   KEY `verify_code_index` (`verify_code`) USING BTREE COMMENT '验证码索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1064 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证码记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1066 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证码记录表';
 
 SET FOREIGN_KEY_CHECKS = 1;

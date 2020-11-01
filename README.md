@@ -4,10 +4,25 @@
 微商城-api
 
 #### 软件架构
-go + xorm + mysql + redis + rabbitmq + grpc + etcd + protobuf + prometheus     
+go + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
 服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq
 protobuf v3     
+
+存储说明：   
+MySQL 主存储，事务处理   
+MongoDB：备份仓库，商品价格变化，商品详情（如./sku_property_ex.json），历史记录   
+Redis：数据缓存，消息事件结果，用户在线状态，分布式锁支持   
+rabbitMQ：消息事件中转站，订阅   
+ETCD：配置项，微服务注册，发现，分布式锁支持   
+
+监控说明：   
+pprof接口   
+elastic_metrics接口  
+prometheus_metrics接口   
+
+架构示意图：   
 ![avatar](./微商城系统架构设计.png)
+
 #### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
