@@ -11,7 +11,58 @@ service UsersService {
             get: "/v1/user/info"
         };
     }
-
+    // 获取用户信息-手机号
+    rpc GetUserInfoByPhone(GetUserInfoByPhoneRequest) returns (GetUserInfoByPhoneResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/phone"
+        };
+    }
+    // 检查用户是否注册-手机号
+    rpc CheckUserByPhone(CheckUserByPhoneRequest) returns(CheckUserByPhoneResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/exist/phone"
+        };
+    }
+    // 根据邀请码获取邀请人
+    rpc GetUserInfoByInviteCode(GetUserByInviteCodeRequest) returns (GetUserByInviteCodeResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/invite_code"
+        };
+    }
+    // 注册用户
+    rpc Register(RegisterRequest) returns (RegisterResponse) {
+        option (google.api.http) = {
+            post: "/v1/user/register"
+            body: "*"
+        };
+    }
+    // 登录
+    rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/login"
+            body: "*"
+        };
+    }
+    // 检查用户身份
+    rpc CheckUserIdentity(CheckUserIdentityRequest) returns (CheckUserIdentityResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/identity"
+        };
+    }
+    // 重置登录密码
+    rpc PasswordReset(PasswordResetRequest) returns (PasswordResetResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/password/reset"
+            body: "*"
+        };
+    }
+    // 更新用户登录态
+    rpc UpdateUserLoginState(UpdateUserLoginStateRequest) returns (UpdateUserLoginStateResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/state/login"
+            body: "*"
+        };
+    }
 }
 
 service MerchantsService {
@@ -51,6 +102,10 @@ enum RetCode {
     USER_EXIST = 50002;
     MERCHANT_NOT_EXIST = 50003;
     MERCHANT_EXIST = 50004;
+    ACCOUNT_EXIST = 50005;
+    ACCOUNT_NOT_EXIST = 50006;
+    USER_PWD_NOT_MATCH = 50007;
+    USER_LOGIN_NOT_ALLOW = 50008;
 }
 
 enum OperationType {
@@ -58,6 +113,159 @@ enum OperationType {
     UPDATE = 1;
     DELETE = 2;
     AUDIT = 3;
+}
+
+enum CoinType {
+    CNY = 0;
+    USD = 1;
+}
+
+enum AccountState {
+    NORMAL = 0;
+    LOCK = 1;
+    INVALID = 2;
+}
+
+enum AccountType {
+    PERSONAL = 0;
+    COMPANY = 1;
+    SYSTEM = 2;
+}
+
+enum LoginType {
+    PWD = 0;
+    VERIFY_CODE = 1;
+    TOKEN = 2;
+}
+
+message Email {
+    string content = 1;
+}
+
+message MobilePhone {
+    string country_code = 1;
+    string phone = 2;
+}
+
+enum LoginPwdKind {
+    MOBILE_PHONE = 0;
+    EMAIL = 1;
+}
+message LoginByPassword {
+    LoginPwdKind login_kind = 1; // 登录类型，数值代表info的序号
+    oneof info {
+        Email email = 100;
+        MobilePhone phone = 101;
+    }
+    string pwd = 2;
+}
+
+message LoginVerifyCode {
+    MobilePhone phone = 1;
+    string verify_code = 3;
+}
+
+message LoginToken {
+    string token = 1;
+}
+
+message CheckUserIdentityRequest {
+    string country_code = 1;
+    string phone = 2;
+    string pwd = 3;
+}
+
+message CheckUserIdentityResponse {
+    CommonResponse common =1;
+}
+
+message GetUserByInviteCodeRequest {
+    string invite_code = 1;
+}
+
+message GetUserByInviteCodeResponse {
+    CommonResponse common =1;
+    UserInfo info = 2;
+}
+
+message LoginUserRequest {
+    LoginType login_type = 1;
+    oneof login_info {
+        LoginByPassword pwd = 100;
+        LoginVerifyCode verify_code = 101;
+        LoginToken token = 102;
+    }
+}
+
+message LoginUserResponse {
+    CommonResponse common = 1;
+    string identity_token = 2;
+}
+
+message PasswordResetRequest {
+    int64 uid = 1;
+    string pwd = 2;
+}
+
+message PasswordResetResponse {
+    CommonResponse common = 1;
+}
+
+message UserLoginState {
+    string content = 1;
+    int64 time = 2;
+}
+
+message UpdateUserLoginStateRequest {
+    int64 uid = 1;
+    UserLoginState state = 2;
+}
+
+message UpdateUserLoginStateResponse {
+    CommonResponse common = 1;
+}
+
+message RegisterRequest {
+    string user_name = 1;
+    int32 sex = 2;
+    string country_code = 3;
+    string phone = 4;
+    string email = 5;
+    int32 state = 6;
+    string id_card_no = 7;
+    int64 inviter_user = 8;
+    string contact_addr = 9;
+    int32 age = 10;
+    string password  = 11;
+}
+
+message RegisterResult {
+    string invite_code = 3;
+}
+
+message RegisterResponse {
+    CommonResponse common = 1;
+    RegisterResult result = 2;
+}
+
+message CheckUserByPhoneRequest {
+    string country_code = 1;
+    string phone = 2;
+}
+
+message CheckUserByPhoneResponse {
+    CommonResponse common =1;
+    bool is_exist = 2;
+}
+
+message GetUserInfoByPhoneRequest {
+    string country_code = 1;
+    string phone = 2;
+}
+
+message GetUserInfoByPhoneResponse {
+    CommonResponse common =1;
+    UserInfo info = 2;
 }
 
 message GetUserInfoRequest {
@@ -95,6 +303,8 @@ message MerchantsMaterialInfo {
     int32 identity =5;
     int32 state =6;
     string tax_card_no =7;
+    string create_time = 8;
+    string update_time = 9;
 }
 
 message MerchantsMaterialRequest {

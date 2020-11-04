@@ -54,6 +54,7 @@ type RegisterUserArgs struct {
 	Email       string `form:"email" json:"email"`
 	CountryCode string `form:"country_code" json:"country_code"`
 	Phone       string `form:"phone" json:"phone"`
+	Age         int    `json:"age" form:"age"`
 	VerifyCode  string `form:"verify_code" json:"verify_code"`
 	IdCardNo    string `form:"id_card_no" json:"id_card_no"`
 	InviteCode  string `form:"invite_code" json:"invite_code"`
@@ -279,9 +280,13 @@ type SkuRemoveUserTrolleyArgs struct {
 	Uid     int
 	SkuCode string `form:"sku_code" json:"sku_code"`
 	ShopId  int    `form:"shop_id" json:"shop_id"`
+	Amount  int    `json:"amount" form:"amount"`
 }
 
 func (t *SkuRemoveUserTrolleyArgs) Valid(v *validation.Validation) {
+	if t.Amount <= 0 {
+		t.Amount = 1
+	}
 	if t.SkuCode == "" {
 		v.SetError("SkuCode", "商品唯一code不能为空")
 	}

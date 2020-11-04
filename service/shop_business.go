@@ -41,7 +41,7 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil {
+	if rsp == nil || rsp.Common == nil || rsp.Common.Code == shop_business.RetCode_ERROR {
 		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, rsp: %+v", serverName, err, rsp)
 		return &result, code.ERROR
 	}

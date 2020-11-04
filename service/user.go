@@ -2,26 +2,22 @@ package service
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
-	"gitee.com/cristiane/go-common/json"
-	"gitee.com/cristiane/go-common/password"
 	"gitee.com/cristiane/go-common/random"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/model/mysql"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
-	"gitee.com/cristiane/micro-mall-api/pkg/util/cache"
 	"gitee.com/cristiane/micro-mall-api/pkg/util/email"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/repository"
 	"gitee.com/cristiane/micro-mall-api/vars"
-	"strings"
 	"time"
 )
 
 func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.RegisterUserRsp, int) {
 	var result args.RegisterUserRsp
+	// 检查验证码
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodeRegister,
 		countryCode:  req.CountryCode,
@@ -31,214 +27,224 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
 		return &result, retCode
 	}
-
-	exist, err := repository.CheckUserExistByPhone(req.CountryCode, req.Phone)
+	// 通过手机号查询用户是否存在
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CheckUserExistByPhone err: %v, userInfo: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	if exist {
+	defer conn.Close()
+
+	client := users.NewUsersServiceClient(conn)
+	checkUserReq := users.CheckUserByPhoneRequest{
+		CountryCode: req.CountryCode,
+		Phone:       req.Phone,
+	}
+	checkResult, err := client.CheckUserByPhone(ctx, &checkUserReq)
+	if err != nil || checkResult.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "CheckUserByPhone %v,err: %v,r : %+v", serverName, checkUserReq)
+		return &result, code.ERROR
+	}
+	if checkResult.IsExist {
 		return &result, code.ERROR_USER_EXIST
 	}
-	inviteId := 0
+	inviteId := int64(0)
 	if req.InviteCode != "" {
 		// 检查邀请码
-		userRecord, err := repository.GetUserByInviteCode(req.InviteCode)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserByInviteCode err: %v, InviteCode: %+v", err, req.InviteCode)
+		inviteUserReq := &users.GetUserByInviteCodeRequest{InviteCode: req.InviteCode}
+		inviteUser, err := client.GetUserInfoByInviteCode(ctx, inviteUserReq)
+		if err != nil || inviteUser.Common.Code != users.RetCode_SUCCESS {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode %v,err: %v,r : %+v", serverName, inviteUserReq)
 			return &result, code.ERROR
 		}
-		if userRecord.Id <= 0 {
+		if inviteUser.Info.Uid <= 0 {
 			return &result, code.ERROR_INVITE_CODE_NOT_EXIST
 		}
-		inviteId = userRecord.Id
+		inviteId = int64(int(inviteUser.Info.Uid))
 	}
-	salt := password.GenerateSalt()
-	pwd := password.GeneratePassword(req.Password, salt)
-	var user = mysql.UserInfo{
-		AccountId:    GenAccountId(),
-		UserName:     req.UserName,
-		Password:     pwd,
-		PasswordSalt: salt,
-		Sex:          req.Sex,
-		Phone:        req.Phone,
-		CountryCode:  req.CountryCode,
-		Email:        req.Email,
-		State:        0,
-		IdCardNo: sql.NullString{
-			String: req.IdCardNo,
-		},
-		Inviter:    inviteId,
-		InviteCode: GenInviterCode(),
-		CreateTime: time.Now(),
-		UpdateTime: time.Now(),
+	// 注册用户
+	registerReq := &users.RegisterRequest{
+		UserName:    req.UserName,
+		Sex:         int32(req.Sex),
+		CountryCode: req.CountryCode,
+		Phone:       req.Phone,
+		Email:       req.Email,
+		IdCardNo:    req.IdCardNo,
+		InviterUser: inviteId,
+		ContactAddr: req.Email,
+		Age:         int32(req.Age),
+		Password:    req.Password,
 	}
-	err = repository.CreateUser(&user)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CreateUser err: %v, user: %+v", err, user)
-		if strings.Contains(err.Error(), code.GetMsg(code.DB_DUPLICATE_ENTRY)) {
-			return &result, code.ERROR_USER_EXIST
-		}
+	registerRsp, err := client.Register(ctx, registerReq)
+	if err != nil || registerRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode %v,err: %v,r : %+v", serverName, registerReq)
 		return &result, code.ERROR
 	}
-	result.InviteCode = user.InviteCode
-
-	pushNoticeService := NewPushNoticeService(vars.QueueServerUserRegisterNotice, PushMsgTag{
-		DeliveryTag:    args.TaskNameUserRegisterNotice,
-		DeliveryErrTag: args.TaskNameUserRegisterNoticeErr,
-		RetryCount:     vars.QueueAMQPSettingUserRegisterNotice.TaskRetryCount,
-		RetryTimeout:   vars.QueueAMQPSettingUserRegisterNotice.TaskRetryTimeout,
-	})
-
-	businessMsg := args.CommonBusinessMsg{
-		Type: args.UserStateEventTypeRegister,
-		Tag:  args.GetMsg(args.UserStateEventTypeRegister),
-		UUID: genUUID(),
-		Msg: json.MarshalToStringNoError(args.UserRegisterNotice{
-			CountryCode: req.CountryCode,
-			Phone:       req.Phone,
-			Time:        util.ParseTimeOfStr(time.Now().Unix()),
-			State:       0,
-		}),
+	switch registerRsp.Common.Code {
+	case users.RetCode_USER_EXIST:
+		return &result, code.ERROR_USER_EXIST
 	}
-	taskUUID, retCode := pushNoticeService.PushMessage(ctx, businessMsg)
-	if retCode != code.SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "businessMsg: %+v register notice send err: ", businessMsg, code.GetMsg(retCode))
-		return &result, code.ERROR
-	}
-	vars.BusinessLogger.Infof(ctx, "businessMsg: %+v register notice taskUUID :%v", businessMsg, taskUUID)
+	result.InviteCode = registerRsp.Result.InviteCode
 
 	return &result, code.SUCCESS
 }
 
-func LoginUserWithVerifyCode(ctx context.Context, userInfo *args.LoginUserWithVerifyCodeArgs) (string, int) {
+func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (string, int) {
 	var token string
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodeLogin,
-		countryCode:  userInfo.CountryCode,
-		phone:        userInfo.Phone,
-		verifyCode:   userInfo.VerifyCode,
+		countryCode:  req.CountryCode,
+		phone:        req.Phone,
+		verifyCode:   req.VerifyCode,
 	}
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
 		return token, retCode
 	}
 
-	user, err := repository.GetUserByPhone(userInfo.CountryCode, userInfo.Phone)
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserByPhone err: %v, userInfo: %+v", err, userInfo)
-		return token, code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return "", code.ERROR
 	}
-	if user.Id == 0 {
-		return token, code.ERROR_USER_NOT_EXIST
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	loginReq := &users.LoginUserRequest{
+		LoginType: users.LoginType_VERIFY_CODE,
+		LoginInfo: &users.LoginUserRequest_VerifyCode{
+			VerifyCode: &users.LoginVerifyCode{
+				Phone: &users.MobilePhone{
+					CountryCode: req.CountryCode,
+					Phone:       req.Phone,
+				},
+				VerifyCode: req.VerifyCode,
+			},
+		},
+	}
+	loginRsp, err := client.LoginUser(ctx, loginReq)
+	if err != nil || loginRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "LoginUser %v,err: %v,r : %+v", serverName, loginReq)
+		return "", code.ERROR
+	}
+	token = loginRsp.IdentityToken
+	switch loginRsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		return "", code.ERROR_USER_NOT_EXIST
+	case users.RetCode_USER_PWD_NOT_MATCH:
+		return "", code.ERROR_USER_PWD
+	case users.RetCode_USER_LOGIN_NOT_ALLOW:
+		return "", code.USER_LOGIN_NOT_ALLOW
 	}
 
-	token, err = util.GenerateToken(user.UserName, user.Id)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GenerateToken err: %v, user: %+v", err, user)
-		return token, code.ERROR
-	}
-
-	return token, updateUserStateLogin(ctx, user.Id)
+	return token, code.SUCCESS
 }
 
 func updateUserStateLogin(ctx context.Context, uid int) int {
-	state := args.UserOnlineState{
-		Uid:   uid,
-		State: "online",
-		Time:  util.ParseTimeOfStr(time.Now().Unix()),
-	}
-	userLoginKey := fmt.Sprintf("%v%d", args.CacheKeyUserSate, uid)
-	err := cache.Set(vars.RedisPoolMicroMall, userLoginKey, json.MarshalToStringNoError(state), 7200)
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "setUserState err: %v, userLoginKey: %+v", err, userLoginKey)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return code.ERROR
+	}
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	req := &users.UpdateUserLoginStateRequest{
+		Uid: int64(uid),
+		State: &users.UserLoginState{
+			Content: "online",
+			Time:    time.Now().Unix(),
+		},
+	}
+	rsp, err := client.UpdateUserLoginState(ctx, req)
+	if err != nil || rsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState %v,err: %v, req: %+v", serverName, err, req)
 		return code.ERROR
 	}
 	return code.SUCCESS
 }
 
-func LoginUserWithPwd(ctx context.Context, userInfo *args.LoginUserWithPwdArgs) (string, int) {
+func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (string, int) {
 	var token string
-	user, err := repository.GetUserByPhone(userInfo.CountryCode, userInfo.Phone)
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserByPhone err: %v, userInfo: %+v", err, userInfo)
-		return token, code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return "", code.ERROR
 	}
-	if user.Id == 0 {
-		return token, code.ERROR_USER_NOT_EXIST
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	loginReq := &users.LoginUserRequest{
+		LoginType: users.LoginType_PWD,
+		LoginInfo: &users.LoginUserRequest_Pwd{
+			Pwd: &users.LoginByPassword{
+				LoginKind: users.LoginPwdKind_MOBILE_PHONE,
+				Info: &users.LoginByPassword_Phone{
+					Phone: &users.MobilePhone{
+						CountryCode: req.CountryCode,
+						Phone:       req.Phone,
+					},
+				},
+				Pwd: req.Password,
+			},
+		},
+	}
+	loginRsp, err := client.LoginUser(ctx, loginReq)
+	if err != nil || loginRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "LoginUser %v,err: %v,r : %+v", serverName, loginReq)
+		return "", code.ERROR
+	}
+	token = loginRsp.IdentityToken
+	switch loginRsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		return "", code.ERROR_USER_NOT_EXIST
+	case users.RetCode_USER_PWD_NOT_MATCH:
+		return "", code.ERROR_USER_PWD
+	case users.RetCode_USER_LOGIN_NOT_ALLOW:
+		return "", code.USER_LOGIN_NOT_ALLOW
 	}
 
-	if !password.Check(user.Password, user.PasswordSalt, userInfo.Password) {
-		return token, code.ERROR_USER_PWD
-	}
-
-	token, err = util.GenerateToken(user.UserName, user.Id)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GenerateToken err: %v, user: %+v", err, user)
-		return token, code.ERROR
-	}
-
-	return token, updateUserStateLogin(ctx, user.Id)
+	return token, code.SUCCESS
 }
 
 func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
-	user, err := repository.GetUserByUid(req.Uid)
+	conn, err := util.GetGrpcClient(args.RpcServiceMicroMallUsers)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserByPhone err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", args.RpcServiceMicroMallUsers, err)
 		return code.ERROR
 	}
-	if user.Id == 0 {
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	userInfoReq := &users.GetUserInfoRequest{Uid: int64(req.Uid)}
+	userInfoRsp, err := client.GetUserInfo(ctx, userInfoReq)
+	if err != nil || userInfoRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", args.RpcServiceMicroMallUsers, err, userInfoReq)
+		return code.ERROR
+	}
+	if userInfoRsp.Common.Code == users.RetCode_USER_NOT_EXIST || userInfoRsp.Info.Uid <= 0 {
 		return code.ERROR_USER_NOT_EXIST
 	}
-
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodePassword,
-		countryCode:  user.CountryCode,
-		phone:        user.Phone,
+		countryCode:  userInfoRsp.Info.CountryCode,
+		phone:        userInfoRsp.Info.Phone,
 		verifyCode:   req.VerifyCode,
 	}
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
 		return retCode
 	}
-
-	query := map[string]interface{}{
-		"country_code": user.CountryCode,
-		"phone":        user.Phone,
+	pwdResetReq := &users.PasswordResetRequest{
+		Uid: int64(req.Uid),
+		Pwd: req.Password,
 	}
-	pwd := password.GeneratePassword(req.Password, user.PasswordSalt)
-	maps := map[string]interface{}{
-		"password": pwd,
-	}
-	err = repository.UpdateUserInfo(query, maps)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "UpdateUserInfo err: %v, query: %+v，maps： %+v", err, query, maps)
+	pwdResetRsp, err := client.PasswordReset(ctx, pwdResetReq)
+	if err != nil || pwdResetRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "PasswordReset %v,err: %v, req: %+v", args.RpcServiceMicroMallUsers, err, pwdResetReq)
 		return code.ERROR
 	}
-
-	// 触发密码变更消息
-	pushNoticeService := NewPushNoticeService(vars.QueueServerUserStateNotice, PushMsgTag{
-		DeliveryTag:    args.TaskNameUserStateNotice,
-		DeliveryErrTag: args.TaskNameUserStateNoticeErr,
-		RetryCount:     vars.QueueAMQPSettingUserStateNotice.TaskRetryCount,
-		RetryTimeout:   vars.QueueAMQPSettingUserStateNotice.TaskRetryTimeout,
-	})
-
-	businessMsg := args.CommonBusinessMsg{
-		Type: args.UserStateEventTypePwdModify,
-		Tag:  args.GetMsg(args.UserStateEventTypePwdModify),
-		UUID: genUUID(),
-		Msg: json.MarshalToStringNoError(args.UserStateNotice{
-			Uid:  user.Id,
-			Time: util.ParseTimeOfStr(time.Now().Unix()),
-		}),
+	if pwdResetRsp.Common.Code == users.RetCode_USER_NOT_EXIST {
+		return code.ERROR_USER_NOT_EXIST
 	}
-
-	taskUUID, retCode := pushNoticeService.PushMessage(ctx, businessMsg)
-	if retCode != code.SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "Password Reset businessMsg: %+v  notice send err: ", businessMsg, code.GetMsg(retCode))
-		return code.ERROR
-	}
-	vars.BusinessLogger.Infof(ctx, "Password Reset businessMsg: %+v  taskUUID :%v", businessMsg, taskUUID)
-
 	return code.SUCCESS
 }
 
@@ -314,7 +320,7 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 
 	client := users.NewUsersServiceClient(conn)
 	r := users.GetUserInfoRequest{
-		Uid: 10009,
+		Uid: int64(uid),
 	}
 	userInfo, err := client.GetUserInfo(ctx, &r)
 	if err != nil {

@@ -8,16 +8,70 @@ service ShopBusinessService {
     // 提交店铺申请材料
     rpc ShopApply(ShopApplyRequest) returns (ShopApplyResponse) {
         option (google.api.http) = {
-            get: "/v1/shop_business/shop/apply"
+            post: "/v1/shop_business/shop/apply"
+            body:"*"
         };
     }
     // 店铺质押保证金
     rpc ShopPledge(ShopPledgeRequest) returns (ShopPledgeResponse) {
         option (google.api.http) = {
-            get: "/v1/shop_business/shop/pledge"
+            put: "/v1/shop_business/shop/pledge"
+            body:"*"
+        };
+    }
+    // 获取店铺材料
+    rpc GetShopMaterial(GetShopMaterialRequest) returns (GetShopMaterialResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/material"
+        };
+    }
+    // 获取店铺数据
+    rpc GetShopInfo(GetShopInfoRequest) returns (GetShopInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/info"
         };
     }
 
+}
+
+message GetShopInfoRequest {
+    repeated int64 shop_ids = 1;
+}
+
+message GetShopInfoResponse {
+    CommonResponse common = 1;
+    repeated ShopInfo info_list = 2;
+}
+
+message ShopInfo {
+    int64 shop_id = 1;
+    int64 merchant_id = 5; // 店铺法人
+    string full_name = 6;
+    string shop_code = 7;
+}
+
+message ShopMaterial {
+    int64 shop_id = 1;
+    int64 merchant_id = 2; // 店铺法人
+    string nick_name = 3;
+    string full_name = 4;
+    string register_addr = 5;
+    string business_addr = 6;
+    string business_license = 7;
+    string tax_card_no = 8;
+    string business_desc = 9;
+    string social_credit_code = 10;
+    string organization_code = 11;
+    string shop_code = 12;
+}
+
+message GetShopMaterialRequest {
+    int64 shop_id = 1;
+}
+
+message GetShopMaterialResponse {
+    CommonResponse common = 1;
+    ShopMaterial material = 2;
 }
 
 enum RetCode {

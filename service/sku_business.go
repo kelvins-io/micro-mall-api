@@ -58,10 +58,8 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 
 	if rsp.Common.Code == sku_business.RetCode_SHOP_NOT_EXIST {
 		return &result, code.ERROR_SHOP_ID_NOT_EXIST
-	} else if rsp.Common.Code == sku_business.RetCode_SKU_EXIST {
-		return &result, code.ERROR_SHOP_ID_EXIST
-	} else if rsp.Common.Code == sku_business.RetCode_SKU_EXIST {
-		return &result, code.ERROR_SKU_CODE_EXIST
+	} else if rsp.Common.Code == sku_business.RetCode_SKU_NOT_EXIST {
+		return &result, code.ERROR_SKU_CODE_NOT_EXIST
 	}
 
 	return &result, code.SUCCESS

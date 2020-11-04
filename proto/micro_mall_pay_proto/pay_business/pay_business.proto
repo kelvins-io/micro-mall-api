@@ -112,6 +112,7 @@ message TradePayRequest {
     repeated TradePayEntry entry_list = 11; // 可以同时支付多个订单
     int64 op_uid = 12;
     string op_ip = 13;
+    string out_tx_code = 15; // 外部交易号，如果只有一个订单则等于外部订单号
 }
 
 message TradePayEntry {

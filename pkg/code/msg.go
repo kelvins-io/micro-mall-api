@@ -12,6 +12,7 @@ var MsgFlags = map[int]string{
 	ERROR_TOKEN_EXPIRE:            "token过期",
 	ERROR_USER_NOT_EXIST:          "用户不存在",
 	ERROR_USER_EXIST:              "用户已存在",
+	USER_LOGIN_NOT_ALLOW:          "用户暂时不允许登录",
 	ERROR_EMAIL_SEND:              "邮件发送错误",
 	ERROR_VERIFY_CODE_EMPTY:       "验证码为空",
 	ERROR_VERIFY_CODE_INVALID:     "验证码无效",

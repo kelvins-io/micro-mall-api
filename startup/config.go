@@ -8,12 +8,10 @@ import (
 )
 
 const (
-	SectionMysqlMicroMall          = "micro-mall-mysql"
-	SectionRedisMicroMall          = "micro-mall-redis"
-	SectionEmailConfig             = "email-config"
-	SectionVerifyCode              = "micro-mall-verify_code"
-	SectionQueueUserRegisterNotice = "queue-user-register-notice"
-	SectionQueueUserStateNotice    = "queue-user-state-notice"
+	SectionMysqlMicroMall = "micro-mall-mysql"
+	SectionRedisMicroMall = "micro-mall-redis"
+	SectionEmailConfig    = "email-config"
+	SectionVerifyCode     = "micro-mall-verify_code"
 )
 
 // LoadConfig 加载自定义配置项
@@ -36,14 +34,6 @@ func LoadConfig() error {
 	log.Printf("[info] Load default config %s", SectionVerifyCode)
 	vars.VerifyCodeSetting = new(vars.VerifyCodeSettingS)
 	config.MapConfig(SectionVerifyCode, vars.VerifyCodeSetting)
-	// 用户注册通知
-	log.Printf("[info] Load default config %s", SectionQueueUserRegisterNotice)
-	vars.QueueAMQPSettingUserRegisterNotice = new(setting.QueueAMQPSettingS)
-	config.MapConfig(SectionQueueUserRegisterNotice, vars.QueueAMQPSettingUserRegisterNotice)
-	// 用户事件通知
-	log.Printf("[info] Load default config %s", SectionQueueUserStateNotice)
-	vars.QueueAMQPSettingUserStateNotice = new(setting.QueueAMQPSettingS)
-	config.MapConfig(SectionQueueUserStateNotice, vars.QueueAMQPSettingUserStateNotice)
 
 	return nil
 }

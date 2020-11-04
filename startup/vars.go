@@ -41,13 +41,6 @@ func SetupVars() error {
 			return err
 		}
 	}
-	if vars.QueueAMQPSettingUserRegisterNotice != nil && vars.QueueAMQPSettingUserRegisterNotice.Broker != "" {
-		vars.QueueServerUserRegisterNotice = setup.SetUpAMQPQueue(vars.QueueAMQPSettingUserRegisterNotice, nil)
-	}
-
-	if vars.QueueAMQPSettingUserStateNotice != nil && vars.QueueAMQPSettingUserStateNotice.Broker != "" {
-		vars.QueueServerUserStateNotice = setup.SetUpAMQPQueue(vars.QueueAMQPSettingUserStateNotice, nil)
-	}
 
 	return nil
 }
