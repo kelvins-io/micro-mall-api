@@ -20,6 +20,12 @@ service OrderBusinessService {
             get: "/v1/order/detail"
         };
     }
+    // 获取订单商品
+    rpc GetOrderSku(GetOrderSkuRequest) returns (GetOrderSkuResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/sku"
+        };
+    }
 
 }
 
@@ -35,6 +41,7 @@ enum RetCode {
     SKU_NOT_EXIST = 50007;
     SKU_EXIST = 50008;
     SKU_AMOUNT_NOT_ENOUGH = 50009;
+    TRANSACTION_FAILED = 50010;
 }
 
 enum OperationType {
@@ -65,6 +72,20 @@ enum AccountType {
 message CommonResponse {
     RetCode code = 1;
     string msg = 2;
+}
+
+message GetOrderSkuRequest {
+    string tx_code = 1;
+}
+
+message GetOrderSkuResponse {
+    CommonResponse common = 1;
+    repeated OrderSku order_list = 2;
+}
+
+message OrderSku {
+    string order_code = 1;
+    repeated OrderGoods goods = 2; // 商品列表
 }
 
 message GetOrderDetailRequest {

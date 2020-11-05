@@ -177,7 +177,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "ecc0c4d6-9da6-4c78-bacf-1905393bf131")
+	data.Set("tx_code", "dd0488f9-6fe8-4956-a792-dda98871d644")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -253,16 +253,16 @@ func TestTradeCreateOrder(t *testing.T) {
 	r := baseUrl + tradeCreateOrder
 	t.Logf("request url: %s", r)
 	goods1 := OrderShopGoods{
-		SkuCode: "bf756230-3568-4825-8c88-2c592d16b87b",
+		SkuCode: "3084638f-b8a9-4ce1-a7d3-271ec37e1a0e",
 		Price:   "184.32",
-		Amount:  5,
-		Name:    "盼盼铜锣烧",
+		Amount:  1,
+		Name:    "盼盼铜锣烧--01",
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "75b43516-d392-4028-bf30-10d2d54c7ed7",
+		SkuCode: "db696ade-3de2-4417-bea0-9b015da37191",
 		Price:   "184.32",
-		Amount:  5,
-		Name:    "盼盼铜锣烧",
+		Amount:  2,
+		Name:    "盼盼铜锣烧--02",
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
@@ -279,10 +279,10 @@ func TestTradeCreateOrder(t *testing.T) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "4113bf9e-e229-493a-ab1e-018f6a375742",
+		SkuCode: "c09b5af6-4823-41f6-a430-52e48d1b3024",
 		Price:   "184.32",
-		Amount:  5,
-		Name:    "盼盼铜锣烧-2",
+		Amount:  3,
+		Name:    "盼盼铜锣烧--03",
 	}
 	detail2 := OrderShopDetail{
 		ShopId:   30059,
@@ -340,6 +340,7 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("user_name", "杨子")
 	data.Set("password", "07030501310")
 	data.Set("sex", "1")
+	data.Set("age", "28")
 	data.Set("country_code", "86")
 	data.Set("phone", "18319430521")
 	data.Set("email", "1225807604@qq.com")
@@ -483,7 +484,7 @@ func TestShopBusinessApply(t *testing.T) {
 	data := url.Values{}
 	data.Set("operation_type", "0")
 	data.Set("shop_id", "123")
-	data.Set("nick_name", "良品铺子京东旗舰店")
+	data.Set("nick_name", "福建赚它一个亿科技有限公司")
 	data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
 	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
 	data.Set("merchant_id", "1037")
@@ -509,7 +510,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30059")
+	data.Set("shop_id", "30062")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "盼盼铜锣烧")
 	data.Set("price", "29.32")

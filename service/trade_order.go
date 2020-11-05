@@ -61,13 +61,11 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		shopDetail.Goods = orderGoods
 		r.Detail.ShopDetail[i] = shopDetail
 	}
-
 	rsp, err := client.CreateOrder(ctx, &r)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-
 	if rsp == nil || rsp.Common == nil || rsp.Common.Code == order_business.RetCode_ERROR {
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 		return &result, code.ERROR
@@ -83,9 +81,10 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		return &result, code.ERROR_SHOP_BUSINESS_NOT_EXIST
 	case order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH:
 		return &result, code.ERROR_SKU_AMOUNT_NOT_ENOUGH
+	case order_business.RetCode_TRANSACTION_FAILED:
+		return &result, code.TRANSACTION_FAILED
 	}
 	result.TxCode = rsp.TxCode
-
 	return &result, code.SUCCESS
 }
 
@@ -93,7 +92,6 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	result = &args.OrderTradeRsp{}
 	retCode = code.SUCCESS
 	// 根据交易号获取订单详情
-
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
@@ -115,12 +113,10 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		retCode = code.ERROR
 		return
 	}
-
 	if len(rsp.List) == 0 {
 		retCode = code.TXCODE_NOT_EXIST
 		return
 	}
-
 	// 发起支付流程
 	serverName = args.RpcServiceMicroMallPay
 	conn, err = util.GetGrpcClient(serverName)

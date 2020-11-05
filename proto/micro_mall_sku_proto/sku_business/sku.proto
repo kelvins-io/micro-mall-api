@@ -8,14 +8,14 @@ service SkuBusinessService {
     // 上架商品
     rpc PutAwaySku(PutAwaySkuRequest) returns (PutAwaySkuResponse) {
         option (google.api.http) = {
-            post: "/v1/sku/put_away"
+            post: "/v1/sku/inventory/put_away"
             body:"*"
         };
     }
     // 获取店铺sku列表
     rpc GetSkuList(GetSkuListRequest) returns (GetSkuListResponse) {
         option (google.api.http) = {
-            get: "/v1/sku/list"
+            get: "/v1/sku/inventory/list"
         };
     }
     // 补充sku商品属性
@@ -25,12 +25,60 @@ service SkuBusinessService {
             body:"*"
         };
     }
+    // 扣减库存
+    rpc DeductInventory(DeductInventoryRequest) returns (DeductInventoryResponse) {
+        option (google.api.http) = {
+            put: "/v1/sku/inventory/deduct"
+            body:"*"
+        };
+    }
+    // 恢复库存
+    rpc RestoreInventory(RestoreInventoryRequest) returns (RestoreInventoryResponse) {
+        option (google.api.http) = {
+            put: "/v1/sku/inventory/restore"
+            body:"*"
+        };
+    }
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+}
+
+message InventoryEntryShop {
+    int64 shop_id = 1;
+    repeated InventoryEntryDetail detail = 2;
+}
+
+message InventoryEntryDetail {
+    string sku_code = 1;
+    int64 amount = 2;
+}
+
+message DeductInventoryRequest {
+    repeated InventoryEntryShop list = 1;
+    string out_trade_no = 2;
+    OperationMeta operation_meta = 199;
+}
+
+message DeductInventoryResponse {
+    CommonResponse common = 1;
+    bool is_success = 2; // 是否成功，要么全部成功，要么全部失败
+}
+
+message RestoreInventoryRequest {
+    repeated InventoryEntryShop list = 1;
+    string out_trade_no = 2;
+    OperationMeta operation_meta = 199;
+}
+
+message RestoreInventoryResponse {
+    CommonResponse common = 1;
+    bool is_success = 2; // 是否成功，要么全部成功，要么全部失败
 }
 
 message SupplementSkuPropertyRequest {
-    int64 op_uid = 1; // 操作员
-    string op_ip = 2; // 操作员IP
-
     int64 shop_id = 11;
     string sku_code = 12; // 商品唯一sku
     string size = 13;
@@ -39,9 +87,9 @@ message SupplementSkuPropertyRequest {
     string production_date = 16;
     string shelf_life = 17;
     string name = 18;
-
-
-    OperationType operation_type = 4999;
+    string out_trade_no = 2;
+    OperationMeta operation_meta = 199;
+    OperationType operation_type = 299;
 }
 
 message SupplementSkuPropertyResponse {
@@ -49,7 +97,7 @@ message SupplementSkuPropertyResponse {
 }
 
 message GetSkuListRequest {
-    int64 shop_id = 1; // 指定店铺搜索，为0则搜索全部
+    int64 shop_id = 2; // 指定店铺搜索，为0则搜索全部
 }
 
 message GetSkuListResponse {
@@ -78,10 +126,9 @@ message SkuInventoryInfo {
 }
 
 message PutAwaySkuRequest {
-    int64 op_uid = 1; // 操作员
-    string op_ip = 2; // 操作员IP
-    SkuInventoryInfo sku = 3;
+    SkuInventoryInfo sku = 1;
     OperationType operation_type = 299;
+    OperationMeta operation_meta = 300;
 }
 
 message PutAwaySkuResponse {
@@ -99,6 +146,8 @@ enum RetCode {
     SHOP_EXIST = 50006;
     SKU_NOT_EXIST = 50007;
     SKU_EXIST = 50008;
+    SKU_AMOUNT_NOT_ENOUGH = 50009;
+    TRANSACTION_FAILED = 50010;
 }
 
 enum OperationType {
