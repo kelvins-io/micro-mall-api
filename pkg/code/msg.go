@@ -36,6 +36,7 @@ var MsgFlags = map[int]string{
 	MERCHANT_ACCOUNT_STATE_LOCK:   "商户账户被锁定",
 	DECIMAL_PARSE_ERR:             "金额格式解析错误",
 	TRANSACTION_FAILED:            "事务执行失败",
+	TRADE_PAY_EXPIRE:              "支付时间过期",
 	TXCODE_NOT_EXIST:              "交易号不存在",
 	TRADE_PAY_RUN:                 "订单正在支付中",
 	TRADE_PAY_SUCCESS:             "订单已完成支付",

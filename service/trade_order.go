@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -127,7 +126,6 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	}
 	defer conn.Close()
 	payClient := pay_business.NewPayBusinessServiceClient(conn)
-	fmt.Println("rsp.CoinType ==", rsp.CoinType)
 	payR := pay_business.TradePayRequest{
 		Account:   rsp.Account,
 		CoinType:  pay_business.CoinType(rsp.CoinType),
@@ -187,6 +185,9 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		return
 	case pay_business.RetCode_TRADE_PAY_RUN:
 		retCode = code.TRADE_PAY_RUN
+		return
+	case pay_business.RetCode_TRADE_PAY_EXPIRE:
+		retCode = code.TRADE_PAY_EXPIRE
 		return
 	case pay_business.RetCode_TRADE_PAY_SUCCESS:
 		retCode = code.TRADE_PAY_SUCCESS

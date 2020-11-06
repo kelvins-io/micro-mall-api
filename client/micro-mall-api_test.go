@@ -177,7 +177,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "dd0488f9-6fe8-4956-a792-dda98871d644")
+	data.Set("tx_code", "5255cf91-6ab9-4cd2-adb5-3d9c8069d1fd")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -279,13 +279,13 @@ func TestTradeCreateOrder(t *testing.T) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "c09b5af6-4823-41f6-a430-52e48d1b3024",
+		SkuCode: "5a1d0ae1-9f1c-497b-a191-673b3572b0f9",
 		Price:   "184.32",
 		Amount:  3,
 		Name:    "盼盼铜锣烧--03",
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30059,
+		ShopId:   30060,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
@@ -299,7 +299,7 @@ func TestTradeCreateOrder(t *testing.T) {
 	}
 	data := CreateTradeOrderArgs{
 		Description: "网络购物",
-		DeviceId:    "iphone-x",
+		DeviceId:    "HUAWEI",
 		Detail:      []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))

@@ -26,7 +26,13 @@ service OrderBusinessService {
             get: "/v1/order/sku"
         };
     }
-
+    // 更新订单状态
+    rpc UpdateOrderState(UpdateOrderStateRequest) returns (UpdateOrderStateResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/state"
+            body:"*"
+        };
+    }
 }
 
 enum RetCode {
@@ -42,6 +48,11 @@ enum RetCode {
     SKU_EXIST = 50008;
     SKU_AMOUNT_NOT_ENOUGH = 50009;
     TRANSACTION_FAILED = 50010;
+    ORDER_NOT_EXIST = 50011;
+    ORDER_EXIST = 50012;
+    ORDER_STATE_PROHIBIT = 50013; // 订单状态不允许修改
+    ORDER_STATE_LOCKED = 50014; // 订单处于锁定状态
+    OPERATION_NOT_EFFECT = 50015; // 操作未生效
 }
 
 enum OperationType {
@@ -72,6 +83,41 @@ enum AccountType {
 message CommonResponse {
     RetCode code = 1;
     string msg = 2;
+}
+
+enum OrderStateType {
+    ORDER_EFFECTIVE = 0; // 有效
+    ORDER_INVALID = 1; // 无效
+    ORDER_LOCKED = 2; // 锁定
+}
+
+enum OrderPayStateType {
+    PAY_READY = 0; // 支付就绪，未支付
+    PAY_RUN = 1; // 正在支付中
+    PAY_SUCCESS = 2; // 支付成功
+    PAY_FAILED = 3; // 支付失败
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+    string op_platform = 3; // 操作平台
+    string op_device = 4; // 操作设备
+}
+
+message OrderStateEntry {
+    string order_code = 1;
+    OrderStateType state = 2;
+    OrderPayStateType pay_state = 3;
+}
+
+message UpdateOrderStateRequest {
+    repeated OrderStateEntry entry_list = 1;
+    OperationMeta operation_meta = 2;
+}
+
+message UpdateOrderStateResponse {
+    CommonResponse common = 1;
 }
 
 message GetOrderSkuRequest {

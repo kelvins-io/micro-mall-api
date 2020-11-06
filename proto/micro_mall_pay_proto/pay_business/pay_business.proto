@@ -52,6 +52,7 @@ enum RetCode {
     ACCOUNT_EXIST = 6000009;
     TRADE_PAY_RUN = 6000010;
     TRADE_PAY_SUCCESS = 6000011;
+    TRADE_PAY_EXPIRE = 6000012;
 }
 
 enum OperationType {
