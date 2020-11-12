@@ -38,11 +38,11 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 	}
 
 	if rsp.Common.Code == trolley_business.RetCode_SHOP_NOT_EXIST {
-		return &result, code.ERROR_SHOP_ID_NOT_EXIST
+		return &result, code.ErrorShopIdNotExist
 	} else if rsp.Common.Code == trolley_business.RetCode_SKU_EXIST {
-		return &result, code.ERROR_SHOP_ID_EXIST
+		return &result, code.ErrorShopIdExist
 	} else if rsp.Common.Code == trolley_business.RetCode_SKU_EXIST {
-		return &result, code.ERROR_SKU_CODE_EXIST
+		return &result, code.ErrorSkuCodeExist
 	}
 	return &result, code.SUCCESS
 }
@@ -72,9 +72,9 @@ func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArg
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == trolley_business.RetCode_SHOP_NOT_EXIST {
-		return &result, code.ERROR_SHOP_ID_NOT_EXIST
+		return &result, code.ErrorShopIdNotExist
 	} else if rsp.Common.Code == trolley_business.RetCode_SKU_NOT_EXIST {
-		return &result, code.ERROR_SKU_CODE_NOT_EXIST
+		return &result, code.ErrorSkuCodeNotExist
 	}
 	return &result, code.SUCCESS
 }
@@ -103,7 +103,7 @@ func GetUserTrolleyList(ctx context.Context, uid int64) (*args.UserTrolleyListRs
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == trolley_business.RetCode_USER_NOT_EXIST {
-		return &result, code.ERROR_USER_NOT_EXIST
+		return &result, code.ErrorUserNotExist
 	}
 	result.List = make([]args.UserTrolleyRecord, len(rsp.Records))
 	for i := 0; i < len(rsp.Records); i++ {

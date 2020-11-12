@@ -47,7 +47,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		return &result, code.ERROR
 	}
 	if checkResult.IsExist {
-		return &result, code.ERROR_USER_EXIST
+		return &result, code.ErrorUserExist
 	}
 	inviteId := int64(0)
 	if req.InviteCode != "" {
@@ -59,7 +59,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 			return &result, code.ERROR
 		}
 		if inviteUser.Info.Uid <= 0 {
-			return &result, code.ERROR_INVITE_CODE_NOT_EXIST
+			return &result, code.ErrorInviteCodeNotExist
 		}
 		inviteId = int64(int(inviteUser.Info.Uid))
 	}
@@ -83,7 +83,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	}
 	switch registerRsp.Common.Code {
 	case users.RetCode_USER_EXIST:
-		return &result, code.ERROR_USER_EXIST
+		return &result, code.ErrorUserExist
 	}
 	result.InviteCode = registerRsp.Result.InviteCode
 
@@ -130,11 +130,11 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	token = loginRsp.IdentityToken
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
-		return "", code.ERROR_USER_NOT_EXIST
+		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_PWD_NOT_MATCH:
-		return "", code.ERROR_USER_PWD
+		return "", code.ErrorUserPwd
 	case users.RetCode_USER_LOGIN_NOT_ALLOW:
-		return "", code.USER_LOGIN_NOT_ALLOW
+		return "", code.UserLoginNotAllow
 	}
 
 	return token, code.SUCCESS
@@ -197,11 +197,11 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 	token = loginRsp.IdentityToken
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
-		return "", code.ERROR_USER_NOT_EXIST
+		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_PWD_NOT_MATCH:
-		return "", code.ERROR_USER_PWD
+		return "", code.ErrorUserPwd
 	case users.RetCode_USER_LOGIN_NOT_ALLOW:
-		return "", code.USER_LOGIN_NOT_ALLOW
+		return "", code.UserLoginNotAllow
 	}
 
 	return token, code.SUCCESS
@@ -222,7 +222,7 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		return code.ERROR
 	}
 	if userInfoRsp.Common.Code == users.RetCode_USER_NOT_EXIST || userInfoRsp.Info.Uid <= 0 {
-		return code.ERROR_USER_NOT_EXIST
+		return code.ErrorUserNotExist
 	}
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodePassword,
@@ -243,7 +243,7 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		return code.ERROR
 	}
 	if pwdResetRsp.Common.Code == users.RetCode_USER_NOT_EXIST {
-		return code.ERROR_USER_NOT_EXIST
+		return code.ErrorUserNotExist
 	}
 	return code.SUCCESS
 }
@@ -260,10 +260,10 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 		return code.ERROR
 	}
 	if record.Id == 0 {
-		return code.ERROR_VERIFY_CODE_INVALID
+		return code.ErrorVerifyCodeInvalid
 	}
 	if int64(record.Expire) < time.Now().Unix() {
-		return code.ERROR_VERIFY_CODE_EXPIRE
+		return code.ErrorVerifyCodeExpire
 	}
 	return code.SUCCESS
 }
@@ -292,7 +292,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
-		return code.ERROR_EMAIL_SEND
+		return code.ErrorEmailSend
 	}
 	verifyCodeRecord := mysql.VerifyCodeRecord{
 		Uid:          int(userRsp.Info.Uid),

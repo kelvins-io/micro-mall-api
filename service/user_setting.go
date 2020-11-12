@@ -43,11 +43,11 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 	if rsp.Common.Code != users.RetCode_SUCCESS {
 		switch rsp.Common.Code {
 		case users.RetCode_USER_DELIVERY_INFO_EXIST:
-			return code.USER_SETTING_INFO_EXIST
+			return code.UserSettingInfoExist
 		case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
-			return code.USER_SETTING_INFO_NOT_EXIST
+			return code.UserSettingInfoNotExist
 		case users.RetCode_TRANSACTION_FAILED:
-			return code.TRANSACTION_FAILED
+			return code.TransactionFailed
 		}
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v, rsp: %+v", serverName, err, rsp)
 	}

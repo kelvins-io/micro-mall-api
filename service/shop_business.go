@@ -47,17 +47,17 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 	}
 	result.ShopId = int(rsp.ShopId)
 	if rsp.Common.Code == shop_business.RetCode_USER_NOT_EXIST {
-		return &result, code.ERROR_USER_NOT_EXIST
+		return &result, code.ErrorUserNotExist
 	} else if rsp.Common.Code == shop_business.RetCode_USER_EXIST {
-		return &result, code.ERROR_USER_EXIST
+		return &result, code.ErrorUserExist
 	} else if rsp.Common.Code == shop_business.RetCode_MERCHANT_EXIST {
-		return &result, code.ERROR_MERCHANT_EXIST
+		return &result, code.ErrorMerchantExist
 	} else if rsp.Common.Code == shop_business.RetCode_MERCHANT_NOT_EXIST {
-		return &result, code.ERROR_MERCHANT_NOT_EXIST
+		return &result, code.ErrorMerchantNotExist
 	} else if rsp.Common.Code == shop_business.RetCode_SHOP_EXIST {
-		return &result, code.ERROR_SHOP_BUSINESS_EXIST
+		return &result, code.ErrorShopBusinessExist
 	} else if rsp.Common.Code == shop_business.RetCode_SHOP_NOT_EXIST {
-		return &result, code.ERROR_SHOP_BUSINESS_NOT_EXIST
+		return &result, code.ErrorShopBusinessNotExist
 	}
 	return &result, code.SUCCESS
 }

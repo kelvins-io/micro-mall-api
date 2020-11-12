@@ -98,25 +98,25 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	result.TxCode = rsp.TxCode
 	switch rsp.Common.Code {
 	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
-		return &result, code.SKU_PRICE_VERSION_NOT_EXIST
+		return &result, code.SkuPriceVersionNotExist
 	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:
-		return &result, code.USER_DELIVERY_INFO_NOT_EXIST
+		return &result, code.UserDeliveryInfoNotExist
 	case order_business.RetCode_ORDER_TX_CODE_EMPTY:
-		return &result, code.TRADE_ORDER_TX_CODE_EMPTY
+		return &result, code.TradeOrderTxCodeEmpty
 	case order_business.RetCode_ORDER_EXIST: // 如果订单已存在，显示创建成功，防止客户端反复重试
-		return &result, code.TRADE_ORDER_EXIST
+		return &result, code.TradeOrderExist
 	case order_business.RetCode_USER_NOT_EXIST:
-		return &result, code.ERROR_USER_NOT_EXIST
+		return &result, code.ErrorUserNotExist
 	case order_business.RetCode_USER_EXIST:
-		return &result, code.ERROR_USER_EXIST
+		return &result, code.ErrorUserExist
 	case order_business.RetCode_SHOP_EXIST:
-		return &result, code.ERROR_SHOP_BUSINESS_EXIST
+		return &result, code.ErrorShopBusinessExist
 	case order_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ERROR_SHOP_BUSINESS_NOT_EXIST
+		return &result, code.ErrorShopBusinessNotExist
 	case order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH:
-		return &result, code.ERROR_SKU_AMOUNT_NOT_ENOUGH
+		return &result, code.ErrorSkuAmountNotEnough
 	case order_business.RetCode_TRANSACTION_FAILED:
-		return &result, code.TRANSACTION_FAILED
+		return &result, code.TransactionFailed
 	}
 
 	return &result, code.SUCCESS
@@ -148,7 +148,7 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		return
 	}
 	if len(rsp.List) == 0 {
-		retCode = code.TXCODE_NOT_EXIST
+		retCode = code.TxcodeNotExist
 		return
 	}
 	// 发起支付流程
@@ -198,40 +198,40 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	}
 	switch payRsp.Common.Code {
 	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
-		retCode = code.TRADE_ORDER_NOT_MATCH_USER
+		retCode = code.TradeOrderNotMatchUser
 		return
 	case pay_business.RetCode_USER_NOT_EXIST:
-		retCode = code.ERROR_USER_NOT_EXIST
+		retCode = code.ErrorUserNotExist
 		return
 	case pay_business.RetCode_USER_ACCOUNT_NOT_EXIST:
-		retCode = code.USER_ACCOUNT_NOT_EXIST
+		retCode = code.UserAccountNotExist
 		return
 	case pay_business.RetCode_USER_BALANCE_NOT_ENOUGH:
-		retCode = code.USER_BALANCE_NOT_ENOUGH
+		retCode = code.UserBalanceNotEnough
 		return
 	case pay_business.RetCode_USER_ACCOUNT_STATE_LOCK:
-		retCode = code.USER_ACCOUNT_STATE_LOCK
+		retCode = code.UserAccountStateLock
 		return
 	case pay_business.RetCode_MERCHANT_ACCOUNT_NOT_EXIST:
-		retCode = code.MERCHANT_ACCOUNT_NOT_EXIST
+		retCode = code.MerchantAccountNotExist
 		return
 	case pay_business.RetCode_MERCHANT_ACCOUNT_STATE_LOCK:
-		retCode = code.MERCHANT_ACCOUNT_STATE_LOCK
+		retCode = code.MerchantAccountStateLock
 		return
 	case pay_business.RetCode_DECIMAL_PARSE_ERR:
-		retCode = code.DECIMAL_PARSE_ERR
+		retCode = code.DecimalParseErr
 		return
 	case pay_business.RetCode_TRANSACTION_FAILED:
-		retCode = code.TRANSACTION_FAILED
+		retCode = code.TransactionFailed
 		return
 	case pay_business.RetCode_TRADE_PAY_RUN:
-		retCode = code.TRADE_PAY_RUN
+		retCode = code.TradePayRun
 		return
 	case pay_business.RetCode_TRADE_PAY_EXPIRE:
-		retCode = code.TRADE_PAY_EXPIRE
+		retCode = code.TradePayExpire
 		return
 	case pay_business.RetCode_TRADE_PAY_SUCCESS:
-		retCode = code.TRADE_PAY_SUCCESS
+		retCode = code.TradePaySuccess
 		return
 	}
 	result.IsSuccess = true

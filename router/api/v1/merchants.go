@@ -13,12 +13,12 @@ func MerchantsMaterialApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.MerchantsMaterialArgs
@@ -26,7 +26,7 @@ func MerchantsMaterialApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	rsp, retCode := service.MerchantsMaterial(c, &form)

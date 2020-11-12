@@ -14,7 +14,7 @@ func RegisterUserApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	rsp, retCode := service.CreateUser(c, &form)
@@ -26,7 +26,7 @@ func LoginUserWithVerifyCodeApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	token, retCode := service.LoginUserWithVerifyCode(c, &form)
@@ -43,7 +43,7 @@ func LoginUserWithPwdApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	token, retCode := service.LoginUserWithPwd(c, &form)
@@ -60,7 +60,7 @@ func GetVerifyCodeApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	retCode := service.GenVerifyCode(c, &form)
@@ -71,12 +71,12 @@ func PasswordResetApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.PasswordResetArgs
@@ -84,7 +84,7 @@ func PasswordResetApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 
@@ -96,12 +96,12 @@ func GetUserInfoApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 

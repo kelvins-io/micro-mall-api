@@ -61,10 +61,10 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 	if rsp.Common.Code != logistics_business.RetCode_SUCCESS {
 		switch rsp.Common.Code {
 		case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
-			retCode = code.LOGISTICS_RECORD_EXIST
+			retCode = code.LogisticsRecordExist
 			return
 		case logistics_business.RetCode_LOGISTICS_CODE_NOT_EXIST:
-			retCode = code.LOGISTICS_RECORD_NOT_EXIST
+			retCode = code.LogisticsRecordNotExist
 			return
 		}
 	}

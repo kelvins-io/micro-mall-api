@@ -55,11 +55,11 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 	}
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ERROR_SHOP_ID_NOT_EXIST
+		return &result, code.ErrorShopIdNotExist
 	case sku_business.RetCode_SKU_NOT_EXIST:
-		return &result, code.ERROR_SKU_CODE_NOT_EXIST
+		return &result, code.ErrorSkuCodeNotExist
 	case sku_business.RetCode_TRANSACTION_FAILED:
-		return &result, code.TRANSACTION_FAILED
+		return &result, code.TransactionFailed
 	default:
 	}
 
@@ -150,11 +150,11 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	}
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ERROR_SHOP_ID_NOT_EXIST
+		return &result, code.ErrorShopIdNotExist
 	case sku_business.RetCode_SKU_EXIST:
-		return &result, code.ERROR_SKU_CODE_EXIST
+		return &result, code.ErrorSkuCodeExist
 	case sku_business.RetCode_TRANSACTION_FAILED:
-		return &result, code.TRANSACTION_FAILED
+		return &result, code.TransactionFailed
 	default:
 	}
 

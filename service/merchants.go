@@ -42,13 +42,13 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 	}
 	result.MerchantId = rsp.MaterialId
 	if rsp.Common.Code == users.RetCode_USER_NOT_EXIST {
-		return &result, code.ERROR_USER_NOT_EXIST
+		return &result, code.ErrorUserNotExist
 	} else if rsp.Common.Code == users.RetCode_USER_EXIST {
-		return &result, code.ERROR_USER_EXIST
+		return &result, code.ErrorUserExist
 	} else if rsp.Common.Code == users.RetCode_MERCHANT_EXIST {
-		return &result, code.ERROR_MERCHANT_EXIST
+		return &result, code.ErrorMerchantExist
 	} else if rsp.Common.Code == users.RetCode_MERCHANT_NOT_EXIST {
-		return &result, code.ERROR_MERCHANT_NOT_EXIST
+		return &result, code.ErrorMerchantNotExist
 	}
 	return &result, code.SUCCESS
 }

@@ -4,9 +4,12 @@
 微商城-api
 
 #### 软件架构
-go + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
-服务间通信采用gRPC，服务注册采用etcd，普通消息事件采用rabbitmq
+gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
+服务间通信采用gRPC，服务注册/发现采用etcd，消息事件采用rabbitmq
 protobuf v3     
+
+用户鉴权   
+jwt
 
 存储说明：   
 MySQL 主存储，事务处理   

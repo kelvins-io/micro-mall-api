@@ -13,19 +13,19 @@ func CreateTradeOrderApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.CreateTradeOrderArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	form.Uid = int64(uid)
@@ -38,12 +38,12 @@ func GenTradeOrderCodeApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	rsp, retCode := service.GenOrderCode(c, int64(uid))
@@ -54,19 +54,19 @@ func OrderTradeApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.OrderTradeArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	form.OpUid = int64(uid)

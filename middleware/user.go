@@ -13,22 +13,22 @@ func CheckUserToken() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Request.Header.Get("token")
 		if token == "" {
-			app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, code.GetMsg(code.ERROR_TOKEN_EMPTY))
+			app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, code.GetMsg(code.ErrorTokenEmpty))
 			c.Abort()
 			return
 		}
 		claims, err := util.ParseToken(token)
 		if err != nil {
-			app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_INVALID, code.GetMsg(code.ERROR_TOKEN_INVALID))
+			app.JsonResponse(c, http.StatusOK, code.ErrorTokenInvalid, code.GetMsg(code.ErrorTokenInvalid))
 			c.Abort()
 			return
 		} else if time.Now().Unix() > claims.ExpiresAt {
-			app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EXPIRE, code.GetMsg(code.ERROR_TOKEN_EXPIRE))
+			app.JsonResponse(c, http.StatusOK, code.ErrorTokenExpire, code.GetMsg(code.ErrorTokenExpire))
 			c.Abort()
 			return
 		}
 		if claims == nil || claims.Uid == 0 {
-			app.JsonResponse(c, http.StatusOK, code.ERROR_USER_NOT_EXIST, code.GetMsg(code.ERROR_USER_NOT_EXIST))
+			app.JsonResponse(c, http.StatusOK, code.ErrorUserNotExist, code.GetMsg(code.ErrorUserNotExist))
 			c.Abort()
 			return
 		}

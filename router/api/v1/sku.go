@@ -13,12 +13,12 @@ func SkuBusinessPutAwayApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.SkuBusinessPutAwayArgs
@@ -27,7 +27,7 @@ func SkuBusinessPutAwayApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	rsp, retCode := service.SkuPutAway(c, &form)
@@ -38,12 +38,12 @@ func SkuBusinessSupplementPropertyApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	uid, ok := value.(int)
 	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
 	var form args.SkuPropertyExArgs
@@ -52,7 +52,7 @@ func SkuBusinessSupplementPropertyApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 
@@ -65,7 +65,7 @@ func GetSkuListApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
 	rsp, retCode := service.GetSkuList(c, &form)
