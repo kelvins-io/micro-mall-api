@@ -48,7 +48,8 @@ message OperationMeta {
 
 message InventoryEntryShop {
     int64 shop_id = 1;
-    repeated InventoryEntryDetail detail = 2;
+    string out_trade_no = 2;
+    repeated InventoryEntryDetail detail = 3;
 }
 
 message InventoryEntryDetail {
@@ -58,7 +59,6 @@ message InventoryEntryDetail {
 
 message DeductInventoryRequest {
     repeated InventoryEntryShop list = 1;
-    string out_trade_no = 2;
     OperationMeta operation_meta = 199;
 }
 
@@ -69,7 +69,6 @@ message DeductInventoryResponse {
 
 message RestoreInventoryRequest {
     repeated InventoryEntryShop list = 1;
-    string out_trade_no = 2;
     OperationMeta operation_meta = 199;
 }
 
@@ -120,9 +119,9 @@ message SkuInventoryInfo {
     string specification = 12;
     string desc_link = 13;
     int32 state = 14;
-
-    int64 amount = 198; // 入库数量
-    int64 shop_id = 199; // 店铺id
+    int64 version = 15; // 商品版本，主要应对调价，下单时需要
+    int64 amount = 16; // 入库数量
+    int64 shop_id = 17; // 店铺id
 }
 
 message PutAwaySkuRequest {

@@ -11,6 +11,29 @@ import (
 	"time"
 )
 
+func GenOrderCode(ctx context.Context, uid int64) (string, int) {
+	result := ""
+	serverName := args.RpcServiceMicroMallOrder
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return result, code.ERROR
+	}
+	defer conn.Close()
+	client := order_business.NewOrderBusinessServiceClient(conn)
+	r := order_business.GenOrderTxCodeRequest{Uid: uid}
+	rsp, err := client.GenOrderTxCode(ctx, &r)
+	if err != nil || rsp.Common.Code != order_business.RetCode_SUCCESS {
+		return "", code.ERROR
+	}
+	if rsp.OrderTxCode == "" {
+		return "", code.ERROR
+	}
+	result = rsp.OrderTxCode
+
+	return result, code.SUCCESS
+}
+
 func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*args.CreateTradeOrderRsp, int) {
 	var result args.CreateTradeOrderRsp
 	serverName := args.RpcServiceMicroMallOrder
@@ -27,9 +50,11 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		Description:   req.Description,
 		PayerClientIp: req.ClientIp,
 		DeviceId:      req.DeviceId,
+		OrderTxCode:   req.OrderTxCode,
 		Detail: &order_business.OrderDetail{
 			ShopDetail: nil,
 		},
+		DeliveryInfo: &order_business.OrderDeliveryInfo{UserDeliveryId: req.UserDeliveryId},
 	}
 	r.Detail.ShopDetail = make([]*order_business.OrderShopDetail, len(req.Detail))
 	for i := 0; i < len(req.Detail); i++ {
@@ -69,7 +94,14 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 		return &result, code.ERROR
 	}
+	result.TxCode = rsp.TxCode
 	switch rsp.Common.Code {
+	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:
+		return &result, code.USER_DELIVERY_INFO_NOT_EXIST
+	case order_business.RetCode_ORDER_TX_CODE_EMPTY:
+		return &result, code.TRADE_ORDER_TX_CODE_EMPTY
+	case order_business.RetCode_ORDER_EXIST: // 如果订单已存在，显示创建成功，防止客户端反复重试
+		return &result, code.TRADE_ORDER_EXIST
 	case order_business.RetCode_USER_NOT_EXIST:
 		return &result, code.ERROR_USER_NOT_EXIST
 	case order_business.RetCode_USER_EXIST:
@@ -83,7 +115,7 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	case order_business.RetCode_TRANSACTION_FAILED:
 		return &result, code.TRANSACTION_FAILED
 	}
-	result.TxCode = rsp.TxCode
+
 	return &result, code.SUCCESS
 }
 
@@ -162,6 +194,9 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		return
 	}
 	switch payRsp.Common.Code {
+	case pay_business.RetCode_USER_NOT_EXIST:
+		retCode = code.ERROR_USER_NOT_EXIST
+		return
 	case pay_business.RetCode_USER_ACCOUNT_NOT_EXIST:
 		retCode = code.USER_ACCOUNT_NOT_EXIST
 		return

@@ -23,8 +23,8 @@ var MsgFlags = map[int]string{
 	ERROR_MERCHANT_EXIST:          "商户认证资料已存在",
 	ERROR_SHOP_BUSINESS_EXIST:     "店铺认证资料已存在",
 	ERROR_SHOP_BUSINESS_NOT_EXIST: "商户未提交过店铺认证资料",
-	ERROR_SKU_CODE_EXIST:          "商品唯一code已存在系统",
-	ERROR_SKU_CODE_NOT_EXIST:      "商品唯一code不存在",
+	ERROR_SKU_CODE_EXIST:          "商品sku-code已存在系统",
+	ERROR_SKU_CODE_NOT_EXIST:      "商品sku-code不存在",
 	ERROR_SHOP_ID_NOT_EXIST:       "店铺ID不存在",
 	ERROR_SHOP_ID_EXIST:           "店铺ID已存在",
 	ERROR_INVITE_CODE_NOT_EXIST:   "邀请码不存在",
@@ -38,10 +38,15 @@ var MsgFlags = map[int]string{
 	TRANSACTION_FAILED:            "事务执行失败",
 	TRADE_PAY_EXPIRE:              "支付时间过期",
 	TXCODE_NOT_EXIST:              "交易号不存在",
+	TRADE_ORDER_TX_CODE_EMPTY:     "订单事务号为空",
+	TRADE_ORDER_EXIST:             "订单已存在",
 	TRADE_PAY_RUN:                 "订单正在支付中",
 	TRADE_PAY_SUCCESS:             "订单已完成支付",
 	LOGISTICS_RECORD_EXIST:        "物流记录已存在",
 	LOGISTICS_RECORD_NOT_EXIST:    "物流记录不存在",
+	USER_SETTING_INFO_EXIST:       "用户设置信息已存在",
+	USER_SETTING_INFO_NOT_EXIST:   "用户设置记录不存在",
+	USER_DELIVERY_INFO_NOT_EXIST:  "用户物流收货地址不存在",
 }
 
 func init() {

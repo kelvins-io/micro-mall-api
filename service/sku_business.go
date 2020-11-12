@@ -105,7 +105,9 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 			State:         rsp.List[i].GetState(),
 			Amount:        rsp.List[i].GetAmount(),
 			ShopId:        rsp.List[i].GetShopId(),
+			Version:       rsp.List[i].GetVersion(),
 		}
+		//fmt.Printf("sku=%+v\n", info)
 		result.SkuInventoryInfoList[i] = info
 	}
 

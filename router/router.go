@@ -36,6 +36,11 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	{
 		apiUser.PUT("/password/reset", v1.PasswordResetApi) // 重置密码
 		apiUser.GET("/user_info", v1.GetUserInfoApi)        // 获取用户信息
+		userSetting := apiUser.Group("/setting")
+		{
+			userSetting.POST("/address", v1.UserSettingAddressModifyApi) // 更新用户地址
+			userSetting.GET("/address", v1.UserSettingAddressGetApi)     // 获取用户地址
+		}
 		apiMerchants := apiUser.Group("/merchants")
 		{
 			apiMerchants.PUT("/material", v1.MerchantsMaterialApi) // 商户提交材料
@@ -65,8 +70,9 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 		}
 		apiOrder := apiUser.Group("/order")
 		{
-			apiOrder.POST("/create", v1.CreateTradeOrderApi) // 生成订单
-			apiOrder.POST("/trade", v1.OrderTradeApi)        // 订单支付
+			apiOrder.GET("/code/gen", v1.GenTradeOrderCodeApi) // 生成订单号
+			apiOrder.POST("/create", v1.CreateTradeOrderApi)   // 生成订单
+			apiOrder.POST("/trade", v1.OrderTradeApi)          // 订单支付
 		}
 		apiLogistics := apiUser.Group("/logistics")
 		{

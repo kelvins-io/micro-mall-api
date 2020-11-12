@@ -7,6 +7,19 @@ import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
 
 // 订单服务
 service OrderBusinessService {
+
+    // 生成唯一订单事务号
+    rpc GenOrderTxCode(GenOrderTxCodeRequest) returns (GenOrderTxCodeResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/code"
+        };
+    }
+    // 检查外部订单号是否存在
+    rpc CheckOrderExist(CheckOrderExistRequest) returns (CheckOrderExistResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/code/exist"
+        };
+    }
     // 创建订单
     rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {
         option (google.api.http) = {
@@ -53,6 +66,8 @@ enum RetCode {
     ORDER_STATE_PROHIBIT = 50013; // 订单状态不允许修改
     ORDER_STATE_LOCKED = 50014; // 订单处于锁定状态
     OPERATION_NOT_EFFECT = 50015; // 操作未生效
+    ORDER_TX_CODE_EMPTY = 50016; // 订单事务号为空
+    ORDER_DELIVERY_NOT_EXIST = 50017; // 订单交付信息不存在
 }
 
 enum OperationType {
@@ -176,6 +191,7 @@ message OrderGoods {
     int64 amount = 4;
     string name = 5;
     string reduction = 6;
+    int64 version = 7; // 商品价格版本，应对商品价格调整
 }
 
 // 一个店铺的商品算一个订单，如果同时包含多个店铺则有多个订单
@@ -185,7 +201,14 @@ message CreateOrderRequest {
     string description = 3; // 订单描述
     string payer_client_ip = 4; // 用户终端IP
     string device_id = 5; // 用户设备号
+
+    string order_tx_code = 298;
     OrderDetail detail = 299;
+    OrderDeliveryInfo delivery_info = 300; // 订单交付信息
+}
+
+message OrderDeliveryInfo {
+    int32 user_delivery_id = 1; // 用户收货地址
 }
 
 // 支付场景信息
@@ -208,5 +231,24 @@ message OrderEntry {
 
 message CreateOrderResponse {
     CommonResponse common = 1;
-   string tx_code = 2;
+    string tx_code = 2;
+}
+
+message CheckOrderExistRequest {
+    int64 uid = 1;
+    string order_tx_code = 2;
+}
+
+message CheckOrderExistResponse {
+    CommonResponse common = 1;
+    bool is_exist = 2;
+}
+
+message GenOrderTxCodeRequest {
+    int64 uid = 1;
+}
+
+message GenOrderTxCodeResponse {
+    CommonResponse common = 1;
+    string order_tx_code = 2;
 }

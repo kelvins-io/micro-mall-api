@@ -63,6 +63,19 @@ service UsersService {
             body: "*"
         };
     }
+    // 修改用户收货信息
+    rpc ModifyUserDeliveryInfo(ModifyUserDeliveryInfoRequest) returns (ModifyUserDeliveryInfoResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/info/delivery"
+            body: "*"
+        };
+    }
+    // 获取用户收货信息
+    rpc GetUserDeliveryInfo(GetUserDeliveryInfoRequest) returns (GetUserDeliveryInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/delivery"
+        };
+    }
 }
 
 service MerchantsService {
@@ -106,6 +119,9 @@ enum RetCode {
     ACCOUNT_NOT_EXIST = 50006;
     USER_PWD_NOT_MATCH = 50007;
     USER_LOGIN_NOT_ALLOW = 50008;
+    USER_DELIVERY_INFO_EXIST = 50009;
+    USER_DELIVERY_INFO_NOT_EXIST = 50010;
+    TRANSACTION_FAILED = 50011;
 }
 
 enum OperationType {
@@ -169,6 +185,41 @@ message LoginToken {
     string token = 1;
 }
 
+enum IsDefaultType {
+    DEFAULT_TYPE_FALSE = 0;
+    DEFAULT_TYPE_TRUE = 1;
+}
+
+message UserDeliveryInfo {
+    int64 id = 1;
+    string delivery_user = 2;
+    string mobile_phone = 3;
+    string area = 4;
+    string detailed_area = 5;
+    repeated string label = 6; // 标签，多个标签以|分割开
+    IsDefaultType is_default = 7; // 是否默认地址
+}
+
+message ModifyUserDeliveryInfoRequest {
+    OperationType operation_type = 1;
+    UserDeliveryInfo info = 2;
+    int64 uid = 3;
+}
+
+message ModifyUserDeliveryInfoResponse {
+    CommonResponse common = 1;
+}
+
+message GetUserDeliveryInfoRequest {
+    int64 uid = 1; // 不为0
+    int32 user_delivery_id = 2; // 为0则查询用户下全部
+}
+
+message GetUserDeliveryInfoResponse {
+    CommonResponse common = 1;
+    repeated UserDeliveryInfo info = 2;
+}
+
 message CheckUserIdentityRequest {
     string country_code = 1;
     string phone = 2;
@@ -176,7 +227,7 @@ message CheckUserIdentityRequest {
 }
 
 message CheckUserIdentityResponse {
-    CommonResponse common =1;
+    CommonResponse common = 1;
 }
 
 message GetUserByInviteCodeRequest {

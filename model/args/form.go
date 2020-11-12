@@ -6,6 +6,46 @@ import (
 	"strconv"
 )
 
+type UserDeliveryInfo struct {
+	Id           int64    `form:"id" json:"id"`
+	DeliveryUser string   `form:"delivery_user" json:"delivery_user"`
+	MobilePhone  string   `form:"mobile_phone" json:"mobile_phone"`
+	Area         string   `form:"area" json:"area"`
+	DetailedArea string   `form:"detailed_area" json:"detailed_area"`
+	Label        []string `form:"label" json:"label"`
+	IsDefault    bool     `form:"is_default" json:"is_default"`
+}
+
+type UserSettingAddressPutArgs struct {
+	Uid int `json:"uid"`
+	UserDeliveryInfo
+	// 0-新增，1-修改，2-删除
+	OperationType int `form:"operation_type" json:"operation_type"`
+}
+
+func (t *UserSettingAddressPutArgs) Valid(v *validation.Validation) {
+	if !util.IntSliceContainsItem([]int{0, 1, 2}, t.OperationType) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+	if t.DeliveryUser == "" {
+		v.SetError("DeliveryUser", "收货人不能为空")
+	}
+	if t.MobilePhone == "" {
+		v.SetError("MobilePhone", "联系人电话不能为空")
+	}
+	if t.Area == "" {
+		v.SetError("Area", "区域不能为空")
+	}
+	if t.DetailedArea == "" {
+		v.SetError("DetailedArea", "详细地址不能为空")
+	}
+}
+
+type UserSettingAddressGetArgs struct {
+	Uid        int `json:"uid"`
+	DeliveryId int `form:"delivery_id" json:"delivery_id"`
+}
+
 type UpdateLogisticsRecordArgs struct {
 	Uid int `json:"uid"`
 }
@@ -433,16 +473,26 @@ type OrderShopDetail struct {
 }
 
 type CreateTradeOrderArgs struct {
-	Uid         int64
-	ClientIp    string             `form:"client_ip" json:"client_ip"`
-	Description string             `form:"description" json:"description"`
-	DeviceId    string             `form:"device_id" json:"device_id"`
-	Detail      []*OrderShopDetail `form:"detail" json:"detail"`
+	Uid            int64
+	ClientIp       string             `form:"client_ip" json:"client_ip"`
+	Description    string             `form:"description" json:"description"`
+	DeviceId       string             `form:"device_id" json:"device_id"`
+	OrderTxCode    string             `form:"order_tx_code" json:"order_tx_code"`
+	UserDeliveryId int32              `form:"user_delivery_id" json:"user_delivery_id"`
+	Detail         []*OrderShopDetail `form:"detail" json:"detail"`
 }
 
 func (t *CreateTradeOrderArgs) Valid(v *validation.Validation) {
 	if len(t.Detail) <= 0 {
 		v.SetError("Detail", "至少包含一个店铺的订单")
+		return
+	}
+	if t.OrderTxCode == "" {
+		v.SetError("OrderTxCode", "订单事务ID不能为空")
+		return
+	}
+	if t.UserDeliveryId <= 0 {
+		v.SetError("UserDeliveryId", "订单交付（收货地址）信息不能为空")
 		return
 	}
 	for i := 0; i < len(t.Detail); i++ {

@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func CreateTradeOrderApi(c *gin.Context) {
+func UserSettingAddressModifyApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
@@ -21,20 +21,19 @@ func CreateTradeOrderApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
 		return
 	}
-	var form args.CreateTradeOrderArgs
+	var form args.UserSettingAddressPutArgs
+	form.Uid = uid
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
 		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
 		return
 	}
-	form.Uid = int64(uid)
-	form.ClientIp = c.ClientIP()
-	rsp, retCode := service.CreateTradeOrder(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	retCode := service.ModifyUserSettingAddress(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, "")
 }
 
-func GenTradeOrderCodeApi(c *gin.Context) {
+func UserSettingAddressGetApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
@@ -46,31 +45,14 @@ func GenTradeOrderCodeApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
 		return
 	}
-	rsp, retCode := service.GenOrderCode(c, int64(uid))
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
-}
-
-func OrderTradeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ERROR_TOKEN_EMPTY, nil)
-		return
-	}
-	var form args.OrderTradeArgs
+	var form args.UserSettingAddressGetArgs
+	form.Uid = uid
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
 		app.JsonResponse(c, http.StatusOK, code.INVALID_PARAMS, err.Error())
 		return
 	}
-	form.OpUid = int64(uid)
-	form.OpIp = c.ClientIP()
-	rsp, retCode := service.OrderTrade(c, &form)
+	rsp, retCode := service.GetUserSettingAddress(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

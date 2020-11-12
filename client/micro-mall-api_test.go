@@ -37,8 +37,10 @@ const (
 	skuRemoveUserTrolley    = "/user/trolley/sku/remove"
 	skuUserTrolleyList      = "/user/trolley/sku/list"
 	tradeCreateOrder        = "/user/order/create"
+	tradeOrderCodeGen       = "/user/order/code/gen"
 	tradeOrderPay           = "/user/order/trade"
 	logisticsApply          = "/user/logistics/apply"
+	userSettingAddress      = "/user/setting/address"
 )
 
 const (
@@ -69,19 +71,12 @@ func TestGateway(t *testing.T) {
 	t.Run("添加商品到购物车", TestSkuJoinUserTrolley)
 	t.Run("从购物车移除商品", TestSkuRemoveUserTrolley)
 	t.Run("获取用户购物车列表", TestGetUserTrolleyList)
+	t.Run("生成唯一订单号", TestGenOrderCode)
 	t.Run("创建交易订单", TestTradeCreateOrder)
 	t.Run("交易订单支付", TestOrderTradePay)
 	t.Run("申请物流", TestLogisticsApply)
-}
-
-const (
-	SuccessBusinessCode = 200
-)
-
-type HttpCommonRsp struct {
-	Code int         `json:"code"`
-	Data interface{} `json:"data"`
-	Msg  string      `json:"msg"`
+	t.Run("用户设置-地址变更", TestUserSettingAddress)
+	t.Run("用户设置-获取收货地址", TestUserSettingAddressGet)
 }
 
 func TestGetUserInfo(t *testing.T) {
@@ -108,36 +103,47 @@ func TestGetUserTrolleyList(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func commonTest(r string, req *http.Request, t *testing.T) {
-	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
+type UserDeliveryInfo struct {
+	Id           int64    `form:"id" json:"id"`
+	DeliveryUser string   `form:"delivery_user" json:"delivery_user"`
+	MobilePhone  string   `form:"mobile_phone" json:"mobile_phone"`
+	Area         string   `form:"area" json:"area"`
+	DetailedArea string   `form:"detailed_area" json:"detailed_area"`
+	Label        []string `form:"label" json:"label"`
+	IsDefault    bool     `form:"is_default" json:"is_default"`
+}
+
+type UserSettingAddressPutArgs struct {
+	UserDeliveryInfo
+	// 0-新增，1-修改，2-删除
+	OperationType int `form:"operation_type" json:"operation_type"`
+}
+
+func TestUserSettingAddress(t *testing.T) {
+	r := baseUrl + userSettingAddress
+	t.Logf("request url: %s", r)
+	args := UserSettingAddressPutArgs{
+		UserDeliveryInfo: UserDeliveryInfo{
+			Id:           101,
+			DeliveryUser: "张四丰",
+			MobilePhone:  "15501707785",
+			Area:         "广东省广州市",
+			DetailedArea: "上海路步行街111号",
+			Label:        []string{"公司", "住宅", "生活"},
+			IsDefault:    true,
+		},
+		OperationType: 0,
+	}
+	data := json.MarshalToStringNoError(args)
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data))
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	t.Logf("req url: %v status : %v", r, rsp.Status)
-	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
-		return
-	}
-	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("req url: %v body : \n%s", r, body)
-	var obj HttpCommonRsp
-	err = json.Unmarshal(string(body), &obj)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if obj.Code != SuccessBusinessCode {
-		t.Errorf("business code != %v", SuccessBusinessCode)
-		t.Errorf("obj ==%+v,obj", obj)
-		return
-	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
 }
 
 type OrderShopGoods struct {
@@ -166,18 +172,20 @@ type OrderShopDetail struct {
 }
 
 type CreateTradeOrderArgs struct {
-	Uid         int64              `json:"uid"`
-	ClientIp    string             `json:"client_ip"`
-	Description string             `form:"description" json:"description"`
-	DeviceId    string             `form:"device_id" json:"device_id"`
-	Detail      []*OrderShopDetail `json:"detail"`
+	Uid            int64              `json:"uid"`
+	ClientIp       string             `json:"client_ip"`
+	Description    string             `form:"description" json:"description"`
+	DeviceId       string             `form:"device_id" json:"device_id"`
+	OrderTxCode    string             `form:"order_tx_code" json:"order_tx_code"`
+	UserDeliveryId int32              `form:"user_delivery_id" json:"user_delivery_id"`
+	Detail         []*OrderShopDetail `json:"detail"`
 }
 
 func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "5255cf91-6ab9-4cd2-adb5-3d9c8069d1fd")
+	data.Set("tx_code", "d8d82578-b8b0-4e2b-8221-aeb551596238")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -300,7 +308,10 @@ func TestTradeCreateOrder(t *testing.T) {
 	data := CreateTradeOrderArgs{
 		Description: "网络购物",
 		DeviceId:    "HUAWEI",
-		Detail:      []*OrderShopDetail{&detail, &detail2},
+		OrderTxCode: uuid.New().String(),
+		//OrderTxCode: "84fd4745-f0c0-4a7c-a522-16ef02d058e09",
+		UserDeliveryId: 102,
+		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))
 	t.Logf("req data: %v", json.MarshalToStringNoError(data))
@@ -538,7 +549,31 @@ func TestSkuBusinessPutAway(t *testing.T) {
 }
 
 func TestGetSkuList(t *testing.T) {
-	r := baseUrl + skuBusinessGetSkuList + "?"
+	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30060"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestUserSettingAddressGet(t *testing.T) {
+	r := baseUrl + userSettingAddress + "?delivery_id=100"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestGenOrderCode(t *testing.T) {
+	r := baseUrl + tradeOrderCodeGen
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -664,5 +699,47 @@ func BenchmarkTestShopBusinessApply(b *testing.B) {
 			b.Errorf("obj ==%+v,obj", obj)
 			return
 		}
+	}
+}
+
+const (
+	SuccessBusinessCode = 200
+)
+
+type HttpCommonRsp struct {
+	Code int         `json:"code"`
+	Data interface{} `json:"data"`
+	Msg  string      `json:"msg"`
+}
+
+func commonTest(r string, req *http.Request, t *testing.T) {
+	t.Logf("request token=%v", qToken)
+	rsp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Logf("req url: %v status : %v", r, rsp.Status)
+	if rsp.StatusCode != http.StatusOK {
+		t.Error("StatusCode != 200")
+		return
+	}
+	body, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Logf("req url: %v body : \n%s", r, body)
+	var obj HttpCommonRsp
+	err = json.Unmarshal(string(body), &obj)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if obj.Code != SuccessBusinessCode {
+		t.Errorf("business code != %v", SuccessBusinessCode)
+		t.Errorf("obj ==%+v,obj", obj)
+		return
 	}
 }
