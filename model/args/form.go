@@ -95,6 +95,7 @@ type RegisterUserArgs struct {
 	CountryCode string `form:"country_code" json:"country_code"`
 	Phone       string `form:"phone" json:"phone"`
 	Age         int    `json:"age" form:"age"`
+	ContactAddr string `form:"contact_addr" json:"contact_addr"`
 	VerifyCode  string `form:"verify_code" json:"verify_code"`
 	IdCardNo    string `form:"id_card_no" json:"id_card_no"`
 	InviteCode  string `form:"invite_code" json:"invite_code"`
@@ -452,6 +453,7 @@ type OrderShopGoods struct {
 	Price   string `json:"price"`
 	Amount  int64  `json:"amount"`
 	Name    string `json:"name"`
+	Version int64  `json:"version"`
 }
 
 type OrderShopSceneInfo struct {
@@ -524,6 +526,10 @@ func (t *CreateTradeOrderArgs) Valid(v *validation.Validation) {
 			}
 			if goods[j].Price == "" {
 				_ = v.SetError("Price", "商品价格不能为空")
+				return
+			}
+			if goods[j].Version <= 0 {
+				v.SetError("Version", "商品价格版本需大于0")
 				return
 			}
 			p, err := strconv.ParseFloat(goods[j].Price, 64)

@@ -47,6 +47,8 @@ var MsgFlags = map[int]string{
 	USER_SETTING_INFO_EXIST:       "用户设置信息已存在",
 	USER_SETTING_INFO_NOT_EXIST:   "用户设置记录不存在",
 	USER_DELIVERY_INFO_NOT_EXIST:  "用户物流收货地址不存在",
+	TRADE_ORDER_NOT_MATCH_USER:    "交易订单不匹配当前用户",
+	SKU_PRICE_VERSION_NOT_EXIST:   "商品价格版本不存在",
 }
 
 func init() {

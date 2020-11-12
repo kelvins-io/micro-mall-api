@@ -46,6 +46,13 @@ service OrderBusinessService {
             body:"*"
         };
     }
+    // 订单支付通知
+    rpc OrderTradeNotice(OrderTradeNoticeRequest) returns (OrderTradeNoticeResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/notice"
+            body:"*"
+        };
+    }
 }
 
 enum RetCode {
@@ -68,6 +75,8 @@ enum RetCode {
     OPERATION_NOT_EFFECT = 50015; // 操作未生效
     ORDER_TX_CODE_EMPTY = 50016; // 订单事务号为空
     ORDER_DELIVERY_NOT_EXIST = 50017; // 订单交付信息不存在
+    ORDER_TX_CODE_NOT_EXIST = 50018; // 订单交易号不存在
+    SKU_PRICE_VERSION_NOT_EXIST = 50019; // 商品价格版本不存在或不符合规则
 }
 
 enum OperationType {
@@ -129,6 +138,16 @@ message OrderStateEntry {
 message UpdateOrderStateRequest {
     repeated OrderStateEntry entry_list = 1;
     OperationMeta operation_meta = 2;
+}
+
+message OrderTradeNoticeRequest {
+    int64 uid = 1;
+    string order_tx_code = 2; // 订单交易号
+    string pay_id = 3; // 支付ID（支付后产生）
+}
+
+message OrderTradeNoticeResponse {
+    CommonResponse common = 1;
 }
 
 message UpdateOrderStateResponse {

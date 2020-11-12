@@ -53,6 +53,7 @@ enum RetCode {
     TRADE_PAY_RUN = 6000010;
     TRADE_PAY_SUCCESS = 6000011;
     TRADE_PAY_EXPIRE = 6000012;
+    TRADE_ORDER_NOT_MATCH_USER = 6000013;
 }
 
 enum OperationType {

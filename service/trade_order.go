@@ -79,6 +79,7 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 				Price:   goods[j].Price,
 				Amount:  goods[j].Amount,
 				Name:    goods[j].Name,
+				Version: goods[j].Version,
 			}
 			orderGoods[j] = orderG
 		}
@@ -90,12 +91,14 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == order_business.RetCode_ERROR {
+	if rsp.Common.Code == order_business.RetCode_ERROR {
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 		return &result, code.ERROR
 	}
 	result.TxCode = rsp.TxCode
 	switch rsp.Common.Code {
+	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
+		return &result, code.SKU_PRICE_VERSION_NOT_EXIST
 	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:
 		return &result, code.USER_DELIVERY_INFO_NOT_EXIST
 	case order_business.RetCode_ORDER_TX_CODE_EMPTY:
@@ -194,6 +197,9 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		return
 	}
 	switch payRsp.Common.Code {
+	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
+		retCode = code.TRADE_ORDER_NOT_MATCH_USER
+		return
 	case pay_business.RetCode_USER_NOT_EXIST:
 		retCode = code.ERROR_USER_NOT_EXIST
 		return

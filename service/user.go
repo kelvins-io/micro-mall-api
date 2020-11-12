@@ -72,7 +72,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		Email:       req.Email,
 		IdCardNo:    req.IdCardNo,
 		InviterUser: inviteId,
-		ContactAddr: req.Email,
+		ContactAddr: req.ContactAddr,
 		Age:         int32(req.Age),
 		Password:    req.Password,
 	}
@@ -270,26 +270,32 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 
 func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int) {
 	var err error
-	user, err := repository.GetUserByPhone(req.CountryCode, req.Phone)
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserByPhone err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 		return code.ERROR
 	}
-	//if user.Id == 0 {
-	//	return code.ERROR_USER_NOT_EXIST
-	//}
-
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	userReq := &users.GetUserInfoByPhoneRequest{
+		CountryCode: req.CountryCode,
+		Phone:       req.Phone,
+	}
+	userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
+	if err != nil || userRsp.Common.Code == users.RetCode_ERROR {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return code.ERROR
+	}
 	verifyCode := random.KrandNum(6)
 	notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
-
 	err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
 		return code.ERROR_EMAIL_SEND
 	}
-
 	verifyCodeRecord := mysql.VerifyCodeRecord{
-		Uid:          user.Id,
+		Uid:          int(userRsp.Info.Uid),
 		BusinessType: req.BusinessType,
 		VerifyCode:   verifyCode,
 		Expire:       int(time.Now().Add(time.Duration(vars.VerifyCodeSetting.ExpireMinute) * time.Minute).Unix()),

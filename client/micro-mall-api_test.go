@@ -49,7 +49,7 @@ const (
 )
 
 var apiVersion = apiV1
-var qToken = token_10036
+var qToken = token_10041
 var baseUrl = baseUrlLocal + apiVersion
 
 func TestMain(m *testing.M) {
@@ -125,7 +125,7 @@ func TestUserSettingAddress(t *testing.T) {
 	args := UserSettingAddressPutArgs{
 		UserDeliveryInfo: UserDeliveryInfo{
 			Id:           101,
-			DeliveryUser: "张四丰",
+			DeliveryUser: "张6丰",
 			MobilePhone:  "15501707785",
 			Area:         "广东省广州市",
 			DetailedArea: "上海路步行街111号",
@@ -151,6 +151,7 @@ type OrderShopGoods struct {
 	Price   string `form:"price" json:"price"`
 	Amount  int64  `form:"amount" json:"amount"`
 	Name    string `form:"name" json:"name"`
+	Version int64  `form:"version" json:"version"`
 }
 
 type OrderShopSceneInfo struct {
@@ -185,7 +186,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "d8d82578-b8b0-4e2b-8221-aeb551596238")
+	data.Set("tx_code", "270ff0de-803a-4b46-aec1-8be5acfab830")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -265,12 +266,14 @@ func TestTradeCreateOrder(t *testing.T) {
 		Price:   "184.32",
 		Amount:  1,
 		Name:    "盼盼铜锣烧--01",
+		Version: 1,
 	}
 	goods2 := OrderShopGoods{
 		SkuCode: "db696ade-3de2-4417-bea0-9b015da37191",
 		Price:   "184.32",
-		Amount:  2,
+		Amount:  1,
 		Name:    "盼盼铜锣烧--02",
+		Version: 1,
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
@@ -287,30 +290,31 @@ func TestTradeCreateOrder(t *testing.T) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "5a1d0ae1-9f1c-497b-a191-673b3572b0f9",
-		Price:   "184.32",
-		Amount:  3,
-		Name:    "盼盼铜锣烧--03",
+		SkuCode: "5d6f191d-7d4e-49e5-9384-04abb7ba8cfb",
+		Price:   "1099.55",
+		Amount:  2,
+		Name:    "爱思席梦思",
+		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30060,
+		ShopId:   30068,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       29911,
-				Name:     "良品铺子京东旗舰店-2",
-				AreaCode: "广州",
-				Address:  "广州市海珠区",
+				Id:       30068,
+				Name:     "爱思席梦思",
+				AreaCode: "广东省广州市",
+				Address:  "广州",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description: "网络购物",
-		DeviceId:    "HUAWEI",
+		Description: "双11活动",
+		DeviceId:    "xiaomi-10",
 		OrderTxCode: uuid.New().String(),
 		//OrderTxCode: "84fd4745-f0c0-4a7c-a522-16ef02d058e09",
-		UserDeliveryId: 102,
+		UserDeliveryId: 105,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))
@@ -330,8 +334,8 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430520")
-	data.Set("business_type", "3")
+	data.Set("phone", "15501707783")
+	data.Set("business_type", "1")
 	data.Set("receive_email", "565608463@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -348,15 +352,17 @@ func TestRegisterUser(t *testing.T) {
 	r := baseUrl + registerUser
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("user_name", "杨子")
+	data.Set("user_name", "张全蛋")
 	data.Set("password", "07030501310")
 	data.Set("sex", "1")
-	data.Set("age", "28")
+	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430521")
-	data.Set("email", "1225807604@qq.com")
-	data.Set("verify_code", "311126")
-	data.Set("invite_code", "")
+	data.Set("phone", "15501707783")
+	data.Set("email", "31342314@qq.com")
+	data.Set("verify_code", "148300")
+	data.Set("id_card_no", "513913899384938899")
+	data.Set("contact_addr", "廊坊市淮南路清明河畔李家大院")
+	data.Set("invite_code", "489f043b3000065")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -391,7 +397,7 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430520")
+	data.Set("phone", "15501707783")
 	data.Set("password", "07030501310")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -475,9 +481,9 @@ func TestMerchantsMaterial(t *testing.T) {
 	data := url.Values{}
 	data.Set("operation_type", "0")
 	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-深圳星光无限实业有限责任公司")
-	data.Set("health_card_no", "R8nJ65TDUGAlqSdb9")
+	data.Set("health_card_no", "R8nJ65TDUGAlqrwerSdb9")
 	data.Set("identity", "1")
-	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
+	data.Set("tax_card_no", "qX2Mr545kznWrlvO4sIp7")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -495,10 +501,10 @@ func TestShopBusinessApply(t *testing.T) {
 	data := url.Values{}
 	data.Set("operation_type", "0")
 	data.Set("shop_id", "123")
-	data.Set("nick_name", "福建赚它一个亿科技有限公司")
-	data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
-	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
-	data.Set("merchant_id", "1037")
+	data.Set("nick_name", "深圳市有他没我科技有限公司")
+	data.Set("full_name", "深圳市有他没我科技有限公司")
+	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋")
+	data.Set("merchant_id", "1069")
 	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -521,22 +527,22 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30062")
+	data.Set("shop_id", "30068")
 	data.Set("sku_code", uuid.New().String())
-	data.Set("name", "盼盼铜锣烧")
-	data.Set("price", "29.32")
-	data.Set("title", "盼盼，铜锣烧，办公室零食,盼盼铜锣烧红豆味量贩箱装1000g*1")
-	data.Set("sub_title", "盼盼 铜锣烧 面包饼干休闲零食量贩装红豆味1000g")
-	data.Set("desc", "满满的一箱，铜锣烧，独立包装，味道不错，软软的，甜甜的，豆沙馅儿，倍儿好吃。不错的休闲食品，出去游玩携带方便，首选休闲食品。京东快递速度快，昨天晚上拍的，今天就到了。非常时期，宅在家里，享受着美味食品，支持京东")
-	data.Set("production", "福建盼盼食品股份有限公司")
-	data.Set("supplier", "京东盼盼食品旗舰店")
+	data.Set("name", "康师傅红烧牛肉面")
+	data.Set("price", "4.50")
+	data.Set("title", "康师傅方便面大食桶红烧牛肉面面12桶桶面泡面整箱装休闲零食")
+	data.Set("sub_title", "康师傅方便面大食桶红烧牛肉面面12桶桶面泡面整箱装休闲零食")
+	data.Set("desc", "康师傅方便面大食桶红烧牛肉面面12桶桶面泡面整箱装休闲零食")
+	data.Set("production", "广州顶津食品有限责任公司")
+	data.Set("supplier", "康师傅微商城旗舰店")
 	data.Set("category", "11010")
-	data.Set("color", "黄色")
-	data.Set("color_code", "100")
-	data.Set("specification", "整箱/30包装")
-	data.Set("desc_link", "https://item.jd.com/3230143.html")
+	data.Set("color", "红色")
+	data.Set("color_code", "199")
+	data.Set("specification", "一盒12包")
+	data.Set("desc_link", "https://item.jd.com/1562101.html")
 	data.Set("state", "1")
-	data.Set("amount", "89")
+	data.Set("amount", "100001")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -549,7 +555,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 }
 
 func TestGetSkuList(t *testing.T) {
-	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30060"
+	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30068"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -561,7 +567,7 @@ func TestGetSkuList(t *testing.T) {
 }
 
 func TestUserSettingAddressGet(t *testing.T) {
-	r := baseUrl + userSettingAddress + "?delivery_id=100"
+	r := baseUrl + userSettingAddress + "?delivery_id="
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -589,13 +595,13 @@ func TestSkuBusinessSupplement(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30059")
-	data.Set("sku_code", uuid.New().String())
-	data.Set("name", "农夫山泉-矿泉水")
-	data.Set("size", "200cm x 189cm")
-	data.Set("shape", "完整包装")
-	data.Set("production_country", "农夫山泉")
-	data.Set("production_date", "2019/10/19 15:20")
+	data.Set("shop_id", "30068")
+	data.Set("sku_code", "5d6f191d-7d4e-49e5-9384-04abb7ba8cfb")
+	data.Set("name", "爱思席梦思")
+	data.Set("size", "1.8m")
+	data.Set("shape", "长方形")
+	data.Set("production_country", "河南爱思实业有限公司")
+	data.Set("production_date", "2020/10/19 15:20")
 	data.Set("shelf_life", "3.3年")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))

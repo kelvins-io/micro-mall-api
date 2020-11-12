@@ -9,14 +9,6 @@ const (
 )
 
 const (
-	TaskNameUserRegisterNotice    = "task_user_register_notice"
-	TaskNameUserRegisterNoticeErr = "task_user_register_notice_err"
-
-	TaskNameUserStateNotice    = "task_user_state_notice"
-	TaskNameUserStateNoticeErr = "task_user_state_notice_err"
-)
-
-const (
 	UserStateEventTypeRegister  = 10010
 	UserStateEventTypeLogin     = 10011
 	UserStateEventTypeLogout    = 10012
@@ -31,10 +23,6 @@ const (
 	RpcServiceMicroMallOrder     = "micro-mall-order"     // 订单服务
 	RpcServiceMicroMallPay       = "micro-mall-pay"       // 支付服务
 	RpcServiceMicroMallLogistics = "micro-mall-logistics" // 物流服务
-)
-
-const (
-	CacheKeyUserSate = "user_state_"
 )
 
 const (
