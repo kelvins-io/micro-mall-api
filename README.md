@@ -5,8 +5,8 @@
 
 #### 软件架构
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
-服务间通信采用gRPC，服务注册/发现采用etcd，消息事件采用rabbitmq
-protobuf v3     
+服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq， 搜索采用elasticsearch 
+    
 
 用户鉴权   
 jwt
