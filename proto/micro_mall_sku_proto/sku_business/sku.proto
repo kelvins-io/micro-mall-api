@@ -39,6 +39,28 @@ service SkuBusinessService {
             body:"*"
         };
     }
+    // 按策略筛选商品价格版本
+    rpc FiltrateSkuPriceVersion(FiltrateSkuPriceVersionRequest) returns (FiltrateSkuPriceVersionResponse) {
+        option (google.api.http) = {
+            post: "/v1/sku/price/filtrate"
+            body:"*"
+        };
+    }
+    // 商品库存搜索同步数据(请在业务不繁忙时调用)
+    rpc SearchSyncSkuInventory(SearchSyncSkuInventoryRequest) returns (SearchSyncSkuInventoryResponse) {
+        option (google.api.http) = {
+            post: "/v1/sku/inventory/search/sync"
+            body:"*"
+        };
+    }
+    // 商品搜索
+    rpc SearchSkuInventory(SearchSkuInventoryRequest) returns (SearchSkuInventoryResponse) {
+        option (google.api.http) = {
+            post: "/v1/sku/inventory/search"
+            body:"*"
+        };
+    }
+
 }
 
 message OperationMeta {
@@ -75,6 +97,64 @@ message RestoreInventoryRequest {
 message RestoreInventoryResponse {
     CommonResponse common = 1;
     bool is_success = 2; // 是否成功，要么全部成功，要么全部失败
+}
+
+message SkuPriceVersionSet {
+    int64 shop_id = 1;
+    repeated SkuPriceVersionEntry entry_list = 2;
+}
+
+message SkuPriceVersionEntry {
+    string sku_code = 2;
+    string price = 3;
+    int64 version = 4;
+}
+
+enum SkuPricePolicyFiltrateType {
+    VERSION_SECTION = 0; // 按版本区间
+    VERSION_UPPER = 1; // 版本上限
+    VERSION_LOWER = 2; // 版本下限
+}
+
+message FiltrateSkuPriceVersionRequest {
+    repeated SkuPriceVersionSet set_list = 1;
+    SkuPricePolicyFiltrateType policy_type = 2; // 价格筛选策略类型
+    uint32 limit_upper = 3; // 最低筛选几个价格区间
+}
+
+message FiltrateSkuPriceVersionResult {
+    int64 shop_id = 1;
+    repeated string sku_code = 2;
+}
+
+message FiltrateSkuPriceVersionResponse {
+    CommonResponse common = 1;
+    repeated FiltrateSkuPriceVersionResult result = 2; // 返回不满足筛选区间的商品列表
+}
+
+message SearchSkuInventoryRequest {
+    string keyword = 1;
+}
+
+message SearchSkuInventoryEntry {
+    SkuInventoryInfo info = 1;
+    double score = 2;
+}
+
+message SearchSkuInventoryResponse {
+    CommonResponse common = 1;
+    repeated SearchSkuInventoryEntry list  = 2;
+}
+
+message SearchSyncSkuInventoryRequest {
+    int64 shop_id = 1; // shop_id为0则同步所有库存
+    int64 page_size = 2; // 大于0
+    int64 page_num = 3; // 大于0
+}
+
+message SearchSyncSkuInventoryResponse {
+    CommonResponse common = 1;
+    repeated SkuInventoryInfo info  = 2;
 }
 
 message SupplementSkuPropertyRequest {
@@ -147,6 +227,9 @@ enum RetCode {
     SKU_EXIST = 50008;
     SKU_AMOUNT_NOT_ENOUGH = 50009;
     TRANSACTION_FAILED = 50010;
+    SKU_PRICE_VERSION_NOT_EXIST = 50011;
+    SKU_PRICE_VERSION_POLICY_TYPE_NOT_SUPPORT = 50012;
+    SKU_PRICE_VERSION_POLICY_DATA_FORMAT_ERR = 50013;
 }
 
 enum OperationType {

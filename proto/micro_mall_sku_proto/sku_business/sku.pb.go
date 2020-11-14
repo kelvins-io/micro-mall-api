@@ -30,21 +30,73 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
+type SkuPricePolicyFiltrateType int32
+
+const (
+	SkuPricePolicyFiltrateType_VERSION_SECTION SkuPricePolicyFiltrateType = 0 // 按版本区间
+	SkuPricePolicyFiltrateType_VERSION_UPPER   SkuPricePolicyFiltrateType = 1 // 版本上限
+	SkuPricePolicyFiltrateType_VERSION_LOWER   SkuPricePolicyFiltrateType = 2 // 版本下限
+)
+
+// Enum value maps for SkuPricePolicyFiltrateType.
+var (
+	SkuPricePolicyFiltrateType_name = map[int32]string{
+		0: "VERSION_SECTION",
+		1: "VERSION_UPPER",
+		2: "VERSION_LOWER",
+	}
+	SkuPricePolicyFiltrateType_value = map[string]int32{
+		"VERSION_SECTION": 0,
+		"VERSION_UPPER":   1,
+		"VERSION_LOWER":   2,
+	}
+)
+
+func (x SkuPricePolicyFiltrateType) Enum() *SkuPricePolicyFiltrateType {
+	p := new(SkuPricePolicyFiltrateType)
+	*p = x
+	return p
+}
+
+func (x SkuPricePolicyFiltrateType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SkuPricePolicyFiltrateType) Descriptor() protoreflect.EnumDescriptor {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[0].Descriptor()
+}
+
+func (SkuPricePolicyFiltrateType) Type() protoreflect.EnumType {
+	return &file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[0]
+}
+
+func (x SkuPricePolicyFiltrateType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SkuPricePolicyFiltrateType.Descriptor instead.
+func (SkuPricePolicyFiltrateType) EnumDescriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{0}
+}
+
 type RetCode int32
 
 const (
-	RetCode_SUCCESS               RetCode = 0
-	RetCode_ERROR                 RetCode = 500
-	RetCode_USER_NOT_EXIST        RetCode = 50001
-	RetCode_USER_EXIST            RetCode = 50002
-	RetCode_MERCHANT_NOT_EXIST    RetCode = 50003
-	RetCode_MERCHANT_EXIST        RetCode = 50004
-	RetCode_SHOP_NOT_EXIST        RetCode = 50005
-	RetCode_SHOP_EXIST            RetCode = 50006
-	RetCode_SKU_NOT_EXIST         RetCode = 50007
-	RetCode_SKU_EXIST             RetCode = 50008
-	RetCode_SKU_AMOUNT_NOT_ENOUGH RetCode = 50009
-	RetCode_TRANSACTION_FAILED    RetCode = 50010
+	RetCode_SUCCESS                                   RetCode = 0
+	RetCode_ERROR                                     RetCode = 500
+	RetCode_USER_NOT_EXIST                            RetCode = 50001
+	RetCode_USER_EXIST                                RetCode = 50002
+	RetCode_MERCHANT_NOT_EXIST                        RetCode = 50003
+	RetCode_MERCHANT_EXIST                            RetCode = 50004
+	RetCode_SHOP_NOT_EXIST                            RetCode = 50005
+	RetCode_SHOP_EXIST                                RetCode = 50006
+	RetCode_SKU_NOT_EXIST                             RetCode = 50007
+	RetCode_SKU_EXIST                                 RetCode = 50008
+	RetCode_SKU_AMOUNT_NOT_ENOUGH                     RetCode = 50009
+	RetCode_TRANSACTION_FAILED                        RetCode = 50010
+	RetCode_SKU_PRICE_VERSION_NOT_EXIST               RetCode = 50011
+	RetCode_SKU_PRICE_VERSION_POLICY_TYPE_NOT_SUPPORT RetCode = 50012
+	RetCode_SKU_PRICE_VERSION_POLICY_DATA_FORMAT_ERR  RetCode = 50013
 )
 
 // Enum value maps for RetCode.
@@ -62,20 +114,26 @@ var (
 		50008: "SKU_EXIST",
 		50009: "SKU_AMOUNT_NOT_ENOUGH",
 		50010: "TRANSACTION_FAILED",
+		50011: "SKU_PRICE_VERSION_NOT_EXIST",
+		50012: "SKU_PRICE_VERSION_POLICY_TYPE_NOT_SUPPORT",
+		50013: "SKU_PRICE_VERSION_POLICY_DATA_FORMAT_ERR",
 	}
 	RetCode_value = map[string]int32{
-		"SUCCESS":               0,
-		"ERROR":                 500,
-		"USER_NOT_EXIST":        50001,
-		"USER_EXIST":            50002,
-		"MERCHANT_NOT_EXIST":    50003,
-		"MERCHANT_EXIST":        50004,
-		"SHOP_NOT_EXIST":        50005,
-		"SHOP_EXIST":            50006,
-		"SKU_NOT_EXIST":         50007,
-		"SKU_EXIST":             50008,
-		"SKU_AMOUNT_NOT_ENOUGH": 50009,
-		"TRANSACTION_FAILED":    50010,
+		"SUCCESS":                     0,
+		"ERROR":                       500,
+		"USER_NOT_EXIST":              50001,
+		"USER_EXIST":                  50002,
+		"MERCHANT_NOT_EXIST":          50003,
+		"MERCHANT_EXIST":              50004,
+		"SHOP_NOT_EXIST":              50005,
+		"SHOP_EXIST":                  50006,
+		"SKU_NOT_EXIST":               50007,
+		"SKU_EXIST":                   50008,
+		"SKU_AMOUNT_NOT_ENOUGH":       50009,
+		"TRANSACTION_FAILED":          50010,
+		"SKU_PRICE_VERSION_NOT_EXIST": 50011,
+		"SKU_PRICE_VERSION_POLICY_TYPE_NOT_SUPPORT": 50012,
+		"SKU_PRICE_VERSION_POLICY_DATA_FORMAT_ERR":  50013,
 	}
 )
 
@@ -90,11 +148,11 @@ func (x RetCode) String() string {
 }
 
 func (RetCode) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[0].Descriptor()
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[1].Descriptor()
 }
 
 func (RetCode) Type() protoreflect.EnumType {
-	return &file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[0]
+	return &file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[1]
 }
 
 func (x RetCode) Number() protoreflect.EnumNumber {
@@ -103,7 +161,7 @@ func (x RetCode) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use RetCode.Descriptor instead.
 func (RetCode) EnumDescriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{0}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{1}
 }
 
 type OperationType int32
@@ -145,11 +203,11 @@ func (x OperationType) String() string {
 }
 
 func (OperationType) Descriptor() protoreflect.EnumDescriptor {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[1].Descriptor()
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[2].Descriptor()
 }
 
 func (OperationType) Type() protoreflect.EnumType {
-	return &file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[1]
+	return &file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes[2]
 }
 
 func (x OperationType) Number() protoreflect.EnumNumber {
@@ -158,7 +216,7 @@ func (x OperationType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use OperationType.Descriptor instead.
 func (OperationType) EnumDescriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{1}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{2}
 }
 
 type OperationMeta struct {
@@ -554,6 +612,572 @@ func (x *RestoreInventoryResponse) GetIsSuccess() bool {
 	return false
 }
 
+type SkuPriceVersionSet struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ShopId    int64                   `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	EntryList []*SkuPriceVersionEntry `protobuf:"bytes,2,rep,name=entry_list,json=entryList,proto3" json:"entry_list,omitempty"`
+}
+
+func (x *SkuPriceVersionSet) Reset() {
+	*x = SkuPriceVersionSet{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SkuPriceVersionSet) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SkuPriceVersionSet) ProtoMessage() {}
+
+func (x *SkuPriceVersionSet) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SkuPriceVersionSet.ProtoReflect.Descriptor instead.
+func (*SkuPriceVersionSet) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *SkuPriceVersionSet) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *SkuPriceVersionSet) GetEntryList() []*SkuPriceVersionEntry {
+	if x != nil {
+		return x.EntryList
+	}
+	return nil
+}
+
+type SkuPriceVersionEntry struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SkuCode string `protobuf:"bytes,2,opt,name=sku_code,json=skuCode,proto3" json:"sku_code,omitempty"`
+	Price   string `protobuf:"bytes,3,opt,name=price,proto3" json:"price,omitempty"`
+	Version int64  `protobuf:"varint,4,opt,name=version,proto3" json:"version,omitempty"`
+}
+
+func (x *SkuPriceVersionEntry) Reset() {
+	*x = SkuPriceVersionEntry{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SkuPriceVersionEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SkuPriceVersionEntry) ProtoMessage() {}
+
+func (x *SkuPriceVersionEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SkuPriceVersionEntry.ProtoReflect.Descriptor instead.
+func (*SkuPriceVersionEntry) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SkuPriceVersionEntry) GetSkuCode() string {
+	if x != nil {
+		return x.SkuCode
+	}
+	return ""
+}
+
+func (x *SkuPriceVersionEntry) GetPrice() string {
+	if x != nil {
+		return x.Price
+	}
+	return ""
+}
+
+func (x *SkuPriceVersionEntry) GetVersion() int64 {
+	if x != nil {
+		return x.Version
+	}
+	return 0
+}
+
+type FiltrateSkuPriceVersionRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	SetList    []*SkuPriceVersionSet      `protobuf:"bytes,1,rep,name=set_list,json=setList,proto3" json:"set_list,omitempty"`
+	PolicyType SkuPricePolicyFiltrateType `protobuf:"varint,2,opt,name=policy_type,json=policyType,proto3,enum=sku_business.SkuPricePolicyFiltrateType" json:"policy_type,omitempty"` // 价格筛选策略类型
+	LimitUpper uint32                     `protobuf:"varint,3,opt,name=limit_upper,json=limitUpper,proto3" json:"limit_upper,omitempty"`                                              // 最低筛选几个价格区间
+}
+
+func (x *FiltrateSkuPriceVersionRequest) Reset() {
+	*x = FiltrateSkuPriceVersionRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FiltrateSkuPriceVersionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FiltrateSkuPriceVersionRequest) ProtoMessage() {}
+
+func (x *FiltrateSkuPriceVersionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FiltrateSkuPriceVersionRequest.ProtoReflect.Descriptor instead.
+func (*FiltrateSkuPriceVersionRequest) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *FiltrateSkuPriceVersionRequest) GetSetList() []*SkuPriceVersionSet {
+	if x != nil {
+		return x.SetList
+	}
+	return nil
+}
+
+func (x *FiltrateSkuPriceVersionRequest) GetPolicyType() SkuPricePolicyFiltrateType {
+	if x != nil {
+		return x.PolicyType
+	}
+	return SkuPricePolicyFiltrateType_VERSION_SECTION
+}
+
+func (x *FiltrateSkuPriceVersionRequest) GetLimitUpper() uint32 {
+	if x != nil {
+		return x.LimitUpper
+	}
+	return 0
+}
+
+type FiltrateSkuPriceVersionResult struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ShopId  int64    `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`
+	SkuCode []string `protobuf:"bytes,2,rep,name=sku_code,json=skuCode,proto3" json:"sku_code,omitempty"`
+}
+
+func (x *FiltrateSkuPriceVersionResult) Reset() {
+	*x = FiltrateSkuPriceVersionResult{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[10]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FiltrateSkuPriceVersionResult) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FiltrateSkuPriceVersionResult) ProtoMessage() {}
+
+func (x *FiltrateSkuPriceVersionResult) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[10]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FiltrateSkuPriceVersionResult.ProtoReflect.Descriptor instead.
+func (*FiltrateSkuPriceVersionResult) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *FiltrateSkuPriceVersionResult) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *FiltrateSkuPriceVersionResult) GetSkuCode() []string {
+	if x != nil {
+		return x.SkuCode
+	}
+	return nil
+}
+
+type FiltrateSkuPriceVersionResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Common *CommonResponse                  `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
+	Result []*FiltrateSkuPriceVersionResult `protobuf:"bytes,2,rep,name=result,proto3" json:"result,omitempty"` // 返回不满足筛选区间的商品列表
+}
+
+func (x *FiltrateSkuPriceVersionResponse) Reset() {
+	*x = FiltrateSkuPriceVersionResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[11]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FiltrateSkuPriceVersionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FiltrateSkuPriceVersionResponse) ProtoMessage() {}
+
+func (x *FiltrateSkuPriceVersionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[11]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FiltrateSkuPriceVersionResponse.ProtoReflect.Descriptor instead.
+func (*FiltrateSkuPriceVersionResponse) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *FiltrateSkuPriceVersionResponse) GetCommon() *CommonResponse {
+	if x != nil {
+		return x.Common
+	}
+	return nil
+}
+
+func (x *FiltrateSkuPriceVersionResponse) GetResult() []*FiltrateSkuPriceVersionResult {
+	if x != nil {
+		return x.Result
+	}
+	return nil
+}
+
+type SearchSkuInventoryRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Keyword string `protobuf:"bytes,1,opt,name=keyword,proto3" json:"keyword,omitempty"`
+}
+
+func (x *SearchSkuInventoryRequest) Reset() {
+	*x = SearchSkuInventoryRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[12]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchSkuInventoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchSkuInventoryRequest) ProtoMessage() {}
+
+func (x *SearchSkuInventoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[12]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchSkuInventoryRequest.ProtoReflect.Descriptor instead.
+func (*SearchSkuInventoryRequest) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *SearchSkuInventoryRequest) GetKeyword() string {
+	if x != nil {
+		return x.Keyword
+	}
+	return ""
+}
+
+type SearchSkuInventoryEntry struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Info  *SkuInventoryInfo `protobuf:"bytes,1,opt,name=info,proto3" json:"info,omitempty"`
+	Score float64           `protobuf:"fixed64,2,opt,name=score,proto3" json:"score,omitempty"`
+}
+
+func (x *SearchSkuInventoryEntry) Reset() {
+	*x = SearchSkuInventoryEntry{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[13]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchSkuInventoryEntry) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchSkuInventoryEntry) ProtoMessage() {}
+
+func (x *SearchSkuInventoryEntry) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[13]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchSkuInventoryEntry.ProtoReflect.Descriptor instead.
+func (*SearchSkuInventoryEntry) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *SearchSkuInventoryEntry) GetInfo() *SkuInventoryInfo {
+	if x != nil {
+		return x.Info
+	}
+	return nil
+}
+
+func (x *SearchSkuInventoryEntry) GetScore() float64 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+type SearchSkuInventoryResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Common *CommonResponse            `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
+	List   []*SearchSkuInventoryEntry `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+}
+
+func (x *SearchSkuInventoryResponse) Reset() {
+	*x = SearchSkuInventoryResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[14]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchSkuInventoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchSkuInventoryResponse) ProtoMessage() {}
+
+func (x *SearchSkuInventoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[14]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchSkuInventoryResponse.ProtoReflect.Descriptor instead.
+func (*SearchSkuInventoryResponse) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *SearchSkuInventoryResponse) GetCommon() *CommonResponse {
+	if x != nil {
+		return x.Common
+	}
+	return nil
+}
+
+func (x *SearchSkuInventoryResponse) GetList() []*SearchSkuInventoryEntry {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
+type SearchSyncSkuInventoryRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ShopId   int64 `protobuf:"varint,1,opt,name=shop_id,json=shopId,proto3" json:"shop_id,omitempty"`       // shop_id为0则同步所有库存
+	PageSize int64 `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"` // 大于0
+	PageNum  int64 `protobuf:"varint,3,opt,name=page_num,json=pageNum,proto3" json:"page_num,omitempty"`    // 大于0
+}
+
+func (x *SearchSyncSkuInventoryRequest) Reset() {
+	*x = SearchSyncSkuInventoryRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchSyncSkuInventoryRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchSyncSkuInventoryRequest) ProtoMessage() {}
+
+func (x *SearchSyncSkuInventoryRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchSyncSkuInventoryRequest.ProtoReflect.Descriptor instead.
+func (*SearchSyncSkuInventoryRequest) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *SearchSyncSkuInventoryRequest) GetShopId() int64 {
+	if x != nil {
+		return x.ShopId
+	}
+	return 0
+}
+
+func (x *SearchSyncSkuInventoryRequest) GetPageSize() int64 {
+	if x != nil {
+		return x.PageSize
+	}
+	return 0
+}
+
+func (x *SearchSyncSkuInventoryRequest) GetPageNum() int64 {
+	if x != nil {
+		return x.PageNum
+	}
+	return 0
+}
+
+type SearchSyncSkuInventoryResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Common *CommonResponse     `protobuf:"bytes,1,opt,name=common,proto3" json:"common,omitempty"`
+	Info   []*SkuInventoryInfo `protobuf:"bytes,2,rep,name=info,proto3" json:"info,omitempty"`
+}
+
+func (x *SearchSyncSkuInventoryResponse) Reset() {
+	*x = SearchSyncSkuInventoryResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[16]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SearchSyncSkuInventoryResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchSyncSkuInventoryResponse) ProtoMessage() {}
+
+func (x *SearchSyncSkuInventoryResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[16]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchSyncSkuInventoryResponse.ProtoReflect.Descriptor instead.
+func (*SearchSyncSkuInventoryResponse) Descriptor() ([]byte, []int) {
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *SearchSyncSkuInventoryResponse) GetCommon() *CommonResponse {
+	if x != nil {
+		return x.Common
+	}
+	return nil
+}
+
+func (x *SearchSyncSkuInventoryResponse) GetInfo() []*SkuInventoryInfo {
+	if x != nil {
+		return x.Info
+	}
+	return nil
+}
+
 type SupplementSkuPropertyRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -575,7 +1199,7 @@ type SupplementSkuPropertyRequest struct {
 func (x *SupplementSkuPropertyRequest) Reset() {
 	*x = SupplementSkuPropertyRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[7]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -588,7 +1212,7 @@ func (x *SupplementSkuPropertyRequest) String() string {
 func (*SupplementSkuPropertyRequest) ProtoMessage() {}
 
 func (x *SupplementSkuPropertyRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[7]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -601,7 +1225,7 @@ func (x *SupplementSkuPropertyRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SupplementSkuPropertyRequest.ProtoReflect.Descriptor instead.
 func (*SupplementSkuPropertyRequest) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{7}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *SupplementSkuPropertyRequest) GetShopId() int64 {
@@ -692,7 +1316,7 @@ type SupplementSkuPropertyResponse struct {
 func (x *SupplementSkuPropertyResponse) Reset() {
 	*x = SupplementSkuPropertyResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[8]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -705,7 +1329,7 @@ func (x *SupplementSkuPropertyResponse) String() string {
 func (*SupplementSkuPropertyResponse) ProtoMessage() {}
 
 func (x *SupplementSkuPropertyResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[8]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -718,7 +1342,7 @@ func (x *SupplementSkuPropertyResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SupplementSkuPropertyResponse.ProtoReflect.Descriptor instead.
 func (*SupplementSkuPropertyResponse) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{8}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *SupplementSkuPropertyResponse) GetCommon() *CommonResponse {
@@ -739,7 +1363,7 @@ type GetSkuListRequest struct {
 func (x *GetSkuListRequest) Reset() {
 	*x = GetSkuListRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[9]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -752,7 +1376,7 @@ func (x *GetSkuListRequest) String() string {
 func (*GetSkuListRequest) ProtoMessage() {}
 
 func (x *GetSkuListRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[9]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -765,7 +1389,7 @@ func (x *GetSkuListRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSkuListRequest.ProtoReflect.Descriptor instead.
 func (*GetSkuListRequest) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{9}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GetSkuListRequest) GetShopId() int64 {
@@ -786,7 +1410,7 @@ type GetSkuListResponse struct {
 func (x *GetSkuListResponse) Reset() {
 	*x = GetSkuListResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[10]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -799,7 +1423,7 @@ func (x *GetSkuListResponse) String() string {
 func (*GetSkuListResponse) ProtoMessage() {}
 
 func (x *GetSkuListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[10]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -812,7 +1436,7 @@ func (x *GetSkuListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSkuListResponse.ProtoReflect.Descriptor instead.
 func (*GetSkuListResponse) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{10}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *GetSkuListResponse) GetList() []*SkuInventoryInfo {
@@ -850,7 +1474,7 @@ type SkuInventoryInfo struct {
 func (x *SkuInventoryInfo) Reset() {
 	*x = SkuInventoryInfo{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[11]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -863,7 +1487,7 @@ func (x *SkuInventoryInfo) String() string {
 func (*SkuInventoryInfo) ProtoMessage() {}
 
 func (x *SkuInventoryInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[11]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -876,7 +1500,7 @@ func (x *SkuInventoryInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SkuInventoryInfo.ProtoReflect.Descriptor instead.
 func (*SkuInventoryInfo) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{11}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *SkuInventoryInfo) GetSkuCode() string {
@@ -1011,7 +1635,7 @@ type PutAwaySkuRequest struct {
 func (x *PutAwaySkuRequest) Reset() {
 	*x = PutAwaySkuRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[12]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1024,7 +1648,7 @@ func (x *PutAwaySkuRequest) String() string {
 func (*PutAwaySkuRequest) ProtoMessage() {}
 
 func (x *PutAwaySkuRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[12]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1037,7 +1661,7 @@ func (x *PutAwaySkuRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutAwaySkuRequest.ProtoReflect.Descriptor instead.
 func (*PutAwaySkuRequest) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{12}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *PutAwaySkuRequest) GetSku() *SkuInventoryInfo {
@@ -1072,7 +1696,7 @@ type PutAwaySkuResponse struct {
 func (x *PutAwaySkuResponse) Reset() {
 	*x = PutAwaySkuResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[13]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1085,7 +1709,7 @@ func (x *PutAwaySkuResponse) String() string {
 func (*PutAwaySkuResponse) ProtoMessage() {}
 
 func (x *PutAwaySkuResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[13]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1098,7 +1722,7 @@ func (x *PutAwaySkuResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PutAwaySkuResponse.ProtoReflect.Descriptor instead.
 func (*PutAwaySkuResponse) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{13}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *PutAwaySkuResponse) GetCommon() *CommonResponse {
@@ -1120,7 +1744,7 @@ type CommonResponse struct {
 func (x *CommonResponse) Reset() {
 	*x = CommonResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[14]
+		mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1133,7 +1757,7 @@ func (x *CommonResponse) String() string {
 func (*CommonResponse) ProtoMessage() {}
 
 func (x *CommonResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[14]
+	mi := &file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1146,7 +1770,7 @@ func (x *CommonResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CommonResponse.ProtoReflect.Descriptor instead.
 func (*CommonResponse) Descriptor() ([]byte, []int) {
-	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{14}
+	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *CommonResponse) GetCode() RetCode {
@@ -1224,7 +1848,83 @@ var file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDesc = []byte{
 	0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x06,
 	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x73, 0x5f, 0x73, 0x75, 0x63,
 	0x63, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x09, 0x69, 0x73, 0x53, 0x75,
-	0x63, 0x63, 0x65, 0x73, 0x73, 0x22, 0xb3, 0x03, 0x0a, 0x1c, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x65,
+	0x63, 0x63, 0x65, 0x73, 0x73, 0x22, 0x70, 0x0a, 0x12, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63,
+	0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x53, 0x65, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x73,
+	0x68, 0x6f, 0x70, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x68,
+	0x6f, 0x70, 0x49, 0x64, 0x12, 0x41, 0x0a, 0x0a, 0x65, 0x6e, 0x74, 0x72, 0x79, 0x5f, 0x6c, 0x69,
+	0x73, 0x74, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62,
+	0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x09, 0x65, 0x6e,
+	0x74, 0x72, 0x79, 0x4c, 0x69, 0x73, 0x74, 0x22, 0x61, 0x0a, 0x14, 0x53, 0x6b, 0x75, 0x50, 0x72,
+	0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
+	0x19, 0x0a, 0x08, 0x73, 0x6b, 0x75, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x73, 0x6b, 0x75, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x70, 0x72,
+	0x69, 0x63, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x70, 0x72, 0x69, 0x63, 0x65,
+	0x12, 0x18, 0x0a, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x04, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x07, 0x76, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x22, 0xc9, 0x01, 0x0a, 0x1e, 0x46,
+	0x69, 0x6c, 0x74, 0x72, 0x61, 0x74, 0x65, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56,
+	0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x3b, 0x0a,
+	0x08, 0x73, 0x65, 0x74, 0x5f, 0x6c, 0x69, 0x73, 0x74, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x20, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53,
+	0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x53, 0x65,
+	0x74, 0x52, 0x07, 0x73, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x49, 0x0a, 0x0b, 0x70, 0x6f,
+	0x6c, 0x69, 0x63, 0x79, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32,
+	0x28, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53,
+	0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x46, 0x69, 0x6c,
+	0x74, 0x72, 0x61, 0x74, 0x65, 0x54, 0x79, 0x70, 0x65, 0x52, 0x0a, 0x70, 0x6f, 0x6c, 0x69, 0x63,
+	0x79, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x5f, 0x75,
+	0x70, 0x70, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x0a, 0x6c, 0x69, 0x6d, 0x69,
+	0x74, 0x55, 0x70, 0x70, 0x65, 0x72, 0x22, 0x53, 0x0a, 0x1d, 0x46, 0x69, 0x6c, 0x74, 0x72, 0x61,
+	0x74, 0x65, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x73, 0x68, 0x6f, 0x70, 0x5f,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x68, 0x6f, 0x70, 0x49, 0x64,
+	0x12, 0x19, 0x0a, 0x08, 0x73, 0x6b, 0x75, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x03,
+	0x28, 0x09, 0x52, 0x07, 0x73, 0x6b, 0x75, 0x43, 0x6f, 0x64, 0x65, 0x22, 0x9c, 0x01, 0x0a, 0x1f,
+	0x46, 0x69, 0x6c, 0x74, 0x72, 0x61, 0x74, 0x65, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x34, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1c, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x43,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x06, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x12, 0x43, 0x0a, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x18,
+	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69,
+	0x6e, 0x65, 0x73, 0x73, 0x2e, 0x46, 0x69, 0x6c, 0x74, 0x72, 0x61, 0x74, 0x65, 0x53, 0x6b, 0x75,
+	0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x75,
+	0x6c, 0x74, 0x52, 0x06, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22, 0x35, 0x0a, 0x19, 0x53, 0x65,
+	0x61, 0x72, 0x63, 0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x6b, 0x65, 0x79, 0x77, 0x6f,
+	0x72, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6b, 0x65, 0x79, 0x77, 0x6f, 0x72,
+	0x64, 0x22, 0x63, 0x0a, 0x17, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e,
+	0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12, 0x32, 0x0a, 0x04,
+	0x69, 0x6e, 0x66, 0x6f, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1e, 0x2e, 0x73, 0x6b, 0x75,
+	0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x04, 0x69, 0x6e, 0x66, 0x6f,
+	0x12, 0x14, 0x0a, 0x05, 0x73, 0x63, 0x6f, 0x72, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52,
+	0x05, 0x73, 0x63, 0x6f, 0x72, 0x65, 0x22, 0x8d, 0x01, 0x0a, 0x1a, 0x53, 0x65, 0x61, 0x72, 0x63,
+	0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x34, 0x0a, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69,
+	0x6e, 0x65, 0x73, 0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x52, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x12, 0x39, 0x0a, 0x04, 0x6c,
+	0x69, 0x73, 0x74, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x25, 0x2e, 0x73, 0x6b, 0x75, 0x5f,
+	0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53,
+	0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x45, 0x6e, 0x74, 0x72, 0x79,
+	0x52, 0x04, 0x6c, 0x69, 0x73, 0x74, 0x22, 0x70, 0x0a, 0x1d, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
+	0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x73, 0x68, 0x6f, 0x70, 0x5f,
+	0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x68, 0x6f, 0x70, 0x49, 0x64,
+	0x12, 0x1b, 0x0a, 0x09, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x08, 0x70, 0x61, 0x67, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x19, 0x0a,
+	0x08, 0x70, 0x61, 0x67, 0x65, 0x5f, 0x6e, 0x75, 0x6d, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52,
+	0x07, 0x70, 0x61, 0x67, 0x65, 0x4e, 0x75, 0x6d, 0x22, 0x8a, 0x01, 0x0a, 0x1e, 0x53, 0x65, 0x61,
+	0x72, 0x63, 0x68, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74,
+	0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x34, 0x0a, 0x06, 0x63,
+	0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x73, 0x6b,
+	0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x06, 0x63, 0x6f, 0x6d, 0x6d, 0x6f,
+	0x6e, 0x12, 0x32, 0x0a, 0x04, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x1e, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53,
+	0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x49, 0x6e, 0x66, 0x6f, 0x52,
+	0x04, 0x69, 0x6e, 0x66, 0x6f, 0x22, 0xb3, 0x03, 0x0a, 0x1c, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x65,
 	0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52,
 	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x17, 0x0a, 0x07, 0x73, 0x68, 0x6f, 0x70, 0x5f, 0x69,
 	0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x73, 0x68, 0x6f, 0x70, 0x49, 0x64, 0x12,
@@ -1316,71 +2016,114 @@ var file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDesc = []byte{
 	0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x15, 0x2e, 0x73, 0x6b, 0x75,
 	0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x52, 0x65, 0x74, 0x43, 0x6f, 0x64,
 	0x65, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x6d, 0x73, 0x67, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x2a, 0xff, 0x01, 0x0a, 0x07, 0x52, 0x65,
-	0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x0b, 0x0a, 0x07, 0x53, 0x55, 0x43, 0x43, 0x45, 0x53, 0x53,
-	0x10, 0x00, 0x12, 0x0a, 0x0a, 0x05, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0xf4, 0x03, 0x12, 0x14,
-	0x0a, 0x0e, 0x55, 0x53, 0x45, 0x52, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54,
-	0x10, 0xd1, 0x86, 0x03, 0x12, 0x10, 0x0a, 0x0a, 0x55, 0x53, 0x45, 0x52, 0x5f, 0x45, 0x58, 0x49,
-	0x53, 0x54, 0x10, 0xd2, 0x86, 0x03, 0x12, 0x18, 0x0a, 0x12, 0x4d, 0x45, 0x52, 0x43, 0x48, 0x41,
-	0x4e, 0x54, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd3, 0x86, 0x03,
-	0x12, 0x14, 0x0a, 0x0e, 0x4d, 0x45, 0x52, 0x43, 0x48, 0x41, 0x4e, 0x54, 0x5f, 0x45, 0x58, 0x49,
-	0x53, 0x54, 0x10, 0xd4, 0x86, 0x03, 0x12, 0x14, 0x0a, 0x0e, 0x53, 0x48, 0x4f, 0x50, 0x5f, 0x4e,
-	0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd5, 0x86, 0x03, 0x12, 0x10, 0x0a, 0x0a,
-	0x53, 0x48, 0x4f, 0x50, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd6, 0x86, 0x03, 0x12, 0x13,
-	0x0a, 0x0d, 0x53, 0x4b, 0x55, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10,
-	0xd7, 0x86, 0x03, 0x12, 0x0f, 0x0a, 0x09, 0x53, 0x4b, 0x55, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54,
-	0x10, 0xd8, 0x86, 0x03, 0x12, 0x1b, 0x0a, 0x15, 0x53, 0x4b, 0x55, 0x5f, 0x41, 0x4d, 0x4f, 0x55,
-	0x4e, 0x54, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x4e, 0x4f, 0x55, 0x47, 0x48, 0x10, 0xd9, 0x86,
-	0x03, 0x12, 0x18, 0x0a, 0x12, 0x54, 0x52, 0x41, 0x4e, 0x53, 0x41, 0x43, 0x54, 0x49, 0x4f, 0x4e,
-	0x5f, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44, 0x10, 0xda, 0x86, 0x03, 0x2a, 0x4c, 0x0a, 0x0d, 0x4f,
-	0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0a, 0x0a, 0x06,
-	0x43, 0x52, 0x45, 0x41, 0x54, 0x45, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x55, 0x50, 0x44, 0x41,
-	0x54, 0x45, 0x10, 0x01, 0x12, 0x0a, 0x0a, 0x06, 0x44, 0x45, 0x4c, 0x45, 0x54, 0x45, 0x10, 0x02,
-	0x12, 0x09, 0x0a, 0x05, 0x41, 0x55, 0x44, 0x49, 0x54, 0x10, 0x03, 0x12, 0x0c, 0x0a, 0x08, 0x50,
-	0x55, 0x54, 0x5f, 0x41, 0x57, 0x41, 0x59, 0x10, 0x04, 0x32, 0xa8, 0x05, 0x0a, 0x12, 0x53, 0x6b,
-	0x75, 0x42, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x12, 0x76, 0x0a, 0x0a, 0x50, 0x75, 0x74, 0x41, 0x77, 0x61, 0x79, 0x53, 0x6b, 0x75, 0x12, 0x1f,
-	0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x50, 0x75,
-	0x74, 0x41, 0x77, 0x61, 0x79, 0x53, 0x6b, 0x75, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x20, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x50,
-	0x75, 0x74, 0x41, 0x77, 0x61, 0x79, 0x53, 0x6b, 0x75, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x25, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x22, 0x1a, 0x2f, 0x76, 0x31, 0x2f, 0x73,
-	0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x70, 0x75, 0x74,
-	0x5f, 0x61, 0x77, 0x61, 0x79, 0x3a, 0x01, 0x2a, 0x12, 0x6f, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x53,
-	0x6b, 0x75, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x1f, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73,
-	0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x6b, 0x75, 0x4c, 0x69, 0x73, 0x74,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75,
-	0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x6b, 0x75, 0x4c, 0x69, 0x73,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02,
-	0x18, 0x12, 0x16, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e,
-	0x74, 0x6f, 0x72, 0x79, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x12, 0x98, 0x01, 0x0a, 0x15, 0x53, 0x75,
-	0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f, 0x70, 0x65,
-	0x72, 0x74, 0x79, 0x12, 0x2a, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65,
-	0x73, 0x73, 0x2e, 0x53, 0x75, 0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75,
-	0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x2b, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53,
-	0x75, 0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f, 0x70,
-	0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x20, 0x1a, 0x1b, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x70, 0x72,
-	0x6f, 0x70, 0x65, 0x72, 0x74, 0x79, 0x2f, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e,
-	0x74, 0x3a, 0x01, 0x2a, 0x12, 0x83, 0x01, 0x0a, 0x0f, 0x44, 0x65, 0x64, 0x75, 0x63, 0x74, 0x49,
-	0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x24, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62,
-	0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x44, 0x65, 0x64, 0x75, 0x63, 0x74, 0x49, 0x6e,
-	0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25,
-	0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x44, 0x65,
-	0x64, 0x75, 0x63, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x1a, 0x18, 0x2f,
-	0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79,
-	0x2f, 0x64, 0x65, 0x64, 0x75, 0x63, 0x74, 0x3a, 0x01, 0x2a, 0x12, 0x87, 0x01, 0x0a, 0x10, 0x52,
-	0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12,
-	0x25, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x52,
-	0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73,
-	0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76,
-	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24,
-	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1e, 0x1a, 0x19, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f,
-	0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x72, 0x65, 0x73, 0x74, 0x6f, 0x72,
-	0x65, 0x3a, 0x01, 0x2a, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x6d, 0x73, 0x67, 0x2a, 0x57, 0x0a, 0x1a, 0x53, 0x6b, 0x75,
+	0x50, 0x72, 0x69, 0x63, 0x65, 0x50, 0x6f, 0x6c, 0x69, 0x63, 0x79, 0x46, 0x69, 0x6c, 0x74, 0x72,
+	0x61, 0x74, 0x65, 0x54, 0x79, 0x70, 0x65, 0x12, 0x13, 0x0a, 0x0f, 0x56, 0x45, 0x52, 0x53, 0x49,
+	0x4f, 0x4e, 0x5f, 0x53, 0x45, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x10, 0x00, 0x12, 0x11, 0x0a, 0x0d,
+	0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x55, 0x50, 0x50, 0x45, 0x52, 0x10, 0x01, 0x12,
+	0x11, 0x0a, 0x0d, 0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x4c, 0x4f, 0x57, 0x45, 0x52,
+	0x10, 0x02, 0x2a, 0x83, 0x03, 0x0a, 0x07, 0x52, 0x65, 0x74, 0x43, 0x6f, 0x64, 0x65, 0x12, 0x0b,
+	0x0a, 0x07, 0x53, 0x55, 0x43, 0x43, 0x45, 0x53, 0x53, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x05, 0x45,
+	0x52, 0x52, 0x4f, 0x52, 0x10, 0xf4, 0x03, 0x12, 0x14, 0x0a, 0x0e, 0x55, 0x53, 0x45, 0x52, 0x5f,
+	0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd1, 0x86, 0x03, 0x12, 0x10, 0x0a,
+	0x0a, 0x55, 0x53, 0x45, 0x52, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd2, 0x86, 0x03, 0x12,
+	0x18, 0x0a, 0x12, 0x4d, 0x45, 0x52, 0x43, 0x48, 0x41, 0x4e, 0x54, 0x5f, 0x4e, 0x4f, 0x54, 0x5f,
+	0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd3, 0x86, 0x03, 0x12, 0x14, 0x0a, 0x0e, 0x4d, 0x45, 0x52,
+	0x43, 0x48, 0x41, 0x4e, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd4, 0x86, 0x03, 0x12,
+	0x14, 0x0a, 0x0e, 0x53, 0x48, 0x4f, 0x50, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53,
+	0x54, 0x10, 0xd5, 0x86, 0x03, 0x12, 0x10, 0x0a, 0x0a, 0x53, 0x48, 0x4f, 0x50, 0x5f, 0x45, 0x58,
+	0x49, 0x53, 0x54, 0x10, 0xd6, 0x86, 0x03, 0x12, 0x13, 0x0a, 0x0d, 0x53, 0x4b, 0x55, 0x5f, 0x4e,
+	0x4f, 0x54, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd7, 0x86, 0x03, 0x12, 0x0f, 0x0a, 0x09,
+	0x53, 0x4b, 0x55, 0x5f, 0x45, 0x58, 0x49, 0x53, 0x54, 0x10, 0xd8, 0x86, 0x03, 0x12, 0x1b, 0x0a,
+	0x15, 0x53, 0x4b, 0x55, 0x5f, 0x41, 0x4d, 0x4f, 0x55, 0x4e, 0x54, 0x5f, 0x4e, 0x4f, 0x54, 0x5f,
+	0x45, 0x4e, 0x4f, 0x55, 0x47, 0x48, 0x10, 0xd9, 0x86, 0x03, 0x12, 0x18, 0x0a, 0x12, 0x54, 0x52,
+	0x41, 0x4e, 0x53, 0x41, 0x43, 0x54, 0x49, 0x4f, 0x4e, 0x5f, 0x46, 0x41, 0x49, 0x4c, 0x45, 0x44,
+	0x10, 0xda, 0x86, 0x03, 0x12, 0x21, 0x0a, 0x1b, 0x53, 0x4b, 0x55, 0x5f, 0x50, 0x52, 0x49, 0x43,
+	0x45, 0x5f, 0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x45, 0x58,
+	0x49, 0x53, 0x54, 0x10, 0xdb, 0x86, 0x03, 0x12, 0x2f, 0x0a, 0x29, 0x53, 0x4b, 0x55, 0x5f, 0x50,
+	0x52, 0x49, 0x43, 0x45, 0x5f, 0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x50, 0x4f, 0x4c,
+	0x49, 0x43, 0x59, 0x5f, 0x54, 0x59, 0x50, 0x45, 0x5f, 0x4e, 0x4f, 0x54, 0x5f, 0x53, 0x55, 0x50,
+	0x50, 0x4f, 0x52, 0x54, 0x10, 0xdc, 0x86, 0x03, 0x12, 0x2e, 0x0a, 0x28, 0x53, 0x4b, 0x55, 0x5f,
+	0x50, 0x52, 0x49, 0x43, 0x45, 0x5f, 0x56, 0x45, 0x52, 0x53, 0x49, 0x4f, 0x4e, 0x5f, 0x50, 0x4f,
+	0x4c, 0x49, 0x43, 0x59, 0x5f, 0x44, 0x41, 0x54, 0x41, 0x5f, 0x46, 0x4f, 0x52, 0x4d, 0x41, 0x54,
+	0x5f, 0x45, 0x52, 0x52, 0x10, 0xdd, 0x86, 0x03, 0x2a, 0x4c, 0x0a, 0x0d, 0x4f, 0x70, 0x65, 0x72,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x0a, 0x0a, 0x06, 0x43, 0x52, 0x45,
+	0x41, 0x54, 0x45, 0x10, 0x00, 0x12, 0x0a, 0x0a, 0x06, 0x55, 0x50, 0x44, 0x41, 0x54, 0x45, 0x10,
+	0x01, 0x12, 0x0a, 0x0a, 0x06, 0x44, 0x45, 0x4c, 0x45, 0x54, 0x45, 0x10, 0x02, 0x12, 0x09, 0x0a,
+	0x05, 0x41, 0x55, 0x44, 0x49, 0x54, 0x10, 0x03, 0x12, 0x0c, 0x0a, 0x08, 0x50, 0x55, 0x54, 0x5f,
+	0x41, 0x57, 0x41, 0x59, 0x10, 0x04, 0x32, 0xf3, 0x08, 0x0a, 0x12, 0x53, 0x6b, 0x75, 0x42, 0x75,
+	0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x76, 0x0a,
+	0x0a, 0x50, 0x75, 0x74, 0x41, 0x77, 0x61, 0x79, 0x53, 0x6b, 0x75, 0x12, 0x1f, 0x2e, 0x73, 0x6b,
+	0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x50, 0x75, 0x74, 0x41, 0x77,
+	0x61, 0x79, 0x53, 0x6b, 0x75, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x73,
+	0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x50, 0x75, 0x74, 0x41,
+	0x77, 0x61, 0x79, 0x53, 0x6b, 0x75, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x25,
+	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x22, 0x1a, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f,
+	0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x70, 0x75, 0x74, 0x5f, 0x61, 0x77,
+	0x61, 0x79, 0x3a, 0x01, 0x2a, 0x12, 0x6f, 0x0a, 0x0a, 0x47, 0x65, 0x74, 0x53, 0x6b, 0x75, 0x4c,
+	0x69, 0x73, 0x74, 0x12, 0x1f, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65,
+	0x73, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x6b, 0x75, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e,
+	0x65, 0x73, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x53, 0x6b, 0x75, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1e, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x18, 0x12, 0x16,
+	0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72,
+	0x79, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x12, 0x98, 0x01, 0x0a, 0x15, 0x53, 0x75, 0x70, 0x70, 0x6c,
+	0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74, 0x79,
+	0x12, 0x2a, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e,
+	0x53, 0x75, 0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f,
+	0x70, 0x65, 0x72, 0x74, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x73,
+	0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x75, 0x70, 0x70,
+	0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x6f, 0x70, 0x65, 0x72, 0x74,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x26, 0x82, 0xd3, 0xe4, 0x93, 0x02,
+	0x20, 0x1a, 0x1b, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x70, 0x72, 0x6f, 0x70, 0x65,
+	0x72, 0x74, 0x79, 0x2f, 0x73, 0x75, 0x70, 0x70, 0x6c, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x3a, 0x01,
+	0x2a, 0x12, 0x83, 0x01, 0x0a, 0x0f, 0x44, 0x65, 0x64, 0x75, 0x63, 0x74, 0x49, 0x6e, 0x76, 0x65,
+	0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x24, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69,
+	0x6e, 0x65, 0x73, 0x73, 0x2e, 0x44, 0x65, 0x64, 0x75, 0x63, 0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e,
+	0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x25, 0x2e, 0x73, 0x6b,
+	0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x44, 0x65, 0x64, 0x75, 0x63,
+	0x74, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x1a, 0x18, 0x2f, 0x76, 0x31, 0x2f,
+	0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x64, 0x65,
+	0x64, 0x75, 0x63, 0x74, 0x3a, 0x01, 0x2a, 0x12, 0x87, 0x01, 0x0a, 0x10, 0x52, 0x65, 0x73, 0x74,
+	0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x25, 0x2e, 0x73,
+	0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x74,
+	0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65,
+	0x73, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74,
+	0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x24, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x1e, 0x1a, 0x19, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x72, 0x65, 0x73, 0x74, 0x6f, 0x72, 0x65, 0x3a, 0x01,
+	0x2a, 0x12, 0x99, 0x01, 0x0a, 0x17, 0x46, 0x69, 0x6c, 0x74, 0x72, 0x61, 0x74, 0x65, 0x53, 0x6b,
+	0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x2c, 0x2e,
+	0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x46, 0x69, 0x6c,
+	0x74, 0x72, 0x61, 0x74, 0x65, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72,
+	0x73, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2d, 0x2e, 0x73, 0x6b,
+	0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x46, 0x69, 0x6c, 0x74, 0x72,
+	0x61, 0x74, 0x65, 0x53, 0x6b, 0x75, 0x50, 0x72, 0x69, 0x63, 0x65, 0x56, 0x65, 0x72, 0x73, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x21, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x1b, 0x22, 0x16, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x70, 0x72, 0x69, 0x63,
+	0x65, 0x2f, 0x66, 0x69, 0x6c, 0x74, 0x72, 0x61, 0x74, 0x65, 0x3a, 0x01, 0x2a, 0x12, 0x9d, 0x01,
+	0x0a, 0x16, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x79, 0x6e, 0x63, 0x53, 0x6b, 0x75, 0x49,
+	0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x2b, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62,
+	0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x79,
+	0x6e, 0x63, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69,
+	0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x79, 0x6e, 0x63, 0x53,
+	0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x22, 0x28, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x22, 0x22, 0x1d, 0x2f, 0x76, 0x31,
+	0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x2f, 0x73,
+	0x65, 0x61, 0x72, 0x63, 0x68, 0x2f, 0x73, 0x79, 0x6e, 0x63, 0x3a, 0x01, 0x2a, 0x12, 0x8c, 0x01,
+	0x0a, 0x12, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e,
+	0x74, 0x6f, 0x72, 0x79, 0x12, 0x27, 0x2e, 0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e,
+	0x65, 0x73, 0x73, 0x2e, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76,
+	0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x28, 0x2e,
+	0x73, 0x6b, 0x75, 0x5f, 0x62, 0x75, 0x73, 0x69, 0x6e, 0x65, 0x73, 0x73, 0x2e, 0x53, 0x65, 0x61,
+	0x72, 0x63, 0x68, 0x53, 0x6b, 0x75, 0x49, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f, 0x72, 0x79, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x22,
+	0x18, 0x2f, 0x76, 0x31, 0x2f, 0x73, 0x6b, 0x75, 0x2f, 0x69, 0x6e, 0x76, 0x65, 0x6e, 0x74, 0x6f,
+	0x72, 0x79, 0x2f, 0x73, 0x65, 0x61, 0x72, 0x63, 0x68, 0x3a, 0x01, 0x2a, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1395,59 +2138,86 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescGZIP() []byte
 	return file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDescData
 }
 
-var file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
+var file_proto_micro_mall_sku_proto_sku_business_sku_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
+var file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
 var file_proto_micro_mall_sku_proto_sku_business_sku_proto_goTypes = []interface{}{
-	(RetCode)(0),                          // 0: sku_business.RetCode
-	(OperationType)(0),                    // 1: sku_business.OperationType
-	(*OperationMeta)(nil),                 // 2: sku_business.OperationMeta
-	(*InventoryEntryShop)(nil),            // 3: sku_business.InventoryEntryShop
-	(*InventoryEntryDetail)(nil),          // 4: sku_business.InventoryEntryDetail
-	(*DeductInventoryRequest)(nil),        // 5: sku_business.DeductInventoryRequest
-	(*DeductInventoryResponse)(nil),       // 6: sku_business.DeductInventoryResponse
-	(*RestoreInventoryRequest)(nil),       // 7: sku_business.RestoreInventoryRequest
-	(*RestoreInventoryResponse)(nil),      // 8: sku_business.RestoreInventoryResponse
-	(*SupplementSkuPropertyRequest)(nil),  // 9: sku_business.SupplementSkuPropertyRequest
-	(*SupplementSkuPropertyResponse)(nil), // 10: sku_business.SupplementSkuPropertyResponse
-	(*GetSkuListRequest)(nil),             // 11: sku_business.GetSkuListRequest
-	(*GetSkuListResponse)(nil),            // 12: sku_business.GetSkuListResponse
-	(*SkuInventoryInfo)(nil),              // 13: sku_business.SkuInventoryInfo
-	(*PutAwaySkuRequest)(nil),             // 14: sku_business.PutAwaySkuRequest
-	(*PutAwaySkuResponse)(nil),            // 15: sku_business.PutAwaySkuResponse
-	(*CommonResponse)(nil),                // 16: sku_business.CommonResponse
+	(SkuPricePolicyFiltrateType)(0),         // 0: sku_business.SkuPricePolicyFiltrateType
+	(RetCode)(0),                            // 1: sku_business.RetCode
+	(OperationType)(0),                      // 2: sku_business.OperationType
+	(*OperationMeta)(nil),                   // 3: sku_business.OperationMeta
+	(*InventoryEntryShop)(nil),              // 4: sku_business.InventoryEntryShop
+	(*InventoryEntryDetail)(nil),            // 5: sku_business.InventoryEntryDetail
+	(*DeductInventoryRequest)(nil),          // 6: sku_business.DeductInventoryRequest
+	(*DeductInventoryResponse)(nil),         // 7: sku_business.DeductInventoryResponse
+	(*RestoreInventoryRequest)(nil),         // 8: sku_business.RestoreInventoryRequest
+	(*RestoreInventoryResponse)(nil),        // 9: sku_business.RestoreInventoryResponse
+	(*SkuPriceVersionSet)(nil),              // 10: sku_business.SkuPriceVersionSet
+	(*SkuPriceVersionEntry)(nil),            // 11: sku_business.SkuPriceVersionEntry
+	(*FiltrateSkuPriceVersionRequest)(nil),  // 12: sku_business.FiltrateSkuPriceVersionRequest
+	(*FiltrateSkuPriceVersionResult)(nil),   // 13: sku_business.FiltrateSkuPriceVersionResult
+	(*FiltrateSkuPriceVersionResponse)(nil), // 14: sku_business.FiltrateSkuPriceVersionResponse
+	(*SearchSkuInventoryRequest)(nil),       // 15: sku_business.SearchSkuInventoryRequest
+	(*SearchSkuInventoryEntry)(nil),         // 16: sku_business.SearchSkuInventoryEntry
+	(*SearchSkuInventoryResponse)(nil),      // 17: sku_business.SearchSkuInventoryResponse
+	(*SearchSyncSkuInventoryRequest)(nil),   // 18: sku_business.SearchSyncSkuInventoryRequest
+	(*SearchSyncSkuInventoryResponse)(nil),  // 19: sku_business.SearchSyncSkuInventoryResponse
+	(*SupplementSkuPropertyRequest)(nil),    // 20: sku_business.SupplementSkuPropertyRequest
+	(*SupplementSkuPropertyResponse)(nil),   // 21: sku_business.SupplementSkuPropertyResponse
+	(*GetSkuListRequest)(nil),               // 22: sku_business.GetSkuListRequest
+	(*GetSkuListResponse)(nil),              // 23: sku_business.GetSkuListResponse
+	(*SkuInventoryInfo)(nil),                // 24: sku_business.SkuInventoryInfo
+	(*PutAwaySkuRequest)(nil),               // 25: sku_business.PutAwaySkuRequest
+	(*PutAwaySkuResponse)(nil),              // 26: sku_business.PutAwaySkuResponse
+	(*CommonResponse)(nil),                  // 27: sku_business.CommonResponse
 }
 var file_proto_micro_mall_sku_proto_sku_business_sku_proto_depIdxs = []int32{
-	4,  // 0: sku_business.InventoryEntryShop.detail:type_name -> sku_business.InventoryEntryDetail
-	3,  // 1: sku_business.DeductInventoryRequest.list:type_name -> sku_business.InventoryEntryShop
-	2,  // 2: sku_business.DeductInventoryRequest.operation_meta:type_name -> sku_business.OperationMeta
-	16, // 3: sku_business.DeductInventoryResponse.common:type_name -> sku_business.CommonResponse
-	3,  // 4: sku_business.RestoreInventoryRequest.list:type_name -> sku_business.InventoryEntryShop
-	2,  // 5: sku_business.RestoreInventoryRequest.operation_meta:type_name -> sku_business.OperationMeta
-	16, // 6: sku_business.RestoreInventoryResponse.common:type_name -> sku_business.CommonResponse
-	2,  // 7: sku_business.SupplementSkuPropertyRequest.operation_meta:type_name -> sku_business.OperationMeta
-	1,  // 8: sku_business.SupplementSkuPropertyRequest.operation_type:type_name -> sku_business.OperationType
-	16, // 9: sku_business.SupplementSkuPropertyResponse.common:type_name -> sku_business.CommonResponse
-	13, // 10: sku_business.GetSkuListResponse.list:type_name -> sku_business.SkuInventoryInfo
-	13, // 11: sku_business.PutAwaySkuRequest.sku:type_name -> sku_business.SkuInventoryInfo
-	1,  // 12: sku_business.PutAwaySkuRequest.operation_type:type_name -> sku_business.OperationType
-	2,  // 13: sku_business.PutAwaySkuRequest.operation_meta:type_name -> sku_business.OperationMeta
-	16, // 14: sku_business.PutAwaySkuResponse.common:type_name -> sku_business.CommonResponse
-	0,  // 15: sku_business.CommonResponse.code:type_name -> sku_business.RetCode
-	14, // 16: sku_business.SkuBusinessService.PutAwaySku:input_type -> sku_business.PutAwaySkuRequest
-	11, // 17: sku_business.SkuBusinessService.GetSkuList:input_type -> sku_business.GetSkuListRequest
-	9,  // 18: sku_business.SkuBusinessService.SupplementSkuProperty:input_type -> sku_business.SupplementSkuPropertyRequest
-	5,  // 19: sku_business.SkuBusinessService.DeductInventory:input_type -> sku_business.DeductInventoryRequest
-	7,  // 20: sku_business.SkuBusinessService.RestoreInventory:input_type -> sku_business.RestoreInventoryRequest
-	15, // 21: sku_business.SkuBusinessService.PutAwaySku:output_type -> sku_business.PutAwaySkuResponse
-	12, // 22: sku_business.SkuBusinessService.GetSkuList:output_type -> sku_business.GetSkuListResponse
-	10, // 23: sku_business.SkuBusinessService.SupplementSkuProperty:output_type -> sku_business.SupplementSkuPropertyResponse
-	6,  // 24: sku_business.SkuBusinessService.DeductInventory:output_type -> sku_business.DeductInventoryResponse
-	8,  // 25: sku_business.SkuBusinessService.RestoreInventory:output_type -> sku_business.RestoreInventoryResponse
-	21, // [21:26] is the sub-list for method output_type
-	16, // [16:21] is the sub-list for method input_type
-	16, // [16:16] is the sub-list for extension type_name
-	16, // [16:16] is the sub-list for extension extendee
-	0,  // [0:16] is the sub-list for field type_name
+	5,  // 0: sku_business.InventoryEntryShop.detail:type_name -> sku_business.InventoryEntryDetail
+	4,  // 1: sku_business.DeductInventoryRequest.list:type_name -> sku_business.InventoryEntryShop
+	3,  // 2: sku_business.DeductInventoryRequest.operation_meta:type_name -> sku_business.OperationMeta
+	27, // 3: sku_business.DeductInventoryResponse.common:type_name -> sku_business.CommonResponse
+	4,  // 4: sku_business.RestoreInventoryRequest.list:type_name -> sku_business.InventoryEntryShop
+	3,  // 5: sku_business.RestoreInventoryRequest.operation_meta:type_name -> sku_business.OperationMeta
+	27, // 6: sku_business.RestoreInventoryResponse.common:type_name -> sku_business.CommonResponse
+	11, // 7: sku_business.SkuPriceVersionSet.entry_list:type_name -> sku_business.SkuPriceVersionEntry
+	10, // 8: sku_business.FiltrateSkuPriceVersionRequest.set_list:type_name -> sku_business.SkuPriceVersionSet
+	0,  // 9: sku_business.FiltrateSkuPriceVersionRequest.policy_type:type_name -> sku_business.SkuPricePolicyFiltrateType
+	27, // 10: sku_business.FiltrateSkuPriceVersionResponse.common:type_name -> sku_business.CommonResponse
+	13, // 11: sku_business.FiltrateSkuPriceVersionResponse.result:type_name -> sku_business.FiltrateSkuPriceVersionResult
+	24, // 12: sku_business.SearchSkuInventoryEntry.info:type_name -> sku_business.SkuInventoryInfo
+	27, // 13: sku_business.SearchSkuInventoryResponse.common:type_name -> sku_business.CommonResponse
+	16, // 14: sku_business.SearchSkuInventoryResponse.list:type_name -> sku_business.SearchSkuInventoryEntry
+	27, // 15: sku_business.SearchSyncSkuInventoryResponse.common:type_name -> sku_business.CommonResponse
+	24, // 16: sku_business.SearchSyncSkuInventoryResponse.info:type_name -> sku_business.SkuInventoryInfo
+	3,  // 17: sku_business.SupplementSkuPropertyRequest.operation_meta:type_name -> sku_business.OperationMeta
+	2,  // 18: sku_business.SupplementSkuPropertyRequest.operation_type:type_name -> sku_business.OperationType
+	27, // 19: sku_business.SupplementSkuPropertyResponse.common:type_name -> sku_business.CommonResponse
+	24, // 20: sku_business.GetSkuListResponse.list:type_name -> sku_business.SkuInventoryInfo
+	24, // 21: sku_business.PutAwaySkuRequest.sku:type_name -> sku_business.SkuInventoryInfo
+	2,  // 22: sku_business.PutAwaySkuRequest.operation_type:type_name -> sku_business.OperationType
+	3,  // 23: sku_business.PutAwaySkuRequest.operation_meta:type_name -> sku_business.OperationMeta
+	27, // 24: sku_business.PutAwaySkuResponse.common:type_name -> sku_business.CommonResponse
+	1,  // 25: sku_business.CommonResponse.code:type_name -> sku_business.RetCode
+	25, // 26: sku_business.SkuBusinessService.PutAwaySku:input_type -> sku_business.PutAwaySkuRequest
+	22, // 27: sku_business.SkuBusinessService.GetSkuList:input_type -> sku_business.GetSkuListRequest
+	20, // 28: sku_business.SkuBusinessService.SupplementSkuProperty:input_type -> sku_business.SupplementSkuPropertyRequest
+	6,  // 29: sku_business.SkuBusinessService.DeductInventory:input_type -> sku_business.DeductInventoryRequest
+	8,  // 30: sku_business.SkuBusinessService.RestoreInventory:input_type -> sku_business.RestoreInventoryRequest
+	12, // 31: sku_business.SkuBusinessService.FiltrateSkuPriceVersion:input_type -> sku_business.FiltrateSkuPriceVersionRequest
+	18, // 32: sku_business.SkuBusinessService.SearchSyncSkuInventory:input_type -> sku_business.SearchSyncSkuInventoryRequest
+	15, // 33: sku_business.SkuBusinessService.SearchSkuInventory:input_type -> sku_business.SearchSkuInventoryRequest
+	26, // 34: sku_business.SkuBusinessService.PutAwaySku:output_type -> sku_business.PutAwaySkuResponse
+	23, // 35: sku_business.SkuBusinessService.GetSkuList:output_type -> sku_business.GetSkuListResponse
+	21, // 36: sku_business.SkuBusinessService.SupplementSkuProperty:output_type -> sku_business.SupplementSkuPropertyResponse
+	7,  // 37: sku_business.SkuBusinessService.DeductInventory:output_type -> sku_business.DeductInventoryResponse
+	9,  // 38: sku_business.SkuBusinessService.RestoreInventory:output_type -> sku_business.RestoreInventoryResponse
+	14, // 39: sku_business.SkuBusinessService.FiltrateSkuPriceVersion:output_type -> sku_business.FiltrateSkuPriceVersionResponse
+	19, // 40: sku_business.SkuBusinessService.SearchSyncSkuInventory:output_type -> sku_business.SearchSyncSkuInventoryResponse
+	17, // 41: sku_business.SkuBusinessService.SearchSkuInventory:output_type -> sku_business.SearchSkuInventoryResponse
+	34, // [34:42] is the sub-list for method output_type
+	26, // [26:34] is the sub-list for method input_type
+	26, // [26:26] is the sub-list for extension type_name
+	26, // [26:26] is the sub-list for extension extendee
+	0,  // [0:26] is the sub-list for field type_name
 }
 
 func init() { file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() }
@@ -1541,7 +2311,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SupplementSkuPropertyRequest); i {
+			switch v := v.(*SkuPriceVersionSet); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1553,7 +2323,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SupplementSkuPropertyResponse); i {
+			switch v := v.(*SkuPriceVersionEntry); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1565,7 +2335,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetSkuListRequest); i {
+			switch v := v.(*FiltrateSkuPriceVersionRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1577,7 +2347,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetSkuListResponse); i {
+			switch v := v.(*FiltrateSkuPriceVersionResult); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1589,7 +2359,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*SkuInventoryInfo); i {
+			switch v := v.(*FiltrateSkuPriceVersionResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1601,7 +2371,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PutAwaySkuRequest); i {
+			switch v := v.(*SearchSkuInventoryRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1613,7 +2383,7 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PutAwaySkuResponse); i {
+			switch v := v.(*SearchSkuInventoryEntry); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1625,6 +2395,126 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 			}
 		}
 		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchSkuInventoryResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchSyncSkuInventoryRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SearchSyncSkuInventoryResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SupplementSkuPropertyRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SupplementSkuPropertyResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSkuListRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetSkuListResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*SkuInventoryInfo); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PutAwaySkuRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PutAwaySkuResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_proto_micro_mall_sku_proto_sku_business_sku_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CommonResponse); i {
 			case 0:
 				return &v.state
@@ -1642,8 +2532,8 @@ func file_proto_micro_mall_sku_proto_sku_business_sku_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_proto_micro_mall_sku_proto_sku_business_sku_proto_rawDesc,
-			NumEnums:      2,
-			NumMessages:   15,
+			NumEnums:      3,
+			NumMessages:   25,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -1680,6 +2570,12 @@ type SkuBusinessServiceClient interface {
 	DeductInventory(ctx context.Context, in *DeductInventoryRequest, opts ...grpc.CallOption) (*DeductInventoryResponse, error)
 	// 恢复库存
 	RestoreInventory(ctx context.Context, in *RestoreInventoryRequest, opts ...grpc.CallOption) (*RestoreInventoryResponse, error)
+	// 按策略筛选商品价格版本
+	FiltrateSkuPriceVersion(ctx context.Context, in *FiltrateSkuPriceVersionRequest, opts ...grpc.CallOption) (*FiltrateSkuPriceVersionResponse, error)
+	// 商品库存搜索同步数据(请在业务不繁忙时调用)
+	SearchSyncSkuInventory(ctx context.Context, in *SearchSyncSkuInventoryRequest, opts ...grpc.CallOption) (*SearchSyncSkuInventoryResponse, error)
+	// 商品搜索
+	SearchSkuInventory(ctx context.Context, in *SearchSkuInventoryRequest, opts ...grpc.CallOption) (*SearchSkuInventoryResponse, error)
 }
 
 type skuBusinessServiceClient struct {
@@ -1735,6 +2631,33 @@ func (c *skuBusinessServiceClient) RestoreInventory(ctx context.Context, in *Res
 	return out, nil
 }
 
+func (c *skuBusinessServiceClient) FiltrateSkuPriceVersion(ctx context.Context, in *FiltrateSkuPriceVersionRequest, opts ...grpc.CallOption) (*FiltrateSkuPriceVersionResponse, error) {
+	out := new(FiltrateSkuPriceVersionResponse)
+	err := c.cc.Invoke(ctx, "/sku_business.SkuBusinessService/FiltrateSkuPriceVersion", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *skuBusinessServiceClient) SearchSyncSkuInventory(ctx context.Context, in *SearchSyncSkuInventoryRequest, opts ...grpc.CallOption) (*SearchSyncSkuInventoryResponse, error) {
+	out := new(SearchSyncSkuInventoryResponse)
+	err := c.cc.Invoke(ctx, "/sku_business.SkuBusinessService/SearchSyncSkuInventory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *skuBusinessServiceClient) SearchSkuInventory(ctx context.Context, in *SearchSkuInventoryRequest, opts ...grpc.CallOption) (*SearchSkuInventoryResponse, error) {
+	out := new(SearchSkuInventoryResponse)
+	err := c.cc.Invoke(ctx, "/sku_business.SkuBusinessService/SearchSkuInventory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SkuBusinessServiceServer is the server API for SkuBusinessService service.
 type SkuBusinessServiceServer interface {
 	// 上架商品
@@ -1747,6 +2670,12 @@ type SkuBusinessServiceServer interface {
 	DeductInventory(context.Context, *DeductInventoryRequest) (*DeductInventoryResponse, error)
 	// 恢复库存
 	RestoreInventory(context.Context, *RestoreInventoryRequest) (*RestoreInventoryResponse, error)
+	// 按策略筛选商品价格版本
+	FiltrateSkuPriceVersion(context.Context, *FiltrateSkuPriceVersionRequest) (*FiltrateSkuPriceVersionResponse, error)
+	// 商品库存搜索同步数据(请在业务不繁忙时调用)
+	SearchSyncSkuInventory(context.Context, *SearchSyncSkuInventoryRequest) (*SearchSyncSkuInventoryResponse, error)
+	// 商品搜索
+	SearchSkuInventory(context.Context, *SearchSkuInventoryRequest) (*SearchSkuInventoryResponse, error)
 }
 
 // UnimplementedSkuBusinessServiceServer can be embedded to have forward compatible implementations.
@@ -1767,6 +2696,15 @@ func (*UnimplementedSkuBusinessServiceServer) DeductInventory(context.Context, *
 }
 func (*UnimplementedSkuBusinessServiceServer) RestoreInventory(context.Context, *RestoreInventoryRequest) (*RestoreInventoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RestoreInventory not implemented")
+}
+func (*UnimplementedSkuBusinessServiceServer) FiltrateSkuPriceVersion(context.Context, *FiltrateSkuPriceVersionRequest) (*FiltrateSkuPriceVersionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FiltrateSkuPriceVersion not implemented")
+}
+func (*UnimplementedSkuBusinessServiceServer) SearchSyncSkuInventory(context.Context, *SearchSyncSkuInventoryRequest) (*SearchSyncSkuInventoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchSyncSkuInventory not implemented")
+}
+func (*UnimplementedSkuBusinessServiceServer) SearchSkuInventory(context.Context, *SearchSkuInventoryRequest) (*SearchSkuInventoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchSkuInventory not implemented")
 }
 
 func RegisterSkuBusinessServiceServer(s *grpc.Server, srv SkuBusinessServiceServer) {
@@ -1863,6 +2801,60 @@ func _SkuBusinessService_RestoreInventory_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SkuBusinessService_FiltrateSkuPriceVersion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FiltrateSkuPriceVersionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SkuBusinessServiceServer).FiltrateSkuPriceVersion(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sku_business.SkuBusinessService/FiltrateSkuPriceVersion",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SkuBusinessServiceServer).FiltrateSkuPriceVersion(ctx, req.(*FiltrateSkuPriceVersionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SkuBusinessService_SearchSyncSkuInventory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchSyncSkuInventoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SkuBusinessServiceServer).SearchSyncSkuInventory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sku_business.SkuBusinessService/SearchSyncSkuInventory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SkuBusinessServiceServer).SearchSyncSkuInventory(ctx, req.(*SearchSyncSkuInventoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SkuBusinessService_SearchSkuInventory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SearchSkuInventoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SkuBusinessServiceServer).SearchSkuInventory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/sku_business.SkuBusinessService/SearchSkuInventory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SkuBusinessServiceServer).SearchSkuInventory(ctx, req.(*SearchSkuInventoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _SkuBusinessService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "sku_business.SkuBusinessService",
 	HandlerType: (*SkuBusinessServiceServer)(nil),
@@ -1886,6 +2878,18 @@ var _SkuBusinessService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RestoreInventory",
 			Handler:    _SkuBusinessService_RestoreInventory_Handler,
+		},
+		{
+			MethodName: "FiltrateSkuPriceVersion",
+			Handler:    _SkuBusinessService_FiltrateSkuPriceVersion_Handler,
+		},
+		{
+			MethodName: "SearchSyncSkuInventory",
+			Handler:    _SkuBusinessService_SearchSyncSkuInventory_Handler,
+		},
+		{
+			MethodName: "SearchSkuInventory",
+			Handler:    _SkuBusinessService_SearchSkuInventory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

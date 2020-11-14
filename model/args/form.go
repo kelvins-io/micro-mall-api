@@ -6,6 +6,14 @@ import (
 	"strconv"
 )
 
+type SearchShopArgs struct {
+	Keyword string `form:"keyword" json:"keyword"`
+}
+
+type SearchSkuInventoryArgs struct {
+	Keyword string `form:"keyword" json:"keyword"`
+}
+
 type UserDeliveryInfo struct {
 	Id           int64    `form:"id" json:"id"`
 	DeliveryUser string   `form:"delivery_user" json:"delivery_user"`

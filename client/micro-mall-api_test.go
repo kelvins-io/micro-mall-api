@@ -41,6 +41,8 @@ const (
 	tradeOrderPay           = "/user/order/trade"
 	logisticsApply          = "/user/logistics/apply"
 	userSettingAddress      = "/user/setting/address"
+	searchSkuInventory      = "/search/sku_inventory"
+	searchShop              = "/search/shop"
 )
 
 const (
@@ -77,6 +79,8 @@ func TestGateway(t *testing.T) {
 	t.Run("申请物流", TestLogisticsApply)
 	t.Run("用户设置-地址变更", TestUserSettingAddress)
 	t.Run("用户设置-获取收货地址", TestUserSettingAddressGet)
+	t.Run("搜索-商品库存", TestSearchSkuInventory)
+	t.Run("搜索-店铺", TestSearchShop)
 }
 
 func TestGetUserInfo(t *testing.T) {
@@ -88,6 +92,30 @@ func TestGetUserInfo(t *testing.T) {
 		return
 	}
 	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSearchShop(t *testing.T) {
+	r := baseUrl + searchShop + "?keyword=广州市"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	//req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSearchSkuInventory(t *testing.T) {
+	r := baseUrl + searchSkuInventory + "?keyword=飞科"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	//req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
 
@@ -186,7 +214,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "270ff0de-803a-4b46-aec1-8be5acfab830")
+	data.Set("tx_code", "4cdbfdbe-c062-4d3b-bd1d-5192ba4231a0")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -529,18 +557,18 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	data.Set("operation_type", "0")
 	data.Set("shop_id", "30068")
 	data.Set("sku_code", uuid.New().String())
-	data.Set("name", "iPhone12")
-	data.Set("price", "7868")
-	data.Set("title", "【值享焕新版】Apple iPhone 12 mini (A2400) 128GB 黑色 手机 支持移动联通电信5G")
-	data.Set("sub_title", "【值享焕新版】Apple iPhone 12 mini (A2400) 128GB 黑色 手机 支持移动联通电信5G")
-	data.Set("desc", "【值享焕新版】Apple iPhone 12 mini (A2400) 128GB 黑色 手机 支持移动联通电信5G")
-	data.Set("production", "Apple")
-	data.Set("supplier", "Apple微商城旗舰店")
+	data.Set("name", "海飞丝洗发水")
+	data.Set("price", "59")
+	data.Set("title", "海飞丝洗发水，洗发露")
+	data.Set("sub_title", "海飞丝洗发水套装怡神冰凉薄荷500ml*2送无硅油80ml（持久去屑去油止痒清爽 男士女士通用）清香型")
+	data.Set("desc", "海飞丝是宝洁公司的一款洗发精产品。1963年，全球第一支含有活性去屑成分，可有效去除头屑的洗发露诞生，自此，有效去除头屑成为海飞丝深受全球消费者喜爱的最出色的功效。海飞丝品牌1986年进入台湾，1991年进入中国大陆，其系列产品包括：洗发露、护发素、头皮头发按摩膏、头皮修护精华乳。始创于1837年的宝洁公司，是世界最大的日用消费品公司之一。所经营的300多个品牌的产品畅销160多个国家和地区，其中包括织物及家居护理、美发美容、婴儿及家庭护理、健康护理、食品及饮料等。")
+	data.Set("production", "广州宝洁有限公司")
+	data.Set("supplier", "宝洁拼多多专营店")
 	data.Set("category", "11010")
-	data.Set("color", "红色|白色|绿色")
+	data.Set("color", "白色")
 	data.Set("color_code", "199")
-	data.Set("specification", "附带耳机|充电宝")
-	data.Set("desc_link", "https://item.jd.com/1562101.html")
+	data.Set("specification", "瓶装，560ml")
+	data.Set("desc_link", "https://item.jd.com/1750531.html")
 	data.Set("state", "1")
 	data.Set("amount", "100")
 	t.Logf("req data: %v", data)

@@ -81,6 +81,11 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 			apiLogistics.PUT("/record/update", v1.UpdateLogisticsRecordApi) // 更新物流
 		}
 	}
+	search := apiV1.Group("/search")
+	{
+		search.GET("/sku_inventory", v1.SearchSkuInventoryApi) // 搜索商品库存
+		search.GET("/shop", v1.SearchShopApi)                  // 搜索店铺
+	}
 
 	return r
 }

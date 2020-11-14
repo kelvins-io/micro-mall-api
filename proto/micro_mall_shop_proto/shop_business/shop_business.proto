@@ -31,7 +31,32 @@ service ShopBusinessService {
             get: "/v1/shop_business/shop/info"
         };
     }
+    // 搜索同步店铺数据
+    rpc SearchSyncShop(SearchSyncShopRequest) returns (SearchSyncShopResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/search/sync"
+        };
+    }
+    // 搜索店铺
+    rpc SearchShop(SearchShopRequest) returns (SearchShopResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/search"
+        };
+    }
+}
 
+message SearchShopRequest {
+    string keyword = 1;
+}
+
+message SearchShopInfo {
+    ShopMaterial info = 1;
+    double score = 2;
+}
+
+message SearchShopResponse {
+    CommonResponse common = 1;
+    repeated SearchShopInfo list = 2;
 }
 
 message GetShopInfoRequest {
@@ -41,6 +66,27 @@ message GetShopInfoRequest {
 message GetShopInfoResponse {
     CommonResponse common = 1;
     repeated ShopInfo info_list = 2;
+}
+
+message SearchSyncShopRequest {
+    int64 shop_id = 1; // 为0则同步全部
+    int64 page_size = 2;
+    int64 page_num = 3;
+}
+
+message SearchSyncShopResponse {
+    CommonResponse common = 1;
+    repeated SearchSyncShopEntry list = 2;
+}
+
+message SearchSyncShopEntry {
+    int64 shop_id = 1;
+    string nick_name = 2;
+    string full_name = 3;
+    string shop_code = 4;
+    string register_addr = 5;
+    string business_addr = 6;
+    string business_desc = 7;
 }
 
 message ShopInfo {
