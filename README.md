@@ -555,6 +555,210 @@ goods示范
 }]
 ```
 
+24  用户配置收货地址   
+post json   
+/api/v1/user/setting/address
+
+请求body   
+```
+{
+	"id": 101,
+	"delivery_user": "张6丰",
+	"mobile_phone": "15501707785",
+	"area": "广东省广州市",
+	"detailed_area": "上海路步行街111号",
+	"label": ["公司", "住宅", "生活"],
+	"is_default": true,
+	"operation_type": 0
+}
+```
+
+返回body   
+```
+{"code":200,"data":"","msg":"ok"}
+```
+
+24 用户查询收货地址列表   
+get    
+/api/v1/user/setting/address?delivery_id=xx  
+  
+返回body   
+```
+{
+	"code": 200,
+	"data": [{
+		"id": 105,
+		"delivery_user": "张6丰",
+		"mobile_phone": "15501707785",
+		"area": "广东省广州市",
+		"detailed_area": "上海路步行街111号",
+		"label": ["公司", "住宅", "生活"],
+		"is_default": true
+	}, {
+		"id": 106,
+		"delivery_user": "张6丰",
+		"mobile_phone": "15501707785",
+		"area": "广东省广州市",
+		"detailed_area": "上海路步行街111号",
+		"label": ["公司", "住宅", "生活"],
+		"is_default": false
+	}, {
+		"id": 107,
+		"delivery_user": "张6丰",
+		"mobile_phone": "15501707785",
+		"area": "广东省广州市",
+		"detailed_area": "上海路步行街111号",
+		"label": ["公司", "住宅", "生活"],
+		"is_default": false
+	}],
+	"msg": "ok"
+}
+```
+
+25  商品库存搜索   
+get /search/sku_inventory?keyword=剃须刀   
+
+返回body   
+```
+{
+	"code": 200,
+	"data": [{
+		"info": {
+			"sku_code": "2cf90b0f-4fc3-49cc-8df7-de8942c1f128",
+			"name": "飞科剃须刀",
+			"price": "699.0000000000000000",
+			"title": "飞科剃须刀",
+			"sub_title": "飞科(FLYCO) 男士电动剃须刀 全身水洗干湿双剃刮胡刀 浮动贴面三刀头 FS372，减价促销",
+			"desc": "飞科(FLYCO) 男士电动剃须刀 全身水洗干湿双剃刮胡刀 浮动贴面三刀头 FS372",
+			"production": "上海飞科用具有限公司",
+			"supplier": "飞科京东旗舰店",
+			"category": 11010,
+			"color": "黑色",
+			"color_code": 199,
+			"specification": "旋转式剃须刀，三刀头，刀头进口",
+			"desc_link": "https://item.jd.com/1750531.html",
+			"state": 1,
+			"version": 1,
+			"amount": 100
+		},
+		"score": 13.864214
+	}, {
+		"info": {
+			"sku_code": "9475963f-317f-4a9a-b513-9dcc76da2672",
+			"name": "飞利浦剃须刀",
+			"price": "599.0000000000000000",
+			"title": "飞利浦剃须刀",
+			"sub_title": "飞利浦剃须刀，减价促销",
+			"desc": "飞利浦（PHILIPS）男士电动剃须刀多功能理容剃胡刀刮胡刀礼盒装（配鬓角 鼻毛修剪器）S5082/61",
+			"production": "广州飞利浦科技有限公司",
+			"supplier": "飞利浦微商城旗舰店",
+			"category": 11010,
+			"color": "黑色",
+			"color_code": 199,
+			"specification": "旋转式剃须刀，三刀头，刀头进口",
+			"desc_link": "https://item.jd.com/1750531.html",
+			"state": 1,
+			"version": 1,
+			"amount": 100
+		},
+		"score": 13.504881
+	}],
+	"msg": "ok"
+}
+```
+
+26 店铺搜索   
+get /search/shop?keyword=交个朋友   
+
+返回body   
+```
+{
+	"code": 200,
+	"data": [{
+		"info": {
+			"shop_id": 30063,
+			"merchant_id": 1037,
+			"nick_name": "广州市交个朋友科技有限公司",
+			"full_name": "广州市交个朋友科技有限公司",
+			"register_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_license": "qX2MkznWrlvO4sIp7",
+			"tax_card_no": "qX2MkznWrlvO4sIp7",
+			"business_desc": "qX2MkznWrlvO4sIp7",
+			"social_credit_code": "qX2MkznWrlvO4sIp7",
+			"organization_code": "qX2MkznWrlvO4sIp7",
+			"shop_code": "7e0be82d-6fdd-4a89-a228-d6f3378b82da"
+		},
+		"score": 3.157851
+	}, {
+		"info": {
+			"shop_id": 30066,
+			"merchant_id": 1037,
+			"nick_name": "广州市交个朋友科技有限公司（南京分公司）",
+			"full_name": "广州市交个朋友科技有限公司（南京分公司）",
+			"register_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_license": "qX2MkznWrlvO4sIp7",
+			"tax_card_no": "qX2MkznWrlvO4sIp7",
+			"business_desc": "qX2MkznWrlvO4sIp7",
+			"social_credit_code": "qX2MkznWrlvO4sIp7",
+			"organization_code": "qX2MkznWrlvO4sIp7",
+			"shop_code": "07964e6c-16f9-4e3d-8212-bb336e9ad75a"
+		},
+		"score": 2.7211857
+	}, {
+		"info": {
+			"shop_id": 30065,
+			"merchant_id": 1037,
+			"nick_name": "广州市交个朋友科技有限公司（北京分公司）",
+			"full_name": "广州市交个朋友科技有限公司（北京分公司）",
+			"register_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_license": "qX2MkznWrlvO4sIp7",
+			"tax_card_no": "qX2MkznWrlvO4sIp7",
+			"business_desc": "qX2MkznWrlvO4sIp7",
+			"social_credit_code": "qX2MkznWrlvO4sIp7",
+			"organization_code": "qX2MkznWrlvO4sIp7",
+			"shop_code": "2b464f04-c360-463f-8cbf-44e9adfde329"
+		},
+		"score": 2.7211857
+	}, {
+		"info": {
+			"shop_id": 30064,
+			"merchant_id": 1037,
+			"nick_name": "广州市交个朋友科技有限公司（深圳分公司）",
+			"full_name": "广州市交个朋友科技有限公司（深圳分公司）",
+			"register_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_license": "qX2MkznWrlvO4sIp7",
+			"tax_card_no": "qX2MkznWrlvO4sIp7",
+			"business_desc": "qX2MkznWrlvO4sIp7",
+			"social_credit_code": "qX2MkznWrlvO4sIp7",
+			"organization_code": "qX2MkznWrlvO4sIp7",
+			"shop_code": "5c2ae7b2-113f-491d-b4b5-6f81089aec6a"
+		},
+		"score": 2.7211857
+	}, {
+		"info": {
+			"shop_id": 30067,
+			"merchant_id": 1037,
+			"nick_name": "福建赚它一个亿科技有限公司",
+			"full_name": "福建赚它一个亿科技有限公司",
+			"register_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_addr": "深圳市宝安区宝源二区73栋111号",
+			"business_license": "qX2MkznWrlvO4sIp7",
+			"tax_card_no": "qX2MkznWrlvO4sIp7",
+			"business_desc": "qX2MkznWrlvO4sIp7",
+			"social_credit_code": "qX2MkznWrlvO4sIp7",
+			"organization_code": "qX2MkznWrlvO4sIp7",
+			"shop_code": "d55eaf41-88a8-4d73-a324-70fcc8f64e2d"
+		},
+		"score": 0.6836133
+	}],
+	"msg": "ok"
+}
+```
+
 #### 配置说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   
 请先将根目录micro-mall.sql导入数据库创建相应的表   

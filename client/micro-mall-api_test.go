@@ -96,7 +96,7 @@ func TestGetUserInfo(t *testing.T) {
 }
 
 func TestSearchShop(t *testing.T) {
-	r := baseUrl + searchShop + "?keyword=广州市"
+	r := baseUrl + searchShop + "?keyword=交个朋友"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -108,7 +108,7 @@ func TestSearchShop(t *testing.T) {
 }
 
 func TestSearchSkuInventory(t *testing.T) {
-	r := baseUrl + searchSkuInventory + "?keyword=飞科"
+	r := baseUrl + searchSkuInventory + "?keyword=剃须刀"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -163,7 +163,7 @@ func TestUserSettingAddress(t *testing.T) {
 		OperationType: 0,
 	}
 	data := json.MarshalToStringNoError(args)
-	t.Logf("req data: %v", data)
+	t.Logf("req data: \n%v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data))
 	if err != nil {
 		t.Error(err)
