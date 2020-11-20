@@ -49,6 +49,10 @@ var MsgFlags = map[int]string{
 	UserDeliveryInfoNotExist:  "用户物流收货地址不存在",
 	TradeOrderNotMatchUser:    "交易订单不匹配当前用户",
 	SkuPriceVersionNotExist:   "商品价格版本不存在",
+	OrderStateInvalid:         "订单状态无效",
+	OrderStateLock:            "订单状态被锁定",
+	OrderExpire:               "订单过期",
+	OrderPayCompleted:         "订单已完成支付",
 }
 
 func init() {

@@ -77,6 +77,9 @@ enum RetCode {
     ORDER_DELIVERY_NOT_EXIST = 50017; // 订单交付信息不存在
     ORDER_TX_CODE_NOT_EXIST = 50018; // 订单交易号不存在
     SKU_PRICE_VERSION_NOT_EXIST = 50019; // 商品价格版本不存在或不符合规则
+    ORDER_PAY_COMPLETED = 50020; // 订单支付完成
+    ORDER_EXPIRE = 50021; // 订单过期
+    ORDER_STATE_INVALID = 50022; // 订单无效
 }
 
 enum OperationType {

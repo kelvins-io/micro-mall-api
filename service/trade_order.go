@@ -147,6 +147,25 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		retCode = code.ERROR
 		return
 	}
+	if rsp.Common.Code != order_business.RetCode_SUCCESS {
+		switch rsp.Common.Code {
+		case order_business.RetCode_ORDER_STATE_INVALID:
+			retCode = code.OrderStateInvalid
+			return
+		case order_business.RetCode_ORDER_STATE_LOCKED:
+			retCode = code.OrderStateLock
+			return
+		case order_business.RetCode_ORDER_PAY_COMPLETED:
+			retCode = code.OrderPayCompleted
+			return
+		case order_business.RetCode_ORDER_EXPIRE:
+			retCode = code.OrderExpire
+			return
+		default:
+			retCode = code.ERROR
+			return
+		}
+	}
 	if len(rsp.List) == 0 {
 		retCode = code.TxcodeNotExist
 		return

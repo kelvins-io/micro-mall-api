@@ -47,4 +47,8 @@ const (
 	UserDeliveryInfoNotExist  = 600022
 	TradeOrderNotMatchUser    = 600023
 	SkuPriceVersionNotExist   = 600024
+	OrderStateInvalid         = 600025
+	OrderStateLock            = 600026
+	OrderExpire               = 600027
+	OrderPayCompleted         = 600028
 )
