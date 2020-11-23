@@ -74,3 +74,27 @@ func OrderTradeApi(c *gin.Context) {
 	rsp, retCode := service.OrderTrade(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }
+
+func GetOrderReportApi(c *gin.Context) {
+	var uid int
+	value, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	uid, ok := value.(int)
+	if !ok {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	_ = uid
+	var form args.GetOrderReportArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	rsp, retCode := service.GetOrderReport(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+}

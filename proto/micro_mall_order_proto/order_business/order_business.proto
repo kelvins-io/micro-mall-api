@@ -53,6 +53,19 @@ service OrderBusinessService {
             body:"*"
         };
     }
+    // 订单状态检查
+    rpc CheckOrderState(CheckOrderStateRequest) returns (CheckOrderStateResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/check"
+            body:"*"
+        };
+    }
+    // 获取订单
+    rpc FindOrderList(FindOrderListRequest) returns (FindOrderListResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/list"
+        };
+    }
 }
 
 enum RetCode {
@@ -114,15 +127,16 @@ message CommonResponse {
 
 enum OrderStateType {
     ORDER_EFFECTIVE = 0; // 有效
-    ORDER_INVALID = 1; // 无效
-    ORDER_LOCKED = 2; // 锁定
+    ORDER_LOCKED = 1; // 锁定中
+    ORDER_INVALID = 2; // 无效
 }
 
 enum OrderPayStateType {
     PAY_READY = 0; // 支付就绪，未支付
     PAY_RUN = 1; // 正在支付中
-    PAY_SUCCESS = 2; // 支付成功
-    PAY_FAILED = 3; // 支付失败
+    PAY_FAILED = 2; // 支付失败
+    PAY_SUCCESS = 3; // 支付成功
+    PAY_CANCEL = 4; // 支付取消
 }
 
 message OperationMeta {
@@ -130,6 +144,16 @@ message OperationMeta {
     string op_ip = 2;
     string op_platform = 3; // 操作平台
     string op_device = 4; // 操作设备
+}
+
+message PageMeta {
+    int32 page_num = 1;
+    int32 page_size = 2;
+}
+
+message FiltrateTimeMeta {
+    string start_time = 1;
+    string end_time = 2;
 }
 
 message OrderStateEntry {
@@ -141,6 +165,47 @@ message OrderStateEntry {
 message UpdateOrderStateRequest {
     repeated OrderStateEntry entry_list = 1;
     OperationMeta operation_meta = 2;
+}
+
+message CheckOrderStateRequest {
+    repeated string order_codes = 1;
+}
+
+message OrderState {
+    string order_code = 1;
+    OrderPayStateType pay_state = 2;
+    OrderStateType state = 3;
+    bool is_exist = 4;
+}
+
+message CheckOrderStateResponse {
+    CommonResponse common = 1;
+    repeated OrderState list = 2;
+}
+
+message FindOrderListRequest {
+    repeated int64 shop_id_list = 1; // 店铺ID为0则查找全部订单
+    FiltrateTimeMeta time_meta = 198; // 时间参数
+    PageMeta page_meta = 199; // 分页
+}
+
+message OrderListEntry {
+    string order_code = 1;
+    int64 uid = 2;
+    int64 shop_id = 3;
+    string description = 4;
+    string client_ip = 5;
+    string device_code = 6;
+    OrderStateType state = 7;
+    OrderPayStateType pay_state = 8;
+    string money = 9;
+    string create_time = 10;
+}
+
+message FindOrderListResponse {
+    CommonResponse common = 1;
+    repeated OrderListEntry list = 2;
+    int64 total = 3; // 当前条件下订单总数
 }
 
 message OrderTradeNoticeRequest {

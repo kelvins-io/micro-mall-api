@@ -1,7 +1,5 @@
 package code
 
-import "fmt"
-
 var MsgFlags = map[int]string{
 	SUCCESS:                   "ok",
 	ERROR:                     "服务器出错",
@@ -55,11 +53,11 @@ var MsgFlags = map[int]string{
 	OrderPayCompleted:         "订单已完成支付",
 }
 
-func init() {
-	for k, v := range MsgFlags {
-		fmt.Println(k, "\t\t", v, "\t\t\t")
-	}
-}
+//func init() {
+//	for k, v := range MsgFlags {
+//		fmt.Println(k, "\t\t", v, "\t\t\t")
+//	}
+//}
 
 func GetMsg(code int) string {
 	msg, ok := MsgFlags[code]

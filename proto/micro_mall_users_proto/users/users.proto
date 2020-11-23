@@ -76,6 +76,12 @@ service UsersService {
             get: "/v1/user/info/delivery"
         };
     }
+    // 查找用户信息
+    rpc FindUserInfo(FindUserInfoRequest) returns (FindUserInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/find"
+        };
+    }
 }
 
 service MerchantsService {
@@ -167,6 +173,7 @@ enum LoginPwdKind {
     MOBILE_PHONE = 0;
     EMAIL = 1;
 }
+
 message LoginByPassword {
     LoginPwdKind login_kind = 1; // 登录类型，数值代表info的序号
     oneof info {
@@ -198,6 +205,25 @@ message UserDeliveryInfo {
     string detailed_area = 5;
     repeated string label = 6; // 标签，多个标签以|分割开
     IsDefaultType is_default = 7; // 是否默认地址
+}
+
+message FindUserInfoRequest {
+    repeated int64 uid_list = 1;
+}
+
+// 用户主要信息
+message UserInfoMain {
+    int64 uid = 1;
+    string name = 2;
+    string country_code = 3;
+    string phone = 4;
+    int32 age = 5;
+    string address = 6;
+}
+
+message FindUserInfoResponse {
+    CommonResponse common = 1;
+    repeated UserInfoMain info_list = 2;
 }
 
 message ModifyUserDeliveryInfoRequest {

@@ -22,9 +22,9 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 
 	r := gin.Default()
 	r.Use(middleware.Cors())
-
 	r.GET("/", v1.IndexApi)
 	r.GET("/ping", v1.PingApi) // ping
+	r.Static("/static", "./static")
 	apiG := r.Group("/api")
 	apiV1 := apiG.Group("/v1")
 	apiV1.POST("/verify_code/send", v1.GetVerifyCodeApi)            // 验证码发送
@@ -73,6 +73,7 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 			apiOrder.GET("/code/gen", v1.GenTradeOrderCodeApi) // 生成订单号
 			apiOrder.POST("/create", v1.CreateTradeOrderApi)   // 生成订单
 			apiOrder.POST("/trade", v1.OrderTradeApi)          // 订单支付
+			apiOrder.POST("/report", v1.GetOrderReportApi)     // 获取订单列表
 		}
 		apiLogistics := apiUser.Group("/logistics")
 		{

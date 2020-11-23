@@ -257,3 +257,7 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 
 	return
 }
+
+func GetOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (*args.GetOrderReportRsp, int) {
+	return getOrderReport(ctx, req)
+}

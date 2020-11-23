@@ -24,8 +24,10 @@ require (
 	github.com/shirou/gopsutil v2.20.8+incompatible // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/sony/sonyflake v1.0.0
+	github.com/tealeg/xlsx v1.0.5
 	go.elastic.co/apm v1.8.0 // indirect
-	golang.org/x/net v0.0.0-20200822124328-c89045814202
+	golang.org/x/net v0.0.0-20200904194848-62affa334b73
+	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208
 	google.golang.org/grpc v1.32.0
 	google.golang.org/protobuf v1.25.0
 	gopkg.in/ini.v1 v1.60.2 // indirect

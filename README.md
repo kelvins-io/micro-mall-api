@@ -33,6 +33,7 @@ https://gitee.com/cristiane/micro-mall-api
 用户服务   
 https://gitee.com/cristiane/micro-mall-users   
 https://gitee.com/cristiane/micro-mall-users-proto   
+https://gitee.com/cristiane/micro-mall-users-consumer   
 
 店铺服务   
 https://gitee.com/cristiane/micro-mall-shop   
@@ -41,6 +42,8 @@ https://gitee.com/cristiane/micro-mall-shop-proto
 商品服务   
 https://gitee.com/cristiane/micro-mall-sku   
 https://gitee.com/cristiane/micro-mall-shop-proto   
+https://gitee.com/cristiane/micro-mall-sku-cron   
+https://gitee.com/cristiane/micro-mall-sku-consumer   
 
 购物车服务   
 https://gitee.com/cristiane/micro-mall-trolley   
@@ -49,10 +52,13 @@ https://gitee.com/cristiane/micro-mall-trolley-proto
 订单服务   
 https://gitee.com/cristiane/micro-mall-order   
 https://gitee.com/cristiane/micro-mall-order-proto   
+https://gitee.com/cristiane/micro-mall-order-cron   
+https://gitee.com/cristiane/micro-mall-order-consumer   
 
 支付服务   
 https://gitee.com/cristiane/micro-mall-pay   
 https://gitee.com/cristiane/micro-mall-pay-proto   
+https://gitee.com/cristiane/micro-mall-pay-consumer   
 
 物流系统   
 https://gitee.com/cristiane/micro-mall-logistics   
@@ -61,6 +67,10 @@ https://gitee.com/cristiane/micro-mall-logistics-proto
 评价系统   
 https://gitee.com/cristiane/micro-mall-estimate   
 https://gitee.com/cristiane/micro-mall-estimate-proto   
+
+搜索服务   
+https://gitee.com/cristiane/micro-mall-search   
+https://gitee.com/cristiane/micro-mall-search-cron   
 
 ////依赖   
 web模板：https://gitee.com/cristiane/web_gin_template   
@@ -112,6 +122,7 @@ Prometheus：http://localhost:52002/metrics
 
 
 接口列表：   
+######【说明】post请求没指明content-type的接口表单和json都支持   
 1 首页   
 GET    /               
 返回body   
@@ -758,6 +769,31 @@ get /search/shop?keyword=交个朋友
 	"msg": "ok"
 }
 ```
+
+获取店铺订单报告   
+post  /user/order/report   
+header token   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+shop_id | 店铺ID | int | 不能为空
+start_time | 统计开始时间 | string | 如，2019-11-22 08:46:41
+end_time | 统计结束时间 | string | 如，2020-12-04 18:46:41
+page_size | 分页大小 | int | 500，最小1
+page_num | 分页号 | int | 最小1
+
+返回body   
+```
+{
+	"code": 200,
+	"data": {
+		"report_file_path": "http://localhost:52001/static/order-report-30070-1606124289.xlsx"
+	},
+	"msg": "ok"
+}
+```
+report_file_path 报告的下载地址   
+
 
 #### 配置说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   
