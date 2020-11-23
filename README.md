@@ -796,6 +796,22 @@ page_num | 分页号 | int | 最小1
 ```
 report_file_path 报告的下载地址   
 
+用户账户充值   
+post  /user/account/charge   
+header token   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+account_type | 账户类型 | int | 0-个人账户，2-公司账户，3-系统账户
+amount | 金额 | string | 如，99.09
+coin_type | 币种 | int | 如，0-RMB，2-USDT
+device_code | 设备 | string | vivo NEX
+device_platform | 平台 | string | Android
+
+返回body   
+```
+{"code":200,"data":"","msg":"ok"}
+```
 
 #### 配置说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   

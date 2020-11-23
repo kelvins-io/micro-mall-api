@@ -5,6 +5,7 @@ import (
 	"gitee.com/cristiane/go-common/json"
 	"github.com/google/uuid"
 	"io/ioutil"
+	"log"
 	"math"
 	"math/rand"
 	"net/http"
@@ -13,51 +14,6 @@ import (
 	"testing"
 	"time"
 )
-
-const (
-	baseUrlProd    = "https://xxx.xxx.xx/api"
-	baseUrlTestAli = "http://xx.xx.xx.xx:xxx/api"
-	baseUrlDev     = "http://xx.xx.xx.56:xx/api"
-	baseUrlLocal   = "http://localhost:52001/api"
-)
-
-const (
-	verifyCodeSend          = "/verify_code/send"
-	registerUser            = "/register"
-	loginUserWithVerifyCode = "/login/verify_code"
-	loginUserWithPwd        = "/login/pwd"
-	userPwdReset            = "/user/password/reset"
-	userInfo                = "/user/user_info"
-	merchantsMaterial       = "/user/merchants/material"
-	shopBusinessApply       = "/user/shop_business/shop/apply"
-	skuBusinessPutAway      = "/user/sku_business/sku/put_away"
-	skuBusinessGetSkuList   = "/user/sku_business/sku/list"
-	skuBusinessSupplement   = "/user/sku_business/sku/supplement"
-	skuJoinUserTrolley      = "/user/trolley/sku/join"
-	skuRemoveUserTrolley    = "/user/trolley/sku/remove"
-	skuUserTrolleyList      = "/user/trolley/sku/list"
-	tradeCreateOrder        = "/user/order/create"
-	tradeOrderCodeGen       = "/user/order/code/gen"
-	tradeOrderPay           = "/user/order/trade"
-	logisticsApply          = "/user/logistics/apply"
-	userSettingAddress      = "/user/setting/address"
-	searchSkuInventory      = "/search/sku_inventory"
-	searchShop              = "/search/shop"
-	reportOrder             = "/user/order/report"
-)
-
-const (
-	apiV1 = "/v1"
-	apiV2 = "/v2"
-)
-
-var apiVersion = apiV1
-var qToken = token_10047
-var baseUrl = baseUrlLocal + apiVersion
-
-func TestMain(m *testing.M) {
-	m.Run()
-}
 
 func TestGateway(t *testing.T) {
 	t.Run("发送验证码", TestVerifyCodeSend)
@@ -83,7 +39,15 @@ func TestGateway(t *testing.T) {
 	t.Run("搜索-商品库存", TestSearchSkuInventory)
 	t.Run("搜索-店铺", TestSearchShop)
 	t.Run("获取店铺订单报告", TestGetOrderReport)
-	//t.Run("###用户创建订单并支付###", BenchmarkTestOrderTrade)
+	t.Run("用户账户充值", TestUserAccountCharge)
+}
+
+var benchCount = 900000
+
+func BenchmarkGateway(b *testing.B) {
+	b.Run("批量充值", BenchmarkUserAccountCharge)
+	b.Run("批量创建订单", BenchmarkTradeCreateOrder)
+	b.Run("批量创建订单并支付", BenchmarkTestOrderTrade)
 }
 
 func TestGetUserInfo(t *testing.T) {
@@ -229,6 +193,49 @@ func TestOrderTradePay(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+func BenchmarkUserAccountCharge(b *testing.B) {
+	r := baseUrl + userAccountCharge
+	b.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("device_code", "OPPO Find20")
+	data.Set("device_platform", "Android 10")
+	data.Set("account_type", "0")
+	data.Set("coin_type", "0")
+	data.Set("amount", "9")
+	b.Logf("req data: %v", data)
+	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		b.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	for i := 0; i < benchCount; i++ {
+		commonBenchmarkTest(r, req, b)
+	}
+	b.ReportAllocs()
+}
+
+func TestUserAccountCharge(t *testing.T) {
+	r := baseUrl + userAccountCharge
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("device_code", "OPPO Find20")
+	data.Set("device_platform", "Android 10")
+	data.Set("account_type", "0")
+	data.Set("coin_type", "0")
+	data.Set("amount", "9")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
 type ApplyLogisticsArgs struct {
 	Uid          int              `json:"uid"`
 	OutTradeNo   string           `json:"out_trade_no" form:"out_trade_no"`
@@ -289,6 +296,7 @@ func TestLogisticsApply(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+// 批量创建订单
 func BenchmarkTradeCreateOrder(b *testing.B) {
 	r := baseUrl + tradeCreateOrder
 	b.Logf("request url: %s", r)
@@ -346,7 +354,7 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 		UserDeliveryId: 110,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
-	for i := 0; i < 99999; i++ {
+	for i := 0; i < benchCount; i++ {
 		data.OrderTxCode = uuid.New().String()
 		req, err := http.NewRequest("POST", r, strings.NewReader(json.MarshalToStringNoError(data)))
 		if err != nil {
@@ -357,9 +365,11 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 		req.Header.Set("token", qToken)
 		commonBenchmarkTest(r, req, b)
 	}
+	b.ReportAllocs()
 }
 
-func BenchmarkTestOrderTrade(t *testing.B) {
+// 批量创建订单并支付
+func BenchmarkTestOrderTrade(b *testing.B) {
 	createOrderUrl := baseUrl + tradeCreateOrder
 	orderTradeUrl := baseUrl + tradeOrderPay
 	goods1 := OrderShopGoods{
@@ -415,57 +425,58 @@ func BenchmarkTestOrderTrade(t *testing.B) {
 		UserDeliveryId: 110,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < benchCount; i++ {
 		data.OrderTxCode = uuid.New().String()
 		req, err := http.NewRequest("POST", createOrderUrl, strings.NewReader(json.MarshalToStringNoError(data)))
 		if err != nil {
-			t.Error(err)
+			b.Error(err)
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("token", qToken)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
-			t.Error(err)
+			b.Error(err)
 			return
 		}
-		t.Logf("req url: %v status : %v", createOrderUrl, rsp.Status)
+		b.Logf("req url: %v status : %v", createOrderUrl, rsp.Status)
 		if rsp.StatusCode != http.StatusOK {
-			t.Error("StatusCode != 200")
+			b.Error("StatusCode != 200")
 			return
 		}
 		body, err := ioutil.ReadAll(rsp.Body)
 		rsp.Body.Close()
 		if err != nil {
-			t.Error(err)
+			b.Error(err)
 			return
 		}
 		var obj CreateOrderRsp
 		err = json.Unmarshal(string(body), &obj)
 		if err != nil {
-			t.Error(err)
+			b.Error(err)
 			return
 		}
 		if obj.Code != SuccessBusinessCode {
-			t.Errorf("business code != %v", SuccessBusinessCode)
-			t.Errorf("obj ==%+v,obj", obj)
-			return
+			log.Printf("business code != %v", SuccessBusinessCode)
+			log.Printf("obj ==%+v,obj", obj)
+			continue
 		}
 		if obj.Data.TxCode == "" {
-			t.Errorf("创建订单交易号为空")
-			return
+			b.Errorf("创建订单交易号为空")
+			continue
 		}
 		orderTradeReq := url.Values{}
 		orderTradeReq.Set("tx_code", obj.Data.TxCode)
 		req, err = http.NewRequest("POST", orderTradeUrl, strings.NewReader(orderTradeReq.Encode()))
 		if err != nil {
-			t.Error(err)
+			b.Error(err)
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 		req.Header.Set("token", qToken)
-		commonBenchmarkTest(orderTradeUrl, req, t)
+		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
+	b.ReportAllocs()
 }
 
 type CreateOrderRsp struct {
@@ -988,7 +999,6 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 }
 
 func commonBenchmarkTest(r string, req *http.Request, b *testing.B) {
-	//b.Logf("request token=%v", qToken)
 	rsp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		b.Error(err)
@@ -1013,8 +1023,8 @@ func commonBenchmarkTest(r string, req *http.Request, b *testing.B) {
 		return
 	}
 	if obj.Code != SuccessBusinessCode {
-		b.Errorf("business code != %v", SuccessBusinessCode)
-		b.Errorf("obj ==%+v,obj", obj)
+		log.Printf("business code != %v", SuccessBusinessCode)
+		log.Printf("obj ==%+v,obj", obj)
 		return
 	}
 }

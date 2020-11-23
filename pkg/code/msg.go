@@ -35,7 +35,7 @@ var MsgFlags = map[int]string{
 	DecimalParseErr:           "金额格式解析错误",
 	TransactionFailed:         "事务执行失败",
 	TradePayExpire:            "支付时间过期",
-	TxcodeNotExist:            "交易号不存在",
+	TxCodeNotExist:            "交易号不存在",
 	TradeOrderTxCodeEmpty:     "订单事务号为空",
 	TradeOrderExist:           "订单已存在",
 	TradePayRun:               "订单正在支付中",
@@ -51,6 +51,7 @@ var MsgFlags = map[int]string{
 	OrderStateLock:            "订单状态被锁定",
 	OrderExpire:               "订单过期",
 	OrderPayCompleted:         "订单已完成支付",
+	UserAccountStateInvalid:   "用户账户无效",
 }
 
 //func init() {

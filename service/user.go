@@ -322,37 +322,35 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 		return &result, code.ERROR
 	}
 	defer conn.Close()
-
 	client := users.NewUsersServiceClient(conn)
-	r := users.GetUserInfoRequest{
+	req := users.GetUserInfoRequest{
 		Uid: int64(uid),
 	}
-	userInfo, err := client.GetUserInfo(ctx, &r)
+	userInfo, err := client.GetUserInfo(ctx, &req)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, r)
-		return &result, code.ERROR
-	} else {
-		if userInfo != nil && userInfo.Common != nil && userInfo.Common.Code == users.RetCode_SUCCESS {
-			result = args.UserInfoRsp{
-				Id:          uid,
-				AccountId:   userInfo.GetInfo().GetAccountId(),
-				UserName:    userInfo.GetInfo().GetUserName(),
-				Sex:         int(userInfo.GetInfo().GetSex()),
-				Phone:       userInfo.GetInfo().GetPhone(),
-				CountryCode: userInfo.GetInfo().GetCountryCode(),
-				Email:       userInfo.GetInfo().GetEmail(),
-				State:       int(userInfo.GetInfo().GetState()),
-				IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
-				Inviter:     int(userInfo.GetInfo().GetInviter()),
-				InviteCode:  userInfo.GetInfo().GetInviterCode(),
-				ContactAddr: userInfo.GetInfo().GetContactAddr(),
-				Age:         int(userInfo.GetInfo().GetAge()),
-				CreateTime:  userInfo.GetInfo().GetCreateTime(),
-				UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
-			}
-			return &result, code.SUCCESS
-		}
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, userInfo: %+v", serverName, err, userInfo)
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, req)
 		return &result, code.ERROR
 	}
+	if userInfo.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
+		return &result, code.ERROR
+	}
+	result = args.UserInfoRsp{
+		Id:          uid,
+		AccountId:   userInfo.GetInfo().GetAccountId(),
+		UserName:    userInfo.GetInfo().GetUserName(),
+		Sex:         int(userInfo.GetInfo().GetSex()),
+		Phone:       userInfo.GetInfo().GetPhone(),
+		CountryCode: userInfo.GetInfo().GetCountryCode(),
+		Email:       userInfo.GetInfo().GetEmail(),
+		State:       int(userInfo.GetInfo().GetState()),
+		IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
+		Inviter:     int(userInfo.GetInfo().GetInviter()),
+		InviteCode:  userInfo.GetInfo().GetInviterCode(),
+		ContactAddr: userInfo.GetInfo().GetContactAddr(),
+		Age:         int(userInfo.GetInfo().GetAge()),
+		CreateTime:  userInfo.GetInfo().GetCreateTime(),
+		UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
+	}
+	return &result, code.SUCCESS
 }

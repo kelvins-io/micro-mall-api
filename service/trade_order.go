@@ -167,7 +167,7 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		}
 	}
 	if len(rsp.List) == 0 {
-		retCode = code.TxcodeNotExist
+		retCode = code.TxCodeNotExist
 		return
 	}
 	// 发起支付流程

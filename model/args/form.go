@@ -6,6 +6,33 @@ import (
 	"strconv"
 )
 
+type UserAccountChargeArgs struct {
+	Uid            int    `json:"uid"`
+	Ip             string `json:"ip"`
+	DeviceCode     string `form:"device_code" json:"device_code"`
+	DevicePlatform string `form:"device_platform" json:"device_platform"`
+	AccountType    int    `form:"account_type" json:"account_type"`
+	CoinType       int    `form:"coin_type" json:"coin_type"`
+	Amount         string `form:"amount" json:"amount"`
+}
+
+func (t *UserAccountChargeArgs) Valid(v *validation.Validation) {
+	if t.Amount == "" {
+		v.SetError("Amount", "充值金额不能为空")
+	} else {
+		_, err := strconv.ParseFloat(t.Amount, 64)
+		if err != nil {
+			v.SetError("Amount", "充值金额不是有效数字")
+		}
+	}
+	if !util.IntSliceContainsItem([]int{0, 1}, t.CoinType) {
+		v.SetError("CoinType", "币种不支持")
+	}
+	if !util.IntSliceContainsItem([]int{0, 1, 2}, t.AccountType) {
+		v.SetError("AccountType", "账户类型不支持")
+	}
+}
+
 type SearchShopArgs struct {
 	Keyword string `form:"keyword" json:"keyword"`
 }

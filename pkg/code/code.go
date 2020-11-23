@@ -33,7 +33,7 @@ const (
 	MerchantAccountStateLock  = 600005
 	DecimalParseErr           = 600000
 	TransactionFailed         = 600010
-	TxcodeNotExist            = 600011
+	TxCodeNotExist            = 600011
 	TradePayRun               = 600012
 	TradePaySuccess           = 600013
 	LogisticsRecordExist      = 600014
@@ -51,4 +51,5 @@ const (
 	OrderStateLock            = 600026
 	OrderExpire               = 600027
 	OrderPayCompleted         = 600028
+	UserAccountStateInvalid   = 600029
 )

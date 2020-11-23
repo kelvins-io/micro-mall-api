@@ -82,6 +82,13 @@ service UsersService {
             get: "/v1/user/info/find"
         };
     }
+    // 用户账户充值
+    rpc UserAccountCharge(UserAccountChargeRequest) returns (UserAccountChargeResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/account/charge"
+            body: "*"
+        };
+    }
 }
 
 service MerchantsService {
@@ -128,6 +135,8 @@ enum RetCode {
     USER_DELIVERY_INFO_EXIST = 50009;
     USER_DELIVERY_INFO_NOT_EXIST = 50010;
     TRANSACTION_FAILED = 50011;
+    ACCOUNT_LOCK = 50012;
+    ACCOUNT_INVALID = 50013;
 }
 
 enum OperationType {
@@ -224,6 +233,19 @@ message UserInfoMain {
 message FindUserInfoResponse {
     CommonResponse common = 1;
     repeated UserInfoMain info_list = 2;
+}
+
+message UserAccountChargeRequest {
+    repeated int64 uid_list = 1;
+    AccountType account_type = 2; // 账户类型
+    CoinType coin_type = 3; // 币种
+    string amount = 4; // 数量
+
+    OperationMeta op_meta = 199;
+}
+
+message UserAccountChargeResponse {
+    CommonResponse common = 1; // 全部充值成功，或全部失败
 }
 
 message ModifyUserDeliveryInfoRequest {
@@ -430,4 +452,11 @@ message MerchantsMaterialAuditResponse {
 message CommonResponse {
     RetCode code =1;
     string msg =2;
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+    string op_platform = 3; // 操作平台
+    string op_device = 4; // 操作设备
 }
