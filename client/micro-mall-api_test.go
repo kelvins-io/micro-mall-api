@@ -744,7 +744,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	r := baseUrl + skuBusinessPutAway
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "0")
+	data.Set("operation_type", "4")
 	data.Set("shop_id", "30069")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "清风（APP）抽纸")

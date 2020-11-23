@@ -298,6 +298,36 @@ type SkuBusinessPutAwayArgs struct {
 	ShopId int64 `form:"shop_id" json:"shop_id"`
 }
 
+func (t *SkuBusinessPutAwayArgs) Valid(v *validation.Validation) {
+	if !util.IntSliceContainsItem([]int{0, 1, 2, 3, 4}, int(t.OperationType)) {
+		v.SetError("OperationType", "不支持的操作类型")
+	}
+	if t.SkuCode == "" {
+		v.SetError("SkuCode", "商品唯一code不能为空")
+	}
+	if t.Amount <= 0 {
+		v.SetError("Amount", "商品数量需要大于0")
+	}
+	if t.ShopId <= 0 {
+		v.SetError("ShopId", "上架商品店铺ID需要大于0")
+	}
+	if t.OperationType == 0 {
+		if t.Price == "" {
+			v.SetError("Price", "需要大于0")
+		}
+		if t.Name == "" {
+			v.SetError("Name", "不能为空")
+		}
+		if t.Title == "" {
+			v.SetError("Title", "不能为空")
+		}
+		if t.SubTitle == "" {
+			v.SetError("SubTitle", "不能为空")
+		}
+	}
+
+}
+
 type SkuJoinUserTrolleyArgs struct {
 	Uid      int
 	SkuCode  string `form:"sku_code" json:"sku_code"`
@@ -388,35 +418,6 @@ func (t *SkuPropertyExArgs) Valid(v *validation.Validation) {
 }
 
 type SkuPropertyExRsp struct {
-}
-
-func (t *SkuBusinessPutAwayArgs) Valid(v *validation.Validation) {
-	if !util.IntSliceContainsItem([]int{0, 1, 2, 3}, int(t.OperationType)) {
-		v.SetError("OperationType", "不支持的操作类型")
-	}
-	if t.SkuCode == "" {
-		v.SetError("SkuCode", "商品唯一code不能为空")
-	}
-	if t.Amount <= 0 {
-		v.SetError("Amount", "商品数量需要大于0")
-	}
-	if t.OperationType == 0 {
-		if t.ShopId <= 0 {
-			v.SetError("ShopId", "上架商品店铺ID需要大于0")
-		}
-	}
-	if t.Price == "" {
-		v.SetError("Price", "需要大于0")
-	}
-	if t.Name == "" {
-		v.SetError("Name", "不能为空")
-	}
-	if t.Title == "" {
-		v.SetError("Title", "不能为空")
-	}
-	if t.SubTitle == "" {
-		v.SetError("SubTitle", "不能为空")
-	}
 }
 
 type SkuBusinessPutAwayRsp struct {
