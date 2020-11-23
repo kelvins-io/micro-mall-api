@@ -363,23 +363,25 @@ header token
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
-operation_type | 操作类型 | int | 0-创建，1-更新，2删除，3-审核
+operation_type | 操作类型 | int | 0-创建，1-更新，2删除，3-审核，4增加库存
 sku_code | 商品sku | string | 商品唯一code
 name | 商品名称 | string | 不能为空
 price | 价格 | string | 数字字符串
 title | 商品标题 | string | 不能为空
 sub_title | 商品副标题 | string | 
-desc | 商品描述 | string | 
+desc | 商品描述 | string | 商品描述
 production | 生产商 | string | 不能为空
-supplier | 供应商 | string | 
+supplier | 供应商 | string | 供应商
 category | 商品分类 | string | 不能为空
 color | 颜色 | string | 如白色，红色
 color_code | 颜色代码 | int | 细分颜色代码
 specification | 商品规格 | string | 产品等级描述
 desc_link | 商品描述链接 | string | 不能为空
-state | 状态 | int | 商品所属店铺ID
+state | 状态 | int | 状态
 amount | 上架数量 | int | 大于0
 shop_id | 店铺ID | int | 商品所属店铺ID
+
+###### operation_type等于4时，参数只需要shop_id,sku_code,amount
 
 返回body： 
 

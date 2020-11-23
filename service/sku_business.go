@@ -18,9 +18,9 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 		return &result, code.ERROR
 	}
 	defer conn.Close()
-
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	r := sku_business.PutAwaySkuRequest{
+		OperationType: sku_business.OperationType(req.OperationType),
 		OperationMeta: &sku_business.OperationMeta{
 			OpUid: int64(req.Uid),
 			OpIp:  req.OpIp,
