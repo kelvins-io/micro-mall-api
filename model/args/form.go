@@ -62,17 +62,23 @@ func (t *UserSettingAddressPutArgs) Valid(v *validation.Validation) {
 	if !util.IntSliceContainsItem([]int{0, 1, 2}, t.OperationType) {
 		v.SetError("OperationType", "不支持的操作类型")
 	}
-	if t.DeliveryUser == "" {
-		v.SetError("DeliveryUser", "收货人不能为空")
-	}
-	if t.MobilePhone == "" {
-		v.SetError("MobilePhone", "联系人电话不能为空")
-	}
-	if t.Area == "" {
-		v.SetError("Area", "区域不能为空")
-	}
-	if t.DetailedArea == "" {
-		v.SetError("DetailedArea", "详细地址不能为空")
+	if t.OperationType == 0 {
+		if t.DeliveryUser == "" {
+			v.SetError("DeliveryUser", "收货人不能为空")
+		}
+		if t.MobilePhone == "" {
+			v.SetError("MobilePhone", "联系人电话不能为空")
+		}
+		if t.Area == "" {
+			v.SetError("Area", "区域不能为空")
+		}
+		if t.DetailedArea == "" {
+			v.SetError("DetailedArea", "详细地址不能为空")
+		}
+	} else {
+		if t.Id <= 0 {
+			v.SetError("Id", "记录ID不能为空")
+		}
 	}
 }
 

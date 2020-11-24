@@ -42,7 +42,7 @@ func TestGateway(t *testing.T) {
 	t.Run("用户账户充值", TestUserAccountCharge)
 }
 
-var benchCount = 900000
+const benchCount = 900000
 
 func BenchmarkGateway(b *testing.B) {
 	b.Run("批量充值", BenchmarkUserAccountCharge)
@@ -119,15 +119,15 @@ func TestUserSettingAddress(t *testing.T) {
 	t.Logf("request url: %s", r)
 	args := UserSettingAddressPutArgs{
 		UserDeliveryInfo: UserDeliveryInfo{
-			Id:           101,
-			DeliveryUser: "宫本少佐",
-			MobilePhone:  "15501707785",
-			Area:         "广东省广州市",
-			DetailedArea: "上海路步行街111号",
-			Label:        []string{"公司", "住宅", "生活"},
+			Id:           130,
+			DeliveryUser: "宫本大佐",
+			MobilePhone:  "187553543534",
+			Area:         "河北省石家庄",
+			DetailedArea: "石家庄十来路",
+			Label:        []string{"公司", "住宅"},
 			IsDefault:    true,
 		},
-		OperationType: 0,
+		OperationType: 1,
 	}
 	data := json.MarshalToStringNoError(args)
 	t.Logf("req data: \n%v", data)
