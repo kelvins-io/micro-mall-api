@@ -47,7 +47,9 @@ const benchCount = 900000
 func BenchmarkGateway(b *testing.B) {
 	b.Run("批量充值", BenchmarkUserAccountCharge)
 	b.Run("批量创建订单", BenchmarkTradeCreateOrder)
-	b.Run("批量创建订单并支付", BenchmarkTestOrderTrade)
+	b.Run("批量创建订单并支付-用户10043", BenchmarkTestOrderTrade_10043)
+	b.Run("批量创建订单并支付-用户10046", BenchmarkTestOrderTrade_10046)
+	b.Run("批量创建订单并支付-用户10047", BenchmarkTestOrderTrade_10047)
 }
 
 func TestGetUserInfo(t *testing.T) {
@@ -201,7 +203,7 @@ func BenchmarkUserAccountCharge(b *testing.B) {
 	data.Set("device_platform", "Android 10")
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
-	data.Set("amount", "9")
+	data.Set("amount", "999999999999999.99")
 	b.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -224,7 +226,7 @@ func TestUserAccountCharge(t *testing.T) {
 	data.Set("device_platform", "Android 10")
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
-	data.Set("amount", "9")
+	data.Set("amount", "9999999999999999999999999")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -368,8 +370,7 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 	b.ReportAllocs()
 }
 
-// 批量创建订单并支付
-func BenchmarkTestOrderTrade(b *testing.B) {
+func BenchmarkTestOrderTrade_10043(b *testing.B) {
 	createOrderUrl := baseUrl + tradeCreateOrder
 	orderTradeUrl := baseUrl + tradeOrderPay
 	goods1 := OrderShopGoods{
@@ -422,7 +423,7 @@ func BenchmarkTestOrderTrade(b *testing.B) {
 	data := CreateTradeOrderArgs{
 		Description:    "立冬优惠月",
 		DeviceId:       "vivo X50 Pro",
-		UserDeliveryId: 110,
+		UserDeliveryId: 108,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -433,7 +434,7 @@ func BenchmarkTestOrderTrade(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", qToken)
+		req.Header.Set("token", token_10043)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -473,7 +474,228 @@ func BenchmarkTestOrderTrade(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", qToken)
+		req.Header.Set("token", token_10043)
+		commonBenchmarkTest(orderTradeUrl, req, b)
+	}
+	b.ReportAllocs()
+}
+
+func BenchmarkTestOrderTrade_10046(b *testing.B) {
+	createOrderUrl := baseUrl + tradeCreateOrder
+	orderTradeUrl := baseUrl + tradeOrderPay
+	goods1 := OrderShopGoods{
+		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
+		Price:   "74.9",
+		Amount:  1,
+		Name:    "南孚(NANFU)5号碱性电池",
+		Version: 1,
+	}
+	goods2 := OrderShopGoods{
+		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
+		Price:   "74.9",
+		Amount:  1,
+		Name:    "碧螺春绿茶",
+		Version: 1,
+	}
+	detail := OrderShopDetail{
+		ShopId:   30070,
+		CoinType: 0, // 0-rmb,1-usdt
+		Goods:    []*OrderShopGoods{&goods1, &goods2},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       30070,
+				Name:     "福建交个朋友",
+				AreaCode: "福建",
+				Address:  "福建交个朋友",
+			},
+		},
+	}
+	goods3 := OrderShopGoods{
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
+		Amount:  1,
+		Name:    "清风（APP）抽纸",
+		Version: 1,
+	}
+	detail2 := OrderShopDetail{
+		ShopId:   30069,
+		CoinType: 0,
+		Goods:    []*OrderShopGoods{&goods3},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       30069,
+				Name:     "深圳市有他没我科技有限公司",
+				AreaCode: "深圳市南山区",
+				Address:  "深圳市有他没我科技有限公司",
+			},
+		},
+	}
+	data := CreateTradeOrderArgs{
+		Description:    "立冬优惠月",
+		DeviceId:       "vivo X20 Pro",
+		UserDeliveryId: 109,
+		Detail:         []*OrderShopDetail{&detail, &detail2},
+	}
+	for i := 0; i < benchCount; i++ {
+		data.OrderTxCode = uuid.New().String()
+		req, err := http.NewRequest("POST", createOrderUrl, strings.NewReader(json.MarshalToStringNoError(data)))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("token", token_10046)
+		rsp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		b.Logf("req url: %v status : %v", createOrderUrl, rsp.Status)
+		if rsp.StatusCode != http.StatusOK {
+			b.Error("StatusCode != 200")
+			return
+		}
+		body, err := ioutil.ReadAll(rsp.Body)
+		rsp.Body.Close()
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		var obj CreateOrderRsp
+		err = json.Unmarshal(string(body), &obj)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		if obj.Code != SuccessBusinessCode {
+			log.Printf("business code != %v", SuccessBusinessCode)
+			log.Printf("obj ==%+v,obj", obj)
+			continue
+		}
+		if obj.Data.TxCode == "" {
+			b.Errorf("创建订单交易号为空")
+			continue
+		}
+		orderTradeReq := url.Values{}
+		orderTradeReq.Set("tx_code", obj.Data.TxCode)
+		req, err = http.NewRequest("POST", orderTradeUrl, strings.NewReader(orderTradeReq.Encode()))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		req.Header.Set("token", token_10046)
+		commonBenchmarkTest(orderTradeUrl, req, b)
+	}
+	b.ReportAllocs()
+}
+
+// 批量创建订单并支付
+func BenchmarkTestOrderTrade_10047(b *testing.B) {
+	createOrderUrl := baseUrl + tradeCreateOrder
+	orderTradeUrl := baseUrl + tradeOrderPay
+	goods1 := OrderShopGoods{
+		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
+		Price:   "74.9",
+		Amount:  1,
+		Name:    "南孚(NANFU)5号碱性电池",
+		Version: 1,
+	}
+	goods2 := OrderShopGoods{
+		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
+		Price:   "74.9",
+		Amount:  1,
+		Name:    "碧螺春绿茶",
+		Version: 1,
+	}
+	detail := OrderShopDetail{
+		ShopId:   30070,
+		CoinType: 0, // 0-rmb,1-usdt
+		Goods:    []*OrderShopGoods{&goods1, &goods2},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       30070,
+				Name:     "福建交个朋友",
+				AreaCode: "福建",
+				Address:  "福建交个朋友",
+			},
+		},
+	}
+	goods3 := OrderShopGoods{
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
+		Amount:  1,
+		Name:    "清风（APP）抽纸",
+		Version: 1,
+	}
+	detail2 := OrderShopDetail{
+		ShopId:   30069,
+		CoinType: 0,
+		Goods:    []*OrderShopGoods{&goods3},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       30069,
+				Name:     "深圳市有他没我科技有限公司",
+				AreaCode: "深圳市南山区",
+				Address:  "深圳市有他没我科技有限公司",
+			},
+		},
+	}
+	data := CreateTradeOrderArgs{
+		Description:    "立冬优惠月",
+		DeviceId:       "Apple iPhone XS Max Pro",
+		UserDeliveryId: 110,
+		Detail:         []*OrderShopDetail{&detail, &detail2},
+	}
+	for i := 0; i < benchCount; i++ {
+		data.OrderTxCode = uuid.New().String()
+		req, err := http.NewRequest("POST", createOrderUrl, strings.NewReader(json.MarshalToStringNoError(data)))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/json")
+		req.Header.Set("token", token_10047)
+		rsp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		b.Logf("req url: %v status : %v", createOrderUrl, rsp.Status)
+		if rsp.StatusCode != http.StatusOK {
+			b.Error("StatusCode != 200")
+			return
+		}
+		body, err := ioutil.ReadAll(rsp.Body)
+		rsp.Body.Close()
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		var obj CreateOrderRsp
+		err = json.Unmarshal(string(body), &obj)
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		if obj.Code != SuccessBusinessCode {
+			log.Printf("business code != %v", SuccessBusinessCode)
+			log.Printf("obj ==%+v,obj", obj)
+			continue
+		}
+		if obj.Data.TxCode == "" {
+			b.Errorf("创建订单交易号为空")
+			continue
+		}
+		orderTradeReq := url.Values{}
+		orderTradeReq.Set("tx_code", obj.Data.TxCode)
+		req, err = http.NewRequest("POST", orderTradeUrl, strings.NewReader(orderTradeReq.Encode()))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		req.Header.Set("token", token_10047)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
@@ -626,7 +848,7 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18728714127")
+	data.Set("phone", "18319430520")
 	data.Set("password", "07030501310")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -757,7 +979,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	data := url.Values{}
 	data.Set("operation_type", "4")
 	data.Set("shop_id", "30069")
-	data.Set("sku_code", uuid.New().String())
+	data.Set("sku_code", "dd13b4aa-4121-4898-a2b5-bcfebccb713b")
 	data.Set("name", "清风（APP）抽纸")
 	data.Set("price", "2.90")
 	data.Set("title", "清风（APP）抽纸 原木纯品金装系列 3层120抽软抽*24包纸巾 婴儿可用（整箱销售）")

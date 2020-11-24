@@ -5,7 +5,7 @@ go 1.13
 require (
 	gitee.com/cristiane/go-common v1.0.1
 	gitee.com/kelvins-io/common v1.0.2
-	gitee.com/kelvins-io/kelvins v1.1.3
+	gitee.com/kelvins-io/kelvins v1.2.2
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
 	github.com/cosmtrek/air v1.21.2 // indirect
@@ -19,14 +19,11 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.14.7
 	github.com/jinzhu/gorm v1.9.16
 	github.com/prometheus/client_golang v1.7.1
-	github.com/rs/zerolog v1.19.0 // indirect
 	github.com/satori/go.uuid v1.2.0
-	github.com/shirou/gopsutil v2.20.8+incompatible // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/sony/sonyflake v1.0.0
 	github.com/tealeg/xlsx v1.0.5
-	go.elastic.co/apm v1.8.0 // indirect
-	golang.org/x/net v0.0.0-20200904194848-62affa334b73
+	golang.org/x/net v0.0.0-20201016165138-7b1cca2348c0
 	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208
 	google.golang.org/grpc v1.32.0
 	google.golang.org/protobuf v1.25.0
