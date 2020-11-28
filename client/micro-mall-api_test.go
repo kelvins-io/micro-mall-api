@@ -40,16 +40,21 @@ func TestGateway(t *testing.T) {
 	t.Run("搜索-店铺", TestSearchShop)
 	t.Run("获取店铺订单报告", TestGetOrderReport)
 	t.Run("用户账户充值", TestUserAccountCharge)
+	t.Run("订单评价", TestCommentsOrderCreate)
+	t.Run("获取店铺评论列表", TestGetShopCommentsList)
+	t.Run("修改评论标签", TestCommentsModify)
+	t.Run("获取评论标签", TestCommentsTagList)
 }
 
-const benchCount = 900000
+const benchCount = 90000
 
 func BenchmarkGateway(b *testing.B) {
+	b.Run("批量注册用户", BenchmarkRegisterUser)
 	b.Run("批量充值", BenchmarkUserAccountCharge)
 	b.Run("批量创建订单", BenchmarkTradeCreateOrder)
-	b.Run("批量创建订单并支付-用户10043", BenchmarkTestOrderTrade_10043)
-	b.Run("批量创建订单并支付-用户10046", BenchmarkTestOrderTrade_10046)
-	b.Run("批量创建订单并支付-用户10047", BenchmarkTestOrderTrade_10047)
+	b.Run("批量创建订单并支付-用户1", BenchmarkTestOrderTrade_1)
+	b.Run("批量创建订单并支付-用户2", BenchmarkTestOrderTrade_2)
+	b.Run("批量创建订单并支付-用户3", BenchmarkTestOrderTrade_3)
 }
 
 func TestGetUserInfo(t *testing.T) {
@@ -122,14 +127,14 @@ func TestUserSettingAddress(t *testing.T) {
 	args := UserSettingAddressPutArgs{
 		UserDeliveryInfo: UserDeliveryInfo{
 			Id:           130,
-			DeliveryUser: "宫本大佐",
+			DeliveryUser: "李大刀",
 			MobilePhone:  "187553543534",
 			Area:         "河北省石家庄",
 			DetailedArea: "石家庄十来路",
 			Label:        []string{"公司", "住宅"},
 			IsDefault:    true,
 		},
-		OperationType: 1,
+		OperationType: 0,
 	}
 	data := json.MarshalToStringNoError(args)
 	t.Logf("req data: \n%v", data)
@@ -183,7 +188,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "5d7ebd0b-81fc-44ef-a27e-42b5b5cd03fc")
+	data.Set("tx_code", "a3d48269-caad-497e-9d2d-5e9a0cdc9c5c")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -191,6 +196,114 @@ func TestOrderTradePay(t *testing.T) {
 		return
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestCommentsModify(t *testing.T) {
+	r := baseUrl + commentsTagsModify
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("operation_type", "0")
+	data.Set("tag_code", uuid.New().String())
+	data.Set("classification_major", "物流")
+	data.Set("classification_medium", "配送")
+	data.Set("classification_minor", "服务")
+	data.Set("content", "配送员没有送货上门")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestCommentsTagList(t *testing.T) {
+	r := baseUrl + commentsTagsList + "?tag_code=&classification_major=店铺&classification_medium="
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+type LogisticsCommentsInfo struct {
+	LogisticsCode        string   `form:"logistics_code" json:"logistics_code"`
+	FedexPack            int8     `form:"fedex_pack_star" json:"fedex_pack"`
+	FedexPackLabel       []string `form:"fedex_pack_label" json:"fedex_pack_label"`
+	DeliverySpeed        int8     `form:"delivery_speed" json:"delivery_speed"`
+	DeliverySpeedLabel   []string `form:"delivery_speed_label" json:"delivery_speed_label"`
+	DeliveryService      int8     `form:"delivery_service" json:"delivery_service"`
+	DeliveryServiceLabel []string `form:"delivery_service_label" json:"delivery_service_label"`
+	Comment              string   `form:"comment" json:"comment"`
+}
+
+type OrderCommentsInfo struct {
+	ShopId    int64    `form:"shop_id" json:"shop_id"`
+	OrderCode string   `form:"order_code" json:"order_code"`
+	Star      int8     `form:"star" json:"star"`
+	Content   string   `form:"content" json:"content"`
+	ImgList   []string `form:"img_list" json:"img_list"`
+	CommentId string   `form:"comment_id" json:"comment_id"`
+}
+
+type CreateOrderCommentsArgs struct {
+	Anonymity             bool `form:"anonymity" json:"anonymity"`
+	OrderCommentsInfo     OrderCommentsInfo
+	LogisticsCommentsInfo LogisticsCommentsInfo
+}
+
+func TestCommentsOrderCreate(t *testing.T) {
+	r := baseUrl + commentsOrderCreate
+	t.Logf("request url: %s", r)
+	args := CreateOrderCommentsArgs{
+		Anonymity: false,
+		OrderCommentsInfo: OrderCommentsInfo{
+			ShopId:    30072,
+			OrderCode: "000be2f2-489c-4e19-8e2a-731319c98aab",
+			Star:      1,
+			Content:   "经常在这家店购买，没毛病",
+			ImgList:   []string{"image1"},
+			CommentId: "",
+		},
+		LogisticsCommentsInfo: LogisticsCommentsInfo{
+			LogisticsCode:        uuid.New().String(),
+			FedexPack:            3,
+			FedexPackLabel:       []string{"打包不结实"},
+			DeliverySpeed:        3,
+			DeliverySpeedLabel:   []string{"送货速度慢"},
+			DeliveryService:      3,
+			DeliveryServiceLabel: []string{"配送服务不到位"},
+			Comment:              "配送人员没送到家门口",
+		},
+	}
+	data := json.MarshalToStringNoError(args)
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("token", token_10050)
+	commonTest(r, req, t)
+}
+
+func TestGetShopCommentsList(t *testing.T) {
+	r := baseUrl + commentsShopList + "?shop_id=30072"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
@@ -303,27 +416,27 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 	r := baseUrl + tradeCreateOrder
 	b.Logf("request url: %s", r)
 	goods1 := OrderShopGoods{
-		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
-		Price:   "74.9",
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
 		Amount:  1,
-		Name:    "南孚(NANFU)5号碱性电池",
+		Name:    "清风抽纸",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
-		Price:   "74.9",
+		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "碧螺春绿茶",
+		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30070,
+		ShopId:   30071,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30070,
+				Id:       30071,
 				Name:     "福建交个朋友",
 				AreaCode: "福建",
 				Address:  "福建交个朋友",
@@ -331,29 +444,29 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
-		Price:   "2.9",
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
 		Amount:  1,
-		Name:    "清风（APP）抽纸",
+		Name:    "三只松鼠无骨凤爪",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30069,
+		ShopId:   30072,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30069,
-				Name:     "深圳市有他没我科技有限公司",
+				Id:       30072,
+				Name:     "深圳市交个朋友科技有限公司",
 				AreaCode: "深圳市南山区",
-				Address:  "深圳市有他没我科技有限公司",
+				Address:  "深圳市交个朋友科技有限公司",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
 		Description:    "双12预热",
 		DeviceId:       "Galaxy Note20 Ultra",
-		UserDeliveryId: 110,
+		UserDeliveryId: 133,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -370,30 +483,31 @@ func BenchmarkTradeCreateOrder(b *testing.B) {
 	b.ReportAllocs()
 }
 
-func BenchmarkTestOrderTrade_10043(b *testing.B) {
+func BenchmarkTestOrderTrade_1(b *testing.B) {
 	createOrderUrl := baseUrl + tradeCreateOrder
 	orderTradeUrl := baseUrl + tradeOrderPay
 	goods1 := OrderShopGoods{
-		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
-		Price:   "74.9",
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
 		Amount:  1,
-		Name:    "南孚(NANFU)5号碱性电池",
+		Name:    "清风抽纸",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
-		Price:   "74.9",
+		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "碧螺春绿茶",
+		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}
+	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30070,
+		ShopId:   30071,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30070,
+				Id:       30071,
 				Name:     "福建交个朋友",
 				AreaCode: "福建",
 				Address:  "福建交个朋友",
@@ -401,29 +515,29 @@ func BenchmarkTestOrderTrade_10043(b *testing.B) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
-		Price:   "2.9",
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
 		Amount:  1,
-		Name:    "清风（APP）抽纸",
+		Name:    "三只松鼠无骨凤爪",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30069,
+		ShopId:   30072,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30069,
-				Name:     "深圳市有他没我科技有限公司",
+				Id:       30072,
+				Name:     "深圳市交个朋友科技有限公司",
 				AreaCode: "深圳市南山区",
-				Address:  "深圳市有他没我科技有限公司",
+				Address:  "深圳市交个朋友科技有限公司",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "立冬优惠月",
-		DeviceId:       "vivo X50 Pro",
-		UserDeliveryId: 108,
+		Description:    "双12预热",
+		DeviceId:       "Galaxy Note20 Ultra",
+		UserDeliveryId: 132,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -434,7 +548,7 @@ func BenchmarkTestOrderTrade_10043(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10043)
+		req.Header.Set("token", token_10050)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -474,36 +588,37 @@ func BenchmarkTestOrderTrade_10043(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10043)
+		req.Header.Set("token", token_10050)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
 }
 
-func BenchmarkTestOrderTrade_10046(b *testing.B) {
+func BenchmarkTestOrderTrade_2(b *testing.B) {
 	createOrderUrl := baseUrl + tradeCreateOrder
 	orderTradeUrl := baseUrl + tradeOrderPay
 	goods1 := OrderShopGoods{
-		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
-		Price:   "74.9",
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
 		Amount:  1,
-		Name:    "南孚(NANFU)5号碱性电池",
+		Name:    "清风抽纸",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
-		Price:   "74.9",
+		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "碧螺春绿茶",
+		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}
+	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30070,
+		ShopId:   30071,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30070,
+				Id:       30071,
 				Name:     "福建交个朋友",
 				AreaCode: "福建",
 				Address:  "福建交个朋友",
@@ -511,29 +626,29 @@ func BenchmarkTestOrderTrade_10046(b *testing.B) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
-		Price:   "2.9",
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
 		Amount:  1,
-		Name:    "清风（APP）抽纸",
+		Name:    "三只松鼠无骨凤爪",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30069,
+		ShopId:   30072,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30069,
-				Name:     "深圳市有他没我科技有限公司",
+				Id:       30072,
+				Name:     "深圳市交个朋友科技有限公司",
 				AreaCode: "深圳市南山区",
-				Address:  "深圳市有他没我科技有限公司",
+				Address:  "深圳市交个朋友科技有限公司",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "立冬优惠月",
-		DeviceId:       "vivo X20 Pro",
-		UserDeliveryId: 109,
+		Description:    "双12预热",
+		DeviceId:       "Galaxy Note20 Ultra",
+		UserDeliveryId: 133,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -544,7 +659,7 @@ func BenchmarkTestOrderTrade_10046(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10046)
+		req.Header.Set("token", token_10051)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -584,37 +699,38 @@ func BenchmarkTestOrderTrade_10046(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10046)
+		req.Header.Set("token", token_10051)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
 }
 
 // 批量创建订单并支付
-func BenchmarkTestOrderTrade_10047(b *testing.B) {
+func BenchmarkTestOrderTrade_3(b *testing.B) {
 	createOrderUrl := baseUrl + tradeCreateOrder
 	orderTradeUrl := baseUrl + tradeOrderPay
 	goods1 := OrderShopGoods{
-		SkuCode: "fdb6c5d5-c525-4531-ac30-c17cc8720f61",
-		Price:   "74.9",
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
 		Amount:  1,
-		Name:    "南孚(NANFU)5号碱性电池",
+		Name:    "清风抽纸",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "e2b7434b-0e66-435d-b338-cd442b98b796",
-		Price:   "74.9",
+		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "碧螺春绿茶",
+		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}
+	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30070,
+		ShopId:   30071,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30070,
+				Id:       30071,
 				Name:     "福建交个朋友",
 				AreaCode: "福建",
 				Address:  "福建交个朋友",
@@ -622,29 +738,29 @@ func BenchmarkTestOrderTrade_10047(b *testing.B) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
-		Price:   "2.9",
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
 		Amount:  1,
-		Name:    "清风（APP）抽纸",
+		Name:    "三只松鼠无骨凤爪",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30069,
+		ShopId:   30072,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30069,
-				Name:     "深圳市有他没我科技有限公司",
+				Id:       30072,
+				Name:     "深圳市交个朋友科技有限公司",
 				AreaCode: "深圳市南山区",
-				Address:  "深圳市有他没我科技有限公司",
+				Address:  "深圳市交个朋友科技有限公司",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "立冬优惠月",
-		DeviceId:       "Apple iPhone XS Max Pro",
-		UserDeliveryId: 110,
+		Description:    "双12预热",
+		DeviceId:       "Galaxy Note20 Ultra",
+		UserDeliveryId: 131,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -655,7 +771,7 @@ func BenchmarkTestOrderTrade_10047(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10047)
+		req.Header.Set("token", token_10048)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -695,7 +811,7 @@ func BenchmarkTestOrderTrade_10047(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10047)
+		req.Header.Set("token", token_10048)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
@@ -713,59 +829,58 @@ func TestTradeCreateOrder(t *testing.T) {
 	r := baseUrl + tradeCreateOrder
 	t.Logf("request url: %s", r)
 	goods1 := OrderShopGoods{
-		SkuCode: "f4b9b9c0-b8bc-4128-a77f-68da20ab8880",
-		Price:   "59",
-		Amount:  3,
-		Name:    "海飞丝洗发水",
+		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+		Price:   "2.9",
+		Amount:  1,
+		Name:    "清风抽纸",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "ec4abc12-9836-4546-a587-f72e375f7884",
-		Price:   "4999.55",
-		Amount:  3,
-		Name:    "Apple iPhone 11",
+		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		Price:   "23.78",
+		Amount:  1,
+		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30069,
+		ShopId:   30071,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30069,
-				Name:     "深圳市有他没我科技有限公司",
-				AreaCode: "广东省深圳市",
-				Address:  "深圳市有他没我科技有限公司",
-			},
-		},
-	}
-	goods3 := OrderShopGoods{
-		SkuCode: "b9dc7dea-b188-45cf-b8e7-1503898bd7ea",
-		Price:   "35.98",
-		Amount:  3,
-		Name:    "怡宝矿泉水",
-		Version: 1,
-	}
-	detail2 := OrderShopDetail{
-		ShopId:   30070,
-		CoinType: 0,
-		Goods:    []*OrderShopGoods{&goods3},
-		SceneInfo: &OrderShopSceneInfo{
-			StoreInfo: &OrderShopStoreInfo{
-				Id:       30070,
+				Id:       30071,
 				Name:     "福建交个朋友",
 				AreaCode: "福建",
 				Address:  "福建交个朋友",
 			},
 		},
 	}
+	goods3 := OrderShopGoods{
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
+		Amount:  1,
+		Name:    "三只松鼠无骨凤爪",
+		Version: 1,
+	}
+	detail2 := OrderShopDetail{
+		ShopId:   30072,
+		CoinType: 0,
+		Goods:    []*OrderShopGoods{&goods3},
+		SceneInfo: &OrderShopSceneInfo{
+			StoreInfo: &OrderShopStoreInfo{
+				Id:       30072,
+				Name:     "深圳市交个朋友科技有限公司",
+				AreaCode: "深圳市南山区",
+				Address:  "深圳市交个朋友科技有限公司",
+			},
+		},
+	}
 	data := CreateTradeOrderArgs{
-		Description: "双12预热",
-		DeviceId:    "Galaxy Note20 Ultra",
-		OrderTxCode: uuid.New().String(),
-		//OrderTxCode: "84fd4745-f0c0-4a7c-a522-16ef02d058e09",
-		UserDeliveryId: 110,
+		Description:    "双12预热",
+		DeviceId:       "Galaxy Note20 Ultra",
+		OrderTxCode:    uuid.New().String(),
+		UserDeliveryId: 133,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))
@@ -785,7 +900,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18728714127")
+	data.Set("phone", "18319430520")
 	data.Set("business_type", "1")
 	data.Set("receive_email", "mybaishati@gmail.com")
 	t.Logf("req data: %v", data)
@@ -799,21 +914,50 @@ func TestVerifyCodeSend(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+func BenchmarkRegisterUser(b *testing.B) {
+	r := baseUrl + registerUser
+	b.Logf("request url: %s", r)
+	for i := 0; i < benchCount; i++ {
+		data := url.Values{}
+		userName := GetFullName()
+		data.Set("user_name", userName)
+		data.Set("password", "07030501310")
+		data.Set("sex", "1")
+		data.Set("age", "33")
+		data.Set("country_code", "86")
+		data.Set("phone", fmt.Sprintf("%d%d", rand.Intn(9), time.Now().UnixNano()))
+		data.Set("email", "mybaishati@gmail.com")
+		data.Set("verify_code", "606347")
+		data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
+		data.Set("contact_addr", fmt.Sprintf("南京市%s大院", userName))
+		data.Set("invite_code", "494f85aa3000065")
+		b.Logf("req data: %v", data)
+		req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+		if err != nil {
+			b.Error(err)
+			return
+		}
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+		req.Header.Set("token", qToken)
+		commonBenchmarkTest(r, req, b)
+	}
+}
+
 func TestRegisterUser(t *testing.T) {
 	r := baseUrl + registerUser
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("user_name", "南田弘毅")
+	data.Set("user_name", GetFullName())
 	data.Set("password", "07030501310")
 	data.Set("sex", "1")
-	data.Set("age", "47")
+	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "18728714127")
+	data.Set("phone", "15501707783")
 	data.Set("email", "mybaishati@gmail.com")
-	data.Set("verify_code", "494280")
-	data.Set("id_card_no", "513913899384932877")
+	data.Set("verify_code", "606347")
+	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "廊坊市淮南路清明河畔李家大院")
-	data.Set("invite_code", "493012e59000065")
+	data.Set("invite_code", "")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -952,10 +1096,10 @@ func TestShopBusinessApply(t *testing.T) {
 	data := url.Values{}
 	data.Set("operation_type", "0")
 	data.Set("shop_id", "123")
-	data.Set("nick_name", "福建交个朋友")
-	data.Set("full_name", "福建交个朋友科技有限公司")
+	data.Set("nick_name", "深圳市交个朋友科技有限公司")
+	data.Set("full_name", "深圳市交个朋友科技有限公司")
 	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋")
-	data.Set("merchant_id", "1071")
+	data.Set("merchant_id", "1081")
 	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -977,16 +1121,16 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	r := baseUrl + skuBusinessPutAway
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "4")
-	data.Set("shop_id", "30069")
-	data.Set("sku_code", "dd13b4aa-4121-4898-a2b5-bcfebccb713b")
-	data.Set("name", "清风（APP）抽纸")
-	data.Set("price", "2.90")
-	data.Set("title", "清风（APP）抽纸 原木纯品金装系列 3层120抽软抽*24包纸巾 婴儿可用（整箱销售）")
-	data.Set("sub_title", "清风（APP）抽纸 原木纯品金装系列 3层120抽软抽*24包纸巾 婴儿可用（整箱销售）")
-	data.Set("desc", "清风（APP）抽纸 原木纯品金装系列 3层120抽软抽*24包纸巾 婴儿可用（整箱销售）")
-	data.Set("production", "广东清风纸业公司")
-	data.Set("supplier", "清风旗舰店")
+	data.Set("operation_type", "0")
+	data.Set("shop_id", "30071")
+	data.Set("sku_code", uuid.New().String())
+	data.Set("name", "百威淡色拉格啤酒")
+	data.Set("price", "23.78")
+	data.Set("title", "百威（Budweiser）淡色拉格啤酒 550ml*15听 整箱装")
+	data.Set("sub_title", "百威（Budweiser）淡色拉格啤酒 550ml*15听 整箱装")
+	data.Set("desc", "百威（Budweiser）淡色拉格啤酒 550ml*15听 整箱装")
+	data.Set("production", "百威啤酒")
+	data.Set("supplier", "百威旗舰店")
 	data.Set("category", "11010")
 	data.Set("color", "白色")
 	data.Set("color_code", "199")
@@ -1045,10 +1189,10 @@ func TestGetOrderReport(t *testing.T) {
 	r := baseUrl + reportOrder
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("shop_id", "30070")
+	data.Set("shop_id", "30079")
 	data.Set("start_time", "2019-11-22 08:46:41")
 	data.Set("end_time", "2020-12-04 18:46:41")
-	data.Set("page_size", "500")
+	data.Set("page_size", "20")
 	data.Set("page_num", "1")
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1056,7 +1200,7 @@ func TestGetOrderReport(t *testing.T) {
 		return
 	}
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("token", qToken)
+	req.Header.Set("token", token_10051)
 	commonTest(r, req, t)
 }
 
@@ -1065,12 +1209,12 @@ func TestSkuBusinessSupplement(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30068")
-	data.Set("sku_code", "5d6f191d-7d4e-49e5-9384-04abb7ba8cfb")
-	data.Set("name", "爱思席梦思")
+	data.Set("shop_id", "30071")
+	data.Set("sku_code", "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09")
+	data.Set("name", "百威淡色拉格啤酒")
 	data.Set("size", "1.8m")
 	data.Set("shape", "长方形")
-	data.Set("production_country", "河南爱思实业有限公司")
+	data.Set("production_country", "百威淡色拉格啤酒")
 	data.Set("production_date", "2020/10/19 15:20")
 	data.Set("shelf_life", "3.3年")
 	t.Logf("req data: %v", data)
@@ -1118,64 +1262,6 @@ func TestSkuRemoveUserTrolley(t *testing.T) {
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
-}
-
-func BenchmarkTestShopBusinessApply(b *testing.B) {
-	r := baseUrl + shopBusinessApply
-	b.Logf("request url: %s", r)
-	for i := 0; i < math.MaxInt16; i++ {
-		time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
-		data := url.Values{}
-		data.Set("operation_type", "0")
-		data.Set("shop_id", "123")
-		data.Set("nick_name", fmt.Sprintf("良品铺子京东旗舰店-%v", uuid.New().String()))
-		data.Set("full_name", "武汉市良品铺子食品股份有限公司深圳分公司宝安店")
-		data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-良品铺子京东旗舰店")
-		data.Set("merchant_id", "1009")
-		data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
-		data.Set("business_license", "qX2MkznWrlvO4sIp7")
-		data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
-		data.Set("business_desc", "qX2MkznWrlvO4sIp7")
-		data.Set("social_credit_code", "qX2MkznWrlvO4sIp7")
-		data.Set("organization_code", "qX2MkznWrlvO4sIp7")
-		b.Logf("req data: %v", data)
-		req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
-		if err != nil {
-			b.Error(err)
-			return
-		}
-		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", qToken)
-		b.Logf("request token=%v", qToken)
-		rsp, err := http.DefaultClient.Do(req)
-		if err != nil {
-			b.Error(err)
-			return
-		}
-		b.Logf("req url: %v status : %v", r, rsp.Status)
-		if rsp.StatusCode != http.StatusOK {
-			b.Error("StatusCode != 200")
-			return
-		}
-		body, err := ioutil.ReadAll(rsp.Body)
-		defer rsp.Body.Close()
-		if err != nil {
-			b.Error(err)
-			return
-		}
-		b.Logf("req url: %v body : \n%s", r, body)
-		var obj HttpCommonRsp
-		err = json.Unmarshal(string(body), &obj)
-		if err != nil {
-			b.Error(err)
-			return
-		}
-		if obj.Code != SuccessBusinessCode {
-			b.Errorf("business code != %v", SuccessBusinessCode)
-			b.Errorf("obj ==%+v,obj", obj)
-			return
-		}
-	}
 }
 
 const (

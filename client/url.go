@@ -31,6 +31,10 @@ const (
 	searchShop              = "/search/shop"
 	reportOrder             = "/user/order/report"
 	userAccountCharge       = "/user/account/charge"
+	commentsOrderCreate     = "/user/comments/order/create"
+	commentsShopList        = "/user/comments/shop/list"
+	commentsTagsModify      = "/user/comments/tags/modify"
+	commentsTagsList        = "/user/comments/tags/list"
 )
 
 const (
@@ -39,5 +43,5 @@ const (
 )
 
 var apiVersion = apiV1
-var qToken = token_10043
+
 var baseUrl = baseUrlLocal + apiVersion

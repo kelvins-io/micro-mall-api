@@ -52,6 +52,9 @@ var MsgFlags = map[int]string{
 	OrderExpire:               "订单过期",
 	OrderPayCompleted:         "订单已完成支付",
 	UserAccountStateInvalid:   "用户账户无效",
+	CommentsTagExist:          "评论标签已存在",
+	CommentsTagNotExist:       "评论标签不存在",
+	UserOrderNotExist:         "用户订单不存在",
 }
 
 //func init() {

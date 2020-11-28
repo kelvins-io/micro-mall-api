@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:27:06
+ Date: 26/11/2020 16:44:38
 */
 
 SET NAMES utf8mb4;
@@ -30,13 +30,13 @@ CREATE TABLE `account` (
   `coin_desc` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '币种描述',
   `state` tinyint DEFAULT NULL COMMENT '状态，1无效，2锁定，3正常',
   `account_type` tinyint NOT NULL COMMENT '账户类型，1-个人账户，2-公司账户，3-系统账户',
+  `last_tx_id` char(60) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '99' COMMENT '最后一次事务ID',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `last_tx_id` char(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '99' COMMENT '最后一次事务ID',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `account_index` (`owner`,`account_type`,`coin_type`) USING BTREE COMMENT '账户索引',
   KEY `create_time_index` (`create_time`) USING BTREE COMMENT '创建时间'
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='账户表';
 
 -- ----------------------------
 -- Table structure for pay_record
@@ -63,7 +63,7 @@ CREATE TABLE `pay_record` (
   KEY `merchant_index` (`merchant`) USING BTREE COMMENT '外部商户ID',
   KEY `user_index` (`user`) USING BTREE COMMENT '外部用户ID',
   KEY `tx_id_index` (`tx_id`) USING BTREE COMMENT '批次交易号'
-) ENGINE=InnoDB AUTO_INCREMENT=102814 DEFAULT CHARSET=utf8 COMMENT='支付记录';
+) ENGINE=InnoDB AUTO_INCREMENT=428118 DEFAULT CHARSET=utf8 COMMENT='支付记录';
 
 -- ----------------------------
 -- Table structure for transaction
@@ -87,6 +87,6 @@ CREATE TABLE `transaction` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=102681 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
+) ENGINE=InnoDB AUTO_INCREMENT=500108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
 
 SET FOREIGN_KEY_CHECKS = 1;

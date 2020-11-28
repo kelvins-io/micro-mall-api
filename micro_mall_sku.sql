@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:27:20
+ Date: 26/11/2020 16:44:45
 */
 
 SET NAMES utf8mb4;
@@ -28,12 +28,14 @@ CREATE TABLE `sku_inventory` (
   `price` decimal(32,16) DEFAULT NULL COMMENT '入库单价',
   `shop_id` bigint NOT NULL COMMENT '所属店铺ID',
   `version` int NOT NULL DEFAULT '1' COMMENT '商品版本',
+  `last_tx_id` char(60) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'dd13b4aa-4121-4898-a2b5-bcfebccb713b' COMMENT '最后一次更新事务ID',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品编码code',
-  KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID索引'
-) ENGINE=InnoDB AUTO_INCREMENT=180 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存表';
+  KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID索引',
+  KEY `last_tx_id_index` (`last_tx_id`) USING BTREE COMMENT '最后一次修改事务ID索引'
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存表';
 
 -- ----------------------------
 -- Table structure for sku_inventory_record
@@ -41,6 +43,7 @@ CREATE TABLE `sku_inventory` (
 DROP TABLE IF EXISTS `sku_inventory_record`;
 CREATE TABLE `sku_inventory_record` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自责ID',
+  `out_trade_no` char(40) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '外部订单号',
   `shop_id` bigint DEFAULT NULL COMMENT '店铺ID',
   `sku_code` char(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '商品sku',
   `op_type` tinyint DEFAULT '0' COMMENT '操作类型，0-入库，1-出库，2-冻结',
@@ -57,9 +60,9 @@ CREATE TABLE `sku_inventory_record` (
   KEY `op_tx_id_index` (`op_tx_id`) USING BTREE COMMENT '操作事务ID',
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID',
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku',
-  KEY `op_type_op_tx_index` (`op_type`,`op_tx_id`) USING BTREE COMMENT '操作类型-操作事务ID',
-  KEY `verify_op_tx_index` (`verify`,`op_tx_id`) USING BTREE COMMENT '库存核实-操作事务ID'
-) ENGINE=InnoDB AUTO_INCREMENT=333530 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
+  KEY `out_trade_no_index` (`out_trade_no`) USING BTREE COMMENT '外部订单号',
+  KEY `verify_op_type_index` (`verify`,`op_type`) USING BTREE COMMENT '操作类型-库存验证'
+) ENGINE=InnoDB AUTO_INCREMENT=1004398 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
 
 -- ----------------------------
 -- Table structure for sku_price_history
@@ -79,7 +82,7 @@ CREATE TABLE `sku_price_history` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku_code索引',
   KEY `shop_id_sku_code_index` (`shop_id`,`sku_code`) USING BTREE COMMENT '唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=367 DEFAULT CHARSET=utf8 COMMENT='商品价格历史记录';
+) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8 COMMENT='商品价格历史记录';
 
 -- ----------------------------
 -- Table structure for sku_property
@@ -106,6 +109,6 @@ CREATE TABLE `sku_property` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sku_code_index` (`code`) USING BTREE COMMENT '商品sku索引',
   KEY `sku_name_index` (`name`) USING BTREE COMMENT '商品名索引'
-) ENGINE=InnoDB AUTO_INCREMENT=282 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品详情属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品详情属性表';
 
 SET FOREIGN_KEY_CHECKS = 1;

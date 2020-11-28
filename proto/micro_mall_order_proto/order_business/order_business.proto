@@ -71,6 +71,7 @@ service OrderBusinessService {
 enum RetCode {
     SUCCESS = 0;
     ERROR = 500;
+    ERR_REQUEST_DATA_FORMAT = 40000;
     USER_NOT_EXIST = 50001;
     USER_EXIST = 50002;
     MERCHANT_NOT_EXIST = 50003;
@@ -93,6 +94,7 @@ enum RetCode {
     ORDER_PAY_COMPLETED = 50020; // 订单支付完成
     ORDER_EXPIRE = 50021; // 订单过期
     ORDER_STATE_INVALID = 50022; // 订单无效
+    REQUEST_DATA_TOO_MUCH = 50023; // 请求数据太多
 }
 
 enum OperationType {
@@ -184,7 +186,8 @@ message CheckOrderStateResponse {
 }
 
 message FindOrderListRequest {
-    repeated int64 shop_id_list = 1; // 店铺ID为0则查找全部订单
+    repeated int64 shop_id_list = 1; // 店铺ID，用户ID不能都为空
+    repeated int64 uid_list = 2; // 用户ID，店铺ID不能都为空
     FiltrateTimeMeta time_meta = 198; // 时间参数
     PageMeta page_meta = 199; // 分页
 }

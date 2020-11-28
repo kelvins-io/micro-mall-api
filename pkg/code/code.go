@@ -52,4 +52,9 @@ const (
 	OrderExpire               = 600027
 	OrderPayCompleted         = 600028
 	UserAccountStateInvalid   = 600029
+	CommentsExist             = 600030
+	CommentsNotExist          = 600031
+	CommentsTagExist          = 600032
+	CommentsTagNotExist       = 600033
+	UserOrderNotExist         = 600034
 )

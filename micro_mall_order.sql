@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:26:58
+ Date: 26/11/2020 16:44:30
 */
 
 SET NAMES utf8mb4;
@@ -27,7 +27,7 @@ CREATE TABLE `order` (
   `order_code` char(40) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单code',
   `uid` bigint NOT NULL COMMENT '用户UID',
   `order_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '下单时间',
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '订单描述',
+  `description` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '订单描述',
   `client_ip` char(16) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '客户端IP',
   `device_code` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '客户端设备code',
   `shop_id` bigint NOT NULL COMMENT '门店ID',
@@ -38,21 +38,20 @@ CREATE TABLE `order` (
   `money` decimal(32,16) NOT NULL DEFAULT '0.0000000000000000' COMMENT '订单总金额',
   `coin_type` tinyint DEFAULT '0' COMMENT ' 订单币种，0-CNY，1-USD',
   `logistics_delivery_id` int DEFAULT NULL COMMENT '物流投递ID',
+  `inventory_verify` tinyint DEFAULT '0' COMMENT '库存核实，0-未核实，1-核实',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `inventory_verify` tinyint DEFAULT '0' COMMENT '库存核实，0-未核实，1-核实',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引',
-  UNIQUE KEY `tx_code_order_code_index` (`tx_code`,`order_code`) USING BTREE COMMENT '交易号订单号唯一索引',
   KEY `uid_index` (`uid`) USING BTREE COMMENT '用户UID索引',
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID索引',
-  KEY `description_index` (`description`) USING BTREE COMMENT '订单描述索引',
   KEY `create_time_index` (`create_time`) USING BTREE COMMENT '订单创建时间',
   KEY `pay_expire_index` (`pay_expire`) USING BTREE COMMENT '订单支付过期时间',
   KEY `pay_state_order_code_index` (`pay_state`,`order_code`) USING BTREE COMMENT '支付状态-订单号',
   KEY `state,order_code_index` (`state`,`order_code`) USING BTREE COMMENT '订单状态-订单号',
-  KEY `inventory_verify_order_code` (`inventory_verify`,`order_code`) USING BTREE COMMENT '订单库存核实-订单号'
-) ENGINE=InnoDB AUTO_INCREMENT=162604 DEFAULT CHARSET=utf8 COMMENT='订单表';
+  KEY `inventory_verify_order_code` (`inventory_verify`,`order_code`) USING BTREE COMMENT '订单库存核实-订单号',
+  KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引',
+  KEY `tx_code_order_code_index` (`tx_code`,`order_code`) USING BTREE COMMENT '交易号订单号唯一索引'
+) ENGINE=InnoDB AUTO_INCREMENT=547406 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Table structure for order_estimate
@@ -91,7 +90,7 @@ CREATE TABLE `order_scene_shop` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=162309 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
+) ENGINE=InnoDB AUTO_INCREMENT=547099 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
 
 -- ----------------------------
 -- Table structure for order_sku
@@ -108,10 +107,10 @@ CREATE TABLE `order_sku` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `order_unique` (`order_code`,`shop_id`,`sku_code`) USING BTREE COMMENT '唯一索引',
   KEY `name_index` (`name`) USING BTREE COMMENT '商品名称索引',
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺索引',
-  KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku索引'
-) ENGINE=InnoDB AUTO_INCREMENT=243841 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
+  KEY `shop_order_code_index` (`shop_id`,`order_code`) USING BTREE COMMENT '店铺-订单code',
+  KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引'
+) ENGINE=InnoDB AUTO_INCREMENT=821026 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -85,6 +85,13 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 		{
 			apiAccount.PUT("/charge", v1.UserAccountChargeApi) // 账户充值
 		}
+		apiComments := apiUser.Group("/comments")
+		{
+			apiComments.POST("/tags/modify", v1.ModifyCommentsTagsApi)   // 修改评论标签
+			apiComments.GET("/shop/list", v1.GetShopCommentsListApi)     // 获取评论标签
+			apiComments.POST("/order/create", v1.CreateOrderCommentsApi) // 创建订单评论
+			apiComments.GET("/tags/list", v1.GetCommentsTagsListApi)     // 获取店铺评论列表
+		}
 	}
 	search := apiV1.Group("/search")
 	{

@@ -813,6 +813,102 @@ device_platform | 平台 | string | Android
 {"code":200,"data":"","msg":"ok"}
 ```
 
+订单评价   
+post/json  /user/comments/order/create   
+header token   
+
+```
+{
+	"anonymity": false,
+	"OrderCommentsInfo": {
+		"shop_id": 30072,
+		"order_code": "000be2f2-489c-4e19-8e2a-731319c98aab",
+		"star": 1,
+		"content": "经常在这家店购买，没毛病",
+		"img_list": ["image1"],
+		"comment_id": ""
+	},
+	"LogisticsCommentsInfo": {
+		"logistics_code": "f7e7cf5c-ae54-46bc-a0b3-623f446be29f",
+		"fedex_pack": 3,
+		"fedex_pack_label": ["打包不结实"],
+		"delivery_speed": 3,
+		"delivery_speed_label": ["送货速度慢"],
+		"delivery_service": 3,
+		"delivery_service_label": ["配送服务不到位"],
+		"comment": "配送人员没送到家门口"
+	}
+}
+```
+
+返回body   
+```
+{"code":200,"data":"","msg":"ok"}
+```
+
+获取店铺评价   
+get  /user/comments/shop/list?shop_id=111    
+返回body   
+
+```
+{
+	"code": 200,
+	"data": [{
+		"shop_id": 30072,
+		"order_code": "00038f56-7123-4af6-96b7-b7fceeb12415",
+		"star": 1,
+		"content": "商品很快就送到手里了，物美价廉",
+		"img_list": ["image1"],
+		"comment_id": "7e80704a-2731-44fb-9450-a0c8bbb68441"
+	}],
+	"msg": "ok"
+}
+```
+
+修改评价标签    
+post  /user/comments/tags/modify   
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+operation_type | 操作类型 | int | 0-新建，1-修改
+tag_code | 标签ID | string | 如，0099acd
+classification_major | 主要分类 | string | 如，商品
+classification_medium | 次要分类 | string | 如，仓库
+classification_minor | 细致分类 | string | 如，配送
+content | 平台 | string | 标签内容
+
+返回body   
+```
+{"code":200,"data":"","msg":"ok"}
+```
+
+获取标签列表   
+get /user/comments/tags/list   
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+tag_code | 标签ID | string | 如，0099acd
+classification_major | 主要分类 | string | 如，商品
+classification_medium | 次要分类 | string | 如，仓库
+返回body   
+
+```
+{
+	"code": 200,
+	"data": [{
+		"tag_code": "1221d8e7-ab5f-42da-831d-455dd5a023d3",
+		"classification_major": "店铺",
+		"classification_medium": "商品",
+		"classification_minor": "包装",
+		"content": "商品保证破损"
+	}],
+	"msg": "ok"
+}
+```
+
+
 #### 配置说明
 配置数据库sql, rabbitmq, redis，邮件，etcd   
 请先将根目录micro-mall.sql导入数据库创建相应的表   

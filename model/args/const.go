@@ -23,6 +23,7 @@ const (
 	RpcServiceMicroMallOrder     = "micro-mall-order"     // 订单服务
 	RpcServiceMicroMallPay       = "micro-mall-pay"       // 支付服务
 	RpcServiceMicroMallLogistics = "micro-mall-logistics" // 物流服务
+	RpcServiceMicroMallComments  = "micro-mall-comments"  // 评论服务
 )
 
 const (

@@ -610,6 +610,7 @@ type OrderTradeRsp struct {
 }
 
 type GetOrderReportArgs struct {
+	Uid       int64
 	ShopId    int64  `form:"shop_id" json:"shop_id"`
 	StartTime string `form:"start_time" json:"start_time"`
 	EndTime   string `form:"end_time" json:"end_time"`
@@ -634,4 +635,55 @@ func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
 
 type GetOrderReportRsp struct {
 	ReportFilePath string `json:"report_file_path"`
+}
+
+type CommentsTags struct {
+	TagCode              string `form:"tag_code" json:"tag_code"`
+	ClassificationMajor  string `form:"classification_major" json:"classification_major"`
+	ClassificationMedium string `form:"classification_medium" json:"classification_medium"`
+	ClassificationMinor  string `form:"classification_minor" json:"classification_minor"`
+	Content              string `form:"content" json:"content"`
+}
+
+type LogisticsCommentsInfo struct {
+	LogisticsCode        string   `form:"logistics_code" json:"logistics_code"`
+	FedexPack            int8     `form:"fedex_pack_star" json:"fedex_pack"`
+	FedexPackLabel       []string `form:"fedex_pack_label" json:"fedex_pack_label"`
+	DeliverySpeed        int8     `form:"delivery_speed" json:"delivery_speed"`
+	DeliverySpeedLabel   []string `form:"delivery_speed_label" json:"delivery_speed_label"`
+	DeliveryService      int8     `form:"delivery_service" json:"delivery_service"`
+	DeliveryServiceLabel []string `form:"delivery_service_label" json:"delivery_service_label"`
+	Comment              string   `form:"comment" json:"comment"`
+}
+
+type OrderCommentsInfo struct {
+	ShopId    int64    `form:"shop_id" json:"shop_id"`
+	OrderCode string   `form:"order_code" json:"order_code"`
+	Star      int8     `form:"star" json:"star"`
+	Content   string   `form:"content" json:"content"`
+	ImgList   []string `form:"img_list" json:"img_list"`
+	CommentId string   `form:"comment_id" json:"comment_id"`
+}
+
+type CreateOrderCommentsArgs struct {
+	Uid                   int64 `json:"uid"`
+	Anonymity             bool  `form:"anonymity" json:"anonymity"`
+	OrderCommentsInfo     OrderCommentsInfo
+	LogisticsCommentsInfo LogisticsCommentsInfo
+}
+
+type GetShopCommentsListArgs struct {
+	Uid    int64 `json:"uid"`
+	ShopId int64 `form:"shop_id" json:"shop_id"`
+}
+
+type ModifyCommentsTagsArgs struct {
+	Uid           int64 `json:"uid"`
+	OperationType int8  `form:"operation_type" json:"operation_type"`
+	CommentsTags
+}
+
+type GetCommentsTagsListArgs struct {
+	Uid int64 `json:"uid"`
+	CommentsTags
 }

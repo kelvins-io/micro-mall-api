@@ -16,14 +16,21 @@ service PayBusinessService {
     // 创建账户
     rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
         option (google.api.http) = {
-            post: "/v1/trade/account"
+            post: "/v1/account/init"
             body:"*"
         };
     }
     // 获取账户
-    rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
+    rpc FindAccount(FindAccountRequest) returns (FindAccountResponse) {
         option (google.api.http) = {
-            get: "/v1/trade/account"
+            get: "/v1/account"
+        };
+    }
+    // 账户充值
+    rpc AccountCharge(AccountChargeRequest) returns (AccountChargeResponse) {
+        option (google.api.http) = {
+            post: "/v1/account/charge"
+            body:"*"
         };
     }
 }
@@ -54,6 +61,7 @@ enum RetCode {
     TRADE_PAY_SUCCESS = 6000011;
     TRADE_PAY_EXPIRE = 6000012;
     TRADE_ORDER_NOT_MATCH_USER = 6000013;
+    USER_ACCOUNT_STATE_INVALID = 6000014;
 }
 
 enum OperationType {
@@ -80,17 +88,32 @@ message CommonResponse {
     string msg = 2;
 }
 
-message GetAccountRequest {
-    string owner = 1; // 必填
+message FindAccountRequest {
+    repeated string owner = 1; // 必填
     AccountType account_type = 2; // 选填
     CoinType coin_type = 3; // 选填
 }
 
-message GetAccountResponse {
-    repeated AccountEntry entry_list = 1;
+message FindAccountResponse {
+    CommonResponse common = 1;
+    repeated AccountEntry entry_list = 2;
+}
+
+message AccountChargeRequest {
+    repeated string owner = 1; // 必填
+    AccountType account_type = 2; // 选填
+    CoinType coin_type = 3; // 选填
+    string amount = 4; // 数量
+
+    OperationMeta op_meta = 199;
+}
+
+message AccountChargeResponse {
+    CommonResponse common = 1; // 全部充值成功或失败
 }
 
 message AccountEntry {
+    string owner = 1;
     AccountType account_type = 2;
     CoinType coin_type = 3;
     string balance = 4;
@@ -126,6 +149,13 @@ message TradePayEntry {
     string attach = 6; // 附加数据，在支付和查询body中原样返回
 
     TradeGoodsDetail detail = 199;
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+    string op_platform = 3; // 操作平台
+    string op_device = 4; // 操作设备
 }
 
 message TradeGoodsDetail {

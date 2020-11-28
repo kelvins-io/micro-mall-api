@@ -15,7 +15,9 @@ import (
 )
 
 func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *args.GetOrderReportRsp, retCode int) {
-	result = &args.GetOrderReportRsp{}
+	result = &args.GetOrderReportRsp{
+		ReportFilePath: "暂无报告",
+	}
 	retCode = code.SUCCESS
 	// 查找订单信息
 	serverName := args.RpcServiceMicroMallOrder
@@ -29,6 +31,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	orderClient := order_business.NewOrderBusinessServiceClient(conn)
 	findOrderReq := order_business.FindOrderListRequest{
 		ShopIdList: []int64{req.ShopId},
+		UidList:    []int64{req.Uid},
 		TimeMeta: &order_business.FiltrateTimeMeta{
 			StartTime: req.StartTime,
 			EndTime:   req.EndTime,

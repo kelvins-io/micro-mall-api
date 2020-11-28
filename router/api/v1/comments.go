@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func CreateTradeOrderApi(c *gin.Context) {
+func CreateOrderCommentsApi(c *gin.Context) {
 	var uid int
 	value, exist := c.Get("uid")
 	if !exist {
@@ -21,73 +21,7 @@ func CreateTradeOrderApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
 		return
 	}
-	var form args.CreateTradeOrderArgs
-	var err error
-	err = app.BindAndValid(c, &form)
-	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
-		return
-	}
-	form.Uid = int64(uid)
-	form.ClientIp = c.ClientIP()
-	rsp, retCode := service.CreateTradeOrder(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
-}
-
-func GenTradeOrderCodeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	rsp, retCode := service.GenOrderCode(c, int64(uid))
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
-}
-
-func OrderTradeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	var form args.OrderTradeArgs
-	var err error
-	err = app.BindAndValid(c, &form)
-	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
-		return
-	}
-	form.OpUid = int64(uid)
-	form.OpIp = c.ClientIP()
-	rsp, retCode := service.OrderTrade(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
-}
-
-func GetOrderReportApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	var form args.GetOrderReportArgs
+	var form args.CreateOrderCommentsArgs
 	form.Uid = int64(uid)
 	var err error
 	err = app.BindAndValid(c, &form)
@@ -95,6 +29,78 @@ func GetOrderReportApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	rsp, retCode := service.GetOrderReport(c, &form)
+	retCode := service.CreateOrderComments(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, "")
+}
+
+func GetShopCommentsListApi(c *gin.Context) {
+	var uid int
+	value, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	uid, ok := value.(int)
+	if !ok {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	var form args.GetShopCommentsListArgs
+	form.Uid = int64(uid)
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	rsp, retCode := service.GetOrderCommentsList(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+}
+
+func ModifyCommentsTagsApi(c *gin.Context) {
+	var uid int
+	value, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	uid, ok := value.(int)
+	if !ok {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	var form args.ModifyCommentsTagsArgs
+	form.Uid = int64(uid)
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	retCode := service.ModifyCommentsTags(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, "")
+}
+
+func GetCommentsTagsListApi(c *gin.Context) {
+	var uid int
+	value, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	uid, ok := value.(int)
+	if !ok {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	var form args.GetCommentsTagsListArgs
+	form.Uid = int64(uid)
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	rsp, retCode := service.GetCommentsTagsList(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

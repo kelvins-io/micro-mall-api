@@ -60,6 +60,13 @@ service SkuBusinessService {
             body:"*"
         };
     }
+    // 确认库存
+    rpc ConfirmSkuInventory(ConfirmSkuInventoryRequest) returns (ConfirmSkuInventoryResponse) {
+        option (google.api.http) = {
+            post: "/v1/sku/inventory/confirm"
+            body:"*"
+        };
+    }
 
 }
 
@@ -139,6 +146,14 @@ message SearchSkuInventoryRequest {
 message SearchSkuInventoryEntry {
     SkuInventoryInfo info = 1;
     double score = 2;
+}
+
+message ConfirmSkuInventoryRequest {
+    repeated string out_trade_no = 1; // 外部订单号
+}
+
+message ConfirmSkuInventoryResponse {
+    CommonResponse common = 1;
 }
 
 message SearchSkuInventoryResponse {
@@ -230,6 +245,10 @@ enum RetCode {
     SKU_PRICE_VERSION_NOT_EXIST = 50011;
     SKU_PRICE_VERSION_POLICY_TYPE_NOT_SUPPORT = 50012;
     SKU_PRICE_VERSION_POLICY_DATA_FORMAT_ERR = 50013;
+    SKU_DEDUCT_INVENTORY_RECORD_EXIST = 50014;
+    SKU_DEDUCT_INVENTORY_RECORD_NOT_EXIST = 50015;
+    SKU_RESTORE_INVENTORY_RECORD_EXIST = 500016;
+    SKU_RESTORE_INVENTORY_RECORD_NOT_EXIST = 500017;
 }
 
 enum OperationType {
