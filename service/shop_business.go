@@ -18,9 +18,8 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		return &result, code.ERROR
 	}
 	defer conn.Close()
-
 	client := shop_business.NewShopBusinessServiceClient(conn)
-	r := shop_business.ShopApplyRequest{
+	shopApplyReq := shop_business.ShopApplyRequest{
 		OperationType:    shop_business.OperationType(req.OperationType),
 		OpUid:            int64(req.Uid),
 		OpIp:             req.OpIp,
@@ -36,28 +35,30 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		SocialCreditCode: req.SocialCreditCode,
 		OrganizationCode: req.OrganizationCode,
 	}
-	rsp, err := client.ShopApply(ctx, &r)
+	rsp, err := client.ShopApply(ctx, &shopApplyReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "ShopApply %v,err: %v, req: %+v", serverName, err, shopApplyReq)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == shop_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return &result, code.ERROR
+	if rsp.Common.Code == shop_business.RetCode_SUCCESS {
+		result.ShopId = int(rsp.ShopId)
+		return &result, code.SUCCESS
 	}
-	result.ShopId = int(rsp.ShopId)
-	if rsp.Common.Code == shop_business.RetCode_USER_NOT_EXIST {
+	vars.ErrorLogger.Errorf(ctx, "ShopApply %v,err: %v, rsp: %+v", serverName, err, rsp)
+	switch rsp.Common.Code {
+	case shop_business.RetCode_USER_NOT_EXIST:
 		return &result, code.ErrorUserNotExist
-	} else if rsp.Common.Code == shop_business.RetCode_USER_EXIST {
+	case shop_business.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
-	} else if rsp.Common.Code == shop_business.RetCode_MERCHANT_EXIST {
+	case shop_business.RetCode_MERCHANT_EXIST:
 		return &result, code.ErrorMerchantExist
-	} else if rsp.Common.Code == shop_business.RetCode_MERCHANT_NOT_EXIST {
+	case shop_business.RetCode_MERCHANT_NOT_EXIST:
 		return &result, code.ErrorMerchantNotExist
-	} else if rsp.Common.Code == shop_business.RetCode_SHOP_EXIST {
+	case shop_business.RetCode_SHOP_EXIST:
 		return &result, code.ErrorShopBusinessExist
-	} else if rsp.Common.Code == shop_business.RetCode_SHOP_NOT_EXIST {
+	case shop_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopBusinessNotExist
+	default:
+		return &result, code.ERROR
 	}
-	return &result, code.SUCCESS
 }

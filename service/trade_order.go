@@ -23,15 +23,19 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 	client := order_business.NewOrderBusinessServiceClient(conn)
 	r := order_business.GenOrderTxCodeRequest{Uid: uid}
 	rsp, err := client.GenOrderTxCode(ctx, &r)
-	if err != nil || rsp.Common.Code != order_business.RetCode_SUCCESS {
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode %v,err: %v", serverName, err)
 		return "", code.ERROR
+	}
+	vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode  rsp: %+v", rsp)
+	if rsp.Common.Code == order_business.RetCode_SUCCESS {
+		result = rsp.OrderTxCode
+		return result, code.SUCCESS
 	}
 	if rsp.OrderTxCode == "" {
 		return "", code.ERROR
 	}
-	result = rsp.OrderTxCode
-
-	return result, code.SUCCESS
+	return result, code.ERROR
 }
 
 func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*args.CreateTradeOrderRsp, int) {
@@ -91,11 +95,11 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-	if rsp.Common.Code == order_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return &result, code.ERROR
+	if rsp.Common.Code == order_business.RetCode_SUCCESS {
+		result.TxCode = rsp.TxCode
+		return &result, code.SUCCESS
 	}
-	result.TxCode = rsp.TxCode
+	vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 	switch rsp.Common.Code {
 	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
 		return &result, code.SkuPriceVersionNotExist
@@ -117,9 +121,9 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		return &result, code.ErrorSkuAmountNotEnough
 	case order_business.RetCode_TRANSACTION_FAILED:
 		return &result, code.TransactionFailed
+	default:
+		return &result, code.ERROR
 	}
-
-	return &result, code.SUCCESS
 }
 
 func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.OrderTradeRsp, retCode int) {

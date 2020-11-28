@@ -49,10 +49,10 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 		vars.ErrorLogger.Errorf(ctx, "PutAwaySku %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == sku_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "PutAwaySku %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return &result, code.ERROR
+	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
+		return &result, code.SUCCESS
 	}
+	vars.ErrorLogger.Errorf(ctx, "PutAwaySku %v,err: %v, rsp: %+v", serverName, err, rsp)
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopIdNotExist
@@ -61,9 +61,8 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 	case sku_business.RetCode_TRANSACTION_FAILED:
 		return &result, code.TransactionFailed
 	default:
+		return &result, code.ERROR
 	}
-
-	return &result, code.SUCCESS
 }
 
 func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuListRsp, int) {
@@ -107,7 +106,6 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 			ShopId:        rsp.List[i].GetShopId(),
 			Version:       rsp.List[i].GetVersion(),
 		}
-		//fmt.Printf("sku=%+v\n", info)
 		result.SkuInventoryInfoList[i] = info
 	}
 
@@ -144,10 +142,10 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty %v,err: %v, req: %+v", serverName, err, r)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == sku_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return &result, code.ERROR
+	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
+		return &result, code.SUCCESS
 	}
+	vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty %v,err: %v, rsp: %+v", serverName, err, rsp)
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopIdNotExist
@@ -156,7 +154,6 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	case sku_business.RetCode_TRANSACTION_FAILED:
 		return &result, code.TransactionFailed
 	default:
+		return &result, code.ERROR
 	}
-
-	return &result, code.SUCCESS
 }

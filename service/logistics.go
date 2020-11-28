@@ -30,7 +30,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 			Kind:    req.Goods[i].Kind,
 		}
 	}
-	r := logistics_business.ApplyLogisticsRequest{
+	logisticsReq := logistics_business.ApplyLogisticsRequest{
 		OutTradeNo:  req.OutTradeNo,
 		Courier:     req.Courier,
 		CourierType: int32(req.CourierType),
@@ -47,29 +47,26 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		},
 		Goods: goods,
 	}
-	rsp, err := client.ApplyLogistics(ctx, &r)
+	logisticsRsp, err := client.ApplyLogistics(ctx, &logisticsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, req: %+v", serverName, err, logisticsReq)
 		retCode = code.ERROR
 		return
 	}
-	if rsp == nil || rsp.Common == nil {
-		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, rsp: %+v", serverName, err, rsp)
-		retCode = code.ERROR
+	if logisticsRsp.Common.Code == logistics_business.RetCode_SUCCESS {
+		result.LogisticsCode = logisticsRsp.LogisticsCode
 		return
 	}
-	if rsp.Common.Code != logistics_business.RetCode_SUCCESS {
-		switch rsp.Common.Code {
-		case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
-			retCode = code.LogisticsRecordExist
-			return
-		case logistics_business.RetCode_LOGISTICS_CODE_NOT_EXIST:
-			retCode = code.LogisticsRecordNotExist
-			return
-		}
+	vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, rsp: %+v", serverName, err, logisticsRsp)
+	switch logisticsRsp.Common.Code {
+	case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
+		retCode = code.LogisticsRecordExist
+	case logistics_business.RetCode_LOGISTICS_CODE_NOT_EXIST:
+		retCode = code.LogisticsRecordNotExist
+	default:
+		retCode = code.ERROR
 	}
-	result.LogisticsCode = rsp.LogisticsCode
-	return result, retCode
+	return
 }
 
 func QueryLogisticsRecord(ctx context.Context, req *args.QueryLogisticsRecordArgs) (*args.QueryLogisticsRecordRsp, int) {

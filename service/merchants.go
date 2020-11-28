@@ -18,9 +18,8 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 		return &result, code.ERROR
 	}
 	defer conn.Close()
-
 	client := users.NewMerchantsServiceClient(conn)
-	r := users.MerchantsMaterialRequest{
+	merchantReq := users.MerchantsMaterialRequest{
 		Info: &users.MerchantsMaterialInfo{
 			Uid:          int64(req.Uid),
 			RegisterAddr: req.RegisterAddr,
@@ -31,24 +30,26 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 		},
 		OperationType: users.OperationType(req.OperationType),
 	}
-	rsp, err := client.MerchantsMaterial(ctx, &r)
+	rsp, err := client.MerchantsMaterial(ctx, &merchantReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, req: %+v", serverName, err, merchantReq)
 		return &result, code.ERROR
 	}
-	if rsp == nil || rsp.Common == nil {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return &result, code.ERROR
+	if rsp.Common.Code == users.RetCode_SUCCESS {
+		result.MerchantId = rsp.MaterialId
+		return &result, code.SUCCESS
 	}
-	result.MerchantId = rsp.MaterialId
-	if rsp.Common.Code == users.RetCode_USER_NOT_EXIST {
+	vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, rsp: %+v", serverName, err, rsp)
+	switch rsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
 		return &result, code.ErrorUserNotExist
-	} else if rsp.Common.Code == users.RetCode_USER_EXIST {
+	case users.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
-	} else if rsp.Common.Code == users.RetCode_MERCHANT_EXIST {
+	case users.RetCode_MERCHANT_EXIST:
 		return &result, code.ErrorMerchantExist
-	} else if rsp.Common.Code == users.RetCode_MERCHANT_NOT_EXIST {
+	case users.RetCode_MERCHANT_NOT_EXIST:
 		return &result, code.ErrorMerchantNotExist
+	default:
+		return &result, code.ERROR
 	}
-	return &result, code.SUCCESS
 }
