@@ -804,7 +804,7 @@ header token
 ---|------|------|---
 account_type | 账户类型 | int | 0-个人账户，2-公司账户，3-系统账户
 amount | 金额 | string | 如，99.09
-coin_type | 币种 | int | 如，0-RMB，2-USDT
+coin_type | 币种 | int | 如，0-RMB，1-USDT
 device_code | 设备 | string | vivo NEX
 device_platform | 平台 | string | Android
 
@@ -872,7 +872,7 @@ post  /user/comments/tags/modify
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
 operation_type | 操作类型 | int | 0-新建，1-修改
-tag_code | 标签ID | string | 如，0099acd
+tag_code | 标签ID | string | 修改时需要，如，0099acd
 classification_major | 主要分类 | string | 如，商品
 classification_medium | 次要分类 | string | 如，仓库
 classification_minor | 细致分类 | string | 如，配送
@@ -892,6 +892,7 @@ get /user/comments/tags/list
 tag_code | 标签ID | string | 如，0099acd
 classification_major | 主要分类 | string | 如，商品
 classification_medium | 次要分类 | string | 如，仓库
+
 返回body   
 
 ```
