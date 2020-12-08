@@ -72,6 +72,10 @@ https://gitee.com/cristiane/micro-mall-estimate-proto
 https://gitee.com/cristiane/micro-mall-search   
 https://gitee.com/cristiane/micro-mall-search-cron   
 
+评论服务   
+https://gitee.com/cristiane/micro-mall-comments   
+https://gitee.com/cristiane/micro-mall-comments-proto   
+
 ////依赖   
 web模板：https://gitee.com/cristiane/web_gin_template   
 gRPC应用模板：https://gitee.com/kelvins-io/kelvins-template   
