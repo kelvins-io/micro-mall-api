@@ -13,6 +13,7 @@ type UserAccountChargeArgs struct {
 	DevicePlatform string `form:"device_platform" json:"device_platform"`
 	AccountType    int    `form:"account_type" json:"account_type"`
 	CoinType       int    `form:"coin_type" json:"coin_type"`
+	OutTradeNo string `form:"out_trade_no" json:"out_trade_no"`
 	Amount         string `form:"amount" json:"amount"`
 }
 

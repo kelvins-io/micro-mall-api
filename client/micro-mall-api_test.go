@@ -339,7 +339,8 @@ func TestUserAccountCharge(t *testing.T) {
 	data.Set("device_platform", "Android 10")
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
-	data.Set("amount", "9999999999999999999999999")
+	data.Set("out_trade_no", "0fdfadsfssa")
+	data.Set("amount", "1")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {

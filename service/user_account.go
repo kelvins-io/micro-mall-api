@@ -31,6 +31,7 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 		UidList:     []int64{int64(req.Uid)},
 		AccountType: users.AccountType(req.AccountType),
 		CoinType:    users.CoinType(req.CoinType),
+		OutTradeNo: req.OutTradeNo,
 		Amount:      req.Amount,
 		OpMeta: &users.OperationMeta{
 			OpUid:      int64(req.Uid),
@@ -59,6 +60,12 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 			retCode = code.TransactionFailed
 		case users.RetCode_ACCOUNT_NOT_EXIST:
 			retCode = code.UserAccountNotExist
+		case users.RetCode_USER_CHARGE_SUCCESS:
+			retCode = code.TradePaySuccess
+		case users.RetCode_USER_CHARGE_RUN:
+			retCode = code.TradePayRun
+		case users.RetCode_USER_CHARGE_TRADE_NO_EMPTY:
+			retCode = code.OutTradeEmpty
 		default:
 			retCode = code.ERROR
 		}

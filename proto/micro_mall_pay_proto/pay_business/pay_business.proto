@@ -33,6 +33,13 @@ service PayBusinessService {
             body:"*"
         };
     }
+
+    // 获取交易唯一ID
+    rpc GetTradeUUID(GetTradeUUIDRequest) returns(GetTradeUUIDResponse) {
+        option (google.api.http) = {
+            get: "/v1/trade/uuid"
+        };
+    }
 }
 
 enum RetCode {
@@ -62,6 +69,8 @@ enum RetCode {
     TRADE_PAY_EXPIRE = 6000012;
     TRADE_ORDER_NOT_MATCH_USER = 6000013;
     USER_ACCOUNT_STATE_INVALID = 6000014;
+    USER_CHARGE_RECORD_EXIST = 6000015;
+    TRADE_UUID_EMPTY = 6000016;
 }
 
 enum OperationType {
@@ -104,12 +113,29 @@ message AccountChargeRequest {
     AccountType account_type = 2; // 选填
     CoinType coin_type = 3; // 选填
     string amount = 4; // 数量
+    string out_trade_no = 5;
 
     OperationMeta op_meta = 199;
 }
 
 message AccountChargeResponse {
     CommonResponse common = 1; // 全部充值成功或失败
+}
+
+enum TradeType {
+    PAY = 0;
+    CHARGE = 1;
+}
+
+message GetTradeUUIDRequest {
+    TradeType trade_type = 1;
+    string client_id = 2;
+    int64 uid = 3;
+}
+
+message GetTradeUUIDResponse {
+    CommonResponse common = 1;
+    string uuid = 2;
 }
 
 message AccountEntry {

@@ -184,7 +184,7 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	}
 	defer conn.Close()
 	payClient := pay_business.NewPayBusinessServiceClient(conn)
-	payR := pay_business.TradePayRequest{
+	payReq := pay_business.TradePayRequest{
 		Account:   rsp.Account,
 		CoinType:  pay_business.CoinType(rsp.CoinType),
 		EntryList: nil,
@@ -192,7 +192,7 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		OpIp:      req.OpIp,
 		OutTxCode: req.TxCode,
 	}
-	payR.EntryList = make([]*pay_business.TradePayEntry, len(rsp.List))
+	payReq.EntryList = make([]*pay_business.TradePayEntry, len(rsp.List))
 	for i := 0; i < len(rsp.List); i++ {
 		tradeEntry := &pay_business.TradePayEntry{
 			OutTradeNo:  rsp.List[i].OrderCode,
@@ -206,19 +206,20 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 				Reduction: "0",
 			},
 		}
-		payR.EntryList[i] = tradeEntry
+		payReq.EntryList[i] = tradeEntry
 	}
-	payRsp, err := payClient.TradePay(ctx, &payR)
+	payRsp, err := payClient.TradePay(ctx, &payReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, req: %+v", serverName, err, payR)
+		vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, req: %v", serverName, err, payReq)
 		retCode = code.ERROR
 		return
 	}
-	if payRsp == nil || payRsp.Common == nil || payRsp.Common.Code == pay_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, rsp: %+v", serverName, err, payRsp)
-		retCode = code.ERROR
+	if  payRsp.Common.Code == pay_business.RetCode_SUCCESS {
+		result.IsSuccess = true
+		retCode = code.SUCCESS
 		return
 	}
+	vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, rsp: %+v", serverName, err, payRsp)
 	switch payRsp.Common.Code {
 	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
 		retCode = code.TradeOrderNotMatchUser
@@ -247,6 +248,9 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	case pay_business.RetCode_TRANSACTION_FAILED:
 		retCode = code.TransactionFailed
 		return
+	case pay_business.RetCode_TRADE_UUID_EMPTY:
+		retCode = code.OutTradeEmpty
+		return
 	case pay_business.RetCode_TRADE_PAY_RUN:
 		retCode = code.TradePayRun
 		return
@@ -256,10 +260,10 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 	case pay_business.RetCode_TRADE_PAY_SUCCESS:
 		retCode = code.TradePaySuccess
 		return
+	default:
+		retCode = code.ERROR
+		return
 	}
-	result.IsSuccess = true
-
-	return
 }
 
 func GetOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (*args.GetOrderReportRsp, int) {

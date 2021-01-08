@@ -4646,519 +4646,518 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() ([]byte, error){
-	"proto/micro_mall_order/etc/app.ini":                                                                           proto_micro_mall_order_etc_app_ini,
-	"proto/micro_mall_order/genpb.py":                                                                              proto_micro_mall_order_genpb_py,
-	"proto/micro_mall_order/go.mod":                                                                                proto_micro_mall_order_go_mod,
-	"proto/micro_mall_order/go.sum":                                                                                proto_micro_mall_order_go_sum,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-16":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_16,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-17":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_17,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-18":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_18,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-19":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_19,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-10-08":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_08,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-10-31":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_31,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-02":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_02,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-04":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_04,
-	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-05":                                           proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_05,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-16":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_16,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-17":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_17,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-18":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_18,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-19":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_19,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-10-08":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_08,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-10-31":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_31,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-02":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_02,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-04":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_04,
-	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-05":                                         proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_05,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-16":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_16,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-17":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_17,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-18":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_18,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-19":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_19,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-10-08":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_08,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-10-31":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_31,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-02":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_02,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-04":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_04,
-	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-05":                                              proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_05,
-	"proto/micro_mall_order/micro-mall-db.yaml":                                                                    proto_micro_mall_order_micro_mall_db_yaml,
-	"proto/micro_mall_order/proto/micro_mall_order_proto/order_business/order_business.swagger.json":               proto_micro_mall_order_proto_micro_mall_order_proto_order_business_order_business_swagger_json,
-	"proto/micro_mall_order/setup.py":                                                                              proto_micro_mall_order_setup_py,
-	"proto/micro_mall_order/swagger/order_business.swagger.json":                                                   proto_micro_mall_order_swagger_order_business_swagger_json,
-	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/.gitignore":                                        proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_gitignore,
-	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/go.mod":                                            proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_mod,
-	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/go.sum":                                            proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_sum,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/.gitignore":                                      proto_micro_mall_order_vendor_github_com_richardknop_logging_gitignore,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/.travis.yml":                                     proto_micro_mall_order_vendor_github_com_richardknop_logging_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/LICENSE":                                         proto_micro_mall_order_vendor_github_com_richardknop_logging_license,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/Makefile":                                        proto_micro_mall_order_vendor_github_com_richardknop_logging_makefile,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/go.mod":                                          proto_micro_mall_order_vendor_github_com_richardknop_logging_go_mod,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/go.sum":                                          proto_micro_mall_order_vendor_github_com_richardknop_logging_go_sum,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/gometalinter.json":                               proto_micro_mall_order_vendor_github_com_richardknop_logging_gometalinter_json,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/LICENSE":                                       proto_micro_mall_order_vendor_github_com_richardknop_machinery_license,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/v1/config/test.env":                            proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_test_env,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/v1/config/testconfig.yml":                      proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_testconfig_yml,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/.gitlab-ci.yml":                                  proto_micro_mall_order_vendor_github_com_richardknop_redsync_gitlab_ci_yml,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/LICENSE":                                         proto_micro_mall_order_vendor_github_com_richardknop_redsync_license,
-	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/VERSION":                                         proto_micro_mall_order_vendor_github_com_richardknop_redsync_version,
-	"proto/micro_mall_order/vendor/github.com/StackExchange/wmi/LICENSE":                                           proto_micro_mall_order_vendor_github_com_stackexchange_wmi_license,
-	"proto/micro_mall_order/vendor/github.com/aliyun/alibaba-cloud-sdk-go/LICENSE":                                 proto_micro_mall_order_vendor_github_com_aliyun_alibaba_cloud_sdk_go_license,
-	"proto/micro_mall_order/vendor/github.com/aliyunmq/mq-http-go-sdk/.gitignore":                                  proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_gitignore,
-	"proto/micro_mall_order/vendor/github.com/aliyunmq/mq-http-go-sdk/LICENSE":                                     proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_license,
-	"proto/micro_mall_order/vendor/github.com/armon/go-radix/.gitignore":                                           proto_micro_mall_order_vendor_github_com_armon_go_radix_gitignore,
-	"proto/micro_mall_order/vendor/github.com/armon/go-radix/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_armon_go_radix_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/armon/go-radix/LICENSE":                                              proto_micro_mall_order_vendor_github_com_armon_go_radix_license,
-	"proto/micro_mall_order/vendor/github.com/armon/go-radix/go.mod":                                               proto_micro_mall_order_vendor_github_com_armon_go_radix_go_mod,
-	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/LICENSE.txt":                                          proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_license_txt,
-	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/NOTICE.txt":                                           proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_notice_txt,
-	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/aws/credentials/example.ini":                          proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_aws_credentials_example_ini,
-	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/internal/sync/singleflight/LICENSE":                   proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_internal_sync_singleflight_license,
-	"proto/micro_mall_order/vendor/github.com/beorn7/perks/LICENSE":                                                proto_micro_mall_order_vendor_github_com_beorn7_perks_license,
-	"proto/micro_mall_order/vendor/github.com/beorn7/perks/quantile/exampledata.txt":                               proto_micro_mall_order_vendor_github_com_beorn7_perks_quantile_exampledata_txt,
-	"proto/micro_mall_order/vendor/github.com/bradfitz/gomemcache/LICENSE":                                         proto_micro_mall_order_vendor_github_com_bradfitz_gomemcache_license,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/LICENSE.txt":                                          proto_micro_mall_order_vendor_github_com_cespare_xxhash_license_txt,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/go.mod":                                               proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_mod,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/go.sum":                                               proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_sum,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/.travis.yml":                                       proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/LICENSE.txt":                                       proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_license_txt,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/go.mod":                                            proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_mod,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/go.sum":                                            proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_sum,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/xxhash_amd64.s":                                    proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_xxhash_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/xxhash_amd64.s":                                       proto_micro_mall_order_vendor_github_com_cespare_xxhash_xxhash_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/coreos/etcd/LICENSE":                                                 proto_micro_mall_order_vendor_github_com_coreos_etcd_license,
-	"proto/micro_mall_order/vendor/github.com/coreos/etcd/NOTICE":                                                  proto_micro_mall_order_vendor_github_com_coreos_etcd_notice,
-	"proto/micro_mall_order/vendor/github.com/coreos/go-semver/LICENSE":                                            proto_micro_mall_order_vendor_github_com_coreos_go_semver_license,
-	"proto/micro_mall_order/vendor/github.com/coreos/go-semver/NOTICE":                                             proto_micro_mall_order_vendor_github_com_coreos_go_semver_notice,
-	"proto/micro_mall_order/vendor/github.com/dgryski/go-rendezvous/LICENSE":                                       proto_micro_mall_order_vendor_github_com_dgryski_go_rendezvous_license,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.appveyor.yml":                                    proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_appveyor_yml,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.editorconfig":                                    proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_editorconfig,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.gitattributes":                                   proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitattributes,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.gitignore":                                       proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitignore,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.travis.yml":                                      proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/LICENSE.txt":                                      proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_license_txt,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/Makefile":                                         proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_makefile,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/NOTICE.txt":                                       proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_notice_txt,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/go.mod":                                           proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_mod,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/go.sum":                                           proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_sum,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.appveyor.yml":                                    proto_micro_mall_order_vendor_github_com_elastic_go_windows_appveyor_yml,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.gitattributes":                                   proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitattributes,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.gitignore":                                       proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitignore,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.travis.yml":                                      proto_micro_mall_order_vendor_github_com_elastic_go_windows_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/LICENSE.txt":                                      proto_micro_mall_order_vendor_github_com_elastic_go_windows_license_txt,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/NOTICE.txt":                                       proto_micro_mall_order_vendor_github_com_elastic_go_windows_notice_txt,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/Vagrantfile":                                      proto_micro_mall_order_vendor_github_com_elastic_go_windows_vagrantfile,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/go.mod":                                           proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_mod,
-	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/go.sum":                                           proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_sum,
-	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/.travis.yml":                                           proto_micro_mall_order_vendor_github_com_go_ole_go_ole_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/LICENSE":                                               proto_micro_mall_order_vendor_github_com_go_ole_go_ole_license,
-	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/appveyor.yml":                                          proto_micro_mall_order_vendor_github_com_go_ole_go_ole_appveyor_yml,
-	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/go.mod":                                                proto_micro_mall_order_vendor_github_com_go_ole_go_ole_go_mod,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.gitignore":                                        proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_gitignore,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.prettierrc":                                       proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_prettierrc,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.travis.yml":                                       proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/LICENSE":                                           proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_license,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/Makefile":                                          proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_makefile,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/go.mod":                                            proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_mod,
-	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/go.sum":                                            proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_sum,
-	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/.gitignore":                                      proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_gitignore,
-	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/.travis.yml":                                     proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/AUTHORS":                                         proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_authors,
-	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/LICENSE":                                         proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_license,
-	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/go.mod":                                          proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_go_mod,
-	"proto/micro_mall_order/vendor/github.com/go-stack/stack/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_go_stack_stack_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/go-stack/stack/go.mod":                                               proto_micro_mall_order_vendor_github_com_go_stack_stack_go_mod,
-	"proto/micro_mall_order/vendor/github.com/gogap/errors/.gitignore":                                             proto_micro_mall_order_vendor_github_com_gogap_errors_gitignore,
-	"proto/micro_mall_order/vendor/github.com/gogap/errors/LICENSE":                                                proto_micro_mall_order_vendor_github_com_gogap_errors_license,
-	"proto/micro_mall_order/vendor/github.com/gogap/stack/.travis.yml":                                             proto_micro_mall_order_vendor_github_com_gogap_stack_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/gogap/stack/license":                                                 proto_micro_mall_order_vendor_github_com_gogap_stack_license,
-	"proto/micro_mall_order/vendor/github.com/gogap/stack/patents":                                                 proto_micro_mall_order_vendor_github_com_gogap_stack_patents,
-	"proto/micro_mall_order/vendor/github.com/golang/groupcache/LICENSE":                                           proto_micro_mall_order_vendor_github_com_golang_groupcache_license,
-	"proto/micro_mall_order/vendor/github.com/golang/mock/AUTHORS":                                                 proto_micro_mall_order_vendor_github_com_golang_mock_authors,
-	"proto/micro_mall_order/vendor/github.com/golang/mock/CONTRIBUTORS":                                            proto_micro_mall_order_vendor_github_com_golang_mock_contributors,
-	"proto/micro_mall_order/vendor/github.com/golang/mock/LICENSE":                                                 proto_micro_mall_order_vendor_github_com_golang_mock_license,
-	"proto/micro_mall_order/vendor/github.com/golang/protobuf/AUTHORS":                                             proto_micro_mall_order_vendor_github_com_golang_protobuf_authors,
-	"proto/micro_mall_order/vendor/github.com/golang/protobuf/CONTRIBUTORS":                                        proto_micro_mall_order_vendor_github_com_golang_protobuf_contributors,
-	"proto/micro_mall_order/vendor/github.com/golang/protobuf/LICENSE":                                             proto_micro_mall_order_vendor_github_com_golang_protobuf_license,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/.gitignore":                                            proto_micro_mall_order_vendor_github_com_golang_snappy_gitignore,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/AUTHORS":                                               proto_micro_mall_order_vendor_github_com_golang_snappy_authors,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/CONTRIBUTORS":                                          proto_micro_mall_order_vendor_github_com_golang_snappy_contributors,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/LICENSE":                                               proto_micro_mall_order_vendor_github_com_golang_snappy_license,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/README":                                                proto_micro_mall_order_vendor_github_com_golang_snappy_readme,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/decode_amd64.s":                                        proto_micro_mall_order_vendor_github_com_golang_snappy_decode_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/encode_amd64.s":                                        proto_micro_mall_order_vendor_github_com_golang_snappy_encode_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/golang/snappy/go.mod":                                                proto_micro_mall_order_vendor_github_com_golang_snappy_go_mod,
-	"proto/micro_mall_order/vendor/github.com/gomodule/redigo/LICENSE":                                             proto_micro_mall_order_vendor_github_com_gomodule_redigo_license,
-	"proto/micro_mall_order/vendor/github.com/google/go-cmp/LICENSE":                                               proto_micro_mall_order_vendor_github_com_google_go_cmp_license,
-	"proto/micro_mall_order/vendor/github.com/google/uuid/.travis.yml":                                             proto_micro_mall_order_vendor_github_com_google_uuid_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/google/uuid/CONTRIBUTORS":                                            proto_micro_mall_order_vendor_github_com_google_uuid_contributors,
-	"proto/micro_mall_order/vendor/github.com/google/uuid/LICENSE":                                                 proto_micro_mall_order_vendor_github_com_google_uuid_license,
-	"proto/micro_mall_order/vendor/github.com/google/uuid/go.mod":                                                  proto_micro_mall_order_vendor_github_com_google_uuid_go_mod,
-	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/LICENSE":                                        proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_license,
-	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/go.mod":                                         proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_mod,
-	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/go.sum":                                         proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_sum,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/.gitignore":                        proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_gitignore,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/.travis.yml":                       proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/LICENSE":                           proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_license,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/go.mod":                            proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_mod,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/go.sum":                            proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_sum,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/makefile":                          proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_makefile,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/slack.png":                         proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_slack_png,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/LICENSE.txt":                             proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_license_txt,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/internal/BUILD.bazel":                    proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_internal_build_bazel,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/runtime/BUILD.bazel":                     proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_runtime_build_bazel,
-	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/utilities/BUILD.bazel":                   proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_utilities_build_bazel,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/.gitignore":                                              proto_micro_mall_order_vendor_github_com_jinzhu_gorm_gitignore,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/License":                                                 proto_micro_mall_order_vendor_github_com_jinzhu_gorm_license,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/docker-compose.yml":                                      proto_micro_mall_order_vendor_github_com_jinzhu_gorm_docker_compose_yml,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/go.mod":                                                  proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_mod,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/go.sum":                                                  proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_sum,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/test_all.sh":                                             proto_micro_mall_order_vendor_github_com_jinzhu_gorm_test_all_sh,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/wercker.yml":                                             proto_micro_mall_order_vendor_github_com_jinzhu_gorm_wercker_yml,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/LICENSE":                                           proto_micro_mall_order_vendor_github_com_jinzhu_inflection_license,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/go.mod":                                            proto_micro_mall_order_vendor_github_com_jinzhu_inflection_go_mod,
-	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/wercker.yml":                                       proto_micro_mall_order_vendor_github_com_jinzhu_inflection_wercker_yml,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/.gitignore":                                     proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_gitignore,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/.travis.yml":                                    proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/LICENSE":                                        proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_license,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/Makefile":                                       proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_makefile,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/go.mod":                                         proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_mod,
-	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/go.sum":                                         proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_sum,
-	"proto/micro_mall_order/vendor/github.com/joeshaw/multierror/LICENSE":                                          proto_micro_mall_order_vendor_github_com_joeshaw_multierror_license,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.codecov.yml":                                       proto_micro_mall_order_vendor_github_com_json_iterator_go_codecov_yml,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.gitignore":                                         proto_micro_mall_order_vendor_github_com_json_iterator_go_gitignore,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.travis.yml":                                        proto_micro_mall_order_vendor_github_com_json_iterator_go_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/Gopkg.lock":                                         proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_lock,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/Gopkg.toml":                                         proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_toml,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/LICENSE":                                            proto_micro_mall_order_vendor_github_com_json_iterator_go_license,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/build.sh":                                           proto_micro_mall_order_vendor_github_com_json_iterator_go_build_sh,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/go.mod":                                             proto_micro_mall_order_vendor_github_com_json_iterator_go_go_mod,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/go.sum":                                             proto_micro_mall_order_vendor_github_com_json_iterator_go_go_sum,
-	"proto/micro_mall_order/vendor/github.com/json-iterator/go/test.sh":                                            proto_micro_mall_order_vendor_github_com_json_iterator_go_test_sh,
-	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/.gitignore":                                 proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_gitignore,
-	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/.travis.yml":                                proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/LICENSE":                                    proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_license,
-	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/go.mod":                                     proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_go_mod,
-	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/.travis.yml":                               proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/LICENSE":                                   proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_license,
-	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/MAINTAINERS":                               proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_maintainers,
-	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/go.mod":                                    proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_go_mod,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/LICENSE":                                          proto_micro_mall_order_vendor_github_com_klauspost_compress_license,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/huff0/.gitignore":                                 proto_micro_mall_order_vendor_github_com_klauspost_compress_huff0_gitignore,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/.gitignore":                                proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_gitignore,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/AUTHORS":                                   proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_authors,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/CONTRIBUTORS":                              proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_contributors,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/LICENSE":                                   proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_license,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/README":                                    proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_readme,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/decode_amd64.s":                            proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_decode_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/encode_amd64.s":                            proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_encode_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/runbench.cmd":                              proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_runbench_cmd,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/zstd/internal/xxhash/LICENSE.txt":                 proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_license_txt,
-	"proto/micro_mall_order/vendor/github.com/klauspost/compress/zstd/internal/xxhash/xxhash_amd64.s":              proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_xxhash_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/LICENSE":                       proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_license,
-	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/NOTICE":                        proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_notice,
-	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil/.gitignore":             proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_gitignore,
-	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil/Makefile":               proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_makefile,
-	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/.gitignore":                                     proto_micro_mall_order_vendor_github_com_modern_go_concurrent_gitignore,
-	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/.travis.yml":                                    proto_micro_mall_order_vendor_github_com_modern_go_concurrent_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/LICENSE":                                        proto_micro_mall_order_vendor_github_com_modern_go_concurrent_license,
-	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/test.sh":                                        proto_micro_mall_order_vendor_github_com_modern_go_concurrent_test_sh,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/.gitignore":                                       proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gitignore,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/.travis.yml":                                      proto_micro_mall_order_vendor_github_com_modern_go_reflect2_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/Gopkg.lock":                                       proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_lock,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/Gopkg.toml":                                       proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_toml,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/LICENSE":                                          proto_micro_mall_order_vendor_github_com_modern_go_reflect2_license,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/reflect2_amd64.s":                                 proto_micro_mall_order_vendor_github_com_modern_go_reflect2_reflect2_amd64_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_386.s":                                   proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_386_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_amd64p32.s":                              proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_amd64p32_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_arm.s":                                   proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_arm64.s":                                 proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm64_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_mips64x.s":                               proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mips64x_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_mipsx.s":                                 proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mipsx_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_ppc64x.s":                                proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_ppc64x_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_s390x.s":                                 proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_s390x_s,
-	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/test.sh":                                          proto_micro_mall_order_vendor_github_com_modern_go_reflect2_test_sh,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/.gitignore":                               proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_gitignore,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/.travis.yml":                              proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/LICENSE":                                  proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_license,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/Makefile":                                 proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_makefile,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/go.mod":                                   proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_mod,
-	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/go.sum":                                   proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_sum,
-	"proto/micro_mall_order/vendor/github.com/pkg/errors/.gitignore":                                               proto_micro_mall_order_vendor_github_com_pkg_errors_gitignore,
-	"proto/micro_mall_order/vendor/github.com/pkg/errors/.travis.yml":                                              proto_micro_mall_order_vendor_github_com_pkg_errors_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/pkg/errors/LICENSE":                                                  proto_micro_mall_order_vendor_github_com_pkg_errors_license,
-	"proto/micro_mall_order/vendor/github.com/pkg/errors/Makefile":                                                 proto_micro_mall_order_vendor_github_com_pkg_errors_makefile,
-	"proto/micro_mall_order/vendor/github.com/pkg/errors/appveyor.yml":                                             proto_micro_mall_order_vendor_github_com_pkg_errors_appveyor_yml,
-	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/LICENSE":                                    proto_micro_mall_order_vendor_github_com_prometheus_client_golang_license,
-	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/NOTICE":                                     proto_micro_mall_order_vendor_github_com_prometheus_client_golang_notice,
-	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/prometheus/.gitignore":                      proto_micro_mall_order_vendor_github_com_prometheus_client_golang_prometheus_gitignore,
-	"proto/micro_mall_order/vendor/github.com/prometheus/client_model/LICENSE":                                     proto_micro_mall_order_vendor_github_com_prometheus_client_model_license,
-	"proto/micro_mall_order/vendor/github.com/prometheus/client_model/NOTICE":                                      proto_micro_mall_order_vendor_github_com_prometheus_client_model_notice,
-	"proto/micro_mall_order/vendor/github.com/prometheus/common/LICENSE":                                           proto_micro_mall_order_vendor_github_com_prometheus_common_license,
-	"proto/micro_mall_order/vendor/github.com/prometheus/common/NOTICE":                                            proto_micro_mall_order_vendor_github_com_prometheus_common_notice,
-	"proto/micro_mall_order/vendor/github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg/README.txt":    proto_micro_mall_order_vendor_github_com_prometheus_common_internal_bitbucket_org_ww_goautoneg_readme_txt,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/.gitignore":                                        proto_micro_mall_order_vendor_github_com_prometheus_procfs_gitignore,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/LICENSE":                                           proto_micro_mall_order_vendor_github_com_prometheus_procfs_license,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/Makefile":                                          proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/Makefile.common":                                   proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile_common,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/NOTICE":                                            proto_micro_mall_order_vendor_github_com_prometheus_procfs_notice,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/fixtures.ttar":                                     proto_micro_mall_order_vendor_github_com_prometheus_procfs_fixtures_ttar,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/go.mod":                                            proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_mod,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/go.sum":                                            proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_sum,
-	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/ttar":                                              proto_micro_mall_order_vendor_github_com_prometheus_procfs_ttar,
-	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/.gitignore":                                               proto_micro_mall_order_vendor_github_com_qiniu_qmgo_gitignore,
-	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/.travis.yml":                                              proto_micro_mall_order_vendor_github_com_qiniu_qmgo_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/LICENSE":                                                  proto_micro_mall_order_vendor_github_com_qiniu_qmgo_license,
-	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/go.mod":                                                   proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_mod,
-	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/go.sum":                                                   proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_sum,
-	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/.gitignore":                                           proto_micro_mall_order_vendor_github_com_robfig_cron_v3_gitignore,
-	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_robfig_cron_v3_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/LICENSE":                                              proto_micro_mall_order_vendor_github_com_robfig_cron_v3_license,
-	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/go.mod":                                               proto_micro_mall_order_vendor_github_com_robfig_cron_v3_go_mod,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/.gitignore":                                               proto_micro_mall_order_vendor_github_com_rs_zerolog_gitignore,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/.travis.yml":                                              proto_micro_mall_order_vendor_github_com_rs_zerolog_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/CNAME":                                                    proto_micro_mall_order_vendor_github_com_rs_zerolog_cname,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/LICENSE":                                                  proto_micro_mall_order_vendor_github_com_rs_zerolog_license,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/_config.yml":                                              proto_micro_mall_order_vendor_github_com_rs_zerolog_config_yml,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/go.mod":                                                   proto_micro_mall_order_vendor_github_com_rs_zerolog_go_mod,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/go.sum":                                                   proto_micro_mall_order_vendor_github_com_rs_zerolog_go_sum,
-	"proto/micro_mall_order/vendor/github.com/rs/zerolog/pretty.png":                                               proto_micro_mall_order_vendor_github_com_rs_zerolog_pretty_png,
-	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/.travis.yml":                              proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/LICENSE":                                  proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_license,
-	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/go.mod":                                   proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_mod,
-	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/go.test.sh":                               proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_test_sh,
-	"proto/micro_mall_order/vendor/github.com/satori/go.uuid/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_satori_go_uuid_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/satori/go.uuid/LICENSE":                                              proto_micro_mall_order_vendor_github_com_satori_go_uuid_license,
-	"proto/micro_mall_order/vendor/github.com/shirou/gopsutil/LICENSE":                                             proto_micro_mall_order_vendor_github_com_shirou_gopsutil_license,
-	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/.gitignore":                                       proto_micro_mall_order_vendor_github_com_shopspring_decimal_gitignore,
-	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/.travis.yml":                                      proto_micro_mall_order_vendor_github_com_shopspring_decimal_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/LICENSE":                                          proto_micro_mall_order_vendor_github_com_shopspring_decimal_license,
-	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/go.mod":                                           proto_micro_mall_order_vendor_github_com_shopspring_decimal_go_mod,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/.gitignore":                                           proto_micro_mall_order_vendor_github_com_streadway_amqp_gitignore,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_streadway_amqp_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/LICENSE":                                              proto_micro_mall_order_vendor_github_com_streadway_amqp_license,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/certs.sh":                                             proto_micro_mall_order_vendor_github_com_streadway_amqp_certs_sh,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/gen.sh":                                               proto_micro_mall_order_vendor_github_com_streadway_amqp_gen_sh,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/go.mod":                                               proto_micro_mall_order_vendor_github_com_streadway_amqp_go_mod,
-	"proto/micro_mall_order/vendor/github.com/streadway/amqp/pre-commit":                                           proto_micro_mall_order_vendor_github_com_streadway_amqp_pre_commit,
-	"proto/micro_mall_order/vendor/github.com/syndtr/goleveldb/LICENSE":                                            proto_micro_mall_order_vendor_github_com_syndtr_goleveldb_license,
-	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/.travis.yml":                                           proto_micro_mall_order_vendor_github_com_tidwall_gjson_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/LICENSE":                                               proto_micro_mall_order_vendor_github_com_tidwall_gjson_license,
-	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/go.mod":                                                proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_mod,
-	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/go.sum":                                                proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_sum,
-	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/logo.png":                                              proto_micro_mall_order_vendor_github_com_tidwall_gjson_logo_png,
-	"proto/micro_mall_order/vendor/github.com/tidwall/match/.travis.yml":                                           proto_micro_mall_order_vendor_github_com_tidwall_match_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/tidwall/match/LICENSE":                                               proto_micro_mall_order_vendor_github_com_tidwall_match_license,
-	"proto/micro_mall_order/vendor/github.com/tidwall/pretty/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_tidwall_pretty_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/tidwall/pretty/LICENSE":                                              proto_micro_mall_order_vendor_github_com_tidwall_pretty_license,
-	"proto/micro_mall_order/vendor/github.com/valyala/bytebufferpool/.travis.yml":                                  proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/valyala/bytebufferpool/LICENSE":                                      proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_license,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/.gitignore":                                         proto_micro_mall_order_vendor_github_com_valyala_fasthttp_gitignore,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/.travis.yml":                                        proto_micro_mall_order_vendor_github_com_valyala_fasthttp_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/LICENSE":                                            proto_micro_mall_order_vendor_github_com_valyala_fasthttp_license,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/TODO":                                               proto_micro_mall_order_vendor_github_com_valyala_fasthttp_todo,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/ecdsa.key":                             proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_key,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/ecdsa.pem":                             proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_pem,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/rsa.key":                               proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_key,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/rsa.pem":                               proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_pem,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fuzzit.sh":                                          proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fuzzit_sh,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/go.mod":                                             proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_mod,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/go.sum":                                             proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_sum,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/ssl-cert-snakeoil.key":                              proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_key,
-	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/ssl-cert-snakeoil.pem":                              proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_pem,
-	"proto/micro_mall_order/vendor/github.com/xdg/scram/.gitignore":                                                proto_micro_mall_order_vendor_github_com_xdg_scram_gitignore,
-	"proto/micro_mall_order/vendor/github.com/xdg/scram/.travis.yml":                                               proto_micro_mall_order_vendor_github_com_xdg_scram_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/xdg/scram/LICENSE":                                                   proto_micro_mall_order_vendor_github_com_xdg_scram_license,
-	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/.gitignore":                                           proto_micro_mall_order_vendor_github_com_xdg_stringprep_gitignore,
-	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/.travis.yml":                                          proto_micro_mall_order_vendor_github_com_xdg_stringprep_travis_yml,
-	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/LICENSE":                                              proto_micro_mall_order_vendor_github_com_xdg_stringprep_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/.dockerignore":                                                proto_micro_mall_order_vendor_go_elastic_co_apm_dockerignore,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/.gitignore":                                                   proto_micro_mall_order_vendor_go_elastic_co_apm_gitignore,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/.jenkins-edge.yml":                                            proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_edge_yml,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/.jenkins.yml":                                                 proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_yml,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/CHANGELOG.asciidoc":                                           proto_micro_mall_order_vendor_go_elastic_co_apm_changelog_asciidoc,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/Jenkinsfile":                                                  proto_micro_mall_order_vendor_go_elastic_co_apm_jenkinsfile,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/LICENSE":                                                      proto_micro_mall_order_vendor_go_elastic_co_apm_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/Makefile":                                                     proto_micro_mall_order_vendor_go_elastic_co_apm_makefile,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/NOTICE":                                                       proto_micro_mall_order_vendor_go_elastic_co_apm_notice,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/go.mod":                                                       proto_micro_mall_order_vendor_go_elastic_co_apm_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/go.sum":                                                       proto_micro_mall_order_vendor_go_elastic_co_apm_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/internal/apmschema/update.sh":                                 proto_micro_mall_order_vendor_go_elastic_co_apm_internal_apmschema_update_sh,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/model/generate.sh":                                            proto_micro_mall_order_vendor_go_elastic_co_apm_model_generate_sh,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/LICENSE":                                       proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/go.mod":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/go.sum":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/LICENSE":                                       proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/go.mod":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/go.sum":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/LICENSE":                                       proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/go.mod":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/go.sum":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/LICENSE":                                     proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/go.mod":                                      proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/go.sum":                                      proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/LICENSE":                                        proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/go.mod":                                         proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/go.sum":                                         proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_sum,
-	"proto/micro_mall_order/vendor/go.elastic.co/apm/stacktrace/generate_library.bash":                             proto_micro_mall_order_vendor_go_elastic_co_apm_stacktrace_generate_library_bash,
-	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/.travis.yml":                                             proto_micro_mall_order_vendor_go_elastic_co_fastjson_travis_yml,
-	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/LICENSE":                                                 proto_micro_mall_order_vendor_go_elastic_co_fastjson_license,
-	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/go.mod":                                                  proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_mod,
-	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/go.sum":                                                  proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_sum,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/LICENSE":                                            proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_license,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/gss_wrapper.c":  proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_c,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/gss_wrapper.h":  proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_h,
+	"proto/micro_mall_order/etc/app.ini": proto_micro_mall_order_etc_app_ini,
+	"proto/micro_mall_order/genpb.py": proto_micro_mall_order_genpb_py,
+	"proto/micro_mall_order/go.mod": proto_micro_mall_order_go_mod,
+	"proto/micro_mall_order/go.sum": proto_micro_mall_order_go_sum,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-16": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_16,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-17": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_17,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-18": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_18,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-09-19": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_19,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-10-08": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_08,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-10-31": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_31,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-02": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_02,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-04": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_04,
+	"proto/micro_mall_order/logs/access/micro-mall-order/log.2020-11-05": proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_05,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-16": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_16,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-17": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_17,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-18": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_18,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-09-19": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_19,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-10-08": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_08,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-10-31": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_31,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-02": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_02,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-04": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_04,
+	"proto/micro_mall_order/logs/business/micro-mall-order/log.2020-11-05": proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_05,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-16": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_16,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-17": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_17,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-18": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_18,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-09-19": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_19,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-10-08": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_08,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-10-31": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_31,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-02": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_02,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-04": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_04,
+	"proto/micro_mall_order/logs/err/micro-mall-order/log.2020-11-05": proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_05,
+	"proto/micro_mall_order/micro-mall-db.yaml": proto_micro_mall_order_micro_mall_db_yaml,
+	"proto/micro_mall_order/proto/micro_mall_order_proto/order_business/order_business.swagger.json": proto_micro_mall_order_proto_micro_mall_order_proto_order_business_order_business_swagger_json,
+	"proto/micro_mall_order/setup.py": proto_micro_mall_order_setup_py,
+	"proto/micro_mall_order/swagger/order_business.swagger.json": proto_micro_mall_order_swagger_order_business_swagger_json,
+	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/.gitignore": proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_gitignore,
+	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/go.mod": proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_mod,
+	"proto/micro_mall_order/vendor/gitee.com/kelvins-io/kelvins/go.sum": proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_sum,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/.gitignore": proto_micro_mall_order_vendor_github_com_richardknop_logging_gitignore,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/.travis.yml": proto_micro_mall_order_vendor_github_com_richardknop_logging_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/LICENSE": proto_micro_mall_order_vendor_github_com_richardknop_logging_license,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/Makefile": proto_micro_mall_order_vendor_github_com_richardknop_logging_makefile,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/go.mod": proto_micro_mall_order_vendor_github_com_richardknop_logging_go_mod,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/go.sum": proto_micro_mall_order_vendor_github_com_richardknop_logging_go_sum,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/logging/gometalinter.json": proto_micro_mall_order_vendor_github_com_richardknop_logging_gometalinter_json,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/LICENSE": proto_micro_mall_order_vendor_github_com_richardknop_machinery_license,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/v1/config/test.env": proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_test_env,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/machinery/v1/config/testconfig.yml": proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_testconfig_yml,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/.gitlab-ci.yml": proto_micro_mall_order_vendor_github_com_richardknop_redsync_gitlab_ci_yml,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/LICENSE": proto_micro_mall_order_vendor_github_com_richardknop_redsync_license,
+	"proto/micro_mall_order/vendor/github.com/RichardKnop/redsync/VERSION": proto_micro_mall_order_vendor_github_com_richardknop_redsync_version,
+	"proto/micro_mall_order/vendor/github.com/StackExchange/wmi/LICENSE": proto_micro_mall_order_vendor_github_com_stackexchange_wmi_license,
+	"proto/micro_mall_order/vendor/github.com/aliyun/alibaba-cloud-sdk-go/LICENSE": proto_micro_mall_order_vendor_github_com_aliyun_alibaba_cloud_sdk_go_license,
+	"proto/micro_mall_order/vendor/github.com/aliyunmq/mq-http-go-sdk/.gitignore": proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_gitignore,
+	"proto/micro_mall_order/vendor/github.com/aliyunmq/mq-http-go-sdk/LICENSE": proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_license,
+	"proto/micro_mall_order/vendor/github.com/armon/go-radix/.gitignore": proto_micro_mall_order_vendor_github_com_armon_go_radix_gitignore,
+	"proto/micro_mall_order/vendor/github.com/armon/go-radix/.travis.yml": proto_micro_mall_order_vendor_github_com_armon_go_radix_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/armon/go-radix/LICENSE": proto_micro_mall_order_vendor_github_com_armon_go_radix_license,
+	"proto/micro_mall_order/vendor/github.com/armon/go-radix/go.mod": proto_micro_mall_order_vendor_github_com_armon_go_radix_go_mod,
+	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/LICENSE.txt": proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_license_txt,
+	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/NOTICE.txt": proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_notice_txt,
+	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/aws/credentials/example.ini": proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_aws_credentials_example_ini,
+	"proto/micro_mall_order/vendor/github.com/aws/aws-sdk-go/internal/sync/singleflight/LICENSE": proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_internal_sync_singleflight_license,
+	"proto/micro_mall_order/vendor/github.com/beorn7/perks/LICENSE": proto_micro_mall_order_vendor_github_com_beorn7_perks_license,
+	"proto/micro_mall_order/vendor/github.com/beorn7/perks/quantile/exampledata.txt": proto_micro_mall_order_vendor_github_com_beorn7_perks_quantile_exampledata_txt,
+	"proto/micro_mall_order/vendor/github.com/bradfitz/gomemcache/LICENSE": proto_micro_mall_order_vendor_github_com_bradfitz_gomemcache_license,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/LICENSE.txt": proto_micro_mall_order_vendor_github_com_cespare_xxhash_license_txt,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/go.mod": proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_mod,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/go.sum": proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_sum,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/.travis.yml": proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/LICENSE.txt": proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_license_txt,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/go.mod": proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_mod,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/go.sum": proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_sum,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/v2/xxhash_amd64.s": proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_xxhash_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/cespare/xxhash/xxhash_amd64.s": proto_micro_mall_order_vendor_github_com_cespare_xxhash_xxhash_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/coreos/etcd/LICENSE": proto_micro_mall_order_vendor_github_com_coreos_etcd_license,
+	"proto/micro_mall_order/vendor/github.com/coreos/etcd/NOTICE": proto_micro_mall_order_vendor_github_com_coreos_etcd_notice,
+	"proto/micro_mall_order/vendor/github.com/coreos/go-semver/LICENSE": proto_micro_mall_order_vendor_github_com_coreos_go_semver_license,
+	"proto/micro_mall_order/vendor/github.com/coreos/go-semver/NOTICE": proto_micro_mall_order_vendor_github_com_coreos_go_semver_notice,
+	"proto/micro_mall_order/vendor/github.com/dgryski/go-rendezvous/LICENSE": proto_micro_mall_order_vendor_github_com_dgryski_go_rendezvous_license,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.appveyor.yml": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_appveyor_yml,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.editorconfig": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_editorconfig,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.gitattributes": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitattributes,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.gitignore": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitignore,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/.travis.yml": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/LICENSE.txt": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_license_txt,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/Makefile": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_makefile,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/NOTICE.txt": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_notice_txt,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/go.mod": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_mod,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-sysinfo/go.sum": proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_sum,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.appveyor.yml": proto_micro_mall_order_vendor_github_com_elastic_go_windows_appveyor_yml,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.gitattributes": proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitattributes,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.gitignore": proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitignore,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/.travis.yml": proto_micro_mall_order_vendor_github_com_elastic_go_windows_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/LICENSE.txt": proto_micro_mall_order_vendor_github_com_elastic_go_windows_license_txt,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/NOTICE.txt": proto_micro_mall_order_vendor_github_com_elastic_go_windows_notice_txt,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/Vagrantfile": proto_micro_mall_order_vendor_github_com_elastic_go_windows_vagrantfile,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/go.mod": proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_mod,
+	"proto/micro_mall_order/vendor/github.com/elastic/go-windows/go.sum": proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_sum,
+	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/.travis.yml": proto_micro_mall_order_vendor_github_com_go_ole_go_ole_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/LICENSE": proto_micro_mall_order_vendor_github_com_go_ole_go_ole_license,
+	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/appveyor.yml": proto_micro_mall_order_vendor_github_com_go_ole_go_ole_appveyor_yml,
+	"proto/micro_mall_order/vendor/github.com/go-ole/go-ole/go.mod": proto_micro_mall_order_vendor_github_com_go_ole_go_ole_go_mod,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.gitignore": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_gitignore,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.prettierrc": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_prettierrc,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/.travis.yml": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/LICENSE": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_license,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/Makefile": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_makefile,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/go.mod": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_mod,
+	"proto/micro_mall_order/vendor/github.com/go-redis/redis/v8/go.sum": proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_sum,
+	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/.gitignore": proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_gitignore,
+	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/.travis.yml": proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/AUTHORS": proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_authors,
+	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/LICENSE": proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_license,
+	"proto/micro_mall_order/vendor/github.com/go-sql-driver/mysql/go.mod": proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_go_mod,
+	"proto/micro_mall_order/vendor/github.com/go-stack/stack/.travis.yml": proto_micro_mall_order_vendor_github_com_go_stack_stack_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/go-stack/stack/go.mod": proto_micro_mall_order_vendor_github_com_go_stack_stack_go_mod,
+	"proto/micro_mall_order/vendor/github.com/gogap/errors/.gitignore": proto_micro_mall_order_vendor_github_com_gogap_errors_gitignore,
+	"proto/micro_mall_order/vendor/github.com/gogap/errors/LICENSE": proto_micro_mall_order_vendor_github_com_gogap_errors_license,
+	"proto/micro_mall_order/vendor/github.com/gogap/stack/.travis.yml": proto_micro_mall_order_vendor_github_com_gogap_stack_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/gogap/stack/license": proto_micro_mall_order_vendor_github_com_gogap_stack_license,
+	"proto/micro_mall_order/vendor/github.com/gogap/stack/patents": proto_micro_mall_order_vendor_github_com_gogap_stack_patents,
+	"proto/micro_mall_order/vendor/github.com/golang/groupcache/LICENSE": proto_micro_mall_order_vendor_github_com_golang_groupcache_license,
+	"proto/micro_mall_order/vendor/github.com/golang/mock/AUTHORS": proto_micro_mall_order_vendor_github_com_golang_mock_authors,
+	"proto/micro_mall_order/vendor/github.com/golang/mock/CONTRIBUTORS": proto_micro_mall_order_vendor_github_com_golang_mock_contributors,
+	"proto/micro_mall_order/vendor/github.com/golang/mock/LICENSE": proto_micro_mall_order_vendor_github_com_golang_mock_license,
+	"proto/micro_mall_order/vendor/github.com/golang/protobuf/AUTHORS": proto_micro_mall_order_vendor_github_com_golang_protobuf_authors,
+	"proto/micro_mall_order/vendor/github.com/golang/protobuf/CONTRIBUTORS": proto_micro_mall_order_vendor_github_com_golang_protobuf_contributors,
+	"proto/micro_mall_order/vendor/github.com/golang/protobuf/LICENSE": proto_micro_mall_order_vendor_github_com_golang_protobuf_license,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/.gitignore": proto_micro_mall_order_vendor_github_com_golang_snappy_gitignore,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/AUTHORS": proto_micro_mall_order_vendor_github_com_golang_snappy_authors,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/CONTRIBUTORS": proto_micro_mall_order_vendor_github_com_golang_snappy_contributors,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/LICENSE": proto_micro_mall_order_vendor_github_com_golang_snappy_license,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/README": proto_micro_mall_order_vendor_github_com_golang_snappy_readme,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/decode_amd64.s": proto_micro_mall_order_vendor_github_com_golang_snappy_decode_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/encode_amd64.s": proto_micro_mall_order_vendor_github_com_golang_snappy_encode_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/golang/snappy/go.mod": proto_micro_mall_order_vendor_github_com_golang_snappy_go_mod,
+	"proto/micro_mall_order/vendor/github.com/gomodule/redigo/LICENSE": proto_micro_mall_order_vendor_github_com_gomodule_redigo_license,
+	"proto/micro_mall_order/vendor/github.com/google/go-cmp/LICENSE": proto_micro_mall_order_vendor_github_com_google_go_cmp_license,
+	"proto/micro_mall_order/vendor/github.com/google/uuid/.travis.yml": proto_micro_mall_order_vendor_github_com_google_uuid_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/google/uuid/CONTRIBUTORS": proto_micro_mall_order_vendor_github_com_google_uuid_contributors,
+	"proto/micro_mall_order/vendor/github.com/google/uuid/LICENSE": proto_micro_mall_order_vendor_github_com_google_uuid_license,
+	"proto/micro_mall_order/vendor/github.com/google/uuid/go.mod": proto_micro_mall_order_vendor_github_com_google_uuid_go_mod,
+	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/LICENSE": proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_license,
+	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/go.mod": proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_mod,
+	"proto/micro_mall_order/vendor/github.com/googleapis/gax-go/v2/go.sum": proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_sum,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/.gitignore": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_gitignore,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/.travis.yml": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/LICENSE": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_license,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/go.mod": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_mod,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/go.sum": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_sum,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/makefile": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_makefile,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/go-grpc-middleware/slack.png": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_slack_png,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/LICENSE.txt": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_license_txt,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/internal/BUILD.bazel": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_internal_build_bazel,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/runtime/BUILD.bazel": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_runtime_build_bazel,
+	"proto/micro_mall_order/vendor/github.com/grpc-ecosystem/grpc-gateway/utilities/BUILD.bazel": proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_utilities_build_bazel,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/.gitignore": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_gitignore,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/License": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_license,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/docker-compose.yml": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_docker_compose_yml,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/go.mod": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_mod,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/go.sum": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_sum,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/test_all.sh": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_test_all_sh,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/gorm/wercker.yml": proto_micro_mall_order_vendor_github_com_jinzhu_gorm_wercker_yml,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/LICENSE": proto_micro_mall_order_vendor_github_com_jinzhu_inflection_license,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/go.mod": proto_micro_mall_order_vendor_github_com_jinzhu_inflection_go_mod,
+	"proto/micro_mall_order/vendor/github.com/jinzhu/inflection/wercker.yml": proto_micro_mall_order_vendor_github_com_jinzhu_inflection_wercker_yml,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/.gitignore": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_gitignore,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/.travis.yml": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/LICENSE": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_license,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/Makefile": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_makefile,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/go.mod": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_mod,
+	"proto/micro_mall_order/vendor/github.com/jmespath/go-jmespath/go.sum": proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_sum,
+	"proto/micro_mall_order/vendor/github.com/joeshaw/multierror/LICENSE": proto_micro_mall_order_vendor_github_com_joeshaw_multierror_license,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.codecov.yml": proto_micro_mall_order_vendor_github_com_json_iterator_go_codecov_yml,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.gitignore": proto_micro_mall_order_vendor_github_com_json_iterator_go_gitignore,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/.travis.yml": proto_micro_mall_order_vendor_github_com_json_iterator_go_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/Gopkg.lock": proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_lock,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/Gopkg.toml": proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_toml,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/LICENSE": proto_micro_mall_order_vendor_github_com_json_iterator_go_license,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/build.sh": proto_micro_mall_order_vendor_github_com_json_iterator_go_build_sh,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/go.mod": proto_micro_mall_order_vendor_github_com_json_iterator_go_go_mod,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/go.sum": proto_micro_mall_order_vendor_github_com_json_iterator_go_go_sum,
+	"proto/micro_mall_order/vendor/github.com/json-iterator/go/test.sh": proto_micro_mall_order_vendor_github_com_json_iterator_go_test_sh,
+	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/.gitignore": proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_gitignore,
+	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/.travis.yml": proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/LICENSE": proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_license,
+	"proto/micro_mall_order/vendor/github.com/jstemmer/go-junit-report/go.mod": proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_go_mod,
+	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/.travis.yml": proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/LICENSE": proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_license,
+	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/MAINTAINERS": proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_maintainers,
+	"proto/micro_mall_order/vendor/github.com/kelseyhightower/envconfig/go.mod": proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_go_mod,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/LICENSE": proto_micro_mall_order_vendor_github_com_klauspost_compress_license,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/huff0/.gitignore": proto_micro_mall_order_vendor_github_com_klauspost_compress_huff0_gitignore,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/.gitignore": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_gitignore,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/AUTHORS": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_authors,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/CONTRIBUTORS": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_contributors,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/LICENSE": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_license,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/README": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_readme,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/decode_amd64.s": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_decode_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/encode_amd64.s": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_encode_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/snappy/runbench.cmd": proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_runbench_cmd,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/zstd/internal/xxhash/LICENSE.txt": proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_license_txt,
+	"proto/micro_mall_order/vendor/github.com/klauspost/compress/zstd/internal/xxhash/xxhash_amd64.s": proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_xxhash_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/LICENSE": proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_license,
+	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/NOTICE": proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_notice,
+	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil/.gitignore": proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_gitignore,
+	"proto/micro_mall_order/vendor/github.com/matttproud/golang_protobuf_extensions/pbutil/Makefile": proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_makefile,
+	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/.gitignore": proto_micro_mall_order_vendor_github_com_modern_go_concurrent_gitignore,
+	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/.travis.yml": proto_micro_mall_order_vendor_github_com_modern_go_concurrent_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/LICENSE": proto_micro_mall_order_vendor_github_com_modern_go_concurrent_license,
+	"proto/micro_mall_order/vendor/github.com/modern-go/concurrent/test.sh": proto_micro_mall_order_vendor_github_com_modern_go_concurrent_test_sh,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/.gitignore": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gitignore,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/.travis.yml": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/Gopkg.lock": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_lock,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/Gopkg.toml": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_toml,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/LICENSE": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_license,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/reflect2_amd64.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_reflect2_amd64_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_386.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_386_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_amd64p32.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_amd64p32_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_arm.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_arm64.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm64_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_mips64x.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mips64x_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_mipsx.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mipsx_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_ppc64x.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_ppc64x_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/relfect2_s390x.s": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_s390x_s,
+	"proto/micro_mall_order/vendor/github.com/modern-go/reflect2/test.sh": proto_micro_mall_order_vendor_github_com_modern_go_reflect2_test_sh,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/.gitignore": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_gitignore,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/.travis.yml": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/LICENSE": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_license,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/Makefile": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_makefile,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/go.mod": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_mod,
+	"proto/micro_mall_order/vendor/github.com/opentracing/opentracing-go/go.sum": proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_sum,
+	"proto/micro_mall_order/vendor/github.com/pkg/errors/.gitignore": proto_micro_mall_order_vendor_github_com_pkg_errors_gitignore,
+	"proto/micro_mall_order/vendor/github.com/pkg/errors/.travis.yml": proto_micro_mall_order_vendor_github_com_pkg_errors_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/pkg/errors/LICENSE": proto_micro_mall_order_vendor_github_com_pkg_errors_license,
+	"proto/micro_mall_order/vendor/github.com/pkg/errors/Makefile": proto_micro_mall_order_vendor_github_com_pkg_errors_makefile,
+	"proto/micro_mall_order/vendor/github.com/pkg/errors/appveyor.yml": proto_micro_mall_order_vendor_github_com_pkg_errors_appveyor_yml,
+	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/LICENSE": proto_micro_mall_order_vendor_github_com_prometheus_client_golang_license,
+	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/NOTICE": proto_micro_mall_order_vendor_github_com_prometheus_client_golang_notice,
+	"proto/micro_mall_order/vendor/github.com/prometheus/client_golang/prometheus/.gitignore": proto_micro_mall_order_vendor_github_com_prometheus_client_golang_prometheus_gitignore,
+	"proto/micro_mall_order/vendor/github.com/prometheus/client_model/LICENSE": proto_micro_mall_order_vendor_github_com_prometheus_client_model_license,
+	"proto/micro_mall_order/vendor/github.com/prometheus/client_model/NOTICE": proto_micro_mall_order_vendor_github_com_prometheus_client_model_notice,
+	"proto/micro_mall_order/vendor/github.com/prometheus/common/LICENSE": proto_micro_mall_order_vendor_github_com_prometheus_common_license,
+	"proto/micro_mall_order/vendor/github.com/prometheus/common/NOTICE": proto_micro_mall_order_vendor_github_com_prometheus_common_notice,
+	"proto/micro_mall_order/vendor/github.com/prometheus/common/internal/bitbucket.org/ww/goautoneg/README.txt": proto_micro_mall_order_vendor_github_com_prometheus_common_internal_bitbucket_org_ww_goautoneg_readme_txt,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/.gitignore": proto_micro_mall_order_vendor_github_com_prometheus_procfs_gitignore,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/LICENSE": proto_micro_mall_order_vendor_github_com_prometheus_procfs_license,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/Makefile": proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/Makefile.common": proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile_common,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/NOTICE": proto_micro_mall_order_vendor_github_com_prometheus_procfs_notice,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/fixtures.ttar": proto_micro_mall_order_vendor_github_com_prometheus_procfs_fixtures_ttar,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/go.mod": proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_mod,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/go.sum": proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_sum,
+	"proto/micro_mall_order/vendor/github.com/prometheus/procfs/ttar": proto_micro_mall_order_vendor_github_com_prometheus_procfs_ttar,
+	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/.gitignore": proto_micro_mall_order_vendor_github_com_qiniu_qmgo_gitignore,
+	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/.travis.yml": proto_micro_mall_order_vendor_github_com_qiniu_qmgo_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/LICENSE": proto_micro_mall_order_vendor_github_com_qiniu_qmgo_license,
+	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/go.mod": proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_mod,
+	"proto/micro_mall_order/vendor/github.com/qiniu/qmgo/go.sum": proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_sum,
+	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/.gitignore": proto_micro_mall_order_vendor_github_com_robfig_cron_v3_gitignore,
+	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/.travis.yml": proto_micro_mall_order_vendor_github_com_robfig_cron_v3_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/LICENSE": proto_micro_mall_order_vendor_github_com_robfig_cron_v3_license,
+	"proto/micro_mall_order/vendor/github.com/robfig/cron/v3/go.mod": proto_micro_mall_order_vendor_github_com_robfig_cron_v3_go_mod,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/.gitignore": proto_micro_mall_order_vendor_github_com_rs_zerolog_gitignore,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/.travis.yml": proto_micro_mall_order_vendor_github_com_rs_zerolog_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/CNAME": proto_micro_mall_order_vendor_github_com_rs_zerolog_cname,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/LICENSE": proto_micro_mall_order_vendor_github_com_rs_zerolog_license,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/_config.yml": proto_micro_mall_order_vendor_github_com_rs_zerolog_config_yml,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/go.mod": proto_micro_mall_order_vendor_github_com_rs_zerolog_go_mod,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/go.sum": proto_micro_mall_order_vendor_github_com_rs_zerolog_go_sum,
+	"proto/micro_mall_order/vendor/github.com/rs/zerolog/pretty.png": proto_micro_mall_order_vendor_github_com_rs_zerolog_pretty_png,
+	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/.travis.yml": proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/LICENSE": proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_license,
+	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/go.mod": proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_mod,
+	"proto/micro_mall_order/vendor/github.com/santhosh-tekuri/jsonschema/go.test.sh": proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_test_sh,
+	"proto/micro_mall_order/vendor/github.com/satori/go.uuid/.travis.yml": proto_micro_mall_order_vendor_github_com_satori_go_uuid_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/satori/go.uuid/LICENSE": proto_micro_mall_order_vendor_github_com_satori_go_uuid_license,
+	"proto/micro_mall_order/vendor/github.com/shirou/gopsutil/LICENSE": proto_micro_mall_order_vendor_github_com_shirou_gopsutil_license,
+	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/.gitignore": proto_micro_mall_order_vendor_github_com_shopspring_decimal_gitignore,
+	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/.travis.yml": proto_micro_mall_order_vendor_github_com_shopspring_decimal_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/LICENSE": proto_micro_mall_order_vendor_github_com_shopspring_decimal_license,
+	"proto/micro_mall_order/vendor/github.com/shopspring/decimal/go.mod": proto_micro_mall_order_vendor_github_com_shopspring_decimal_go_mod,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/.gitignore": proto_micro_mall_order_vendor_github_com_streadway_amqp_gitignore,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/.travis.yml": proto_micro_mall_order_vendor_github_com_streadway_amqp_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/LICENSE": proto_micro_mall_order_vendor_github_com_streadway_amqp_license,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/certs.sh": proto_micro_mall_order_vendor_github_com_streadway_amqp_certs_sh,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/gen.sh": proto_micro_mall_order_vendor_github_com_streadway_amqp_gen_sh,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/go.mod": proto_micro_mall_order_vendor_github_com_streadway_amqp_go_mod,
+	"proto/micro_mall_order/vendor/github.com/streadway/amqp/pre-commit": proto_micro_mall_order_vendor_github_com_streadway_amqp_pre_commit,
+	"proto/micro_mall_order/vendor/github.com/syndtr/goleveldb/LICENSE": proto_micro_mall_order_vendor_github_com_syndtr_goleveldb_license,
+	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/.travis.yml": proto_micro_mall_order_vendor_github_com_tidwall_gjson_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/LICENSE": proto_micro_mall_order_vendor_github_com_tidwall_gjson_license,
+	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/go.mod": proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_mod,
+	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/go.sum": proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_sum,
+	"proto/micro_mall_order/vendor/github.com/tidwall/gjson/logo.png": proto_micro_mall_order_vendor_github_com_tidwall_gjson_logo_png,
+	"proto/micro_mall_order/vendor/github.com/tidwall/match/.travis.yml": proto_micro_mall_order_vendor_github_com_tidwall_match_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/tidwall/match/LICENSE": proto_micro_mall_order_vendor_github_com_tidwall_match_license,
+	"proto/micro_mall_order/vendor/github.com/tidwall/pretty/.travis.yml": proto_micro_mall_order_vendor_github_com_tidwall_pretty_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/tidwall/pretty/LICENSE": proto_micro_mall_order_vendor_github_com_tidwall_pretty_license,
+	"proto/micro_mall_order/vendor/github.com/valyala/bytebufferpool/.travis.yml": proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/valyala/bytebufferpool/LICENSE": proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_license,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/.gitignore": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_gitignore,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/.travis.yml": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/LICENSE": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_license,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/TODO": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_todo,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/ecdsa.key": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_key,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/ecdsa.pem": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_pem,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/rsa.key": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_key,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fasthttputil/rsa.pem": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_pem,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/fuzzit.sh": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fuzzit_sh,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/go.mod": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_mod,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/go.sum": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_sum,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/ssl-cert-snakeoil.key": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_key,
+	"proto/micro_mall_order/vendor/github.com/valyala/fasthttp/ssl-cert-snakeoil.pem": proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_pem,
+	"proto/micro_mall_order/vendor/github.com/xdg/scram/.gitignore": proto_micro_mall_order_vendor_github_com_xdg_scram_gitignore,
+	"proto/micro_mall_order/vendor/github.com/xdg/scram/.travis.yml": proto_micro_mall_order_vendor_github_com_xdg_scram_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/xdg/scram/LICENSE": proto_micro_mall_order_vendor_github_com_xdg_scram_license,
+	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/.gitignore": proto_micro_mall_order_vendor_github_com_xdg_stringprep_gitignore,
+	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/.travis.yml": proto_micro_mall_order_vendor_github_com_xdg_stringprep_travis_yml,
+	"proto/micro_mall_order/vendor/github.com/xdg/stringprep/LICENSE": proto_micro_mall_order_vendor_github_com_xdg_stringprep_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/.dockerignore": proto_micro_mall_order_vendor_go_elastic_co_apm_dockerignore,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/.gitignore": proto_micro_mall_order_vendor_go_elastic_co_apm_gitignore,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/.jenkins-edge.yml": proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_edge_yml,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/.jenkins.yml": proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_yml,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/CHANGELOG.asciidoc": proto_micro_mall_order_vendor_go_elastic_co_apm_changelog_asciidoc,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/Jenkinsfile": proto_micro_mall_order_vendor_go_elastic_co_apm_jenkinsfile,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/Makefile": proto_micro_mall_order_vendor_go_elastic_co_apm_makefile,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/NOTICE": proto_micro_mall_order_vendor_go_elastic_co_apm_notice,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/internal/apmschema/update.sh": proto_micro_mall_order_vendor_go_elastic_co_apm_internal_apmschema_update_sh,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/model/generate.sh": proto_micro_mall_order_vendor_go_elastic_co_apm_model_generate_sh,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgorm/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmgrpc/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmhttp/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmredigo/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/go.mod": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/module/apmsql/go.sum": proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_sum,
+	"proto/micro_mall_order/vendor/go.elastic.co/apm/stacktrace/generate_library.bash": proto_micro_mall_order_vendor_go_elastic_co_apm_stacktrace_generate_library_bash,
+	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/.travis.yml": proto_micro_mall_order_vendor_go_elastic_co_fastjson_travis_yml,
+	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/LICENSE": proto_micro_mall_order_vendor_go_elastic_co_fastjson_license,
+	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/go.mod": proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_mod,
+	"proto/micro_mall_order/vendor/go.elastic.co/fastjson/go.sum": proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_sum,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/LICENSE": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_license,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/gss_wrapper.c": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_c,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/gss_wrapper.h": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_h,
 	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/sspi_wrapper.c": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_c,
 	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/auth/internal/gssapi/sspi_wrapper.h": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_h,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/abort_transaction.toml":    proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_abort_transaction_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/aggregate.toml":            proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_aggregate_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/commit_transaction.toml":   proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_commit_transaction_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/count.toml":                proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_count_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/create.toml":               proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_create_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/createIndexes.toml":        proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_createindexes_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/delete.toml":               proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_delete_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/distinct.toml":             proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_distinct_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_collection.toml":      proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_collection_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_database.toml":        proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_database_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_indexes.toml":         proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_indexes_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/end_sessions.toml":         proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_end_sessions_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/find.toml":                 proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/find_and_modify.toml":      proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_and_modify_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/insert.toml":               proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_insert_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/listDatabases.toml":        proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_listdatabases_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/list_collections.toml":     proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_collections_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/list_indexes.toml":         proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_indexes_toml,
-	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/update.toml":               proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_update_toml,
-	"proto/micro_mall_order/vendor/go.opencensus.io/.gitignore":                                                    proto_micro_mall_order_vendor_go_opencensus_io_gitignore,
-	"proto/micro_mall_order/vendor/go.opencensus.io/.travis.yml":                                                   proto_micro_mall_order_vendor_go_opencensus_io_travis_yml,
-	"proto/micro_mall_order/vendor/go.opencensus.io/AUTHORS":                                                       proto_micro_mall_order_vendor_go_opencensus_io_authors,
-	"proto/micro_mall_order/vendor/go.opencensus.io/LICENSE":                                                       proto_micro_mall_order_vendor_go_opencensus_io_license,
-	"proto/micro_mall_order/vendor/go.opencensus.io/Makefile":                                                      proto_micro_mall_order_vendor_go_opencensus_io_makefile,
-	"proto/micro_mall_order/vendor/go.opencensus.io/appveyor.yml":                                                  proto_micro_mall_order_vendor_go_opencensus_io_appveyor_yml,
-	"proto/micro_mall_order/vendor/go.opencensus.io/go.mod":                                                        proto_micro_mall_order_vendor_go_opencensus_io_go_mod,
-	"proto/micro_mall_order/vendor/go.opencensus.io/go.sum":                                                        proto_micro_mall_order_vendor_go_opencensus_io_go_sum,
-	"proto/micro_mall_order/vendor/go.opentelemetry.io/otel/LICENSE":                                               proto_micro_mall_order_vendor_go_opentelemetry_io_otel_license,
-	"proto/micro_mall_order/vendor/golang.org/x/crypto/AUTHORS":                                                    proto_micro_mall_order_vendor_golang_org_x_crypto_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/crypto/CONTRIBUTORS":                                               proto_micro_mall_order_vendor_golang_org_x_crypto_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/crypto/LICENSE":                                                    proto_micro_mall_order_vendor_golang_org_x_crypto_license,
-	"proto/micro_mall_order/vendor/golang.org/x/crypto/PATENTS":                                                    proto_micro_mall_order_vendor_golang_org_x_crypto_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/exp/AUTHORS":                                                       proto_micro_mall_order_vendor_golang_org_x_exp_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/exp/CONTRIBUTORS":                                                  proto_micro_mall_order_vendor_golang_org_x_exp_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/exp/LICENSE":                                                       proto_micro_mall_order_vendor_golang_org_x_exp_license,
-	"proto/micro_mall_order/vendor/golang.org/x/exp/PATENTS":                                                       proto_micro_mall_order_vendor_golang_org_x_exp_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/lint/.travis.yml":                                                  proto_micro_mall_order_vendor_golang_org_x_lint_travis_yml,
-	"proto/micro_mall_order/vendor/golang.org/x/lint/LICENSE":                                                      proto_micro_mall_order_vendor_golang_org_x_lint_license,
-	"proto/micro_mall_order/vendor/golang.org/x/lint/go.mod":                                                       proto_micro_mall_order_vendor_golang_org_x_lint_go_mod,
-	"proto/micro_mall_order/vendor/golang.org/x/lint/go.sum":                                                       proto_micro_mall_order_vendor_golang_org_x_lint_go_sum,
-	"proto/micro_mall_order/vendor/golang.org/x/mod/LICENSE":                                                       proto_micro_mall_order_vendor_golang_org_x_mod_license,
-	"proto/micro_mall_order/vendor/golang.org/x/mod/PATENTS":                                                       proto_micro_mall_order_vendor_golang_org_x_mod_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/net/AUTHORS":                                                       proto_micro_mall_order_vendor_golang_org_x_net_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/net/CONTRIBUTORS":                                                  proto_micro_mall_order_vendor_golang_org_x_net_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/net/LICENSE":                                                       proto_micro_mall_order_vendor_golang_org_x_net_license,
-	"proto/micro_mall_order/vendor/golang.org/x/net/PATENTS":                                                       proto_micro_mall_order_vendor_golang_org_x_net_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/net/http2/.gitignore":                                              proto_micro_mall_order_vendor_golang_org_x_net_http2_gitignore,
-	"proto/micro_mall_order/vendor/golang.org/x/net/http2/Dockerfile":                                              proto_micro_mall_order_vendor_golang_org_x_net_http2_dockerfile,
-	"proto/micro_mall_order/vendor/golang.org/x/net/http2/Makefile":                                                proto_micro_mall_order_vendor_golang_org_x_net_http2_makefile,
-	"proto/micro_mall_order/vendor/golang.org/x/net/http2/README":                                                  proto_micro_mall_order_vendor_golang_org_x_net_http2_readme,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/.travis.yml":                                                proto_micro_mall_order_vendor_golang_org_x_oauth2_travis_yml,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/AUTHORS":                                                    proto_micro_mall_order_vendor_golang_org_x_oauth2_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/CONTRIBUTORS":                                               proto_micro_mall_order_vendor_golang_org_x_oauth2_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/LICENSE":                                                    proto_micro_mall_order_vendor_golang_org_x_oauth2_license,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/go.mod":                                                     proto_micro_mall_order_vendor_golang_org_x_oauth2_go_mod,
-	"proto/micro_mall_order/vendor/golang.org/x/oauth2/go.sum":                                                     proto_micro_mall_order_vendor_golang_org_x_oauth2_go_sum,
-	"proto/micro_mall_order/vendor/golang.org/x/sync/AUTHORS":                                                      proto_micro_mall_order_vendor_golang_org_x_sync_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/sync/CONTRIBUTORS":                                                 proto_micro_mall_order_vendor_golang_org_x_sync_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/sync/LICENSE":                                                      proto_micro_mall_order_vendor_golang_org_x_sync_license,
-	"proto/micro_mall_order/vendor/golang.org/x/sync/PATENTS":                                                      proto_micro_mall_order_vendor_golang_org_x_sync_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/AUTHORS":                                                       proto_micro_mall_order_vendor_golang_org_x_sys_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/CONTRIBUTORS":                                                  proto_micro_mall_order_vendor_golang_org_x_sys_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/LICENSE":                                                       proto_micro_mall_order_vendor_golang_org_x_sys_license,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/PATENTS":                                                       proto_micro_mall_order_vendor_golang_org_x_sys_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/.gitignore":                                               proto_micro_mall_order_vendor_golang_org_x_sys_unix_gitignore,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_aix_ppc64.s":                                          proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_aix_ppc64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_386.s":                                         proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_amd64.s":                                       proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_arm.s":                                         proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_arm64.s":                                       proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_dragonfly_amd64.s":                                    proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_dragonfly_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_386.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_amd64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_arm.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_arm64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_386.s":                                          proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_amd64.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_arm.s":                                          proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_arm64.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_mips64x.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mips64x_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_mipsx.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mipsx_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_ppc64x.s":                                       proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_ppc64x_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_riscv64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_riscv64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_s390x.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_s390x_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_386.s":                                         proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_amd64.s":                                       proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_arm.s":                                         proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_arm64.s":                                       proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_386.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_amd64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_arm.s":                                        proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_arm64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_solaris_amd64.s":                                      proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_solaris_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/gccgo_c.c":                                                proto_micro_mall_order_vendor_golang_org_x_sys_unix_gccgo_c_c,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/mkall.sh":                                                 proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkall_sh,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/mkerrors.sh":                                              proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkerrors_sh,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_386.1_13.s":                               proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_1_13_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_386.s":                                    proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_amd64.1_13.s":                             proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_1_13_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_amd64.s":                                  proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm.1_13.s":                               proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_1_13_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm.s":                                    proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm64.1_13.s":                             proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_1_13_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm64.s":                                  proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/empty.s":                                               proto_micro_mall_order_vendor_golang_org_x_sys_windows_empty_s,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/mkerrors.bash":                                         proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkerrors_bash,
-	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/mkknownfolderids.bash":                                 proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkknownfolderids_bash,
-	"proto/micro_mall_order/vendor/golang.org/x/text/AUTHORS":                                                      proto_micro_mall_order_vendor_golang_org_x_text_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/text/CONTRIBUTORS":                                                 proto_micro_mall_order_vendor_golang_org_x_text_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/text/LICENSE":                                                      proto_micro_mall_order_vendor_golang_org_x_text_license,
-	"proto/micro_mall_order/vendor/golang.org/x/text/PATENTS":                                                      proto_micro_mall_order_vendor_golang_org_x_text_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/time/AUTHORS":                                                      proto_micro_mall_order_vendor_golang_org_x_time_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/time/CONTRIBUTORS":                                                 proto_micro_mall_order_vendor_golang_org_x_time_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/time/LICENSE":                                                      proto_micro_mall_order_vendor_golang_org_x_time_license,
-	"proto/micro_mall_order/vendor/golang.org/x/time/PATENTS":                                                      proto_micro_mall_order_vendor_golang_org_x_time_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/tools/AUTHORS":                                                     proto_micro_mall_order_vendor_golang_org_x_tools_authors,
-	"proto/micro_mall_order/vendor/golang.org/x/tools/CONTRIBUTORS":                                                proto_micro_mall_order_vendor_golang_org_x_tools_contributors,
-	"proto/micro_mall_order/vendor/golang.org/x/tools/LICENSE":                                                     proto_micro_mall_order_vendor_golang_org_x_tools_license,
-	"proto/micro_mall_order/vendor/golang.org/x/tools/PATENTS":                                                     proto_micro_mall_order_vendor_golang_org_x_tools_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/xerrors/LICENSE":                                                   proto_micro_mall_order_vendor_golang_org_x_xerrors_license,
-	"proto/micro_mall_order/vendor/golang.org/x/xerrors/PATENTS":                                                   proto_micro_mall_order_vendor_golang_org_x_xerrors_patents,
-	"proto/micro_mall_order/vendor/golang.org/x/xerrors/README":                                                    proto_micro_mall_order_vendor_golang_org_x_xerrors_readme,
-	"proto/micro_mall_order/vendor/golang.org/x/xerrors/codereview.cfg":                                            proto_micro_mall_order_vendor_golang_org_x_xerrors_codereview_cfg,
-	"proto/micro_mall_order/vendor/golang.org/x/xerrors/go.mod":                                                    proto_micro_mall_order_vendor_golang_org_x_xerrors_go_mod,
-	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/.gitignore":                                                     proto_micro_mall_order_vendor_gopkg_in_ini_v1_gitignore,
-	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/.travis.yml":                                                    proto_micro_mall_order_vendor_gopkg_in_ini_v1_travis_yml,
-	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/LICENSE":                                                        proto_micro_mall_order_vendor_gopkg_in_ini_v1_license,
-	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/Makefile":                                                       proto_micro_mall_order_vendor_gopkg_in_ini_v1_makefile,
-	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/.travis.yml":                                                   proto_micro_mall_order_vendor_gopkg_in_yaml_v2_travis_yml,
-	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/LICENSE":                                                       proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license,
-	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/LICENSE.libyaml":                                               proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license_libyaml,
-	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/NOTICE":                                                        proto_micro_mall_order_vendor_gopkg_in_yaml_v2_notice,
-	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/go.mod":                                                        proto_micro_mall_order_vendor_gopkg_in_yaml_v2_go_mod,
-	"proto/micro_mall_order/vendor/howett.net/plist/.gitlab-ci.yml":                                                proto_micro_mall_order_vendor_howett_net_plist_gitlab_ci_yml,
-	"proto/micro_mall_order/vendor/howett.net/plist/LICENSE":                                                       proto_micro_mall_order_vendor_howett_net_plist_license,
-	"proto/micro_mall_order/vendor/howett.net/plist/go.mod":                                                        proto_micro_mall_order_vendor_howett_net_plist_go_mod,
-	"proto/micro_mall_order/vendor/modules.txt":                                                                    proto_micro_mall_order_vendor_modules_txt,
-	"proto/micro_mall_order/vendor/xorm.io/builder/.drone.yml":                                                     proto_micro_mall_order_vendor_xorm_io_builder_drone_yml,
-	"proto/micro_mall_order/vendor/xorm.io/builder/.gitignore":                                                     proto_micro_mall_order_vendor_xorm_io_builder_gitignore,
-	"proto/micro_mall_order/vendor/xorm.io/builder/LICENSE":                                                        proto_micro_mall_order_vendor_xorm_io_builder_license,
-	"proto/micro_mall_order/vendor/xorm.io/builder/go.mod":                                                         proto_micro_mall_order_vendor_xorm_io_builder_go_mod,
-	"proto/micro_mall_order/vendor/xorm.io/builder/go.sum":                                                         proto_micro_mall_order_vendor_xorm_io_builder_go_sum,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/.changelog.yml":                                                    proto_micro_mall_order_vendor_xorm_io_xorm_changelog_yml,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/.drone.yml":                                                        proto_micro_mall_order_vendor_xorm_io_xorm_drone_yml,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/.gitignore":                                                        proto_micro_mall_order_vendor_xorm_io_xorm_gitignore,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/.revive.toml":                                                      proto_micro_mall_order_vendor_xorm_io_xorm_revive_toml,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/LICENSE":                                                           proto_micro_mall_order_vendor_xorm_io_xorm_license,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/Makefile":                                                          proto_micro_mall_order_vendor_xorm_io_xorm_makefile,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/dialects/gen_reserved.sh":                                          proto_micro_mall_order_vendor_xorm_io_xorm_dialects_gen_reserved_sh,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/dialects/pg_reserved.txt":                                          proto_micro_mall_order_vendor_xorm_io_xorm_dialects_pg_reserved_txt,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/go.mod":                                                            proto_micro_mall_order_vendor_xorm_io_xorm_go_mod,
-	"proto/micro_mall_order/vendor/xorm.io/xorm/go.sum":                                                            proto_micro_mall_order_vendor_xorm_io_xorm_go_sum,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/abort_transaction.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_abort_transaction_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/aggregate.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_aggregate_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/commit_transaction.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_commit_transaction_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/count.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_count_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/create.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_create_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/createIndexes.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_createindexes_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/delete.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_delete_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/distinct.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_distinct_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_collection.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_collection_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_database.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_database_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/drop_indexes.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_indexes_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/end_sessions.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_end_sessions_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/find.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/find_and_modify.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_and_modify_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/insert.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_insert_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/listDatabases.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_listdatabases_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/list_collections.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_collections_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/list_indexes.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_indexes_toml,
+	"proto/micro_mall_order/vendor/go.mongodb.org/mongo-driver/x/mongo/driver/operation/update.toml": proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_update_toml,
+	"proto/micro_mall_order/vendor/go.opencensus.io/.gitignore": proto_micro_mall_order_vendor_go_opencensus_io_gitignore,
+	"proto/micro_mall_order/vendor/go.opencensus.io/.travis.yml": proto_micro_mall_order_vendor_go_opencensus_io_travis_yml,
+	"proto/micro_mall_order/vendor/go.opencensus.io/AUTHORS": proto_micro_mall_order_vendor_go_opencensus_io_authors,
+	"proto/micro_mall_order/vendor/go.opencensus.io/LICENSE": proto_micro_mall_order_vendor_go_opencensus_io_license,
+	"proto/micro_mall_order/vendor/go.opencensus.io/Makefile": proto_micro_mall_order_vendor_go_opencensus_io_makefile,
+	"proto/micro_mall_order/vendor/go.opencensus.io/appveyor.yml": proto_micro_mall_order_vendor_go_opencensus_io_appveyor_yml,
+	"proto/micro_mall_order/vendor/go.opencensus.io/go.mod": proto_micro_mall_order_vendor_go_opencensus_io_go_mod,
+	"proto/micro_mall_order/vendor/go.opencensus.io/go.sum": proto_micro_mall_order_vendor_go_opencensus_io_go_sum,
+	"proto/micro_mall_order/vendor/go.opentelemetry.io/otel/LICENSE": proto_micro_mall_order_vendor_go_opentelemetry_io_otel_license,
+	"proto/micro_mall_order/vendor/golang.org/x/crypto/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_crypto_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/crypto/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_crypto_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/crypto/LICENSE": proto_micro_mall_order_vendor_golang_org_x_crypto_license,
+	"proto/micro_mall_order/vendor/golang.org/x/crypto/PATENTS": proto_micro_mall_order_vendor_golang_org_x_crypto_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/exp/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_exp_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/exp/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_exp_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/exp/LICENSE": proto_micro_mall_order_vendor_golang_org_x_exp_license,
+	"proto/micro_mall_order/vendor/golang.org/x/exp/PATENTS": proto_micro_mall_order_vendor_golang_org_x_exp_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/lint/.travis.yml": proto_micro_mall_order_vendor_golang_org_x_lint_travis_yml,
+	"proto/micro_mall_order/vendor/golang.org/x/lint/LICENSE": proto_micro_mall_order_vendor_golang_org_x_lint_license,
+	"proto/micro_mall_order/vendor/golang.org/x/lint/go.mod": proto_micro_mall_order_vendor_golang_org_x_lint_go_mod,
+	"proto/micro_mall_order/vendor/golang.org/x/lint/go.sum": proto_micro_mall_order_vendor_golang_org_x_lint_go_sum,
+	"proto/micro_mall_order/vendor/golang.org/x/mod/LICENSE": proto_micro_mall_order_vendor_golang_org_x_mod_license,
+	"proto/micro_mall_order/vendor/golang.org/x/mod/PATENTS": proto_micro_mall_order_vendor_golang_org_x_mod_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/net/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_net_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/net/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_net_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/net/LICENSE": proto_micro_mall_order_vendor_golang_org_x_net_license,
+	"proto/micro_mall_order/vendor/golang.org/x/net/PATENTS": proto_micro_mall_order_vendor_golang_org_x_net_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/net/http2/.gitignore": proto_micro_mall_order_vendor_golang_org_x_net_http2_gitignore,
+	"proto/micro_mall_order/vendor/golang.org/x/net/http2/Dockerfile": proto_micro_mall_order_vendor_golang_org_x_net_http2_dockerfile,
+	"proto/micro_mall_order/vendor/golang.org/x/net/http2/Makefile": proto_micro_mall_order_vendor_golang_org_x_net_http2_makefile,
+	"proto/micro_mall_order/vendor/golang.org/x/net/http2/README": proto_micro_mall_order_vendor_golang_org_x_net_http2_readme,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/.travis.yml": proto_micro_mall_order_vendor_golang_org_x_oauth2_travis_yml,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_oauth2_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_oauth2_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/LICENSE": proto_micro_mall_order_vendor_golang_org_x_oauth2_license,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/go.mod": proto_micro_mall_order_vendor_golang_org_x_oauth2_go_mod,
+	"proto/micro_mall_order/vendor/golang.org/x/oauth2/go.sum": proto_micro_mall_order_vendor_golang_org_x_oauth2_go_sum,
+	"proto/micro_mall_order/vendor/golang.org/x/sync/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_sync_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/sync/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_sync_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/sync/LICENSE": proto_micro_mall_order_vendor_golang_org_x_sync_license,
+	"proto/micro_mall_order/vendor/golang.org/x/sync/PATENTS": proto_micro_mall_order_vendor_golang_org_x_sync_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_sys_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_sys_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/LICENSE": proto_micro_mall_order_vendor_golang_org_x_sys_license,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/PATENTS": proto_micro_mall_order_vendor_golang_org_x_sys_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/.gitignore": proto_micro_mall_order_vendor_golang_org_x_sys_unix_gitignore,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_aix_ppc64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_aix_ppc64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_darwin_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_dragonfly_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_dragonfly_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_freebsd_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_mips64x.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mips64x_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_mipsx.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mipsx_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_ppc64x.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_ppc64x_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_riscv64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_riscv64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_linux_s390x.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_s390x_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_netbsd_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_openbsd_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/asm_solaris_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_solaris_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/gccgo_c.c": proto_micro_mall_order_vendor_golang_org_x_sys_unix_gccgo_c_c,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/mkall.sh": proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkall_sh,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/mkerrors.sh": proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkerrors_sh,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_386.1_13.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_1_13_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_386.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_amd64.1_13.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_1_13_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_amd64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm.1_13.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_1_13_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm64.1_13.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_1_13_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/unix/zsyscall_darwin_arm64.s": proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/empty.s": proto_micro_mall_order_vendor_golang_org_x_sys_windows_empty_s,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/mkerrors.bash": proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkerrors_bash,
+	"proto/micro_mall_order/vendor/golang.org/x/sys/windows/mkknownfolderids.bash": proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkknownfolderids_bash,
+	"proto/micro_mall_order/vendor/golang.org/x/text/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_text_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/text/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_text_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/text/LICENSE": proto_micro_mall_order_vendor_golang_org_x_text_license,
+	"proto/micro_mall_order/vendor/golang.org/x/text/PATENTS": proto_micro_mall_order_vendor_golang_org_x_text_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/time/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_time_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/time/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_time_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/time/LICENSE": proto_micro_mall_order_vendor_golang_org_x_time_license,
+	"proto/micro_mall_order/vendor/golang.org/x/time/PATENTS": proto_micro_mall_order_vendor_golang_org_x_time_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/tools/AUTHORS": proto_micro_mall_order_vendor_golang_org_x_tools_authors,
+	"proto/micro_mall_order/vendor/golang.org/x/tools/CONTRIBUTORS": proto_micro_mall_order_vendor_golang_org_x_tools_contributors,
+	"proto/micro_mall_order/vendor/golang.org/x/tools/LICENSE": proto_micro_mall_order_vendor_golang_org_x_tools_license,
+	"proto/micro_mall_order/vendor/golang.org/x/tools/PATENTS": proto_micro_mall_order_vendor_golang_org_x_tools_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/xerrors/LICENSE": proto_micro_mall_order_vendor_golang_org_x_xerrors_license,
+	"proto/micro_mall_order/vendor/golang.org/x/xerrors/PATENTS": proto_micro_mall_order_vendor_golang_org_x_xerrors_patents,
+	"proto/micro_mall_order/vendor/golang.org/x/xerrors/README": proto_micro_mall_order_vendor_golang_org_x_xerrors_readme,
+	"proto/micro_mall_order/vendor/golang.org/x/xerrors/codereview.cfg": proto_micro_mall_order_vendor_golang_org_x_xerrors_codereview_cfg,
+	"proto/micro_mall_order/vendor/golang.org/x/xerrors/go.mod": proto_micro_mall_order_vendor_golang_org_x_xerrors_go_mod,
+	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/.gitignore": proto_micro_mall_order_vendor_gopkg_in_ini_v1_gitignore,
+	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/.travis.yml": proto_micro_mall_order_vendor_gopkg_in_ini_v1_travis_yml,
+	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/LICENSE": proto_micro_mall_order_vendor_gopkg_in_ini_v1_license,
+	"proto/micro_mall_order/vendor/gopkg.in/ini.v1/Makefile": proto_micro_mall_order_vendor_gopkg_in_ini_v1_makefile,
+	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/.travis.yml": proto_micro_mall_order_vendor_gopkg_in_yaml_v2_travis_yml,
+	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/LICENSE": proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license,
+	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/LICENSE.libyaml": proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license_libyaml,
+	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/NOTICE": proto_micro_mall_order_vendor_gopkg_in_yaml_v2_notice,
+	"proto/micro_mall_order/vendor/gopkg.in/yaml.v2/go.mod": proto_micro_mall_order_vendor_gopkg_in_yaml_v2_go_mod,
+	"proto/micro_mall_order/vendor/howett.net/plist/.gitlab-ci.yml": proto_micro_mall_order_vendor_howett_net_plist_gitlab_ci_yml,
+	"proto/micro_mall_order/vendor/howett.net/plist/LICENSE": proto_micro_mall_order_vendor_howett_net_plist_license,
+	"proto/micro_mall_order/vendor/howett.net/plist/go.mod": proto_micro_mall_order_vendor_howett_net_plist_go_mod,
+	"proto/micro_mall_order/vendor/modules.txt": proto_micro_mall_order_vendor_modules_txt,
+	"proto/micro_mall_order/vendor/xorm.io/builder/.drone.yml": proto_micro_mall_order_vendor_xorm_io_builder_drone_yml,
+	"proto/micro_mall_order/vendor/xorm.io/builder/.gitignore": proto_micro_mall_order_vendor_xorm_io_builder_gitignore,
+	"proto/micro_mall_order/vendor/xorm.io/builder/LICENSE": proto_micro_mall_order_vendor_xorm_io_builder_license,
+	"proto/micro_mall_order/vendor/xorm.io/builder/go.mod": proto_micro_mall_order_vendor_xorm_io_builder_go_mod,
+	"proto/micro_mall_order/vendor/xorm.io/builder/go.sum": proto_micro_mall_order_vendor_xorm_io_builder_go_sum,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/.changelog.yml": proto_micro_mall_order_vendor_xorm_io_xorm_changelog_yml,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/.drone.yml": proto_micro_mall_order_vendor_xorm_io_xorm_drone_yml,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/.gitignore": proto_micro_mall_order_vendor_xorm_io_xorm_gitignore,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/.revive.toml": proto_micro_mall_order_vendor_xorm_io_xorm_revive_toml,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/LICENSE": proto_micro_mall_order_vendor_xorm_io_xorm_license,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/Makefile": proto_micro_mall_order_vendor_xorm_io_xorm_makefile,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/dialects/gen_reserved.sh": proto_micro_mall_order_vendor_xorm_io_xorm_dialects_gen_reserved_sh,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/dialects/pg_reserved.txt": proto_micro_mall_order_vendor_xorm_io_xorm_dialects_pg_reserved_txt,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/go.mod": proto_micro_mall_order_vendor_xorm_io_xorm_go_mod,
+	"proto/micro_mall_order/vendor/xorm.io/xorm/go.sum": proto_micro_mall_order_vendor_xorm_io_xorm_go_sum,
 }
-
 // AssetDir returns the file names below a certain
 // directory embedded in the file by go-bindata.
 // For example if you run go-bindata on data/... and data contains the
@@ -5195,145 +5194,207 @@ func AssetDir(name string) ([]string, error) {
 }
 
 type _bintree_t struct {
-	Func     func() ([]byte, error)
+	Func func() ([]byte, error)
 	Children map[string]*_bintree_t
 }
-
 var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 	"proto": &_bintree_t{nil, map[string]*_bintree_t{
 		"micro_mall_order": &_bintree_t{nil, map[string]*_bintree_t{
 			"etc": &_bintree_t{nil, map[string]*_bintree_t{
-				"app.ini": &_bintree_t{proto_micro_mall_order_etc_app_ini, map[string]*_bintree_t{}},
+				"app.ini": &_bintree_t{proto_micro_mall_order_etc_app_ini, map[string]*_bintree_t{
+				}},
 			}},
-			"genpb.py": &_bintree_t{proto_micro_mall_order_genpb_py, map[string]*_bintree_t{}},
-			"go.mod":   &_bintree_t{proto_micro_mall_order_go_mod, map[string]*_bintree_t{}},
-			"go.sum":   &_bintree_t{proto_micro_mall_order_go_sum, map[string]*_bintree_t{}},
+			"genpb.py": &_bintree_t{proto_micro_mall_order_genpb_py, map[string]*_bintree_t{
+			}},
+			"go.mod": &_bintree_t{proto_micro_mall_order_go_mod, map[string]*_bintree_t{
+			}},
+			"go.sum": &_bintree_t{proto_micro_mall_order_go_sum, map[string]*_bintree_t{
+			}},
 			"logs": &_bintree_t{nil, map[string]*_bintree_t{
 				"access": &_bintree_t{nil, map[string]*_bintree_t{
 					"micro-mall-order": &_bintree_t{nil, map[string]*_bintree_t{
-						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{}},
-						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{}},
-						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{}},
-						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{}},
-						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{}},
-						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{}},
-						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{}},
-						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{}},
-						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{}},
+						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{
+						}},
+						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{
+						}},
+						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{
+						}},
+						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{
+						}},
+						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{
+						}},
+						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{
+						}},
+						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{
+						}},
+						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{
+						}},
+						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_access_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 				"business": &_bintree_t{nil, map[string]*_bintree_t{
 					"micro-mall-order": &_bintree_t{nil, map[string]*_bintree_t{
-						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{}},
-						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{}},
-						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{}},
-						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{}},
-						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{}},
-						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{}},
-						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{}},
-						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{}},
-						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{}},
+						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{
+						}},
+						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{
+						}},
+						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{
+						}},
+						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{
+						}},
+						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{
+						}},
+						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{
+						}},
+						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{
+						}},
+						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{
+						}},
+						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_business_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 				"err": &_bintree_t{nil, map[string]*_bintree_t{
 					"micro-mall-order": &_bintree_t{nil, map[string]*_bintree_t{
-						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{}},
-						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{}},
-						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{}},
-						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{}},
-						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{}},
-						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{}},
-						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{}},
-						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{}},
-						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{}},
+						"log.2020-09-16": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_16, map[string]*_bintree_t{
+						}},
+						"log.2020-09-17": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_17, map[string]*_bintree_t{
+						}},
+						"log.2020-09-18": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_18, map[string]*_bintree_t{
+						}},
+						"log.2020-09-19": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_09_19, map[string]*_bintree_t{
+						}},
+						"log.2020-10-08": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_08, map[string]*_bintree_t{
+						}},
+						"log.2020-10-31": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_10_31, map[string]*_bintree_t{
+						}},
+						"log.2020-11-02": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_02, map[string]*_bintree_t{
+						}},
+						"log.2020-11-04": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_04, map[string]*_bintree_t{
+						}},
+						"log.2020-11-05": &_bintree_t{proto_micro_mall_order_logs_err_micro_mall_order_log_2020_11_05, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 			}},
-			"micro-mall-db.yaml": &_bintree_t{proto_micro_mall_order_micro_mall_db_yaml, map[string]*_bintree_t{}},
+			"micro-mall-db.yaml": &_bintree_t{proto_micro_mall_order_micro_mall_db_yaml, map[string]*_bintree_t{
+			}},
 			"proto": &_bintree_t{nil, map[string]*_bintree_t{
 				"micro_mall_order_proto": &_bintree_t{nil, map[string]*_bintree_t{
 					"order_business": &_bintree_t{nil, map[string]*_bintree_t{
-						"order_business.swagger.json": &_bintree_t{proto_micro_mall_order_proto_micro_mall_order_proto_order_business_order_business_swagger_json, map[string]*_bintree_t{}},
+						"order_business.swagger.json": &_bintree_t{proto_micro_mall_order_proto_micro_mall_order_proto_order_business_order_business_swagger_json, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 			}},
-			"setup.py": &_bintree_t{proto_micro_mall_order_setup_py, map[string]*_bintree_t{}},
+			"setup.py": &_bintree_t{proto_micro_mall_order_setup_py, map[string]*_bintree_t{
+			}},
 			"swagger": &_bintree_t{nil, map[string]*_bintree_t{
-				"order_business.swagger.json": &_bintree_t{proto_micro_mall_order_swagger_order_business_swagger_json, map[string]*_bintree_t{}},
+				"order_business.swagger.json": &_bintree_t{proto_micro_mall_order_swagger_order_business_swagger_json, map[string]*_bintree_t{
+				}},
 			}},
 			"vendor": &_bintree_t{nil, map[string]*_bintree_t{
 				"gitee.com": &_bintree_t{nil, map[string]*_bintree_t{
 					"kelvins-io": &_bintree_t{nil, map[string]*_bintree_t{
 						"kelvins": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_gitignore, map[string]*_bintree_t{}},
-							"go.mod":     &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_mod, map[string]*_bintree_t{}},
-							"go.sum":     &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_sum, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_gitignore, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_gitee_com_kelvins_io_kelvins_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 				}},
 				"github.com": &_bintree_t{nil, map[string]*_bintree_t{
 					"RichardKnop": &_bintree_t{nil, map[string]*_bintree_t{
 						"logging": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":        &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":       &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":           &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_license, map[string]*_bintree_t{}},
-							"Makefile":          &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_makefile, map[string]*_bintree_t{}},
-							"go.mod":            &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_go_mod, map[string]*_bintree_t{}},
-							"go.sum":            &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_go_sum, map[string]*_bintree_t{}},
-							"gometalinter.json": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_gometalinter_json, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_license, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_makefile, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_go_sum, map[string]*_bintree_t{
+							}},
+							"gometalinter.json": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_logging_gometalinter_json, map[string]*_bintree_t{
+							}},
 						}},
 						"machinery": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_license, map[string]*_bintree_t{
+							}},
 							"v1": &_bintree_t{nil, map[string]*_bintree_t{
 								"config": &_bintree_t{nil, map[string]*_bintree_t{
-									"test.env":       &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_test_env, map[string]*_bintree_t{}},
-									"testconfig.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_testconfig_yml, map[string]*_bintree_t{}},
+									"test.env": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_test_env, map[string]*_bintree_t{
+									}},
+									"testconfig.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_machinery_v1_config_testconfig_yml, map[string]*_bintree_t{
+									}},
 								}},
 							}},
 						}},
 						"redsync": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitlab-ci.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_gitlab_ci_yml, map[string]*_bintree_t{}},
-							"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_license, map[string]*_bintree_t{}},
-							"VERSION":        &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_version, map[string]*_bintree_t{}},
+							".gitlab-ci.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_gitlab_ci_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_license, map[string]*_bintree_t{
+							}},
+							"VERSION": &_bintree_t{proto_micro_mall_order_vendor_github_com_richardknop_redsync_version, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"StackExchange": &_bintree_t{nil, map[string]*_bintree_t{
 						"wmi": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_stackexchange_wmi_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_stackexchange_wmi_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"aliyun": &_bintree_t{nil, map[string]*_bintree_t{
 						"alibaba-cloud-sdk-go": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyun_alibaba_cloud_sdk_go_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyun_alibaba_cloud_sdk_go_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"aliyunmq": &_bintree_t{nil, map[string]*_bintree_t{
 						"mq-http-go-sdk": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_gitignore, map[string]*_bintree_t{}},
-							"LICENSE":    &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_license, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_gitignore, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_aliyunmq_mq_http_go_sdk_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"armon": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-radix": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_go_mod, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_armon_go_radix_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"aws": &_bintree_t{nil, map[string]*_bintree_t{
 						"aws-sdk-go": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_license_txt, map[string]*_bintree_t{}},
-							"NOTICE.txt":  &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_notice_txt, map[string]*_bintree_t{}},
+							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_license_txt, map[string]*_bintree_t{
+							}},
+							"NOTICE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_notice_txt, map[string]*_bintree_t{
+							}},
 							"aws": &_bintree_t{nil, map[string]*_bintree_t{
 								"credentials": &_bintree_t{nil, map[string]*_bintree_t{
-									"example.ini": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_aws_credentials_example_ini, map[string]*_bintree_t{}},
+									"example.ini": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_aws_credentials_example_ini, map[string]*_bintree_t{
+									}},
 								}},
 							}},
 							"internal": &_bintree_t{nil, map[string]*_bintree_t{
 								"sync": &_bintree_t{nil, map[string]*_bintree_t{
 									"singleflight": &_bintree_t{nil, map[string]*_bintree_t{
-										"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_internal_sync_singleflight_license, map[string]*_bintree_t{}},
+										"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_aws_aws_sdk_go_internal_sync_singleflight_license, map[string]*_bintree_t{
+										}},
 									}},
 								}},
 							}},
@@ -5341,274 +5402,415 @@ var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 					}},
 					"beorn7": &_bintree_t{nil, map[string]*_bintree_t{
 						"perks": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_beorn7_perks_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_beorn7_perks_license, map[string]*_bintree_t{
+							}},
 							"quantile": &_bintree_t{nil, map[string]*_bintree_t{
-								"exampledata.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_beorn7_perks_quantile_exampledata_txt, map[string]*_bintree_t{}},
+								"exampledata.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_beorn7_perks_quantile_exampledata_txt, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"bradfitz": &_bintree_t{nil, map[string]*_bintree_t{
 						"gomemcache": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_bradfitz_gomemcache_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_bradfitz_gomemcache_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"cespare": &_bintree_t{nil, map[string]*_bintree_t{
 						"xxhash": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_license_txt, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_sum, map[string]*_bintree_t{}},
-							"v2": &_bintree_t{nil, map[string]*_bintree_t{
-								".travis.yml":    &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_travis_yml, map[string]*_bintree_t{}},
-								"LICENSE.txt":    &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_license_txt, map[string]*_bintree_t{}},
-								"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_mod, map[string]*_bintree_t{}},
-								"go.sum":         &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_sum, map[string]*_bintree_t{}},
-								"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_xxhash_amd64_s, map[string]*_bintree_t{}},
+							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_license_txt, map[string]*_bintree_t{
 							}},
-							"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_xxhash_amd64_s, map[string]*_bintree_t{}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_go_sum, map[string]*_bintree_t{
+							}},
+							"v2": &_bintree_t{nil, map[string]*_bintree_t{
+								".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_travis_yml, map[string]*_bintree_t{
+								}},
+								"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_license_txt, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_go_sum, map[string]*_bintree_t{
+								}},
+								"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_v2_xxhash_amd64_s, map[string]*_bintree_t{
+								}},
+							}},
+							"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_cespare_xxhash_xxhash_amd64_s, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"coreos": &_bintree_t{nil, map[string]*_bintree_t{
 						"etcd": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_etcd_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_etcd_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_etcd_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_etcd_notice, map[string]*_bintree_t{
+							}},
 						}},
 						"go-semver": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_go_semver_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_go_semver_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_go_semver_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_coreos_go_semver_notice, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"dgryski": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-rendezvous": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_dgryski_go_rendezvous_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_dgryski_go_rendezvous_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"elastic": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-sysinfo": &_bintree_t{nil, map[string]*_bintree_t{
-							".appveyor.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_appveyor_yml, map[string]*_bintree_t{}},
-							".editorconfig":  &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_editorconfig, map[string]*_bintree_t{}},
-							".gitattributes": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitattributes, map[string]*_bintree_t{}},
-							".gitignore":     &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":    &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE.txt":    &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_license_txt, map[string]*_bintree_t{}},
-							"Makefile":       &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_makefile, map[string]*_bintree_t{}},
-							"NOTICE.txt":     &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_notice_txt, map[string]*_bintree_t{}},
-							"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_mod, map[string]*_bintree_t{}},
-							"go.sum":         &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_sum, map[string]*_bintree_t{}},
+							".appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_appveyor_yml, map[string]*_bintree_t{
+							}},
+							".editorconfig": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_editorconfig, map[string]*_bintree_t{
+							}},
+							".gitattributes": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitattributes, map[string]*_bintree_t{
+							}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_license_txt, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_makefile, map[string]*_bintree_t{
+							}},
+							"NOTICE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_notice_txt, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_sysinfo_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 						"go-windows": &_bintree_t{nil, map[string]*_bintree_t{
-							".appveyor.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_appveyor_yml, map[string]*_bintree_t{}},
-							".gitattributes": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitattributes, map[string]*_bintree_t{}},
-							".gitignore":     &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":    &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE.txt":    &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_license_txt, map[string]*_bintree_t{}},
-							"NOTICE.txt":     &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_notice_txt, map[string]*_bintree_t{}},
-							"Vagrantfile":    &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_vagrantfile, map[string]*_bintree_t{}},
-							"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_mod, map[string]*_bintree_t{}},
-							"go.sum":         &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_sum, map[string]*_bintree_t{}},
+							".appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_appveyor_yml, map[string]*_bintree_t{
+							}},
+							".gitattributes": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitattributes, map[string]*_bintree_t{
+							}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_license_txt, map[string]*_bintree_t{
+							}},
+							"NOTICE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_notice_txt, map[string]*_bintree_t{
+							}},
+							"Vagrantfile": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_vagrantfile, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_elastic_go_windows_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"go-ole": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-ole": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_license, map[string]*_bintree_t{}},
-							"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_appveyor_yml, map[string]*_bintree_t{}},
-							"go.mod":       &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_go_mod, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_license, map[string]*_bintree_t{
+							}},
+							"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_appveyor_yml, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_ole_go_ole_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"go-redis": &_bintree_t{nil, map[string]*_bintree_t{
 						"redis": &_bintree_t{nil, map[string]*_bintree_t{
 							"v8": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_gitignore, map[string]*_bintree_t{}},
-								".prettierrc": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_prettierrc, map[string]*_bintree_t{}},
-								".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_travis_yml, map[string]*_bintree_t{}},
-								"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_license, map[string]*_bintree_t{}},
-								"Makefile":    &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_makefile, map[string]*_bintree_t{}},
-								"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_mod, map[string]*_bintree_t{}},
-								"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_sum, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_gitignore, map[string]*_bintree_t{
+								}},
+								".prettierrc": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_prettierrc, map[string]*_bintree_t{
+								}},
+								".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_travis_yml, map[string]*_bintree_t{
+								}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_license, map[string]*_bintree_t{
+								}},
+								"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_makefile, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_redis_redis_v8_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"go-sql-driver": &_bintree_t{nil, map[string]*_bintree_t{
 						"mysql": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_travis_yml, map[string]*_bintree_t{}},
-							"AUTHORS":     &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_authors, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_go_mod, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_travis_yml, map[string]*_bintree_t{
+							}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_authors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_sql_driver_mysql_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"go-stack": &_bintree_t{nil, map[string]*_bintree_t{
 						"stack": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_stack_stack_travis_yml, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_go_stack_stack_go_mod, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_stack_stack_travis_yml, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_go_stack_stack_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"gogap": &_bintree_t{nil, map[string]*_bintree_t{
 						"errors": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_errors_gitignore, map[string]*_bintree_t{}},
-							"LICENSE":    &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_errors_license, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_errors_gitignore, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_errors_license, map[string]*_bintree_t{
+							}},
 						}},
 						"stack": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_travis_yml, map[string]*_bintree_t{}},
-							"license":     &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_license, map[string]*_bintree_t{}},
-							"patents":     &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_patents, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_travis_yml, map[string]*_bintree_t{
+							}},
+							"license": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_license, map[string]*_bintree_t{
+							}},
+							"patents": &_bintree_t{proto_micro_mall_order_vendor_github_com_gogap_stack_patents, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"golang": &_bintree_t{nil, map[string]*_bintree_t{
 						"groupcache": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_groupcache_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_groupcache_license, map[string]*_bintree_t{
+							}},
 						}},
 						"mock": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_license, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_mock_license, map[string]*_bintree_t{
+							}},
 						}},
 						"protobuf": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_license, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_protobuf_license, map[string]*_bintree_t{
+							}},
 						}},
 						"snappy": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":     &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_gitignore, map[string]*_bintree_t{}},
-							"AUTHORS":        &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS":   &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_contributors, map[string]*_bintree_t{}},
-							"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_license, map[string]*_bintree_t{}},
-							"README":         &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_readme, map[string]*_bintree_t{}},
-							"decode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_decode_amd64_s, map[string]*_bintree_t{}},
-							"encode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_encode_amd64_s, map[string]*_bintree_t{}},
-							"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_go_mod, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_gitignore, map[string]*_bintree_t{
+							}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_license, map[string]*_bintree_t{
+							}},
+							"README": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_readme, map[string]*_bintree_t{
+							}},
+							"decode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_decode_amd64_s, map[string]*_bintree_t{
+							}},
+							"encode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_encode_amd64_s, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_golang_snappy_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"gomodule": &_bintree_t{nil, map[string]*_bintree_t{
 						"redigo": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_gomodule_redigo_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_gomodule_redigo_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"google": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-cmp": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_go_cmp_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_go_cmp_license, map[string]*_bintree_t{
+							}},
 						}},
 						"uuid": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_travis_yml, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_license, map[string]*_bintree_t{}},
-							"go.mod":       &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_go_mod, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_travis_yml, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_google_uuid_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"googleapis": &_bintree_t{nil, map[string]*_bintree_t{
 						"gax-go": &_bintree_t{nil, map[string]*_bintree_t{
 							"v2": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_googleapis_gax_go_v2_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"grpc-ecosystem": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-grpc-middleware": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_sum, map[string]*_bintree_t{}},
-							"makefile":    &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_makefile, map[string]*_bintree_t{}},
-							"slack.png":   &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_slack_png, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_go_sum, map[string]*_bintree_t{
+							}},
+							"makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_makefile, map[string]*_bintree_t{
+							}},
+							"slack.png": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_go_grpc_middleware_slack_png, map[string]*_bintree_t{
+							}},
 						}},
 						"grpc-gateway": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_license_txt, map[string]*_bintree_t{}},
+							"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_license_txt, map[string]*_bintree_t{
+							}},
 							"internal": &_bintree_t{nil, map[string]*_bintree_t{
-								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_internal_build_bazel, map[string]*_bintree_t{}},
+								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_internal_build_bazel, map[string]*_bintree_t{
+								}},
 							}},
 							"runtime": &_bintree_t{nil, map[string]*_bintree_t{
-								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_runtime_build_bazel, map[string]*_bintree_t{}},
+								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_runtime_build_bazel, map[string]*_bintree_t{
+								}},
 							}},
 							"utilities": &_bintree_t{nil, map[string]*_bintree_t{
-								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_utilities_build_bazel, map[string]*_bintree_t{}},
+								"BUILD.bazel": &_bintree_t{proto_micro_mall_order_vendor_github_com_grpc_ecosystem_grpc_gateway_utilities_build_bazel, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"jinzhu": &_bintree_t{nil, map[string]*_bintree_t{
 						"gorm": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":         &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_gitignore, map[string]*_bintree_t{}},
-							"License":            &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_license, map[string]*_bintree_t{}},
-							"docker-compose.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_docker_compose_yml, map[string]*_bintree_t{}},
-							"go.mod":             &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_mod, map[string]*_bintree_t{}},
-							"go.sum":             &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_sum, map[string]*_bintree_t{}},
-							"test_all.sh":        &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_test_all_sh, map[string]*_bintree_t{}},
-							"wercker.yml":        &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_wercker_yml, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_gitignore, map[string]*_bintree_t{
+							}},
+							"License": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_license, map[string]*_bintree_t{
+							}},
+							"docker-compose.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_docker_compose_yml, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_go_sum, map[string]*_bintree_t{
+							}},
+							"test_all.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_test_all_sh, map[string]*_bintree_t{
+							}},
+							"wercker.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_gorm_wercker_yml, map[string]*_bintree_t{
+							}},
 						}},
 						"inflection": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_go_mod, map[string]*_bintree_t{}},
-							"wercker.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_wercker_yml, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_go_mod, map[string]*_bintree_t{
+							}},
+							"wercker.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jinzhu_inflection_wercker_yml, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"jmespath": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-jmespath": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_license, map[string]*_bintree_t{}},
-							"Makefile":    &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_makefile, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_sum, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_license, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_makefile, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_jmespath_go_jmespath_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"joeshaw": &_bintree_t{nil, map[string]*_bintree_t{
 						"multierror": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_joeshaw_multierror_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_joeshaw_multierror_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"json-iterator": &_bintree_t{nil, map[string]*_bintree_t{
 						"go": &_bintree_t{nil, map[string]*_bintree_t{
-							".codecov.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_codecov_yml, map[string]*_bintree_t{}},
-							".gitignore":   &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_travis_yml, map[string]*_bintree_t{}},
-							"Gopkg.lock":   &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_lock, map[string]*_bintree_t{}},
-							"Gopkg.toml":   &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_toml, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_license, map[string]*_bintree_t{}},
-							"build.sh":     &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_build_sh, map[string]*_bintree_t{}},
-							"go.mod":       &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_go_mod, map[string]*_bintree_t{}},
-							"go.sum":       &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_go_sum, map[string]*_bintree_t{}},
-							"test.sh":      &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_test_sh, map[string]*_bintree_t{}},
+							".codecov.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_codecov_yml, map[string]*_bintree_t{
+							}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_travis_yml, map[string]*_bintree_t{
+							}},
+							"Gopkg.lock": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_lock, map[string]*_bintree_t{
+							}},
+							"Gopkg.toml": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_gopkg_toml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_license, map[string]*_bintree_t{
+							}},
+							"build.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_build_sh, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_go_sum, map[string]*_bintree_t{
+							}},
+							"test.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_json_iterator_go_test_sh, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"jstemmer": &_bintree_t{nil, map[string]*_bintree_t{
 						"go-junit-report": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_go_mod, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_jstemmer_go_junit_report_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"kelseyhightower": &_bintree_t{nil, map[string]*_bintree_t{
 						"envconfig": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_license, map[string]*_bintree_t{}},
-							"MAINTAINERS": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_maintainers, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_go_mod, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_license, map[string]*_bintree_t{
+							}},
+							"MAINTAINERS": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_maintainers, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_kelseyhightower_envconfig_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"klauspost": &_bintree_t{nil, map[string]*_bintree_t{
 						"compress": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_license, map[string]*_bintree_t{
+							}},
 							"huff0": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_huff0_gitignore, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_huff0_gitignore, map[string]*_bintree_t{
+								}},
 							}},
 							"snappy": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore":     &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_gitignore, map[string]*_bintree_t{}},
-								"AUTHORS":        &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_authors, map[string]*_bintree_t{}},
-								"CONTRIBUTORS":   &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_contributors, map[string]*_bintree_t{}},
-								"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_license, map[string]*_bintree_t{}},
-								"README":         &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_readme, map[string]*_bintree_t{}},
-								"decode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_decode_amd64_s, map[string]*_bintree_t{}},
-								"encode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_encode_amd64_s, map[string]*_bintree_t{}},
-								"runbench.cmd":   &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_runbench_cmd, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_gitignore, map[string]*_bintree_t{
+								}},
+								"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_authors, map[string]*_bintree_t{
+								}},
+								"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_contributors, map[string]*_bintree_t{
+								}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_license, map[string]*_bintree_t{
+								}},
+								"README": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_readme, map[string]*_bintree_t{
+								}},
+								"decode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_decode_amd64_s, map[string]*_bintree_t{
+								}},
+								"encode_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_encode_amd64_s, map[string]*_bintree_t{
+								}},
+								"runbench.cmd": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_snappy_runbench_cmd, map[string]*_bintree_t{
+								}},
 							}},
 							"zstd": &_bintree_t{nil, map[string]*_bintree_t{
 								"internal": &_bintree_t{nil, map[string]*_bintree_t{
 									"xxhash": &_bintree_t{nil, map[string]*_bintree_t{
-										"LICENSE.txt":    &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_license_txt, map[string]*_bintree_t{}},
-										"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_xxhash_amd64_s, map[string]*_bintree_t{}},
+										"LICENSE.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_license_txt, map[string]*_bintree_t{
+										}},
+										"xxhash_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_klauspost_compress_zstd_internal_xxhash_xxhash_amd64_s, map[string]*_bintree_t{
+										}},
 									}},
 								}},
 							}},
@@ -5616,317 +5818,491 @@ var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 					}},
 					"matttproud": &_bintree_t{nil, map[string]*_bintree_t{
 						"golang_protobuf_extensions": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_notice, map[string]*_bintree_t{
+							}},
 							"pbutil": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_gitignore, map[string]*_bintree_t{}},
-								"Makefile":   &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_makefile, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_gitignore, map[string]*_bintree_t{
+								}},
+								"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_matttproud_golang_protobuf_extensions_pbutil_makefile, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"modern-go": &_bintree_t{nil, map[string]*_bintree_t{
 						"concurrent": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_license, map[string]*_bintree_t{}},
-							"test.sh":     &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_test_sh, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_license, map[string]*_bintree_t{
+							}},
+							"test.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_concurrent_test_sh, map[string]*_bintree_t{
+							}},
 						}},
 						"reflect2": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":          &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":         &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_travis_yml, map[string]*_bintree_t{}},
-							"Gopkg.lock":          &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_lock, map[string]*_bintree_t{}},
-							"Gopkg.toml":          &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_toml, map[string]*_bintree_t{}},
-							"LICENSE":             &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_license, map[string]*_bintree_t{}},
-							"reflect2_amd64.s":    &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_reflect2_amd64_s, map[string]*_bintree_t{}},
-							"relfect2_386.s":      &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_386_s, map[string]*_bintree_t{}},
-							"relfect2_amd64p32.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_amd64p32_s, map[string]*_bintree_t{}},
-							"relfect2_arm.s":      &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm_s, map[string]*_bintree_t{}},
-							"relfect2_arm64.s":    &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm64_s, map[string]*_bintree_t{}},
-							"relfect2_mips64x.s":  &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mips64x_s, map[string]*_bintree_t{}},
-							"relfect2_mipsx.s":    &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mipsx_s, map[string]*_bintree_t{}},
-							"relfect2_ppc64x.s":   &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_ppc64x_s, map[string]*_bintree_t{}},
-							"relfect2_s390x.s":    &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_s390x_s, map[string]*_bintree_t{}},
-							"test.sh":             &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_test_sh, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_travis_yml, map[string]*_bintree_t{
+							}},
+							"Gopkg.lock": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_lock, map[string]*_bintree_t{
+							}},
+							"Gopkg.toml": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_gopkg_toml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_license, map[string]*_bintree_t{
+							}},
+							"reflect2_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_reflect2_amd64_s, map[string]*_bintree_t{
+							}},
+							"relfect2_386.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_386_s, map[string]*_bintree_t{
+							}},
+							"relfect2_amd64p32.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_amd64p32_s, map[string]*_bintree_t{
+							}},
+							"relfect2_arm.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm_s, map[string]*_bintree_t{
+							}},
+							"relfect2_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_arm64_s, map[string]*_bintree_t{
+							}},
+							"relfect2_mips64x.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mips64x_s, map[string]*_bintree_t{
+							}},
+							"relfect2_mipsx.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_mipsx_s, map[string]*_bintree_t{
+							}},
+							"relfect2_ppc64x.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_ppc64x_s, map[string]*_bintree_t{
+							}},
+							"relfect2_s390x.s": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_relfect2_s390x_s, map[string]*_bintree_t{
+							}},
+							"test.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_modern_go_reflect2_test_sh, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"opentracing": &_bintree_t{nil, map[string]*_bintree_t{
 						"opentracing-go": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_license, map[string]*_bintree_t{}},
-							"Makefile":    &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_makefile, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_sum, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_license, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_makefile, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_opentracing_opentracing_go_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"pkg": &_bintree_t{nil, map[string]*_bintree_t{
 						"errors": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":   &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_gitignore, map[string]*_bintree_t{}},
-							".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_license, map[string]*_bintree_t{}},
-							"Makefile":     &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_makefile, map[string]*_bintree_t{}},
-							"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_appveyor_yml, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_license, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_makefile, map[string]*_bintree_t{
+							}},
+							"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_pkg_errors_appveyor_yml, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"prometheus": &_bintree_t{nil, map[string]*_bintree_t{
 						"client_golang": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_notice, map[string]*_bintree_t{
+							}},
 							"prometheus": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_prometheus_gitignore, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_golang_prometheus_gitignore, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 						"client_model": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_model_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_model_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_model_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_client_model_notice, map[string]*_bintree_t{
+							}},
 						}},
 						"common": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_license, map[string]*_bintree_t{}},
-							"NOTICE":  &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_notice, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_license, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_notice, map[string]*_bintree_t{
+							}},
 							"internal": &_bintree_t{nil, map[string]*_bintree_t{
 								"bitbucket.org": &_bintree_t{nil, map[string]*_bintree_t{
 									"ww": &_bintree_t{nil, map[string]*_bintree_t{
 										"goautoneg": &_bintree_t{nil, map[string]*_bintree_t{
-											"README.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_internal_bitbucket_org_ww_goautoneg_readme_txt, map[string]*_bintree_t{}},
+											"README.txt": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_common_internal_bitbucket_org_ww_goautoneg_readme_txt, map[string]*_bintree_t{
+											}},
 										}},
 									}},
 								}},
 							}},
 						}},
 						"procfs": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":      &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_gitignore, map[string]*_bintree_t{}},
-							"LICENSE":         &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_license, map[string]*_bintree_t{}},
-							"Makefile":        &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile, map[string]*_bintree_t{}},
-							"Makefile.common": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile_common, map[string]*_bintree_t{}},
-							"NOTICE":          &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_notice, map[string]*_bintree_t{}},
-							"fixtures.ttar":   &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_fixtures_ttar, map[string]*_bintree_t{}},
-							"go.mod":          &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_mod, map[string]*_bintree_t{}},
-							"go.sum":          &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_sum, map[string]*_bintree_t{}},
-							"ttar":            &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_ttar, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_gitignore, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_license, map[string]*_bintree_t{
+							}},
+							"Makefile": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile, map[string]*_bintree_t{
+							}},
+							"Makefile.common": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_makefile_common, map[string]*_bintree_t{
+							}},
+							"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_notice, map[string]*_bintree_t{
+							}},
+							"fixtures.ttar": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_fixtures_ttar, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_go_sum, map[string]*_bintree_t{
+							}},
+							"ttar": &_bintree_t{proto_micro_mall_order_vendor_github_com_prometheus_procfs_ttar, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"qiniu": &_bintree_t{nil, map[string]*_bintree_t{
 						"qmgo": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_sum, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_qiniu_qmgo_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"robfig": &_bintree_t{nil, map[string]*_bintree_t{
 						"cron": &_bintree_t{nil, map[string]*_bintree_t{
 							"v3": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_gitignore, map[string]*_bintree_t{}},
-								".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_travis_yml, map[string]*_bintree_t{}},
-								"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_license, map[string]*_bintree_t{}},
-								"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_go_mod, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_gitignore, map[string]*_bintree_t{
+								}},
+								".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_travis_yml, map[string]*_bintree_t{
+								}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_robfig_cron_v3_go_mod, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 					}},
 					"rs": &_bintree_t{nil, map[string]*_bintree_t{
 						"zerolog": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_travis_yml, map[string]*_bintree_t{}},
-							"CNAME":       &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_cname, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_license, map[string]*_bintree_t{}},
-							"_config.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_config_yml, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_go_sum, map[string]*_bintree_t{}},
-							"pretty.png":  &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_pretty_png, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_travis_yml, map[string]*_bintree_t{
+							}},
+							"CNAME": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_cname, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_license, map[string]*_bintree_t{
+							}},
+							"_config.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_config_yml, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_go_sum, map[string]*_bintree_t{
+							}},
+							"pretty.png": &_bintree_t{proto_micro_mall_order_vendor_github_com_rs_zerolog_pretty_png, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"santhosh-tekuri": &_bintree_t{nil, map[string]*_bintree_t{
 						"jsonschema": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_mod, map[string]*_bintree_t{}},
-							"go.test.sh":  &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_test_sh, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_mod, map[string]*_bintree_t{
+							}},
+							"go.test.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_santhosh_tekuri_jsonschema_go_test_sh, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"satori": &_bintree_t{nil, map[string]*_bintree_t{
 						"go.uuid": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_satori_go_uuid_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_satori_go_uuid_license, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_satori_go_uuid_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_satori_go_uuid_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"shirou": &_bintree_t{nil, map[string]*_bintree_t{
 						"gopsutil": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_shirou_gopsutil_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_shirou_gopsutil_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"shopspring": &_bintree_t{nil, map[string]*_bintree_t{
 						"decimal": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_go_mod, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_shopspring_decimal_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"streadway": &_bintree_t{nil, map[string]*_bintree_t{
 						"amqp": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_license, map[string]*_bintree_t{}},
-							"certs.sh":    &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_certs_sh, map[string]*_bintree_t{}},
-							"gen.sh":      &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_gen_sh, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_go_mod, map[string]*_bintree_t{}},
-							"pre-commit":  &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_pre_commit, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_license, map[string]*_bintree_t{
+							}},
+							"certs.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_certs_sh, map[string]*_bintree_t{
+							}},
+							"gen.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_gen_sh, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_go_mod, map[string]*_bintree_t{
+							}},
+							"pre-commit": &_bintree_t{proto_micro_mall_order_vendor_github_com_streadway_amqp_pre_commit, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"syndtr": &_bintree_t{nil, map[string]*_bintree_t{
 						"goleveldb": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_syndtr_goleveldb_license, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_syndtr_goleveldb_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"tidwall": &_bintree_t{nil, map[string]*_bintree_t{
 						"gjson": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_sum, map[string]*_bintree_t{}},
-							"logo.png":    &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_logo_png, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_go_sum, map[string]*_bintree_t{
+							}},
+							"logo.png": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_gjson_logo_png, map[string]*_bintree_t{
+							}},
 						}},
 						"match": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_match_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_match_license, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_match_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_match_license, map[string]*_bintree_t{
+							}},
 						}},
 						"pretty": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_pretty_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_pretty_license, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_pretty_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_tidwall_pretty_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"valyala": &_bintree_t{nil, map[string]*_bintree_t{
 						"bytebufferpool": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_license, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_bytebufferpool_license, map[string]*_bintree_t{
+							}},
 						}},
 						"fasthttp": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_license, map[string]*_bintree_t{}},
-							"TODO":        &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_todo, map[string]*_bintree_t{}},
-							"fasthttputil": &_bintree_t{nil, map[string]*_bintree_t{
-								"ecdsa.key": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_key, map[string]*_bintree_t{}},
-								"ecdsa.pem": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_pem, map[string]*_bintree_t{}},
-								"rsa.key":   &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_key, map[string]*_bintree_t{}},
-								"rsa.pem":   &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_pem, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_gitignore, map[string]*_bintree_t{
 							}},
-							"fuzzit.sh":             &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fuzzit_sh, map[string]*_bintree_t{}},
-							"go.mod":                &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_mod, map[string]*_bintree_t{}},
-							"go.sum":                &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_sum, map[string]*_bintree_t{}},
-							"ssl-cert-snakeoil.key": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_key, map[string]*_bintree_t{}},
-							"ssl-cert-snakeoil.pem": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_pem, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_license, map[string]*_bintree_t{
+							}},
+							"TODO": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_todo, map[string]*_bintree_t{
+							}},
+							"fasthttputil": &_bintree_t{nil, map[string]*_bintree_t{
+								"ecdsa.key": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_key, map[string]*_bintree_t{
+								}},
+								"ecdsa.pem": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_ecdsa_pem, map[string]*_bintree_t{
+								}},
+								"rsa.key": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_key, map[string]*_bintree_t{
+								}},
+								"rsa.pem": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fasthttputil_rsa_pem, map[string]*_bintree_t{
+								}},
+							}},
+							"fuzzit.sh": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_fuzzit_sh, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_go_sum, map[string]*_bintree_t{
+							}},
+							"ssl-cert-snakeoil.key": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_key, map[string]*_bintree_t{
+							}},
+							"ssl-cert-snakeoil.pem": &_bintree_t{proto_micro_mall_order_vendor_github_com_valyala_fasthttp_ssl_cert_snakeoil_pem, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"xdg": &_bintree_t{nil, map[string]*_bintree_t{
 						"scram": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_license, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_scram_license, map[string]*_bintree_t{
+							}},
 						}},
 						"stringprep": &_bintree_t{nil, map[string]*_bintree_t{
-							".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_gitignore, map[string]*_bintree_t{}},
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_license, map[string]*_bintree_t{}},
+							".gitignore": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_gitignore, map[string]*_bintree_t{
+							}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_github_com_xdg_stringprep_license, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 				}},
 				"go.elastic.co": &_bintree_t{nil, map[string]*_bintree_t{
 					"apm": &_bintree_t{nil, map[string]*_bintree_t{
-						".dockerignore":      &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_dockerignore, map[string]*_bintree_t{}},
-						".gitignore":         &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_gitignore, map[string]*_bintree_t{}},
-						".jenkins-edge.yml":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_edge_yml, map[string]*_bintree_t{}},
-						".jenkins.yml":       &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_yml, map[string]*_bintree_t{}},
-						"CHANGELOG.asciidoc": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_changelog_asciidoc, map[string]*_bintree_t{}},
-						"Jenkinsfile":        &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkinsfile, map[string]*_bintree_t{}},
-						"LICENSE":            &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_license, map[string]*_bintree_t{}},
-						"Makefile":           &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_makefile, map[string]*_bintree_t{}},
-						"NOTICE":             &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_notice, map[string]*_bintree_t{}},
-						"go.mod":             &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_go_mod, map[string]*_bintree_t{}},
-						"go.sum":             &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_go_sum, map[string]*_bintree_t{}},
+						".dockerignore": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_dockerignore, map[string]*_bintree_t{
+						}},
+						".gitignore": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_gitignore, map[string]*_bintree_t{
+						}},
+						".jenkins-edge.yml": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_edge_yml, map[string]*_bintree_t{
+						}},
+						".jenkins.yml": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkins_yml, map[string]*_bintree_t{
+						}},
+						"CHANGELOG.asciidoc": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_changelog_asciidoc, map[string]*_bintree_t{
+						}},
+						"Jenkinsfile": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_jenkinsfile, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_license, map[string]*_bintree_t{
+						}},
+						"Makefile": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_makefile, map[string]*_bintree_t{
+						}},
+						"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_notice, map[string]*_bintree_t{
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_go_mod, map[string]*_bintree_t{
+						}},
+						"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_go_sum, map[string]*_bintree_t{
+						}},
 						"internal": &_bintree_t{nil, map[string]*_bintree_t{
 							"apmschema": &_bintree_t{nil, map[string]*_bintree_t{
-								"update.sh": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_internal_apmschema_update_sh, map[string]*_bintree_t{}},
+								"update.sh": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_internal_apmschema_update_sh, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 						"model": &_bintree_t{nil, map[string]*_bintree_t{
-							"generate.sh": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_model_generate_sh, map[string]*_bintree_t{}},
+							"generate.sh": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_model_generate_sh, map[string]*_bintree_t{
+							}},
 						}},
 						"module": &_bintree_t{nil, map[string]*_bintree_t{
 							"apmgorm": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgorm_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 							"apmgrpc": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmgrpc_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 							"apmhttp": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmhttp_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 							"apmredigo": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmredigo_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 							"apmsql": &_bintree_t{nil, map[string]*_bintree_t{
-								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_license, map[string]*_bintree_t{}},
-								"go.mod":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_mod, map[string]*_bintree_t{}},
-								"go.sum":  &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_sum, map[string]*_bintree_t{}},
+								"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_license, map[string]*_bintree_t{
+								}},
+								"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_mod, map[string]*_bintree_t{
+								}},
+								"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_module_apmsql_go_sum, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 						"stacktrace": &_bintree_t{nil, map[string]*_bintree_t{
-							"generate_library.bash": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_stacktrace_generate_library_bash, map[string]*_bintree_t{}},
+							"generate_library.bash": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_apm_stacktrace_generate_library_bash, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 					"fastjson": &_bintree_t{nil, map[string]*_bintree_t{
-						".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_travis_yml, map[string]*_bintree_t{}},
-						"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_license, map[string]*_bintree_t{}},
-						"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_mod, map[string]*_bintree_t{}},
-						"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_sum, map[string]*_bintree_t{}},
+						".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_travis_yml, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_license, map[string]*_bintree_t{
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_mod, map[string]*_bintree_t{
+						}},
+						"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_elastic_co_fastjson_go_sum, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 				"go.mongodb.org": &_bintree_t{nil, map[string]*_bintree_t{
 					"mongo-driver": &_bintree_t{nil, map[string]*_bintree_t{
-						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_license, map[string]*_bintree_t{}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_license, map[string]*_bintree_t{
+						}},
 						"x": &_bintree_t{nil, map[string]*_bintree_t{
 							"mongo": &_bintree_t{nil, map[string]*_bintree_t{
 								"driver": &_bintree_t{nil, map[string]*_bintree_t{
 									"auth": &_bintree_t{nil, map[string]*_bintree_t{
 										"internal": &_bintree_t{nil, map[string]*_bintree_t{
 											"gssapi": &_bintree_t{nil, map[string]*_bintree_t{
-												"gss_wrapper.c":  &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_c, map[string]*_bintree_t{}},
-												"gss_wrapper.h":  &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_h, map[string]*_bintree_t{}},
-												"sspi_wrapper.c": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_c, map[string]*_bintree_t{}},
-												"sspi_wrapper.h": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_h, map[string]*_bintree_t{}},
+												"gss_wrapper.c": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_c, map[string]*_bintree_t{
+												}},
+												"gss_wrapper.h": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_gss_wrapper_h, map[string]*_bintree_t{
+												}},
+												"sspi_wrapper.c": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_c, map[string]*_bintree_t{
+												}},
+												"sspi_wrapper.h": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_auth_internal_gssapi_sspi_wrapper_h, map[string]*_bintree_t{
+												}},
 											}},
 										}},
 									}},
 									"operation": &_bintree_t{nil, map[string]*_bintree_t{
-										"abort_transaction.toml":  &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_abort_transaction_toml, map[string]*_bintree_t{}},
-										"aggregate.toml":          &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_aggregate_toml, map[string]*_bintree_t{}},
-										"commit_transaction.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_commit_transaction_toml, map[string]*_bintree_t{}},
-										"count.toml":              &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_count_toml, map[string]*_bintree_t{}},
-										"create.toml":             &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_create_toml, map[string]*_bintree_t{}},
-										"createIndexes.toml":      &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_createindexes_toml, map[string]*_bintree_t{}},
-										"delete.toml":             &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_delete_toml, map[string]*_bintree_t{}},
-										"distinct.toml":           &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_distinct_toml, map[string]*_bintree_t{}},
-										"drop_collection.toml":    &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_collection_toml, map[string]*_bintree_t{}},
-										"drop_database.toml":      &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_database_toml, map[string]*_bintree_t{}},
-										"drop_indexes.toml":       &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_indexes_toml, map[string]*_bintree_t{}},
-										"end_sessions.toml":       &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_end_sessions_toml, map[string]*_bintree_t{}},
-										"find.toml":               &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_toml, map[string]*_bintree_t{}},
-										"find_and_modify.toml":    &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_and_modify_toml, map[string]*_bintree_t{}},
-										"insert.toml":             &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_insert_toml, map[string]*_bintree_t{}},
-										"listDatabases.toml":      &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_listdatabases_toml, map[string]*_bintree_t{}},
-										"list_collections.toml":   &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_collections_toml, map[string]*_bintree_t{}},
-										"list_indexes.toml":       &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_indexes_toml, map[string]*_bintree_t{}},
-										"update.toml":             &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_update_toml, map[string]*_bintree_t{}},
+										"abort_transaction.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_abort_transaction_toml, map[string]*_bintree_t{
+										}},
+										"aggregate.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_aggregate_toml, map[string]*_bintree_t{
+										}},
+										"commit_transaction.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_commit_transaction_toml, map[string]*_bintree_t{
+										}},
+										"count.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_count_toml, map[string]*_bintree_t{
+										}},
+										"create.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_create_toml, map[string]*_bintree_t{
+										}},
+										"createIndexes.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_createindexes_toml, map[string]*_bintree_t{
+										}},
+										"delete.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_delete_toml, map[string]*_bintree_t{
+										}},
+										"distinct.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_distinct_toml, map[string]*_bintree_t{
+										}},
+										"drop_collection.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_collection_toml, map[string]*_bintree_t{
+										}},
+										"drop_database.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_database_toml, map[string]*_bintree_t{
+										}},
+										"drop_indexes.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_drop_indexes_toml, map[string]*_bintree_t{
+										}},
+										"end_sessions.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_end_sessions_toml, map[string]*_bintree_t{
+										}},
+										"find.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_toml, map[string]*_bintree_t{
+										}},
+										"find_and_modify.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_find_and_modify_toml, map[string]*_bintree_t{
+										}},
+										"insert.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_insert_toml, map[string]*_bintree_t{
+										}},
+										"listDatabases.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_listdatabases_toml, map[string]*_bintree_t{
+										}},
+										"list_collections.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_collections_toml, map[string]*_bintree_t{
+										}},
+										"list_indexes.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_list_indexes_toml, map[string]*_bintree_t{
+										}},
+										"update.toml": &_bintree_t{proto_micro_mall_order_vendor_go_mongodb_org_mongo_driver_x_mongo_driver_operation_update_toml, map[string]*_bintree_t{
+										}},
 									}},
 								}},
 							}},
@@ -5934,194 +6310,327 @@ var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
 					}},
 				}},
 				"go.opencensus.io": &_bintree_t{nil, map[string]*_bintree_t{
-					".gitignore":   &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_gitignore, map[string]*_bintree_t{}},
-					".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_travis_yml, map[string]*_bintree_t{}},
-					"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_authors, map[string]*_bintree_t{}},
-					"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_license, map[string]*_bintree_t{}},
-					"Makefile":     &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_makefile, map[string]*_bintree_t{}},
-					"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_appveyor_yml, map[string]*_bintree_t{}},
-					"go.mod":       &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_go_mod, map[string]*_bintree_t{}},
-					"go.sum":       &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_go_sum, map[string]*_bintree_t{}},
+					".gitignore": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_gitignore, map[string]*_bintree_t{
+					}},
+					".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_travis_yml, map[string]*_bintree_t{
+					}},
+					"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_authors, map[string]*_bintree_t{
+					}},
+					"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_license, map[string]*_bintree_t{
+					}},
+					"Makefile": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_makefile, map[string]*_bintree_t{
+					}},
+					"appveyor.yml": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_appveyor_yml, map[string]*_bintree_t{
+					}},
+					"go.mod": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_go_mod, map[string]*_bintree_t{
+					}},
+					"go.sum": &_bintree_t{proto_micro_mall_order_vendor_go_opencensus_io_go_sum, map[string]*_bintree_t{
+					}},
 				}},
 				"go.opentelemetry.io": &_bintree_t{nil, map[string]*_bintree_t{
 					"otel": &_bintree_t{nil, map[string]*_bintree_t{
-						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_opentelemetry_io_otel_license, map[string]*_bintree_t{}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_go_opentelemetry_io_otel_license, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 				"golang.org": &_bintree_t{nil, map[string]*_bintree_t{
 					"x": &_bintree_t{nil, map[string]*_bintree_t{
 						"crypto": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_crypto_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"exp": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_exp_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"lint": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_travis_yml, map[string]*_bintree_t{}},
-							"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_license, map[string]*_bintree_t{}},
-							"go.mod":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_go_mod, map[string]*_bintree_t{}},
-							"go.sum":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_go_sum, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_travis_yml, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_lint_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 						"mod": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_mod_license, map[string]*_bintree_t{}},
-							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_mod_patents, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_mod_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_mod_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"net": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_patents, map[string]*_bintree_t{
+							}},
 							"http2": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_gitignore, map[string]*_bintree_t{}},
-								"Dockerfile": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_dockerfile, map[string]*_bintree_t{}},
-								"Makefile":   &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_makefile, map[string]*_bintree_t{}},
-								"README":     &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_readme, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_gitignore, map[string]*_bintree_t{
+								}},
+								"Dockerfile": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_dockerfile, map[string]*_bintree_t{
+								}},
+								"Makefile": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_makefile, map[string]*_bintree_t{
+								}},
+								"README": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_net_http2_readme, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 						"oauth2": &_bintree_t{nil, map[string]*_bintree_t{
-							".travis.yml":  &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_travis_yml, map[string]*_bintree_t{}},
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_license, map[string]*_bintree_t{}},
-							"go.mod":       &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_go_mod, map[string]*_bintree_t{}},
-							"go.sum":       &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_go_sum, map[string]*_bintree_t{}},
+							".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_travis_yml, map[string]*_bintree_t{
+							}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_license, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_go_mod, map[string]*_bintree_t{
+							}},
+							"go.sum": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_oauth2_go_sum, map[string]*_bintree_t{
+							}},
 						}},
 						"sync": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sync_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"sys": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_patents, map[string]*_bintree_t{
+							}},
 							"unix": &_bintree_t{nil, map[string]*_bintree_t{
-								".gitignore":                   &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_gitignore, map[string]*_bintree_t{}},
-								"asm_aix_ppc64.s":              &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_aix_ppc64_s, map[string]*_bintree_t{}},
-								"asm_darwin_386.s":             &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_386_s, map[string]*_bintree_t{}},
-								"asm_darwin_amd64.s":           &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_amd64_s, map[string]*_bintree_t{}},
-								"asm_darwin_arm.s":             &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm_s, map[string]*_bintree_t{}},
-								"asm_darwin_arm64.s":           &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm64_s, map[string]*_bintree_t{}},
-								"asm_dragonfly_amd64.s":        &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_dragonfly_amd64_s, map[string]*_bintree_t{}},
-								"asm_freebsd_386.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_386_s, map[string]*_bintree_t{}},
-								"asm_freebsd_amd64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_amd64_s, map[string]*_bintree_t{}},
-								"asm_freebsd_arm.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm_s, map[string]*_bintree_t{}},
-								"asm_freebsd_arm64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm64_s, map[string]*_bintree_t{}},
-								"asm_linux_386.s":              &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_386_s, map[string]*_bintree_t{}},
-								"asm_linux_amd64.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_amd64_s, map[string]*_bintree_t{}},
-								"asm_linux_arm.s":              &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm_s, map[string]*_bintree_t{}},
-								"asm_linux_arm64.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm64_s, map[string]*_bintree_t{}},
-								"asm_linux_mips64x.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mips64x_s, map[string]*_bintree_t{}},
-								"asm_linux_mipsx.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mipsx_s, map[string]*_bintree_t{}},
-								"asm_linux_ppc64x.s":           &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_ppc64x_s, map[string]*_bintree_t{}},
-								"asm_linux_riscv64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_riscv64_s, map[string]*_bintree_t{}},
-								"asm_linux_s390x.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_s390x_s, map[string]*_bintree_t{}},
-								"asm_netbsd_386.s":             &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_386_s, map[string]*_bintree_t{}},
-								"asm_netbsd_amd64.s":           &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_amd64_s, map[string]*_bintree_t{}},
-								"asm_netbsd_arm.s":             &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm_s, map[string]*_bintree_t{}},
-								"asm_netbsd_arm64.s":           &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm64_s, map[string]*_bintree_t{}},
-								"asm_openbsd_386.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_386_s, map[string]*_bintree_t{}},
-								"asm_openbsd_amd64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_amd64_s, map[string]*_bintree_t{}},
-								"asm_openbsd_arm.s":            &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm_s, map[string]*_bintree_t{}},
-								"asm_openbsd_arm64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm64_s, map[string]*_bintree_t{}},
-								"asm_solaris_amd64.s":          &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_solaris_amd64_s, map[string]*_bintree_t{}},
-								"gccgo_c.c":                    &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_gccgo_c_c, map[string]*_bintree_t{}},
-								"mkall.sh":                     &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkall_sh, map[string]*_bintree_t{}},
-								"mkerrors.sh":                  &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkerrors_sh, map[string]*_bintree_t{}},
-								"zsyscall_darwin_386.1_13.s":   &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_1_13_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_386.s":        &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_amd64.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_1_13_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_amd64.s":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_arm.1_13.s":   &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_1_13_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_arm.s":        &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_arm64.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_1_13_s, map[string]*_bintree_t{}},
-								"zsyscall_darwin_arm64.s":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_s, map[string]*_bintree_t{}},
+								".gitignore": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_gitignore, map[string]*_bintree_t{
+								}},
+								"asm_aix_ppc64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_aix_ppc64_s, map[string]*_bintree_t{
+								}},
+								"asm_darwin_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_386_s, map[string]*_bintree_t{
+								}},
+								"asm_darwin_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_darwin_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm_s, map[string]*_bintree_t{
+								}},
+								"asm_darwin_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_darwin_arm64_s, map[string]*_bintree_t{
+								}},
+								"asm_dragonfly_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_dragonfly_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_freebsd_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_386_s, map[string]*_bintree_t{
+								}},
+								"asm_freebsd_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_freebsd_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm_s, map[string]*_bintree_t{
+								}},
+								"asm_freebsd_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_freebsd_arm64_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_386_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_arm64_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_mips64x.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mips64x_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_mipsx.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_mipsx_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_ppc64x.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_ppc64x_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_riscv64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_riscv64_s, map[string]*_bintree_t{
+								}},
+								"asm_linux_s390x.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_linux_s390x_s, map[string]*_bintree_t{
+								}},
+								"asm_netbsd_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_386_s, map[string]*_bintree_t{
+								}},
+								"asm_netbsd_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_netbsd_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm_s, map[string]*_bintree_t{
+								}},
+								"asm_netbsd_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_netbsd_arm64_s, map[string]*_bintree_t{
+								}},
+								"asm_openbsd_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_386_s, map[string]*_bintree_t{
+								}},
+								"asm_openbsd_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_amd64_s, map[string]*_bintree_t{
+								}},
+								"asm_openbsd_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm_s, map[string]*_bintree_t{
+								}},
+								"asm_openbsd_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_openbsd_arm64_s, map[string]*_bintree_t{
+								}},
+								"asm_solaris_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_asm_solaris_amd64_s, map[string]*_bintree_t{
+								}},
+								"gccgo_c.c": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_gccgo_c_c, map[string]*_bintree_t{
+								}},
+								"mkall.sh": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkall_sh, map[string]*_bintree_t{
+								}},
+								"mkerrors.sh": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_mkerrors_sh, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_386.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_1_13_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_386.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_386_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_amd64.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_1_13_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_amd64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_amd64_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_arm.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_1_13_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_arm.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_arm64.1_13.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_1_13_s, map[string]*_bintree_t{
+								}},
+								"zsyscall_darwin_arm64.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_unix_zsyscall_darwin_arm64_s, map[string]*_bintree_t{
+								}},
 							}},
 							"windows": &_bintree_t{nil, map[string]*_bintree_t{
-								"empty.s":               &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_empty_s, map[string]*_bintree_t{}},
-								"mkerrors.bash":         &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkerrors_bash, map[string]*_bintree_t{}},
-								"mkknownfolderids.bash": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkknownfolderids_bash, map[string]*_bintree_t{}},
+								"empty.s": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_empty_s, map[string]*_bintree_t{
+								}},
+								"mkerrors.bash": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkerrors_bash, map[string]*_bintree_t{
+								}},
+								"mkknownfolderids.bash": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_sys_windows_mkknownfolderids_bash, map[string]*_bintree_t{
+								}},
 							}},
 						}},
 						"text": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_text_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"time": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_time_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"tools": &_bintree_t{nil, map[string]*_bintree_t{
-							"AUTHORS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_authors, map[string]*_bintree_t{}},
-							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_contributors, map[string]*_bintree_t{}},
-							"LICENSE":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_license, map[string]*_bintree_t{}},
-							"PATENTS":      &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_patents, map[string]*_bintree_t{}},
+							"AUTHORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_authors, map[string]*_bintree_t{
+							}},
+							"CONTRIBUTORS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_contributors, map[string]*_bintree_t{
+							}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_tools_patents, map[string]*_bintree_t{
+							}},
 						}},
 						"xerrors": &_bintree_t{nil, map[string]*_bintree_t{
-							"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_license, map[string]*_bintree_t{}},
-							"PATENTS":        &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_patents, map[string]*_bintree_t{}},
-							"README":         &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_readme, map[string]*_bintree_t{}},
-							"codereview.cfg": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_codereview_cfg, map[string]*_bintree_t{}},
-							"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_go_mod, map[string]*_bintree_t{}},
+							"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_license, map[string]*_bintree_t{
+							}},
+							"PATENTS": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_patents, map[string]*_bintree_t{
+							}},
+							"README": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_readme, map[string]*_bintree_t{
+							}},
+							"codereview.cfg": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_codereview_cfg, map[string]*_bintree_t{
+							}},
+							"go.mod": &_bintree_t{proto_micro_mall_order_vendor_golang_org_x_xerrors_go_mod, map[string]*_bintree_t{
+							}},
 						}},
 					}},
 				}},
 				"gopkg.in": &_bintree_t{nil, map[string]*_bintree_t{
 					"ini.v1": &_bintree_t{nil, map[string]*_bintree_t{
-						".gitignore":  &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_gitignore, map[string]*_bintree_t{}},
-						".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_travis_yml, map[string]*_bintree_t{}},
-						"LICENSE":     &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_license, map[string]*_bintree_t{}},
-						"Makefile":    &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_makefile, map[string]*_bintree_t{}},
+						".gitignore": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_gitignore, map[string]*_bintree_t{
+						}},
+						".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_travis_yml, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_license, map[string]*_bintree_t{
+						}},
+						"Makefile": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_ini_v1_makefile, map[string]*_bintree_t{
+						}},
 					}},
 					"yaml.v2": &_bintree_t{nil, map[string]*_bintree_t{
-						".travis.yml":     &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_travis_yml, map[string]*_bintree_t{}},
-						"LICENSE":         &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license, map[string]*_bintree_t{}},
-						"LICENSE.libyaml": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license_libyaml, map[string]*_bintree_t{}},
-						"NOTICE":          &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_notice, map[string]*_bintree_t{}},
-						"go.mod":          &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_go_mod, map[string]*_bintree_t{}},
+						".travis.yml": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_travis_yml, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license, map[string]*_bintree_t{
+						}},
+						"LICENSE.libyaml": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_license_libyaml, map[string]*_bintree_t{
+						}},
+						"NOTICE": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_notice, map[string]*_bintree_t{
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_gopkg_in_yaml_v2_go_mod, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 				"howett.net": &_bintree_t{nil, map[string]*_bintree_t{
 					"plist": &_bintree_t{nil, map[string]*_bintree_t{
-						".gitlab-ci.yml": &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_gitlab_ci_yml, map[string]*_bintree_t{}},
-						"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_license, map[string]*_bintree_t{}},
-						"go.mod":         &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_go_mod, map[string]*_bintree_t{}},
+						".gitlab-ci.yml": &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_gitlab_ci_yml, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_license, map[string]*_bintree_t{
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_howett_net_plist_go_mod, map[string]*_bintree_t{
+						}},
 					}},
 				}},
-				"modules.txt": &_bintree_t{proto_micro_mall_order_vendor_modules_txt, map[string]*_bintree_t{}},
+				"modules.txt": &_bintree_t{proto_micro_mall_order_vendor_modules_txt, map[string]*_bintree_t{
+				}},
 				"xorm.io": &_bintree_t{nil, map[string]*_bintree_t{
 					"builder": &_bintree_t{nil, map[string]*_bintree_t{
-						".drone.yml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_drone_yml, map[string]*_bintree_t{}},
-						".gitignore": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_gitignore, map[string]*_bintree_t{}},
-						"LICENSE":    &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_license, map[string]*_bintree_t{}},
-						"go.mod":     &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_go_mod, map[string]*_bintree_t{}},
-						"go.sum":     &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_go_sum, map[string]*_bintree_t{}},
+						".drone.yml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_drone_yml, map[string]*_bintree_t{
+						}},
+						".gitignore": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_gitignore, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_license, map[string]*_bintree_t{
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_go_mod, map[string]*_bintree_t{
+						}},
+						"go.sum": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_builder_go_sum, map[string]*_bintree_t{
+						}},
 					}},
 					"xorm": &_bintree_t{nil, map[string]*_bintree_t{
-						".changelog.yml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_changelog_yml, map[string]*_bintree_t{}},
-						".drone.yml":     &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_drone_yml, map[string]*_bintree_t{}},
-						".gitignore":     &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_gitignore, map[string]*_bintree_t{}},
-						".revive.toml":   &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_revive_toml, map[string]*_bintree_t{}},
-						"LICENSE":        &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_license, map[string]*_bintree_t{}},
-						"Makefile":       &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_makefile, map[string]*_bintree_t{}},
-						"dialects": &_bintree_t{nil, map[string]*_bintree_t{
-							"gen_reserved.sh": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_dialects_gen_reserved_sh, map[string]*_bintree_t{}},
-							"pg_reserved.txt": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_dialects_pg_reserved_txt, map[string]*_bintree_t{}},
+						".changelog.yml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_changelog_yml, map[string]*_bintree_t{
 						}},
-						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_go_mod, map[string]*_bintree_t{}},
-						"go.sum": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_go_sum, map[string]*_bintree_t{}},
+						".drone.yml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_drone_yml, map[string]*_bintree_t{
+						}},
+						".gitignore": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_gitignore, map[string]*_bintree_t{
+						}},
+						".revive.toml": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_revive_toml, map[string]*_bintree_t{
+						}},
+						"LICENSE": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_license, map[string]*_bintree_t{
+						}},
+						"Makefile": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_makefile, map[string]*_bintree_t{
+						}},
+						"dialects": &_bintree_t{nil, map[string]*_bintree_t{
+							"gen_reserved.sh": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_dialects_gen_reserved_sh, map[string]*_bintree_t{
+							}},
+							"pg_reserved.txt": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_dialects_pg_reserved_txt, map[string]*_bintree_t{
+							}},
+						}},
+						"go.mod": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_go_mod, map[string]*_bintree_t{
+						}},
+						"go.sum": &_bintree_t{proto_micro_mall_order_vendor_xorm_io_xorm_go_sum, map[string]*_bintree_t{
+						}},
 					}},
 				}},
 			}},

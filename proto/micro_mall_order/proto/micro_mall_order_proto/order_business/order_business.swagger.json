@@ -1,0 +1,379 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/micro_mall_order_proto/order_business/order_business.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/order/create": {
+      "post": {
+        "summary": "创建订单",
+        "operationId": "OrderBusinessService_CreateOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/order_businessCreateOrderResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/order_businessCreateOrderRequest"
+            }
+          }
+        ],
+        "tags": [
+          "OrderBusinessService"
+        ]
+      }
+    },
+    "/v1/order/detail": {
+      "get": {
+        "summary": "获取订单详情",
+        "operationId": "OrderBusinessService_GetOrderDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/order_businessGetOrderDetailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tx_code",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "OrderBusinessService"
+        ]
+      }
+    },
+    "/v1/order/sku": {
+      "get": {
+        "summary": "获取订单商品",
+        "operationId": "OrderBusinessService_GetOrderSku",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/order_businessGetOrderSkuResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "tx_code",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "OrderBusinessService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "order_businessCoinType": {
+      "type": "string",
+      "enum": [
+        "CNY",
+        "USD"
+      ],
+      "default": "CNY"
+    },
+    "order_businessCommonResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "$ref": "#/definitions/order_businessRetCode"
+        },
+        "msg": {
+          "type": "string"
+        }
+      }
+    },
+    "order_businessCreateOrderRequest": {
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "format": "int64"
+        },
+        "time": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "payer_client_ip": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "detail": {
+          "$ref": "#/definitions/order_businessOrderDetail"
+        }
+      },
+      "title": "一个店铺的商品算一个订单，如果同时包含多个店铺则有多个订单"
+    },
+    "order_businessCreateOrderResponse": {
+      "type": "object",
+      "properties": {
+        "common": {
+          "$ref": "#/definitions/order_businessCommonResponse"
+        },
+        "tx_code": {
+          "type": "string"
+        }
+      }
+    },
+    "order_businessGetOrderDetailResponse": {
+      "type": "object",
+      "properties": {
+        "common": {
+          "$ref": "#/definitions/order_businessCommonResponse"
+        },
+        "account": {
+          "type": "string"
+        },
+        "coin_type": {
+          "$ref": "#/definitions/order_businessCoinType"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/order_businessShopOrderDetail"
+          }
+        }
+      }
+    },
+    "order_businessGetOrderSkuResponse": {
+      "type": "object",
+      "properties": {
+        "common": {
+          "$ref": "#/definitions/order_businessCommonResponse"
+        },
+        "order_list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/order_businessOrderSku"
+          }
+        }
+      }
+    },
+    "order_businessOrderDetail": {
+      "type": "object",
+      "properties": {
+        "shop_detail": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/order_businessOrderShopDetail"
+          }
+        }
+      }
+    },
+    "order_businessOrderGoods": {
+      "type": "object",
+      "properties": {
+        "sku_code": {
+          "type": "string"
+        },
+        "price": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "reduction": {
+          "type": "string"
+        }
+      }
+    },
+    "order_businessOrderSceneInfo": {
+      "type": "object",
+      "properties": {
+        "store_info": {
+          "$ref": "#/definitions/order_businessStoreInfo"
+        }
+      },
+      "title": "支付场景信息"
+    },
+    "order_businessOrderShopDetail": {
+      "type": "object",
+      "properties": {
+        "shop_id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "coin_type": {
+          "$ref": "#/definitions/order_businessCoinType"
+        },
+        "goods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/order_businessOrderGoods"
+          }
+        },
+        "scene_info": {
+          "$ref": "#/definitions/order_businessOrderSceneInfo"
+        }
+      },
+      "title": "同一个门店的商品"
+    },
+    "order_businessOrderSku": {
+      "type": "object",
+      "properties": {
+        "order_code": {
+          "type": "string"
+        },
+        "goods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/order_businessOrderGoods"
+          }
+        }
+      }
+    },
+    "order_businessRetCode": {
+      "type": "string",
+      "enum": [
+        "SUCCESS",
+        "ERROR",
+        "USER_NOT_EXIST",
+        "USER_EXIST",
+        "MERCHANT_NOT_EXIST",
+        "MERCHANT_EXIST",
+        "SHOP_NOT_EXIST",
+        "SHOP_EXIST",
+        "SKU_NOT_EXIST",
+        "SKU_EXIST",
+        "SKU_AMOUNT_NOT_ENOUGH",
+        "TRANSACTION_FAILED"
+      ],
+      "default": "SUCCESS"
+    },
+    "order_businessShopOrderDetail": {
+      "type": "object",
+      "properties": {
+        "order_code": {
+          "type": "string"
+        },
+        "merchant": {
+          "type": "string"
+        },
+        "time_expire": {
+          "type": "string"
+        },
+        "notify_url": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "detail": {
+          "$ref": "#/definitions/order_businessTradeGoodsDetail"
+        }
+      }
+    },
+    "order_businessStoreInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "area_code": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      },
+      "title": "门店信息"
+    },
+    "order_businessTradeGoodsDetail": {
+      "type": "object",
+      "properties": {
+        "money": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

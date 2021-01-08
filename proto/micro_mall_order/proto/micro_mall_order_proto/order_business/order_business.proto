@@ -1,0 +1,166 @@
+syntax = "proto3";
+
+package order_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+
+// 订单服务
+service OrderBusinessService {
+    // 创建订单
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/create"
+            body:"*"
+        };
+    }
+    // 获取订单详情
+    rpc GetOrderDetail(GetOrderDetailRequest) returns (GetOrderDetailResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/detail"
+        };
+    }
+    // 获取订单商品
+    rpc GetOrderSku(GetOrderSkuRequest) returns (GetOrderSkuResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/sku"
+        };
+    }
+
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    SHOP_NOT_EXIST = 50005;
+    SHOP_EXIST = 50006;
+    SKU_NOT_EXIST = 50007;
+    SKU_EXIST = 50008;
+    SKU_AMOUNT_NOT_ENOUGH = 50009;
+    TRANSACTION_FAILED = 50010;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+    PUT_AWAY = 4;
+}
+
+enum CoinType {
+    CNY = 0;
+    USD = 1;
+}
+
+enum AccountState {
+    NORMAL = 0;
+    LOCK = 1;
+    INVALID = 2;
+}
+
+enum AccountType {
+    PERSONAL = 0;
+    COMPANY = 1;
+    SYSTEM = 2;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}
+
+message GetOrderSkuRequest {
+    string tx_code = 1;
+}
+
+message GetOrderSkuResponse {
+    CommonResponse common = 1;
+    repeated OrderSku order_list = 2;
+}
+
+message OrderSku {
+    string order_code = 1;
+    repeated OrderGoods goods = 2; // 商品列表
+}
+
+message GetOrderDetailRequest {
+    string tx_code = 1;
+}
+
+message ShopOrderDetail {
+    string order_code  = 1;
+    string merchant = 2; // 店铺商户,店铺主体
+    string time_expire = 3; // 订单有效期
+    string notify_url = 4; // 订单支付成功通知
+    string description = 5; // 订单描述
+    TradeGoodsDetail detail = 199;
+}
+
+message GetOrderDetailResponse {
+    CommonResponse common = 1;
+    string account = 4; // 订单涉及的用户
+    CoinType coin_type = 2; // 币种
+    repeated ShopOrderDetail list = 90;
+}
+
+message TradeGoodsDetail {
+    string money = 1; // 需要支付金额
+}
+
+message OrderDetail {
+    repeated OrderShopDetail shop_detail = 1;
+}
+
+// 同一个门店的商品
+message OrderShopDetail {
+    int64 shop_id = 1;
+    CoinType coin_type = 6; // 同一个店铺使用一种币结算
+    repeated OrderGoods goods = 7; // 商品列表
+    OrderSceneInfo scene_info = 199; // 场景
+}
+
+message OrderGoods {
+    string sku_code = 2;
+    string price = 3;
+    int64 amount = 4;
+    string name = 5;
+    string reduction = 6;
+}
+
+// 一个店铺的商品算一个订单，如果同时包含多个店铺则有多个订单
+message CreateOrderRequest {
+    int64 uid = 1;
+    string time = 2;
+    string description = 3; // 订单描述
+    string payer_client_ip = 4; // 用户终端IP
+    string device_id = 5; // 用户设备号
+    OrderDetail detail = 299;
+}
+
+// 支付场景信息
+message OrderSceneInfo {
+    StoreInfo store_info = 999;
+}
+
+// 门店信息
+message StoreInfo {
+    int64 id = 1; // 门店编号
+    string name = 2; // 门店名称
+    string area_code = 3; // 地区编码
+    string address = 4; // 详细地址
+}
+
+message OrderEntry {
+    string order_code = 10; // 订单号
+    string time_expire = 11; // 订单有效时间
+}
+
+message CreateOrderResponse {
+    CommonResponse common = 1;
+   string tx_code = 2;
+}

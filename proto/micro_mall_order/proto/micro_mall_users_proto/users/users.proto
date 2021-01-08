@@ -1,0 +1,204 @@
+syntax = "proto3";
+
+package users;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+service UsersService {
+    // 获取用户信息
+    rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info"
+        };
+    }
+    // 获取用户信息-手机号
+    rpc GetUserInfoByPhone(GetUserInfoByPhoneRequest) returns (GetUserInfoByPhoneResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/by_phone"
+        };
+    }
+    // 创建用户账户
+    rpc CreateUserAccount(CreateUserAccountRequest) returns (CreateUserAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/user/account/create"
+            body:"*"
+        };
+    }
+
+}
+
+service MerchantsService {
+    // 商户提交资料
+    rpc MerchantsMaterial(MerchantsMaterialRequest) returns (MerchantsMaterialResponse) {
+        option (google.api.http) = {
+            post: "/v1/user/merchants/material"
+            body: "*"
+        };
+    }
+    // 审核商户,返回审核结果
+    rpc MerchantsMaterialAudit(MerchantsMaterialAuditRequest) returns (MerchantsMaterialAuditResponse){
+        option (google.api.http) = {
+            put: "/v1/user/merchants/audit"
+            body: "*"
+        };
+    }
+    // 获取商户资料
+    rpc GetMerchantsMaterial(GetMerchantsMaterialRequest) returns (GetMerchantsMaterialResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/merchants/material"
+        };
+    }
+    // 商户关联店铺
+    rpc MerchantsAssociateShop(MerchantsAssociateShopRequest) returns (MerchantsAssociateShopResponse) {
+        option (google.api.http) = {
+            put: "/v1/user/merchants/associate/shop_business"
+            body: "*"
+        };
+    }
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    ACCOUNT_EXIST = 50005;
+    ACCOUNT_NOT_EXIST = 50006;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+}
+
+enum CoinType {
+    CNY = 0;
+    USD = 1;
+}
+
+enum AccountState {
+    NORMAL = 0;
+    LOCK = 1;
+    INVALID = 2;
+}
+
+enum AccountType {
+    PERSONAL = 0;
+    COMPANY = 1;
+    SYSTEM = 2;
+}
+
+message CreateUserAccountRequest {
+    int64 uid = 1;
+    string balance = 2; // 余额
+    CoinType coin_type =3;
+    string coin_desc = 4;
+    AccountState account_state = 5;
+    AccountType account_type = 6;
+}
+
+message CreateUserAccountResponse {
+    CommonResponse common =1;
+    string account_code = 2; // 用户账户code
+}
+
+message GetUserInfoByPhoneRequest {
+    string country_code = 1;
+    string phone = 2;
+}
+
+message GetUserInfoByPhoneResponse {
+    CommonResponse common =1;
+    UserInfo info = 2;
+}
+
+message GetUserInfoRequest {
+    int64 uid = 1;
+}
+
+message UserInfo {
+    int64 uid = 1;
+    string account_id = 2;
+    string user_name = 3;
+    int32 sex = 4;
+    string country_code = 5;
+    string phone = 6;
+    string email = 7;
+    int32 state = 8;
+    string id_card_no =9;
+    int64 inviter = 10;
+    string inviter_code = 11;
+    string contact_addr = 12;
+    int32 age = 13;
+    string create_time = 14;
+    string update_time = 15;
+}
+
+message GetUserInfoResponse {
+    CommonResponse common =1;
+    UserInfo info = 2;
+}
+
+message MerchantsMaterialInfo {
+    int64 uid =1;
+    int64 material_id =2;
+    string register_addr = 3;
+    string health_card_no =4;
+    int32 identity =5;
+    int32 state =6;
+    string tax_card_no =7;
+    string create_time = 8;
+    string update_time = 9;
+}
+
+message MerchantsMaterialRequest {
+    MerchantsMaterialInfo info =1;
+    OperationType operation_type =2;
+}
+
+message MerchantsMaterialResponse {
+    CommonResponse common =1;
+    int64 material_id =2;
+}
+
+message GetMerchantsMaterialRequest {
+    int64 material_id = 1;
+}
+
+message GetMerchantsMaterialResponse {
+    CommonResponse common =1;
+    MerchantsMaterialInfo info =2;
+}
+
+message MerchantsAssociateShopRequest {
+    int64 material_id = 1;
+    int64 shop_id =2;
+    bool is_associate = 3;
+}
+
+message MerchantsAssociateShopResponse {
+    CommonResponse common =1;
+}
+
+message MerchantsMaterialAuditRequest {
+    int64 material_id = 1;
+    int64 audit_uid = 2;
+    string comment=3;
+}
+
+message MerchantsMaterialAuditResponse {
+    CommonResponse common =1;
+    int32 state = 2;
+    string comment =3;
+    int64 next_audit_uid = 4;
+    bool is_over = 5;
+}
+
+message CommonResponse {
+    RetCode code =1;
+    string msg =2;
+}
