@@ -44,7 +44,8 @@ prometheus_metrics接口
 配置host是为了让服务根据服务名找到IP地址   
 Windows下编辑C:\Windows\System32\drivers\etc   
 Mac，Linux下编辑 /etc/hosts   
-当然也可以使用https://github.com/oldj/SwitchHosts/releases这个工具可视化配置   
+当然也可以使用https://github.com/oldj/SwitchHosts/releases    
+这个工具可视化配置   
 
 
 #### 模块分类
