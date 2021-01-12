@@ -3,6 +3,10 @@
 #### 介绍
 微商城-api
 
+##### 项目问题交流
+QQ群：578859618 （micro-mall-api交流群）   
+邮件：1225807604@qq.com   
+
 #### 软件架构
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
 服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq， 搜索采用elasticsearch 
