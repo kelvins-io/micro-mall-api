@@ -30,6 +30,23 @@ prometheus_metrics接口
 架构示意图：   
 ![avatar](./微商城系统架构设计.png)
 
+### host配置   
+127.0.0.1  micro-mall-users   
+127.0.0.1  micro-mall-order   
+127.0.0.1  micro-mall-shop   
+127.0.0.1  micro-mall-sku   
+127.0.0.1  micro-mall-pay   
+127.0.0.1  micro-mall-comments
+127.0.0.1  micro-mall-logistics     
+127.0.0.1  micro-mall-search   
+127.0.0.1  micro-mall-logistics   
+    ....   
+配置host是为了让服务根据服务名找到IP地址   
+Windows下编辑C:\Windows\System32\drivers\etc   
+Mac，Linux下编辑 /etc/hosts   
+当然也可以使用https://github.com/oldj/SwitchHosts/releases这个工具可视化配置   
+
+
 #### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
@@ -67,10 +84,6 @@ https://gitee.com/cristiane/micro-mall-pay-consumer
 物流系统   
 https://gitee.com/cristiane/micro-mall-logistics   
 https://gitee.com/cristiane/micro-mall-logistics-proto   
-
-评价系统   
-https://gitee.com/cristiane/micro-mall-estimate   
-https://gitee.com/cristiane/micro-mall-estimate-proto   
 
 搜索服务   
 https://gitee.com/cristiane/micro-mall-search   
