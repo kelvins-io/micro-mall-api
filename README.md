@@ -8,6 +8,7 @@ QQ群：578859618 （micro-mall-api交流群）
 邮件：1225807604@qq.com   
 
 #### 软件架构
+micro-mall系列需要etcd集群，集群有问题无法运行任何一个项目，请先搭建好！   
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
 服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq， 搜索采用elasticsearch 
     
@@ -65,7 +66,7 @@ https://gitee.com/cristiane/micro-mall-shop-proto
 https://gitee.com/cristiane/micro-mall-sku   
 https://gitee.com/cristiane/micro-mall-shop-proto   
 https://gitee.com/cristiane/micro-mall-sku-cron   
-https://gitee.com/cristiane/micro-mall-sku-consumer   
+
 
 购物车服务   
 https://gitee.com/cristiane/micro-mall-trolley   
