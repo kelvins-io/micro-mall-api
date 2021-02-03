@@ -1,9 +1,0 @@
-kind: reverse
-name: mydb
-source:
-  database: mysql
-  conn_str: 'root:07030501310@tcp(127.0.0.1:3306)/micro_mall?charset=utf8'
-targets:
-  - type: codes
-    language: golang
-    output_dir: ./
