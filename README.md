@@ -31,6 +31,10 @@ prometheus_metrics接口
 架构示意图：   
 ![avatar](./微商城系统架构设计.png)
 
+
+### 服务注册说明
+由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档      
+
 ### host配置   
 127.0.0.1  micro-mall-users   
 127.0.0.1  micro-mall-order   
@@ -48,6 +52,24 @@ Mac，Linux下编辑 /etc/hosts
 当然也可以使用https://github.com/oldj/SwitchHosts/releases    
 这个工具可视化配置   
 
+### 服务启动端口说明
+micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是运行时自动生成随机端口号并注册到etcd集群中   
+
+### pb.go代码生成   
+生成pb代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
+生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中（$GOPATH/src/gitee.com/kelvins-io/）   
+生成proto.pb.go代码方式：   
+在micro-mall-xxx根目录执行python genpb.py .../micro-xxx-proto   
+例如：为micro-mall-api项目添加micro-users-proto的pb代码   
+cd $GOPATH   
+cd src/gitee.com/cristiane/ #没有则创建   
+git clone https://gitee.com/cristiane/micro-mall-users-proto.git   
+git clone https://gitee.com/cristiane/micro-mall-api.git   
+cd micro-mall-api   
+# 没有Python环境的需要安装python，Mac的话自带python   
+python genpb.py ../micro-mall-users-proto   
+没有报错，且检查proto目录是否创建micro-mall-users-proto目录   
+go run main.go   
 
 #### 模块分类
 接入层（gateway，BFF）   
