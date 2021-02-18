@@ -57,7 +57,7 @@ micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用
 
 ### pb.go代码生成   
 生成pb代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
-生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中($GOPATH/src/gitee.com/kelvins-io/)   
+生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中(GOPATH/src/gitee.com/kelvins-io/)   
 生成proto.pb.go代码方式：   
 在micro-mall-xxx根目录执行python genpb.py .../micro-xxx-proto   
 例如：为micro-mall-api项目添加micro-users-proto的pb代码   
