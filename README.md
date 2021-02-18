@@ -36,12 +36,15 @@ prometheus_metrics接口
 由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档      
 
 ### host配置   
+为什么需要配置host ？   
+：因为调用服务时会以：域名+从etcd获取的端口号 作为endpoint进行tcp拨号，如 tcp://micro-mall-users:50987 为了让grpc能正常解析域名对应的IP地址，所以需要配置dns，当然此处是有优化空间的（比如注册服务时同时将启动服务的机器IP地址和端口一起注册到etcd，拨号连接时就可以用ip+端口进行拨号了，但是这种方案也是有弊端的）   
+
 127.0.0.1  micro-mall-users   
 127.0.0.1  micro-mall-order   
 127.0.0.1  micro-mall-shop   
 127.0.0.1  micro-mall-sku   
 127.0.0.1  micro-mall-pay   
-127.0.0.1  micro-mall-comments
+127.0.0.1  micro-mall-comments   
 127.0.0.1  micro-mall-logistics     
 127.0.0.1  micro-mall-search   
 127.0.0.1  micro-mall-logistics   
@@ -53,7 +56,7 @@ Mac，Linux下编辑 /etc/hosts
 这个工具可视化配置   
 
 ### 服务启动端口说明
-micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是运行时自动生成随机端口号并注册到etcd集群中   
+除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是运行时自动生成随机端口号并注册到etcd集群中   
 
 ### pb.go代码生成   
 生成pb代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
@@ -116,11 +119,6 @@ https://gitee.com/cristiane/micro-mall-search-cron
 评论服务   
 https://gitee.com/cristiane/micro-mall-comments   
 https://gitee.com/cristiane/micro-mall-comments-proto   
-
-////依赖   
-web模板：https://gitee.com/cristiane/web_gin_template   
-gRPC应用模板：https://gitee.com/kelvins-io/kelvins-template   
-脚手架：https://gitee.com/kelvins-io/kelvins
 
 
 #### 接口文档
