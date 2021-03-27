@@ -3,8 +3,9 @@
 #### 介绍
 微商城-api，基于gRPC构建的微服务商城，包含用户，商品，购物车，订单，支付共计16个微服务并通过micro-mall-api聚合
 
-##### 项目问题交流
-QQ群：578859618 （micro-mall-api交流群）   
+#### 项目问题交流
+QQ群：578859618 （micro-mall-api交流群）  
+![avatar](./交流群.JPG)
 邮件：1225807604@qq.com   
 
 #### 软件架构
@@ -12,7 +13,6 @@ micro-mall系列需要etcd集群，集群有问题无法运行任何一个项目
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
 服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq， 搜索采用elasticsearch 
     
-
 用户鉴权   
 jwt
 
@@ -31,11 +31,73 @@ prometheus_metrics接口
 架构示意图：   
 ![avatar](./微商城系统架构设计.png)
 
+### 如何构建开发环境
+micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
+你需要安装golang并配置golang开发环境   
+然后看看下面的环节      
 
-### 服务注册说明
+#### 服务注册说明
 由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档      
 
-### host配置   
+#### 都有哪些服务
+micro-mall-api   接入层   
+micro-mall-users  用户服务   
+micro-mall-users-consumer  用户事件消费者   
+micro-mall-order   订单服务   
+micro-mall-order-cron   订单定时任务   
+micro-mall-order-consumer   订单事件消费者   
+micro-mall-shop   店铺服务   
+micro-mall-trolley   购物车服务   
+micro-mall-sku   商品库服务   
+micro-mall-sku-cron   商品库定时任务   
+micro-mall-pay   支付服务   
+micro-mall-pay-consumer  支付事件消费者   
+micro-mall-comments   评论服务   
+micro-mall-logistics   物流服务   
+micro-mall-search    搜索服务   
+micro-mall-search-cron   搜索定时任务   
+
+#### 关于go mod
+请各位一定配置go proxy   
+GOPROXY="https://goproxy.baidu.com,https://goproxy.io,direct"   
+
+#### 克隆仓库
+将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地   
+
+#### 服务启动端口说明
+除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是在运行时自动生成随机端口号并注册到etcd集群中   
+
+
+#### 都有哪些依赖
+部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
+go 1.13.15   
+goland or vscode   
+mysql，redis，rabbitmq（如果用redis做MQ则不需要），etcd集群环境，MongoDB，elasticsearch       
+protoc   安装方法如下   
+```
+wget https://github.com/google/protobuf/releases/download/v3.5.1/protobuf-all-3.5.1.zip
+unzip protobuf-all-3.5.1.zip
+cd protobuf-3.5.1/
+./configure
+make
+make install
+# 如果报错请执行ldconfig
+```
+go get -u google.golang.org/grpc   
+go get -u github.com/golang/protobuf/protoc-gen-go   
+mv /usr/local/go/path/bin/protoc-gen-go /usr/local/go/bin/（Mac）   
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway   
+go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger   
+go get -u github.com/jteeuwen/go-bindata/...   
+go get github.com/elazarl/go-bindata-assetfs/...   
+python 2.7或3.5   
+
+#### 数据库设计
+micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立的缓存，独立的事件消息   
+将本仓库根目录下的micro_mall*.sql（共9个sql文件） 导入同名数据库中初始化表结构   
+MongoDB需要注册一个admin用户和数据库micro_mall_sku      
+
+#### host配置   
 为什么需要配置host ？   
 ：因为调用服务时会以：域名+从etcd获取的端口号 作为endpoint进行tcp拨号，如 tcp://micro-mall-users:50987 为了让grpc能正常解析域名对应的IP地址，所以需要配置dns，当然此处是有优化空间的（比如注册服务时同时将启动服务的机器IP地址和端口一起注册到etcd，拨号连接时就可以用ip+端口进行拨号了，但是这种方案也是有弊端的）   
 
@@ -45,9 +107,9 @@ prometheus_metrics接口
 127.0.0.1  micro-mall-sku   
 127.0.0.1  micro-mall-pay   
 127.0.0.1  micro-mall-comments   
-127.0.0.1  micro-mall-logistics     
-127.0.0.1  micro-mall-search   
-127.0.0.1  micro-mall-logistics   
+127.0.0.1  micro-mall-logistics    
+127.0.0.1 micro-mall-trolley    
+127.0.0.1  micro-mall-search    
     ....   
 配置host是为了让服务根据服务名找到IP地址   
 Windows下编辑C:\Windows\System32\drivers\etc   
@@ -55,11 +117,18 @@ Mac，Linux下编辑 /etc/hosts
 当然也可以使用https://github.com/oldj/SwitchHosts/releases    
 这个工具可视化配置   
 
-### 服务启动端口说明
-除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是运行时自动生成随机端口号并注册到etcd集群中   
+#### pb.gw 代码生成
+看看下面说明
 
-### pb.go代码生成   
-生成pb代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
+##### 为什么要生成pb,gw代码
+因为项目使用了gRPC+protobuf，grpc-gateway协议转换中间件，swagger文档托管中间件    
+
+##### 有哪些仓库需要生成
+大部分列出的服务基本上都需要，基本上micro-mall-xxx-proto就是micro-mall-xxx系列服务的依赖proto仓库   
+那么就需要在这些仓库下面生成proto仓库的代码文件   
+
+##### 如何生成
+生成pb，gw代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
 生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中(GOPATH/src/gitee.com/kelvins-io/)   
 生成proto.pb.go代码方式：   
 在micro-mall-xxx根目录执行python genpb.py .../micro-xxx-proto   
@@ -72,9 +141,23 @@ cd micro-mall-api
 没有Python环境的需要安装python，Mac的话自带python   
 python genpb.py ../micro-mall-users-proto   
 没有报错，且检查proto目录是否创建micro-mall-users-proto目录   
+
+#### 配置文件
+看看下面环节   
+
+##### 需要配置什么
+基本上就是日志路径，MySQL，Redis，rabbitmq，elasticsearch，email这些      
+
+##### 如何配置
+在需要运行的项目根目录下etc/app.ini更改自己开发环境的配置info（可以参考默认提供的）      
+
+
+#### 运行项目
+在需要项目根目录运行go mod vendor安装依赖（不要运行go mod tidy）      
 go run main.go   
 
-#### 模块分类
+
+### 模块分类
 接入层（gateway，BFF）   
 https://gitee.com/cristiane/micro-mall-api   
 
@@ -91,7 +174,6 @@ https://gitee.com/cristiane/micro-mall-shop-proto
 https://gitee.com/cristiane/micro-mall-sku   
 https://gitee.com/cristiane/micro-mall-shop-proto   
 https://gitee.com/cristiane/micro-mall-sku-cron   
-
 
 购物车服务   
 https://gitee.com/cristiane/micro-mall-trolley   
@@ -120,8 +202,13 @@ https://gitee.com/cristiane/micro-mall-search-cron
 https://gitee.com/cristiane/micro-mall-comments   
 https://gitee.com/cristiane/micro-mall-comments-proto   
 
-
-#### 接口文档
+### 赞赏   
+作者是来自一个贫困山区的孩子，靠社会资助上了大学，工作后不忘回馈社会
+花费N个周末和夜晚才写了这么一个开源项目，其中孤独不言而喻，如果你喜欢项目的话，给作者买一盒膏药缓解下腰间盘突出吧   
+![avatar](./微信赞赏码.JPG)
+支付宝
+![avatar](./支付宝赞赏码.JPG)
+### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   
 监控地址：   
 pprof：http://localhost:52002/debug/pprof/   
@@ -165,7 +252,7 @@ Prometheus：http://localhost:52002/metrics
 
 
 接口列表：   
-######【说明】post请求没指明content-type的接口表单和json都支持   
+####【说明】post请求没指明content-type的接口表单和json都支持   
 1 首页   
 GET    /               
 返回body   
@@ -424,7 +511,7 @@ state | 状态 | int | 状态
 amount | 上架数量 | int | 大于0
 shop_id | 店铺ID | int | 商品所属店铺ID
 
-###### operation_type等于4时，参数只需要shop_id,sku_code,amount
+#### operation_type等于4时，参数只需要shop_id,sku_code,amount
 
 返回body： 
 
@@ -951,10 +1038,10 @@ classification_medium | 次要分类 | string | 如，仓库
 	"msg": "ok"
 }
 ```
-
-
-#### 配置说明
-配置数据库sql, rabbitmq, redis，邮件，etcd   
-请先将根目录micro-mall.sql导入数据库创建相应的表   
-
-有问题联系：565608463@qq.com   
+  
+### 共同开源
+1 请star收藏项目   
+2 提出issue   
+3 fork项目   
+4 clone fork后的项目到本地开发   
+5 提交pr   
