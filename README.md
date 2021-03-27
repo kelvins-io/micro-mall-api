@@ -1,7 +1,7 @@
 # micro-mall-api
 
 #### 介绍
-微商城-api
+微商城-api，基于gRPC构建的微服务商城，包含用户，商品，购物车，订单，支付共计16个微服务并通过micro-mall-api聚合
 
 ##### 项目问题交流
 QQ群：578859618 （micro-mall-api交流群）   
