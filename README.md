@@ -197,6 +197,7 @@ https://gitee.com/cristiane/micro-mall-logistics-proto
 搜索服务   
 https://gitee.com/cristiane/micro-mall-search   
 https://gitee.com/cristiane/micro-mall-search-cron   
+https://gitee.com/cristiane/micro-mall-search-proto   
 
 评论服务   
 https://gitee.com/cristiane/micro-mall-comments   
