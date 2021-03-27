@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package comments_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+// 评论服务
+service CommentsBusinessService {
+    // 订单评价
+    rpc CommentsOrder(CommentsOrderRequest) returns (CommentsOrderResponse) {
+        option (google.api.http) = {
+            post: "/v1/comments/order"
+            body:"*"
+        };
+    }
+    // 获取店铺评论列表
+    rpc FindShopComments(FindShopCommentsRequest) returns (FindShopCommentsResponse) {
+        option (google.api.http) = {
+            get: "/v1/comments/list"
+        };
+    }
+    // 获取评论标签
+    rpc FindCommentsTags(FindCommentsTagRequest) returns (FindCommentsTagResponse) {
+        option (google.api.http) = {
+            get: "/v1/comments/tags/list"
+        };
+    }
+    // 修改评论标签
+    rpc ModifyCommentsTags(ModifyCommentsTagsRequest) returns (ModifyCommentsTagsResponse) {
+        option (google.api.http) = {
+            post: "/v1/comments/tags/modify"
+            body:"*"
+        };
+    }
+
+}
+
+message CommentsTags {
+    string tag_code = 1;
+    string classification_major = 2;
+    string classification_medium = 3;
+    string classification_minor = 4;
+    string content = 5;
+    bool state = 6;
+}
+
+message ModifyCommentsTagsRequest {
+    OperationType op_type = 1;
+    CommentsTags tag = 2;
+}
+
+message ModifyCommentsTagsResponse {
+    CommonResponse common = 1;
+    string tag_code = 2;
+}
+
+message FindCommentsTagRequest {
+    string tag_code = 1;
+    string classification_major = 2;
+    string classification_medium = 3;
+}
+
+message FindCommentsTagResponse {
+    CommonResponse common = 1;
+    repeated CommentsTags tags = 2;
+}
+
+message FindShopCommentsRequest {
+    int64 shop_id = 1;
+    int64 uid = 2;
+}
+
+message FindShopCommentsResponse {
+    CommonResponse common = 1;
+    repeated OrderCommentsInfo comments_list = 2;
+}
+
+message OrderCommentsInfo {
+    int64 shop_id = 1;
+    string order_code = 2; // 订单号
+    StarLevel star_level = 3; // 星级
+    string content = 4; // 评价内容
+    repeated string img_list = 5; // 附加图片
+
+    string comment_id = 199; // 评论ID
+}
+
+enum StarLevel {
+    VERY_GOOD = 0; // 非常好
+    GOOD = 1; // 好
+    GENERAL = 2; // 一般
+    BAD = 3; // 差
+    VERY_BAD = 4;  //非常差
+}
+
+message LogisticsCommentsInfo {
+    string logistics_code = 1; // 订单关联的物流号
+    StarLevel fedex_pack = 10; // 快递包装
+    repeated string fedex_label = 11;
+    StarLevel delivery_speed = 20; // 送货速度
+    repeated string delivery_speed_label = 21;
+    StarLevel delivery_service = 30; // 配送员服务
+    repeated string delivery_service_label = 31;
+    string comment = 100; // 总体描述
+}
+
+message CommentsOrderRequest {
+    int64 uid = 1;
+    OrderCommentsInfo order_info = 2; // 订单评价
+    LogisticsCommentsInfo logistics_info = 3; // 物流评价
+    bool anonymity = 4; // 是否匿名
+}
+
+message CommentsOrderResponse {
+    CommonResponse common = 1;
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 500000;
+    USER_EXIST = 500001;
+    USER_ORDER_NOT_EXIST = 600000;
+    USER_ORDER_STATE_INVALID = 600001;
+    COMMENT_NOT_EXIST = 700000;
+    COMMENT_EXIST = 700001;
+    TRANSACTION_FAILED = 700002;
+    COMMENT_TAG_NOT_EXIST = 700003;
+    COMMENT_TAG_EXIST = 700004;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+    string op_platform = 3; // 操作平台
+    string op_device = 4; // 操作设备
+}
+
+message PageMeta {
+    int32 page_num = 1;
+    int32 page_size = 2;
+}
+
+message FiltrateTimeMeta {
+    string start_time = 1;
+    string end_time = 2;
+}

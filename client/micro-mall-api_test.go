@@ -188,7 +188,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "a3d48269-caad-497e-9d2d-5e9a0cdc9c5c")
+	data.Set("tx_code", "544cebd5-cf16-4c5c-a9b1-77f3835fcee7")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -926,7 +926,7 @@ func BenchmarkRegisterUser(b *testing.B) {
 		data.Set("sex", "1")
 		data.Set("age", "33")
 		data.Set("country_code", "86")
-		data.Set("phone", fmt.Sprintf("%d%d", rand.Intn(9), time.Now().UnixNano()))
+		data.Set("phone", fmt.Sprintf("%d%d", rand.Intn(1000000), time.Now().Unix()))
 		data.Set("email", "mybaishati@gmail.com")
 		data.Set("verify_code", "606347")
 		data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
@@ -1190,11 +1190,11 @@ func TestGetOrderReport(t *testing.T) {
 	r := baseUrl + reportOrder
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("shop_id", "30079")
-	data.Set("start_time", "2019-11-22 08:46:41")
-	data.Set("end_time", "2020-12-04 18:46:41")
-	data.Set("page_size", "20")
-	data.Set("page_num", "1")
+	data.Set("shop_id", "30071")
+	data.Set("start_time", "2000-11-22 08:46:41")
+	data.Set("end_time", "2021-12-04 18:46:41")
+	data.Set("page_size", "1000")
+	data.Set("page_num", "3")
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
 		t.Error(err)

@@ -46,8 +46,11 @@ var firstName = []string{
 var lastNameLen = len(lastName)
 var firstNameLen = len(firstName)
 
-func GetFullName() string {
+func init()  {
 	rand.Seed(time.Now().UnixNano())
+}
+
+func GetFullName() string {
 	var first string
 	for i := 0; i <= rand.Intn(1); i++ {
 		first = fmt.Sprint(firstName[rand.Intn(firstNameLen-1)])

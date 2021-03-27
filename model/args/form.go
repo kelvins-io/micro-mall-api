@@ -620,8 +620,8 @@ type GetOrderReportArgs struct {
 }
 
 func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
-	if t.PageSize > 500 {
-		_ = v.SetError("PageSize", "分页大小超过限制(400)")
+	if t.PageSize > 1000 {
+		_ = v.SetError("PageSize", "分页大小超过限制(1000)")
 		return
 	}
 	if t.ShopId <= 0 {

@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package trolley_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+// 购物车系统
+service TrolleyBusinessService {
+
+    // 添加商品到购物车
+    rpc JoinSku(JoinSkuRequest) returns (JoinSkuResponse) {
+        option (google.api.http) = {
+            put: "/v1/trolley/sku/join"
+            body:"*"
+        };
+    }
+    // 从购物车移除商品
+    rpc RemoveSku(RemoveSkuRequest) returns (RemoveSkuResponse) {
+        option (google.api.http) = {
+            delete: "/v1/trolley/sku/remove"
+        };
+    }
+    // 获取用户购物车中的商品
+    rpc GetUserTrolleyList(GetUserTrolleyListRequest) returns (GetUserTrolleyListResponse) {
+        option (google.api.http) = {
+            get: "/v1/trolley/sku/list"
+        };
+    }
+
+}
+
+message GetUserTrolleyListRequest {
+    int64 uid = 1;
+}
+
+message GetUserTrolleyListResponse {
+    CommonResponse common =1;
+    repeated UserTrolleyRecord records = 2;
+}
+
+message UserTrolleyRecord {
+    string sku_code = 2;
+    int64 shop_id = 3;
+    string time = 4;
+    int64 count = 5;
+    bool selected = 6;
+}
+
+message RemoveSkuRequest {
+    int64 uid = 1;
+    string sku_code = 2;
+    int64 shop_id = 3;
+}
+
+message RemoveSkuResponse {
+    CommonResponse common =1;
+}
+
+message JoinSkuRequest {
+    int64 uid = 1;
+    string sku_code = 2;
+    int64 shop_id = 3;
+    string time = 4;
+    int64 count = 5;
+    bool selected = 6;
+}
+
+message JoinSkuResponse {
+    CommonResponse common =1;
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    SHOP_NOT_EXIST = 50005;
+    SHOP_EXIST = 50006;
+    SKU_NOT_EXIST = 50007;
+    SKU_EXIST = 50008;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+    PUT_AWAY = 4;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}

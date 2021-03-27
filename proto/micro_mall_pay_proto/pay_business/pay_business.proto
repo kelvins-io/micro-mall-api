@@ -1,0 +1,196 @@
+syntax = "proto3";
+
+package pay_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+// 支付业务
+service PayBusinessService {
+    // 统一收单支付
+    rpc TradePay(TradePayRequest) returns (TradePayResponse) {
+        option (google.api.http) = {
+            post: "/v1/trade/pay"
+            body:"*"
+        };
+    }
+    // 创建账户
+    rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {
+        option (google.api.http) = {
+            post: "/v1/account/init"
+            body:"*"
+        };
+    }
+    // 获取账户
+    rpc FindAccount(FindAccountRequest) returns (FindAccountResponse) {
+        option (google.api.http) = {
+            get: "/v1/account"
+        };
+    }
+    // 账户充值
+    rpc AccountCharge(AccountChargeRequest) returns (AccountChargeResponse) {
+        option (google.api.http) = {
+            post: "/v1/account/charge"
+            body:"*"
+        };
+    }
+    // 获取交易唯一ID
+    rpc GetTradeUUID(GetTradeUUIDRequest) returns(GetTradeUUIDResponse) {
+        option (google.api.http) = {
+            get: "/v1/trade/uuid"
+        };
+    }
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    SHOP_NOT_EXIST = 50005;
+    SHOP_EXIST = 50006;
+    SKU_NOT_EXIST = 50007;
+    SKU_EXIST = 50008;
+    SKU_AMOUNT_NOT_ENOUGH = 50009;
+    USER_BALANCE_NOT_ENOUGH = 600000;
+    MERCHANT_BALANCE_NOT_ENOUGH = 6000001;
+    ACCOUNT_LOCK = 6000002;
+    MERCHANT_ACCOUNT_NOT_EXIST = 6000003;
+    MERCHANT_ACCOUNT_STATE_LOCK = 6000004;
+    USER_ACCOUNT_NOT_EXIST = 6000005;
+    USER_ACCOUNT_STATE_LOCK = 6000006;
+    DECIMAL_PARSE_ERR = 6000007;
+    TRANSACTION_FAILED = 6000008;
+    ACCOUNT_EXIST = 6000009;
+    TRADE_PAY_RUN = 6000010;
+    TRADE_PAY_SUCCESS = 6000011;
+    TRADE_PAY_EXPIRE = 6000012;
+    TRADE_ORDER_NOT_MATCH_USER = 6000013;
+    USER_ACCOUNT_STATE_INVALID = 6000014;
+    USER_CHARGE_RECORD_EXIST = 6000015;
+    TRADE_UUID_EMPTY = 6000016;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+    PUT_AWAY = 4;
+}
+
+enum CoinType {
+    CNY = 0;
+    USD = 1;
+}
+
+enum AccountType {
+    Person = 0;
+    Company = 1;
+    System = 2;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}
+
+message FindAccountRequest {
+    repeated string owner = 1; // 必填
+    AccountType account_type = 2; // 选填
+    CoinType coin_type = 3; // 选填
+}
+
+message FindAccountResponse {
+    CommonResponse common = 1;
+    repeated AccountEntry entry_list = 2;
+}
+
+message AccountChargeRequest {
+    repeated string owner = 1; // 必填
+    AccountType account_type = 2; // 选填
+    CoinType coin_type = 3; // 选填
+    string amount = 4; // 数量
+    string out_trade_no = 5;
+
+    OperationMeta op_meta = 199;
+}
+
+message AccountChargeResponse {
+    CommonResponse common = 1; // 全部充值成功或失败
+}
+
+enum TradeType {
+    PAY = 0;
+    CHARGE = 1;
+}
+
+message GetTradeUUIDRequest {
+    TradeType trade_type = 1;
+    string client_id = 2;
+    int64 uid = 3;
+}
+
+message GetTradeUUIDResponse {
+    CommonResponse common = 1;
+    string uuid = 2;
+}
+
+message AccountEntry {
+    string owner = 1;
+    AccountType account_type = 2;
+    CoinType coin_type = 3;
+    string balance = 4;
+}
+
+message CreateAccountRequest {
+    string owner = 1;
+    AccountType account_type = 2;
+    CoinType coin_type = 3;
+    string balance = 4;
+}
+
+message CreateAccountResponse {
+    CommonResponse common = 1;
+    string account_code = 2;
+}
+
+message TradePayRequest {
+    string account = 1; // 用户code
+    CoinType coin_type = 2; // 币种
+    repeated TradePayEntry entry_list = 11; // 可以同时支付多个订单
+    int64 op_uid = 12;
+    string op_ip = 13;
+    string out_tx_code = 15; // 外部交易号，如果只有一个订单则等于外部订单号
+}
+
+message TradePayEntry {
+    string out_trade_no = 1; // 外部订单号
+    string time_expire = 2; // 交易结束时间， 格式为 2018-06-08T10:34:56+08:00
+    string notify_url = 3; // 交易通知地址， 通知URL必须为get请求，不携带body
+    string description = 4; // 商品描述
+    string merchant = 5; // 商户code
+    string attach = 6; // 附加数据，在支付和查询body中原样返回
+
+    TradeGoodsDetail detail = 199;
+}
+
+message OperationMeta {
+    int64 op_uid = 1;
+    string op_ip = 2;
+    string op_platform = 3; // 操作平台
+    string op_device = 4; // 操作设备
+}
+
+message TradeGoodsDetail {
+    string amount = 1; // 需要支付数量
+    string reduction = 2; // 满减
+}
+
+message TradePayResponse {
+    CommonResponse common = 1;
+    string trade_id = 2; // 支付ID，客户端需要存储
+}
+
+

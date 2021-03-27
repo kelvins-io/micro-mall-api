@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package logistics_business;
+
+import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+
+// 物流业务
+service LogisticsBusinessService {
+    // 申请物流
+    rpc ApplyLogistics(ApplyLogisticsRequest) returns (ApplyLogisticsResponse) {
+        option (google.api.http) = {
+            post: "/v1/logistics/apply"
+            body:"*"
+        };
+    }
+    // 查询物流记录
+    rpc QueryRecord(QueryRecordRequest) returns (QueryRecordResponse) {
+        option (google.api.http) = {
+            get: "/v1/logistics/query"
+        };
+    }
+    // 更新物流状态
+    rpc UpdateState(UpdateStateRequest) returns (UpdateStateResponse) {
+        option (google.api.http) = {
+            put: "/v1/logistics/update"
+            body:"*"
+        };
+    }
+
+}
+
+enum RetCode {
+    SUCCESS = 0;
+    ERROR = 500;
+    USER_NOT_EXIST = 50001;
+    USER_EXIST = 50002;
+    MERCHANT_NOT_EXIST = 50003;
+    MERCHANT_EXIST = 50004;
+    SHOP_NOT_EXIST = 50005;
+    SHOP_EXIST = 50006;
+    SKU_NOT_EXIST = 50007;
+    SKU_EXIST = 50008;
+    SKU_AMOUNT_NOT_ENOUGH = 50009;
+    USER_BALANCE_NOT_ENOUGH = 600000;
+    MERCHANT_BALANCE_NOT_ENOUGH = 6000001;
+    ACCOUNT_LOCK = 6000002;
+    MERCHANT_ACCOUNT_NOT_EXIST = 6000003;
+    MERCHANT_ACCOUNT_STATE_LOCK = 6000004;
+    USER_ACCOUNT_NOT_EXIST = 6000005;
+    USER_ACCOUNT_STATE_LOCK = 6000006;
+    DECIMAL_PARSE_ERR = 6000007;
+    TRANSACTION_FAILED = 6000008;
+    ACCOUNT_EXIST = 6000009;
+    LOGISTICS_CODE_NOT_EXIST = 6000010;
+    LOGISTICS_CODE_EXIST = 60000101;
+}
+
+enum LogisticsStateType {
+    INIT = 0; // 初始
+    MERCHANTS = 100; // 商户
+    WAREHOUSE = 200; // 仓库
+    WAREHOUSE_SWITCH = 201; // 仓库调换
+    WAREHOUSE_PREPARE = 202; // 仓库准备
+    TRANSPORT = 300; // 物流
+    TRANSPORT_READY = 301; // 物流就绪
+    DELIVERY = 400; // 派送
+    RECEIVE = 500; // 签收
+    EXCHANGE = 600; // 换货
+    RETURN = 700; // 退货
+}
+
+message LogisticsState {
+    int64 id = 1;
+    string logistics_code = 2;
+    LogisticsStateType state = 3;
+    string description = 4;
+    string flag = 5;
+    string operator = 6;
+    string location = 7;
+    string create_time = 8;
+}
+
+message UpdateStateRequest {
+    string logistics_code = 1;
+    LogisticsState state = 2;
+}
+
+message UpdateStateResponse {
+    CommonResponse common = 1;
+}
+
+message QueryRecordRequest {
+    string logistics_code = 1;
+}
+
+message QueryRecordResponse {
+    CommonResponse common = 1;
+    string courier = 2; // 国内承运人
+    string courier_type = 3; // 承运方式，普通，空运，加急
+    string receive_type = 4;
+    CustomerInfo customer  = 299; // 客户信息
+    string goods = 300; // 货物信息
+    repeated LogisticsState state_list = 301;
+}
+
+message CustomerInfo {
+    string send_user = 1;
+    string send_addr = 2;
+    string send_phone = 3;
+    string send_time = 4;
+    string receive_user = 31;
+    string receive_addr = 32;
+    string receive_phone = 33;
+}
+
+message GoodsInfo {
+    string sku_code = 1;
+    string name = 2;
+    string kind = 3;
+    int64 count = 4;
+}
+
+message ApplyLogisticsRequest {
+    string out_trade_no = 1; // 外部交易号，订单号
+    string courier = 2; // 国内承运人
+    int32 courier_type = 3; // 承运方式，普通，空运，加急
+    int32 receive_type = 4;
+    string send_time = 5;
+    CustomerInfo customer  = 299; // 客户信息
+    repeated GoodsInfo goods = 300; // 货物信息
+}
+
+message ApplyLogisticsResponse {
+    CommonResponse common = 1;
+    string logistics_code = 3;
+}
+
+enum OperationType {
+    CREATE = 0;
+    UPDATE = 1;
+    DELETE = 2;
+    AUDIT = 3;
+    PUT_AWAY = 4;
+}
+
+message CommonResponse {
+    RetCode code = 1;
+    string msg = 2;
+}
