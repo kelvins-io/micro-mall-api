@@ -172,7 +172,7 @@ https://gitee.com/cristiane/micro-mall-shop-proto
 
 商品服务   
 https://gitee.com/cristiane/micro-mall-sku   
-https://gitee.com/cristiane/micro-mall-shop-proto   
+https://gitee.com/cristiane/micro-mall-sku-proto   
 https://gitee.com/cristiane/micro-mall-sku-cron   
 
 购物车服务   
