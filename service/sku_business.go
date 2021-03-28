@@ -145,7 +145,6 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty %v,err: %v, rsp: %+v", serverName, err, rsp)
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopIdNotExist

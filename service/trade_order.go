@@ -27,7 +27,6 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 		vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode %v,err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode  rsp: %+v", rsp)
 	if rsp.Common.Code == order_business.RetCode_SUCCESS {
 		result = rsp.OrderTxCode
 		return result, code.SUCCESS

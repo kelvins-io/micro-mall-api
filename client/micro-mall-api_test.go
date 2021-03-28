@@ -22,6 +22,7 @@ func TestGateway(t *testing.T) {
 	t.Run("登录用户-密码", TestLoginUserWithPwd)
 	t.Run("重置密码", TestLoginUserPwdReset)
 	t.Run("获取用户信息", TestGetUserInfo)
+	t.Run("list用户info",TestListUserInfo)
 	t.Run("用户申请提交审核资料", TestMerchantsMaterial)
 	t.Run("商户提交开店材料", TestShopBusinessApply)
 	t.Run("店铺上架商品", TestSkuBusinessPutAway)
@@ -65,6 +66,19 @@ func TestGetUserInfo(t *testing.T) {
 		t.Error(err)
 		return
 	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestListUserInfo(t *testing.T)  {
+	r := baseUrl + userInfoList+"?page_size=3&page_num=1&token=xxx"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
@@ -188,7 +202,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "544cebd5-cf16-4c5c-a9b1-77f3835fcee7")
+	data.Set("tx_code", "c3fadb4f-6685-4e57-a619-4d53b5428b09")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {

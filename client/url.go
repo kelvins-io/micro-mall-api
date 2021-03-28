@@ -14,6 +14,7 @@ const (
 	loginUserWithPwd        = "/login/pwd"
 	userPwdReset            = "/user/password/reset"
 	userInfo                = "/user/user_info"
+	userInfoList            = "/user/user_info/list"
 	merchantsMaterial       = "/user/merchants/material"
 	shopBusinessApply       = "/user/shop_business/shop/apply"
 	skuBusinessPutAway      = "/user/sku_business/sku/put_away"

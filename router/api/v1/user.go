@@ -63,8 +63,8 @@ func GetVerifyCodeApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	retCode := service.GenVerifyCode(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
+	retCode, verifyCode := service.GenVerifyCode(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, verifyCode)
 }
 
 func PasswordResetApi(c *gin.Context) {
@@ -107,4 +107,22 @@ func GetUserInfoApi(c *gin.Context) {
 
 	userInfo, retCode := service.GetUserInfo(c, uid)
 	app.JsonResponse(c, http.StatusOK, retCode, userInfo)
+}
+
+func ListUserInfoApi(c *gin.Context) {
+	_, exist := c.Get("uid")
+	if !exist {
+		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+		return
+	}
+	var form args.ListUserInfoArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+
+	userInfoList, retCode := service.ListUserInfo(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, userInfoList)
 }

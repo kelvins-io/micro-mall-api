@@ -393,6 +393,30 @@ header token
 }
 ```
 
+8.1 列举用户    
+GET /api/v1/user/user_info/list?page_size=500&page_num=1&token=xxx   
+header token   
+
+返回body：   
+```json
+{
+	"code": 200,
+	"data": {
+		"user_info_list": [{
+			"country_code": "86",
+			"phone": "01606450639"
+		}, {
+			"country_code": "86",
+			"phone": "01606450640"
+		}, {
+			"country_code": "86",
+			"phone": "01606450641"
+		}]
+	},
+	"msg": "ok"
+}
+```
+
 9 提交商户认证资料   
 PUT    /api/v1/user/merchants/material   
 header token   

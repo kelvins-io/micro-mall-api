@@ -107,6 +107,12 @@ service UsersService {
             get: "/v1/user/info/account_id"
         };
     }
+    // 列表所有用户
+    rpc ListUserInfo(ListUserInfoRequest) returns (ListUserInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/list"
+        };
+    }
 }
 
 service MerchantsService {
@@ -502,9 +508,25 @@ message MerchantsMaterialAuditResponse {
     bool is_over = 5;
 }
 
+message ListUserInfoRequest {
+    PageMeta page_meta = 1;
+    string token = 2; // 因为该接口可以批量获取用户，因此需要token
+}
+
+message ListUserInfoResponse {
+    CommonResponse common = 1;
+    repeated MobilePhone user_info_list = 2;
+    reserved 3;
+}
+
 message CommonResponse {
     RetCode code =1;
     string msg =2;
+}
+
+message PageMeta {
+    int32 page_num = 1;
+    int32 page_size = 2;
 }
 
 message OperationMeta {

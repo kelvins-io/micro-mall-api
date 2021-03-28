@@ -13,7 +13,7 @@ type UserAccountChargeArgs struct {
 	DevicePlatform string `form:"device_platform" json:"device_platform"`
 	AccountType    int    `form:"account_type" json:"account_type"`
 	CoinType       int    `form:"coin_type" json:"coin_type"`
-	OutTradeNo string `form:"out_trade_no" json:"out_trade_no"`
+	OutTradeNo     string `form:"out_trade_no" json:"out_trade_no"`
 	Amount         string `form:"amount" json:"amount"`
 }
 
@@ -489,6 +489,37 @@ type UserInfoRsp struct {
 	Age         int    `json:"age"`
 	CreateTime  string `json:"create_time"`
 	UpdateTime  string `json:"update_time"`
+}
+
+type ListUserInfoArgs struct {
+	PageMeta
+	Token string `form:"token" json:"token"`
+}
+
+type ListUserInfoRsp struct {
+	UserInfoList []UserMobilePhone `json:"user_info_list"`
+}
+
+type UserMobilePhone struct {
+	CountryCode string `json:"country_code"`
+	Phone       string `json:"phone"`
+}
+
+type PageMeta struct {
+	PageSize int32 `form:"page_size" json:"page_size"`
+	PageNum  int32 `form:"page_num" json:"page_num"`
+}
+
+func (p *PageMeta) Valid(v *validation.Validation) {
+	if p.PageNum < 1 {
+		v.SetError("PageNum", "PageNum不能小于1")
+	}
+	if p.PageSize <= 0 {
+		v.SetError("PageSize", "PageSize 无效")
+	}
+	if p.PageSize > 1000 {
+		v.SetError("PageSize", "PageSize最大为1000")
+	}
 }
 
 type OrderShopGoods struct {

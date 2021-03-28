@@ -36,6 +36,7 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	{
 		apiUser.PUT("/password/reset", v1.PasswordResetApi) // 重置密码
 		apiUser.GET("/user_info", v1.GetUserInfoApi)        // 获取用户信息
+		apiUser.GET("/user_info/list", v1.ListUserInfoApi)  // 列举用户
 		userSetting := apiUser.Group("/setting")
 		{
 			userSetting.POST("/address", v1.UserSettingAddressModifyApi) // 更新用户地址

@@ -57,5 +57,5 @@ const (
 	CommentsTagExist          = 600032
 	CommentsTagNotExist       = 600033
 	UserOrderNotExist         = 600034
-	OutTradeEmpty = 600035
+	OutTradeEmpty             = 600035
 )

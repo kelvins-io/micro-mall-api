@@ -267,13 +267,15 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	return code.SUCCESS
 }
 
-func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int) {
+func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int, verifyCode string) {
+	retCode = code.SUCCESS
 	var err error
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
-		return code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
@@ -282,17 +284,23 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		Phone:       req.Phone,
 	}
 	userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
-	if err != nil || userRsp.Common.Code == users.RetCode_ERROR {
+	if err != nil || userRsp.Common.Code != users.RetCode_SUCCESS {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
-		return code.ERROR
+		retCode = code.ERROR
+		return
 	}
-	verifyCode := random.KrandNum(6)
-	notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
-	err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
-		return code.ErrorEmailSend
+	verifyCode = random.KrandNum(6)
+
+	if req.ReceiveEmail != "" {
+		notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
+		err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
+			retCode = code.ErrorEmailSend
+			return
+		}
 	}
+
 	verifyCodeRecord := mysql.VerifyCodeRecord{
 		Uid:          int(userRsp.Info.Uid),
 		BusinessType: req.BusinessType,
@@ -307,10 +315,11 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	err = repository.CreateVerifyCodeRecord(&verifyCodeRecord)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "CreateVerifyCodeRecord err: %v, req: %+v", err, req)
-		return code.ERROR
+		retCode = code.ERROR
+		return
 	}
 
-	return code.SUCCESS
+	return
 }
 
 func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
@@ -353,4 +362,47 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 		UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
 	}
 	return &result, code.SUCCESS
+}
+
+func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.ListUserInfoRsp, retCode int) {
+	result.UserInfoList = make([]args.UserMobilePhone, 0)
+	retCode = code.SUCCESS
+
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		return result, code.ERROR
+	}
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	reqList := users.ListUserInfoRequest{
+		PageMeta: &users.PageMeta{
+			PageNum:  req.PageNum,
+			PageSize: req.PageSize,
+		},
+		Token: req.Token,
+	}
+	userInfo, err := client.ListUserInfo(ctx, &reqList)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo %v,err: %v, req: %+v", serverName, err, req)
+		retCode = code.ERROR
+		return
+	}
+	if userInfo.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
+		retCode = code.ERROR
+		return
+	}
+
+	infoList := userInfo.UserInfoList
+	result.UserInfoList = make([]args.UserMobilePhone, len(infoList))
+	for i := 0; i < len(infoList); i++ {
+		m := args.UserMobilePhone{
+			CountryCode: infoList[i].GetCountryCode(),
+			Phone:       infoList[i].GetPhone(),
+		}
+		result.UserInfoList[i] = m
+	}
+	return
 }
