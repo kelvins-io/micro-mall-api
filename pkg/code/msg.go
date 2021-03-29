@@ -55,7 +55,7 @@ var MsgFlags = map[int]string{
 	CommentsTagExist:          "评论标签已存在",
 	CommentsTagNotExist:       "评论标签不存在",
 	UserOrderNotExist:         "用户订单不存在",
-	OutTradeEmpty:"外部交易号为空",
+	OutTradeEmpty:             "外部交易号为空",
 }
 
 //func init() {

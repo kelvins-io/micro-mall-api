@@ -910,6 +910,11 @@ func TestTradeCreateOrder(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+func TestTime(t *testing.T)  {
+	now := time.Now().Unix()
+	t.Log(now)
+}
+
 func TestVerifyCodeSend(t *testing.T) {
 	r := baseUrl + verifyCodeSend
 	t.Logf("request url: %s", r)

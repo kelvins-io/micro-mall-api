@@ -37,7 +37,9 @@ micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，�
 然后看看下面的环节      
 
 #### 服务注册说明
-由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档      
+由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档    
+export ETCDV3_SERVER_URLS=http://10.211.55.12:2379,http://10.211.55.13:2379  #地址仅供示范     
+export ETCDCTL_API=3   
 
 #### 都有哪些服务
 micro-mall-api   接入层   
@@ -67,6 +69,9 @@ GOPROXY="https://goproxy.baidu.com,https://goproxy.io,direct"
 #### 服务启动端口说明
 除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是在运行时自动生成随机端口号并注册到etcd集群中   
 
+#### 运行环境说明
+GO_ENV=dev   #本地开发环境   
+可选值：dev,test,release,prod   
 
 #### 都有哪些依赖
 部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
