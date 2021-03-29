@@ -70,7 +70,7 @@ GOPROXY="https://goproxy.baidu.com,https://goproxy.io,direct"
 除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是在运行时自动生成随机端口号并注册到etcd集群中   
 
 #### 运行环境说明
-GO_ENV=dev   #本地开发环境   
+export GO_ENV=dev   #本地开发环境   
 可选值：dev,test,release,prod   
 
 #### 都有哪些依赖
