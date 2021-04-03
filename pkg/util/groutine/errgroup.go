@@ -1,6 +1,6 @@
-package util
+package goroute
 
-import "golang.org/x/net/context"
+import "context"
 
 func CheckGoroutineErr(errCtx context.Context) error {
 	select {

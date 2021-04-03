@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"gitee.com/cristiane/go-common/env"
+	"gitee.com/kelvins-io/common/env"
 	_ "github.com/go-sql-driver/mysql"
 	"xorm.io/xorm"
 	xormLog "xorm.io/xorm/log"

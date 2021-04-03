@@ -16,8 +16,9 @@ func main() {
 			LoadConfig: startup.LoadConfig,
 			SetupVars:  startup.SetupVars,
 		},
-		RegisterHttpRoute:startup.RegisterHttpRoute,
-		RegisterTasks:startup.RegisterTasks,
+		RegisterHttpRoute: startup.RegisterHttpRoute,
+		RegisterTasks:     startup.RegisterTasks,
+		StopFunc:          startup.SetStopFunc,
 	}
 	app.RunApplication(application)
 }

@@ -3,7 +3,7 @@ package app
 import (
 	"flag"
 	"fmt"
-	"gitee.com/cristiane/go-common/log"
+	"gitee.com/kelvins-io/common/log"
 	"gitee.com/cristiane/micro-mall-api/internal/setup"
 	"gitee.com/cristiane/micro-mall-api/vars"
 )

@@ -2,7 +2,7 @@ package client
 
 import (
 	"fmt"
-	"gitee.com/cristiane/go-common/json"
+	"gitee.com/kelvins-io/common/json"
 	"github.com/google/uuid"
 	"io/ioutil"
 	"log"
@@ -202,7 +202,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "c3fadb4f-6685-4e57-a619-4d53b5428b09")
+	data.Set("tx_code", "ea5c00f6-fd9f-4a9d-a2a9-72afdfc99955")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -920,7 +920,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18319430520")
+	data.Set("phone", "38319430520")
 	data.Set("business_type", "1")
 	data.Set("receive_email", "mybaishati@gmail.com")
 	t.Logf("req data: %v", data)
@@ -972,9 +972,9 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "15501707783")
+	data.Set("phone", "38319430520")
 	data.Set("email", "mybaishati@gmail.com")
-	data.Set("verify_code", "606347")
+	data.Set("verify_code", "177059")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "廊坊市淮南路清明河畔李家大院")
 	data.Set("invite_code", "")

@@ -1,7 +1,7 @@
 package setup
 
 import (
-	"gitee.com/cristiane/go-common/queue"
+	"gitee.com/kelvins-io/common/queue"
 	"gitee.com/cristiane/micro-mall-api/config/setting"
 	"log"
 )

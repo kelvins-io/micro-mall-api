@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
-	"gitee.com/cristiane/go-common/random"
+	"gitee.com/kelvins-io/common/random"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/model/mysql"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
@@ -292,12 +292,16 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	verifyCode = random.KrandNum(6)
 
 	if req.ReceiveEmail != "" {
-		notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
-		err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
-			retCode = code.ErrorEmailSend
-			return
+		vars.GPool.WaitCount(1)
+		vars.GPool.JobQueue <- func() {
+			defer vars.GPool.JobDone()
+			notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
+			err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
+			if err != nil {
+				vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
+				retCode = code.ErrorEmailSend
+				return
+			}
 		}
 	}
 

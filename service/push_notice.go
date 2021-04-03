@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"gitee.com/cristiane/go-common/json"
-	"gitee.com/cristiane/go-common/queue"
+	"gitee.com/kelvins-io/common/json"
+	"gitee.com/kelvins-io/common/queue"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/RichardKnop/machinery/v1/tasks"

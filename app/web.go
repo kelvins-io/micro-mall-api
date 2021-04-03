@@ -12,6 +12,11 @@ import (
 )
 
 func RunApplication(application *vars.WEBApplication) {
+	defer func() {
+		if application.StopFunc != nil {
+			application.StopFunc()
+		}
+	}()
 	if application.Name == "" {
 		logging.Fatal("Application name can't not be empty")
 	}

@@ -1,9 +1,10 @@
 package startup
 
 import (
-	"gitee.com/cristiane/go-common/log"
 	"gitee.com/cristiane/micro-mall-api/internal/setup"
+	"gitee.com/cristiane/micro-mall-api/pkg/util/groutine"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/log"
 )
 
 // SetupVars 加载变量
@@ -41,6 +42,12 @@ func SetupVars() error {
 			return err
 		}
 	}
+	vars.GPool = goroute.NewPool(20, 1000)
 
 	return nil
+}
+
+func SetStopFunc()  {
+	vars.GPool.WaitAll()
+	vars.GPool.Release()
 }
