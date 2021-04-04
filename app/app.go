@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
-	"gitee.com/cristiane/micro-mall-api/internal/setup"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/log"
 	"os"
@@ -56,10 +55,6 @@ func appPrepareForceExit() {
 func setupCommonVars(application *vars.WEBApplication) error {
 	if vars.ServerSetting != nil {
 		vars.App.EndPort = vars.ServerSetting.EndPort
-		vars.App.MonitorEndPort = vars.ServerSetting.MonitorEndPort
-		if vars.ServerSetting.MonitorEndPort != 0 {
-			application.Mux = setup.NewServerMux()
-		}
 	}
 	return nil
 }
