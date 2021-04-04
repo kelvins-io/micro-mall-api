@@ -15,10 +15,10 @@ func main() {
 			Name:       AppName,
 			LoadConfig: startup.LoadConfig,
 			SetupVars:  startup.SetupVars,
+			StopFunc:   startup.SetStopFunc,
 		},
 		RegisterHttpRoute: startup.RegisterHttpRoute,
 		RegisterTasks:     startup.RegisterTasks,
-		StopFunc:          startup.SetStopFunc,
 	}
 	app.RunApplication(application)
 }

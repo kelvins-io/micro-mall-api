@@ -2,6 +2,7 @@
 Mode = "debug"
 EndPort = 52001
 MonitorEndPort = 52002
+PIDFile = "./micro-mall-api.pid"
 
 [web-logger]
 RootPath = "./logs"
@@ -32,32 +33,8 @@ Password = "07030501310"
 DB = 1
 PoolNum = 10
 
-;[queue-user-register-notice]
-;Broker = "amqp://micro-mall:szJ9aePR@localhost:5672/micro-mall"
-;DefaultQueue = "user_register_notice"
-;ResultBackend = "redis://07030501310@127.0.0.1:6379/8"
-;ResultsExpireIn = 3600
-;Exchange = "user_register_notice"
-;ExchangeType = "direct"
-;BindingKey = "user_register_notice"
-;PrefetchCount = 5
-;TaskRetryCount = 3
-;TaskRetryTimeout = 3600
-;
-;[queue-user-state-notice]
-;Broker = "amqp://micro-mall:szJ9aePR@localhost:5672/micro-mall"
-;DefaultQueue = "user_state_notice"
-;ResultBackend = "redis://07030501310@127.0.0.1:6379/8"
-;ResultsExpireIn = 3600
-;Exchange = "user_state_notice"
-;ExchangeType = "direct"
-;BindingKey = "user_state_notice"
-;PrefetchCount = 5
-;TaskRetryCount = 3
-;TaskRetryTimeout = 3600
-
 [email-config]
-User = "xxxx@qq.com"
-Password = "xxx"
+User = "1225807604@qq.com"
+Password = "glxggszbnrnigcii"
 Host = "smtp.qq.com"
 Port = "465"
