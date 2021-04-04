@@ -9,6 +9,7 @@ require (
 	github.com/astaxie/beego v1.12.2
 	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gin-contrib/pprof v1.3.0
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.60.2
 	github.com/go-sql-driver/mysql v1.5.0

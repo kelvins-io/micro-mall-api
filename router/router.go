@@ -3,11 +3,12 @@ package router
 import (
 	"gitee.com/cristiane/micro-mall-api/middleware"
 	v1 "gitee.com/cristiane/micro-mall-api/router/api/v1"
+	"gitee.com/cristiane/micro-mall-api/router/process"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"github.com/gin-contrib/pprof"
+	"github.com/gin-gonic/gin"
 	"io"
 	"os"
-
-	"github.com/gin-gonic/gin"
 )
 
 func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
@@ -23,6 +24,8 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	r := gin.Default()
 	r.Use(middleware.Cors())
 	r.GET("/", v1.IndexApi)
+	pprof.Register(r, "/debug")
+	r.GET("/debug/metrics", process.MetricsApi)
 	r.GET("/ping", v1.PingApi) // ping
 	r.Static("/static", "./static")
 	apiG := r.Group("/api")
