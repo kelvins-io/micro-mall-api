@@ -3,7 +3,6 @@ package setting
 type ServerSettingS struct {
 	Network        string
 	EndPort        int
-	MonitorEndPort int
 	ReadTimeout    int
 	WriteTimeout   int
 	Mode           string

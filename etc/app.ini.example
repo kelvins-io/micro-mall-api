@@ -1,7 +1,6 @@
 [web-server]
 Mode = "debug"
 EndPort = 52001
-MonitorEndPort = 52002
 PIDFile = "./micro-mall-api.pid"
 
 [web-logger]
