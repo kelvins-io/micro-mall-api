@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 )
 
 func RunApplication(application *vars.WEBApplication) {
@@ -93,7 +94,12 @@ func runApp(webApp *vars.WEBApplication) error {
 		logging.Fatalf("App kprocess listen err: %v", err)
 	}
 	ginEngine := webApp.RegisterHttpRoute()
-	serve := http.Server{Handler: ginEngine}
+	serve := http.Server{
+		Handler:      ginEngine,
+		ReadTimeout:  time.Duration(vars.ServerSetting.ReadTimeout) * time.Second,
+		WriteTimeout: time.Duration(vars.ServerSetting.WriteTimeout) * time.Second,
+		IdleTimeout:  time.Duration(vars.ServerSetting.IdleTimeout) * time.Second,
+	}
 	go func() {
 		err = serve.Serve(ln)
 		if err != nil {

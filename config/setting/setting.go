@@ -5,6 +5,7 @@ type ServerSettingS struct {
 	EndPort        int
 	ReadTimeout    int
 	WriteTimeout   int
+	IdleTimeout    int
 	Mode           string
 	PIDFile        string
 }
