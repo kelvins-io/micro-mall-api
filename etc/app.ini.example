@@ -37,6 +37,6 @@ PoolNum = 10
 
 [email-config]
 User = "xxxx@qq.com"
-Password = "xxx"
+Password = "xxxx"
 Host = "smtp.qq.com"
 Port = "465"
