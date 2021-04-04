@@ -1,27 +1,22 @@
 package app
 
 import (
-	"flag"
+	"context"
 	"fmt"
 	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
+	"gitee.com/cristiane/micro-mall-api/pkg/util/kprocess"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"net/http"
-
+	"os"
 	"strconv"
 )
 
 func RunApplication(application *vars.WEBApplication) {
-	defer func() {
-		if application.StopFunc != nil {
-			application.StopFunc()
-		}
-	}()
 	if application.Name == "" {
 		logging.Fatal("Application name can't not be empty")
 	}
 
-	flag.Parse()
 	application.Type = vars.AppTypeWeb
 	vars.App = application
 	err := runApp(application)
@@ -62,14 +57,6 @@ func runApp(webApp *vars.WEBApplication) error {
 	}
 
 	//4.  setup server monitor
-	go func() {
-		addr := "127.0.0.1:" + strconv.Itoa(webApp.MonitorEndPort)
-		logging.Infof("App run monitor server addr: %v", addr)
-		err := http.ListenAndServe(addr, webApp.Mux)
-		if err != nil {
-			logging.Fatalf("App run monitor server err: %v", err)
-		}
-	}()
 
 	// 5 run task
 	//cn := cron.New(cron.WithSeconds())
@@ -96,7 +83,31 @@ func runApp(webApp *vars.WEBApplication) error {
 	if webApp.RegisterHttpRoute == nil {
 		logging.Fatalf("App RegisterHttpRoute nil ??")
 	}
-	err = webApp.RegisterHttpRoute().Run(addr)
+	wd, _ := os.Getwd()
+	pidFile := fmt.Sprintf("%s/%s.pid", wd, webApp.Name)
+	if vars.ServerSetting.PIDFile != "" {
+		pidFile = vars.ServerSetting.PIDFile
+	}
+	ln, err := kprocess.Listen("tcp", addr, pidFile)
+	if err != nil {
+		logging.Fatalf("App kprocess listen err: %v", err)
+	}
+	ginEngine := webApp.RegisterHttpRoute()
+	serve := http.Server{Handler: ginEngine}
+	go func() {
+		err = serve.Serve(ln)
+		if err != nil {
+			logging.Fatalf("App run server err: %v", err)
+		}
+	}()
+	<-kprocess.Exit()
+
+	appPrepareForceExit()
+	err = serve.Shutdown(context.Background())
+	if err != nil {
+		logging.Fatalf("App server Shutdown err: %v", err)
+	}
+	err = appShutdown(webApp.Application)
 
 	return err
 }

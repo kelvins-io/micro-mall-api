@@ -17,6 +17,7 @@ type Application struct {
 	Type       int32
 	LoadConfig func() error
 	SetupVars  func() error
+	StopFunc   func() error
 }
 
 // ListenerApplication ...
@@ -30,8 +31,6 @@ type WEBApplication struct {
 	RegisterHttpRoute func() *gin.Engine
 	// 系统定时任务
 	RegisterTasks func() []CronTask
-	// Stop func
-	StopFunc func()
 }
 
 type ListenerApplication struct {

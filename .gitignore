@@ -16,3 +16,4 @@ vendor
 static
 micro-mall-api
 etc/app.ini
+micro-mall-api.pid

@@ -7,6 +7,7 @@ require (
 	gitee.com/kelvins-io/kelvins v1.2.2
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
+	github.com/cloudflare/tableflip v1.2.2
 	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/pprof v1.3.0

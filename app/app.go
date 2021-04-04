@@ -3,9 +3,12 @@ package app
 import (
 	"flag"
 	"fmt"
-	"gitee.com/kelvins-io/common/log"
+	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/internal/setup"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/log"
+	"os"
+	"time"
 )
 
 var (
@@ -33,6 +36,20 @@ func initApplication(application *vars.Application) error {
 	}
 
 	return nil
+}
+
+func appShutdown(application *vars.Application) error {
+	if application.StopFunc != nil {
+		return application.StopFunc()
+	}
+	return nil
+}
+
+func appPrepareForceExit() {
+	time.AfterFunc(10*time.Second, func() {
+		logging.Info("App monitor server Shutdown timeout")
+		os.Exit(1)
+	})
 }
 
 // 初始化全局配置

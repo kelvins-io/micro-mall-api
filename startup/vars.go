@@ -47,7 +47,8 @@ func SetupVars() error {
 	return nil
 }
 
-func SetStopFunc()  {
+func SetStopFunc() error {
 	vars.GPool.WaitAll()
 	vars.GPool.Release()
+	return nil
 }

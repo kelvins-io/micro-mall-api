@@ -7,6 +7,7 @@ type ServerSettingS struct {
 	ReadTimeout    int
 	WriteTimeout   int
 	Mode           string
+	PIDFile        string
 }
 
 type JwtSettingS struct {
