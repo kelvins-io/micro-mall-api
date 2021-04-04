@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	gitee.com/kelvins-io/common v1.0.4
-	gitee.com/kelvins-io/kelvins v1.2.2
+	gitee.com/kelvins-io/kelvins v1.2.5
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
 	github.com/cloudflare/tableflip v1.2.2

@@ -20,7 +20,7 @@ ExpireMinute = 100
 [micro-mall-mysql]
 Host = "127.0.0.1:3306"
 UserName = "root"
-Password = "07030501310"
+Password = "oyuioyuioy"
 DBName = "micro_mall"
 Charset = "utf8mb4"
 PoolNum =  10
@@ -31,12 +31,12 @@ ParseTime = true
 
 [micro-mall-redis]
 Host = "127.0.0.1:6379"
-Password = "07030501310"
+Password = "oyuioyiuoyui"
 DB = 1
 PoolNum = 10
 
 [email-config]
-User = "xxx@qq.com"
+User = "xxxx@qq.com"
 Password = "xxxx"
 Host = "smtp.qq.com"
 Port = "465"
