@@ -1,6 +1,7 @@
 package config
 
 import (
+	"flag"
 	"gitee.com/cristiane/micro-mall-api/config/setting"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"log"
@@ -24,13 +25,21 @@ const (
 )
 
 // cfg reads file app.ini.
-var cfg *ini.File
+var (
+	cfg      *ini.File
+	flagConf = flag.String("conf_file", "", "Set app config.")
+)
 
 // LoadDefaultConfig loads config form cfg.
 func LoadDefaultConfig(application *vars.Application) error {
 	// Setup cfg object
+	flag.Parse()
 	var err error
-	cfg, err = ini.Load(ConfFileName)
+	var confFile = ConfFileName
+	if *flagConf != "" {
+		confFile = *flagConf
+	}
+	cfg, err = ini.Load(confFile)
 	if err != nil {
 		return err
 	}
