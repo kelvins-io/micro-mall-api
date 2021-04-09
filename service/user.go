@@ -292,8 +292,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	verifyCode = random.KrandNum(6)
 
 	if req.ReceiveEmail != "" {
-		vars.GPool.WaitCount(1)
-		vars.GPool.JobQueue <- func() {
+		job:=  func() {
 			defer vars.GPool.JobDone()
 			notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
 			err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
@@ -303,6 +302,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 				return
 			}
 		}
+		vars.GPool.SendJob(job)
 	}
 
 	verifyCodeRecord := mysql.VerifyCodeRecord{

@@ -71,7 +71,7 @@ func TestGetUserInfo(t *testing.T) {
 }
 
 func TestListUserInfo(t *testing.T)  {
-	r := baseUrl + userInfoList+"?page_size=3&page_num=1&token=xxx"
+	r := baseUrl + userInfoList+"?page_size=2&page_num=1&token=xxx"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {

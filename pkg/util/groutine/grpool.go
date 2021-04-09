@@ -1,7 +1,11 @@
 package goroute
 
 // thank https://github.com/ivpusic/grpool
-import "sync"
+import (
+	"log"
+	"sync"
+	"time"
+)
 
 // Gorouting instance which can accept client jobs
 type worker struct {
@@ -19,13 +23,22 @@ func (w *worker) start() {
 
 			select {
 			case job = <-w.jobChannel:
-				job()
+				runJob(job)
 			case <-w.stop:
 				w.stop <- struct{}{}
 				return
 			}
 		}
 	}()
+}
+
+func runJob(f func()) {
+	defer func() {
+		if err := recover(); err != nil {
+			log.Printf("Job panic err: %v", err)
+		}
+	}()
+	f()
 }
 
 func newWorker(pool chan *worker) *worker {
@@ -103,6 +116,32 @@ func NewPool(numWorkers int, jobQueueLen int) *Pool {
 	}
 
 	return pool
+}
+
+func (p *Pool) wrapJob(job func()) func() {
+	return func() {
+		defer p.JobDone()
+		job()
+	}
+}
+
+func (p *Pool) SendJobWithDeadline(job func(), t time.Time) bool {
+	s := t.Sub(time.Now())
+	if s <= 0 {
+		s = time.Second // timeout
+	}
+	select {
+	case <-time.After(s):
+		return false
+	case p.JobQueue <- p.wrapJob(job):
+		p.WaitCount(1)
+		return true
+	}
+}
+
+func (p *Pool) SendJob(job func()) {
+	p.WaitCount(1)
+	p.JobQueue <- p.wrapJob(job)
 }
 
 // In case you are using WaitAll fn, you should call this method

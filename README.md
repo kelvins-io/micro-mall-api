@@ -31,9 +31,158 @@ prometheus_metrics接口
 架构示意图：   
 ![avatar](./微商城系统架构设计.png)
 
+### 项目目录结构
+```json
+.
+├── Dockerfile  docker构建文件
+├── LICENSE   授权文件
+├── README.md   导航指南
+├── app   
+│   ├── app.go    app初始化
+│   └── web.go    web服务初始化
+├── client
+│   ├── header.go   测试用例request header
+│   ├── main
+│   │   └── user_name.go    模拟注册的生成用户名
+│   ├── micro-mall-api_test.go    接口测试用例
+│   ├── url.go    接口测试URL
+│   └── user_name.go    模拟生成用户名
+├── config
+│   ├── config.go   解析配置文件
+│   └── setting
+│       └── setting.go    系统配置setting
+├── etc
+│   ├── app.ini   app配置文件
+│   └── app.ini.example   app配置文件example
+├── genpb.py    pb,gw文件生成脚本
+├── go.mod
+├── go.sum
+├── internal
+│   ├── config
+│   │   └── config.go   内部解析配置
+│   ├── logging
+│   │   └── log.go    启动日志
+│   ├── metrics_mux
+│   │   ├── elastic_metrics.go    elastic监控
+│   │   ├── pprof.go    golang内置pprof监控
+│   │   └── prometheus_metrics.go   prometheus监控
+│   ├── setup
+│   │   ├── mysql.go  mysql启动
+│   │   ├── queue.go   queue启动
+│   │   ├── redis.go  redis启动
+│   │   └── server_mux.go  server监控mux入口
+│   └── util
+│       ├── mysql_callback
+│       │   └── time_callback.go    mysql time callback
+│       └── mysql_model
+│           └── mysql_model.go    mysql mode 
+├── logs  日志文件目录
+├── main.go   main入口文件
+├── micro-mall-api    main.go编译后文件
+├── micro-mall-api.pid    micro-mall-api进程pid
+├── micro-mall-db.yaml    映射db表结构到orm struct
+├── micro_mall.sql    micro-mall数据库SQL
+├── micro_mall_comments.sql   micro-mall-comments评论服务数据库SQL
+├── micro_mall_logistics.sql    micro-mall-logistics物流服务数据库SQL
+├── micro_mall_order.sql    micro-mall-order订单服务数据库SQL
+├── micro_mall_pay.sql    micro-mall-pay支付服务数据库SQL
+├── micro_mall_shop.sql   micro-mall-shop店铺服务数据库SQL
+├── micro_mall_sku.sql    micro-mall-sku商品库服务数据库SQL
+├── micro_mall_trolley.sql    micro-mall-trolley购物车服务数据库SQL
+├── micro_mall_user.sql   micro-mall-users用户服务数据库SQL
+├── middleware
+│   ├── cors.go   cros跨域中间件
+│   └── user.go   user验证中间件
+├── model
+│   ├── args
+│   │   ├── const.go    请求参数常量
+│   │   └── form.go   请求参数struct
+│   └── mysql
+│       └── table.go    MySQL表名常量
+├── pkg
+│   ├── app
+│   │   ├── form.go   请求表单参数
+│   │   └── response.go   http响应
+│   ├── code
+│   │   ├── code.go   响应码定义
+│   │   ├── error.go    错误定义
+│   │   └── msg.go    错误码
+│   └── util
+│       ├── cache
+│       │   ├── big_cache.go    big_cache缓存
+│       │   └── redis.go    redis缓存
+│       ├── client.go   调用grpc客户端
+│       ├── email
+│       │   ├── email.go    邮件发送
+│       │   └── email_helper.go   邮件发送helper
+│       ├── groutine
+│       │   ├── attach_panic.go   函数panic包装器
+│       │   ├── errgroup.go   errgroup并发
+│       │   └── grpool.go   异步任务调度
+│       ├── kprocess
+│       │   └── tableflip.go    进程重启
+│       ├── slice.go    切片工具类
+│       ├── time.go   时间工具类
+│       ├── token.go    jwt token
+│       └── user_name.go    用户名生成
+├── repository
+│   └── verify_code_record.go   验证码存储
+├── router
+│   ├── api
+│   │   └── v1
+│   │       ├── comments.go   评论controller
+│   │       ├── index.go    首页controller
+│   │       ├── logistics.go    物流controller
+│   │       ├── merchants.go    商户controller
+│   │       ├── order.go    订单controller
+│   │       ├── search.go   搜索controller
+│   │       ├── shop.go   店铺controller
+│   │       ├── sku.go    商品库controller
+│   │       ├── user.go   用户controller
+│   │       ├── user_account.go   用户账户controller
+│   │       ├── user_setting.go   用户设置controller
+│   │       └── user_trolley.go   用户购物车controller
+│   ├── process
+│   │   └── prometheus.go   gin prometheus监控接口
+│   └── router.go   app路由
+├── service
+│   ├── comments.go   评论业务调用gRPC
+│   ├── common.go   公共服务
+│   ├── excel_handler.go    Excel处理
+│   ├── logistics.go    物流业务调用gRPC
+│   ├── merchants.go    商户业务调用gRPC
+│   ├── push_notice.go    队列推送
+│   ├── search.go   搜索业务调用gRPC
+│   ├── shop_business.go    店铺业务调用gRPC
+│   ├── sku_business.go   商品库业务调用gRPC
+│   ├── trade_order.go    支付订单业务调用gRPC
+│   ├── trade_order_report.go   支付订单业务报告
+│   ├── user.go   用户业务调用gRPC
+│   ├── user_account.go   用户账户调用gRPC
+│   ├── user_setting.go   用户设置调用gRPC
+│   └── user_trolley.go   用户购物车调用gRPC
+├── sku_property_ex.json    商品库MongoDB存储参考
+├── startup
+│   ├── config.go   启动自定义配置
+│   ├── register.go   注册自定义服务
+│   └── vars.go   自定义配置变量
+├── static
+├── vars
+│   ├── server.go   server全局变量
+│   ├── setting.go    全局setting
+│   └── vars.go   全局变量
+├── 交流群.JPG
+├── 微商城ETCD部署.pdf
+├── 微信赞赏码.JPG
+├── 支付宝赞赏码.JPG
+├── 微商城需求文档.pdf
+└── 微商城系统架构设计.png
+```
+
+
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
-你需要安装golang并配置golang开发环境   
+你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN,GO_ENV）   
 然后看看下面的环节      
 
 #### 服务注册说明
@@ -64,7 +213,10 @@ micro-mall-search-cron   搜索定时任务
 GOPROXY="https://goproxy.baidu.com,https://goproxy.io,direct"   
 
 #### 克隆仓库
-将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地   
+将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地    
+为了方便clone仓库，特此提供了一键clone micro-mall系列脚本（需要Git支持），在本仓库根目录   
+mac/linux：sh batch-clone-project.sh   
+windows请使用git bash shell运行：sh batch-clone-project.sh      
 
 #### 服务启动端口说明
 除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是在运行时自动生成随机端口号并注册到etcd集群中   
@@ -263,7 +415,7 @@ Prometheus：http://localhost:52002/metrics
 GET    /               
 返回body   
 
-```
+```json
 {
 	"code": 200,
 	"data": "Welcome to micro-mall-api",
@@ -277,7 +429,7 @@ GET    /ping
 
 返回body   
 
-```
+```json
 {
 	"code": 200,
 	"data": "2020-09-11T21:55:28.873726+08:00",
@@ -297,7 +449,7 @@ business_type |业务类型 | int | 1注册，2登录，3修改或重置密码
 receive_email |接收验证码邮箱 | string | xxxx@xx.com
 
 返回body：   
-```
+```json
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
@@ -319,7 +471,7 @@ invite_code |邀请码 | string | xxx
 
 返回body：   
 
-```
+```json
 {"code":200,"data":{"invite_code":"46e4eabbf000065"},"msg":"ok"}
 ```
 
@@ -335,7 +487,7 @@ verify_code |验证码 | string | 6位验证码
 
 返回body：   
 
-```
+```json
 {"code":200,"data":"token","msg":"ok"}
 ```
 
@@ -350,7 +502,7 @@ phone |手机号 | string | 11位手机号
 password | 密码 | string | 可传md5值
 
 返回body：   
-```
+```json
 {"code":200,"data":{},"msg":"ok"}
 ```
 
@@ -365,7 +517,7 @@ verify_code |验证码 | string | 6位验证码
 password | 密码 | string | 可传md5值
 
 返回body：   
-```
+```json
 {"code":200,"data":"token","msg":"ok"}
 ```
 
@@ -374,7 +526,7 @@ GET    /api/v1/user/user_info
 header token   
 
 返回body： 
-```
+```json
 {
 	"code": 200,
 	"data": {
@@ -438,7 +590,7 @@ tax_card_no | 纳税人证号 | string | 大于16位字符
 
 返回body： 
 
-```
+```json
 {"code":200,"data":{"merchant_id":111},"msg":"ok"}
 
 ```
@@ -457,7 +609,7 @@ time | 加入时间 | string | 2020-09-05 13:25:43
 selected | 是否选中 | bool | true,false
 
 返回body： 
-```
+```json
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
@@ -472,7 +624,7 @@ sku_code | string | int | 商品唯一sku_code
 shop_id | 店铺ID | int | 商品所属店铺ID
 
 返回body： 
-```
+```json
 {"code":200,"data":"ok","msg":"ok"}
 ```
 
@@ -480,7 +632,7 @@ shop_id | 店铺ID | int | 商品所属店铺ID
 GET    /api/v1/user/trolley/sku/list   
 header token   
 返回body： 
-```
+```json
 {"code":200,"data":{"list":[{"sku_code":"df1a9633-b060-4682-9502-bc934f89392b","shop_id":29914,"count":534252790,"time":"2020-09-11 23:01:25","selected":true}]},"msg":"ok"}
 ```
 
@@ -506,7 +658,7 @@ organization_code | 组织结构代码 | string | 不能为空
 
 返回body： 
 
-```
+```json
 {"code":200,"data":{"shop_id":111},"msg":"ok"}
 
 ```
@@ -545,9 +697,8 @@ shop_id | 店铺ID | int | 商品所属店铺ID
 
 返回body： 
 
-```
+```json
 {"code":200,"data":{},"msg":"ok"}
-
 ```
 
 16   补充商品扩展信息   
@@ -569,7 +720,7 @@ shelf_life | 有效期 | string | 描述过期截止时间
 
 返回body： 
 
-```
+```json
 {"code":200,"data":{},"msg":"ok"}
 
 ```
@@ -579,9 +730,8 @@ GET    /api/v1/sku_business/sku/list
 header token   
 返回body： 
 
-```
+```json
 {"code":200,"data":{"list":[{"sku_code":"df1a9633-b060-4682-9502-bc934f89392b","shop_id":29914,"count":534252790,"time":"2020-09-11 23:01:25","selected":true}]},"msg":"ok"}
-
 ```
 
 18   添加商品到购物车   
@@ -598,7 +748,7 @@ time | 时间 | string | 如2020-12-11 09:09
 selected | 是否选中 | bool | true表示选中，false表示未选中
 
 返回body   
-```
+```json
 
 ```
 
@@ -613,7 +763,7 @@ sku_code | 商品sku | string | 商品唯一code
 shop_id | 店铺ID | int | 商品所属店铺ID
 
 返回body   
-```
+```json
 
 ```
 
@@ -622,7 +772,7 @@ get /user/trolley/sku/list
 header token  
 
 返回body   
-```
+```json
 
 ```
 
@@ -631,7 +781,7 @@ post /user/order/create
 header token  
 请求参数：   
 
-```
+```json
 {
 	"uid": 100098,
 	"client_ip": "127.0.0.1",
@@ -680,8 +830,8 @@ header token
 }
 ```
 返回body   
-```
-
+```json
+{"code": 200,"data": "","msg": ""}
 ```
 
 22  订单支付   
@@ -694,8 +844,8 @@ header token
 tx_code | 订单交易号 | string | 不能为空
 
 返回body   
-```
-
+```json
+{"code": 200,"data": "","msg": ""}
 ```
 
 23  申请物流
@@ -719,7 +869,7 @@ receive_phone | 接收方联系方式 | string | 如，0838-10182827
 goods | 需要承运的货物 | string | 如，下面序列化后的值
 
 goods示范
-```
+```json
 [{
 	"sku_code": "2131d-f111-45e1-b68a-d602c2f0f1b3",
 	"name": "怡宝矿泉水",
@@ -733,7 +883,7 @@ post json
 /api/v1/user/setting/address
 
 请求body   
-```
+```json
 {
 	"id": 101,
 	"delivery_user": "张6丰",
@@ -747,7 +897,7 @@ post json
 ```
 
 返回body   
-```
+```json
 {"code":200,"data":"","msg":"ok"}
 ```
 
@@ -756,7 +906,7 @@ get
 /api/v1/user/setting/address?delivery_id=xx  
   
 返回body   
-```
+```json
 {
 	"code": 200,
 	"data": [{
@@ -792,7 +942,7 @@ get
 get /search/sku_inventory?keyword=剃须刀   
 
 返回body   
-```
+```json
 {
 	"code": 200,
 	"data": [{
@@ -844,7 +994,7 @@ get /search/sku_inventory?keyword=剃须刀
 get /search/shop?keyword=交个朋友   
 
 返回body   
-```
+```json
 {
 	"code": 200,
 	"data": [{
@@ -879,54 +1029,6 @@ get /search/shop?keyword=交个朋友
 			"shop_code": "07964e6c-16f9-4e3d-8212-bb336e9ad75a"
 		},
 		"score": 2.7211857
-	}, {
-		"info": {
-			"shop_id": 30065,
-			"merchant_id": 1037,
-			"nick_name": "广州市交个朋友科技有限公司（北京分公司）",
-			"full_name": "广州市交个朋友科技有限公司（北京分公司）",
-			"register_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_license": "qX2MkznWrlvO4sIp7",
-			"tax_card_no": "qX2MkznWrlvO4sIp7",
-			"business_desc": "qX2MkznWrlvO4sIp7",
-			"social_credit_code": "qX2MkznWrlvO4sIp7",
-			"organization_code": "qX2MkznWrlvO4sIp7",
-			"shop_code": "2b464f04-c360-463f-8cbf-44e9adfde329"
-		},
-		"score": 2.7211857
-	}, {
-		"info": {
-			"shop_id": 30064,
-			"merchant_id": 1037,
-			"nick_name": "广州市交个朋友科技有限公司（深圳分公司）",
-			"full_name": "广州市交个朋友科技有限公司（深圳分公司）",
-			"register_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_license": "qX2MkznWrlvO4sIp7",
-			"tax_card_no": "qX2MkznWrlvO4sIp7",
-			"business_desc": "qX2MkznWrlvO4sIp7",
-			"social_credit_code": "qX2MkznWrlvO4sIp7",
-			"organization_code": "qX2MkznWrlvO4sIp7",
-			"shop_code": "5c2ae7b2-113f-491d-b4b5-6f81089aec6a"
-		},
-		"score": 2.7211857
-	}, {
-		"info": {
-			"shop_id": 30067,
-			"merchant_id": 1037,
-			"nick_name": "福建赚它一个亿科技有限公司",
-			"full_name": "福建赚它一个亿科技有限公司",
-			"register_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_addr": "深圳市宝安区宝源二区73栋111号",
-			"business_license": "qX2MkznWrlvO4sIp7",
-			"tax_card_no": "qX2MkznWrlvO4sIp7",
-			"business_desc": "qX2MkznWrlvO4sIp7",
-			"social_credit_code": "qX2MkznWrlvO4sIp7",
-			"organization_code": "qX2MkznWrlvO4sIp7",
-			"shop_code": "d55eaf41-88a8-4d73-a324-70fcc8f64e2d"
-		},
-		"score": 0.6836133
 	}],
 	"msg": "ok"
 }
@@ -945,7 +1047,7 @@ page_size | 分页大小 | int | 500，最小1
 page_num | 分页号 | int | 最小1
 
 返回body   
-```
+```json
 {
 	"code": 200,
 	"data": {
@@ -969,7 +1071,7 @@ device_code | 设备 | string | vivo NEX
 device_platform | 平台 | string | Android
 
 返回body   
-```
+```json
 {"code":200,"data":"","msg":"ok"}
 ```
 
@@ -977,7 +1079,7 @@ device_platform | 平台 | string | Android
 post/json  /user/comments/order/create   
 header token   
 
-```
+```json
 {
 	"anonymity": false,
 	"OrderCommentsInfo": {
@@ -1002,7 +1104,7 @@ header token
 ```
 
 返回body   
-```
+```json
 {"code":200,"data":"","msg":"ok"}
 ```
 
@@ -1010,7 +1112,7 @@ header token
 get  /user/comments/shop/list?shop_id=111    
 返回body   
 
-```
+```json
 {
 	"code": 200,
 	"data": [{
@@ -1039,7 +1141,7 @@ classification_minor | 细致分类 | string | 如，配送
 content | 平台 | string | 标签内容
 
 返回body   
-```
+```json
 {"code":200,"data":"","msg":"ok"}
 ```
 
@@ -1055,7 +1157,7 @@ classification_medium | 次要分类 | string | 如，仓库
 
 返回body   
 
-```
+```json
 {
 	"code": 200,
 	"data": [{
@@ -1068,7 +1170,37 @@ classification_medium | 次要分类 | string | 如，仓库
 	"msg": "ok"
 }
 ```
-  
+
+列举用户   
+get /user/user_info/list?page_size=3&page_num=1&token=xxx   
+请求参数：   
+
+参数 | 含义 |  类型 | 备注  
+---|------|------|---
+page_size | 页码大小 | int | 大于0
+page_num | 页码 | int | 大于0
+token | 授权码 | string | 需要用户服务特别授权码
+```json
+{
+	"code": 200,
+	"data": {
+		"user_info_list": [{
+			"country_code": "1015",
+			"phone": "19494479989"
+		}, {
+			"country_code": "1017",
+			"phone": "90687911165"
+		}]
+	},
+	"msg": "ok"
+}
+```
+ 
+### 赞助
+**1 感谢 jetbrains 为本项目提供的 goland 激活码**   
+
+![avatar](./icon-goland.png)
+
 ### 共同开源
 1 请star收藏项目   
 2 提出issue   
