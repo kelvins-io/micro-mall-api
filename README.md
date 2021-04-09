@@ -32,7 +32,7 @@ prometheus_metrics接口
 ![avatar](./微商城系统架构设计.png)
 
 ### 项目目录结构
-```json
+```
 .
 ├── Dockerfile  docker构建文件
 ├── LICENSE   授权文件
