@@ -6,7 +6,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
-	goroute "gitee.com/cristiane/micro-mall-api/pkg/util/groutine"
+	goroute "gitee.com/cristiane/micro-mall-api/pkg/util/goroutine"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_order_proto/order_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"

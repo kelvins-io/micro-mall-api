@@ -2,7 +2,7 @@ package vars
 
 import (
 	"gitee.com/cristiane/micro-mall-api/config/setting"
-	"gitee.com/cristiane/micro-mall-api/pkg/util/groutine"
+	"gitee.com/cristiane/micro-mall-api/pkg/util/goroutine"
 	"github.com/gomodule/redigo/redis"
 	"github.com/jinzhu/gorm"
 	"xorm.io/xorm"
@@ -25,5 +25,5 @@ var (
 	EmailConfigSetting    *EmailConfigSettingS
 	VerifyCodeSetting     *VerifyCodeSettingS
 	RedisPoolMicroMall    *redis.Pool
-	GPool                 *goroute.Pool
+	GPool                 *goroutine.Pool
 )

@@ -1,4 +1,4 @@
-package goroute
+package goroutine
 
 // thank https://github.com/ivpusic/grpool
 import (
