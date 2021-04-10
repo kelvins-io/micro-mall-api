@@ -125,6 +125,16 @@ func (p *Pool) wrapJob(job func()) func() {
 	}
 }
 
+func (p *Pool) SendJobWithTimeout(job func(), t time.Duration) bool {
+	select {
+	case <-time.After(t):
+		return false
+	case p.JobQueue <- p.wrapJob(job):
+		p.WaitCount(1)
+		return true
+	}
+}
+
 func (p *Pool) SendJobWithDeadline(job func(), t time.Time) bool {
 	s := t.Sub(time.Now())
 	if s <= 0 {
