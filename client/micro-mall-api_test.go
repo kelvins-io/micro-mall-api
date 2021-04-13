@@ -922,7 +922,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	data.Set("country_code", "86")
 	data.Set("phone", "38319430520")
 	data.Set("business_type", "1")
-	data.Set("receive_email", "mybaishati@gmail.com")
+	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {

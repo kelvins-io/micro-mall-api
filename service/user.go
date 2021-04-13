@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"gitee.com/kelvins-io/common/random"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/model/mysql"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
@@ -12,6 +11,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/repository"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/random"
 	"time"
 )
 
@@ -291,20 +291,6 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	}
 	verifyCode = random.KrandNum(6)
 
-	if req.ReceiveEmail != "" {
-		job:=  func() {
-			defer vars.GPool.JobDone()
-			notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
-			err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
-			if err != nil {
-				vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
-				retCode = code.ErrorEmailSend
-				return
-			}
-		}
-		vars.GPool.SendJob(job)
-	}
-
 	verifyCodeRecord := mysql.VerifyCodeRecord{
 		Uid:          int(userRsp.Info.Uid),
 		BusinessType: req.BusinessType,
@@ -321,6 +307,19 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		vars.ErrorLogger.Errorf(ctx, "CreateVerifyCodeRecord err: %v, req: %+v", err, req)
 		retCode = code.ERROR
 		return
+	}
+
+	if req.ReceiveEmail != "" {
+		job := func() {
+			notice := fmt.Sprintf(args.VerifyCodeTemplate, vars.App.Name, verifyCode, args.GetMsg(req.BusinessType), vars.VerifyCodeSetting.ExpireMinute)
+			err = email.SendEmailNotice(ctx, req.ReceiveEmail, vars.App.Name, notice)
+			if err != nil {
+				vars.ErrorLogger.Errorf(ctx, "SendEmailNotice err: %v, req: %+v", err, req)
+				retCode = code.ErrorEmailSend
+				return
+			}
+		}
+		vars.GPool.SendJob(job)
 	}
 
 	return
