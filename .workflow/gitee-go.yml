@@ -1,0 +1,29 @@
+# ========================================================
+# Golang 构建参考流水线样例
+# 功能：构建一个简单的 Go 程序并编译不同操作系统下的可执行环境
+# ========================================================
+name: micro-mall-api            # 定义一个唯一 ID 标识为 gitee-go-golang-example，名称为 “Golang-流水线示例” 的流水线
+displayName: '微商城micro-mall-api'               
+triggers:                                # 流水线触发器配置
+  push:                                  # 设置 master 分支 在产生代码 push 时精确触发（PRECISE）构建
+    - matchType: PRECISE
+      branch: master
+commitMessage: ''                        # 通过匹配当前提交的 CommitMessage 决定是否执行流水线
+stages:                                  # 构建阶段配置
+  - stage:                               # 定义一个 ID 标识为 golang-build-stage，名为 “Golang Stage” 的阶段
+      name: golang-build-stage
+      displayName: 'Golang Stage'
+      failFast: false                    # 允许快速失败，即当 Stage 中有任务失败时，直接结束整个 Stage
+      steps:                             # 构建步骤配置
+        - step: golangbuild@1            # 采用 Golang 编译环境
+          name: golang-build             # 定义一个 ID 标识为 golang-build ,名为 “Golang Step” 的阶段
+          displayName: 'Golang Step'
+          inputs:                        # 构建输入参数设定
+            golangVersion: 1.13          # 指定 Golang 环境版本为 1.13
+            goals: |                     # 示例脚本：创建并编译构建一个命令行输出 “main, Gitee Go” 的程序
+              mkdir output
+              GOOS=linux GOARCH=amd64 go build -o output/micro-mall-api.amd64 main.go
+              GOOS=linux GOARCH=386 go build -o output/micro-mall-api.linux32 main.go
+              GOOS=windows GOARCH=amd64 go build -o output/micro-mall-api.win64.exe main.go
+              GOOS=windows GOARCH=386 go build -o output/micro-mall-api.win32.exe main.go
+              GOOS=darwin GOARCH=amd64 go build -o output/micro-mall-api.darwin main.go 
