@@ -2,7 +2,7 @@
 # shellcheck disable=SC2153
 
 if [ ! -d "$GOPATH" ]; then
-  echo "没有招到 GOPATH 目录,exit"
+  echo "没有找到GOPATH目录，退出"
   exit
 fi
 

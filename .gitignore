@@ -18,3 +18,7 @@ micro-mall-api
 etc/app.ini
 micro-mall-api.pid
 project.tree
+micro-mall-api-darwin-amd64
+micro-mall-api-linux-amd64
+micro-mall-api-windows-amd64
+micro-mall-api-windows-amd64.exe

@@ -34,6 +34,8 @@ prometheus_metrics接口
 ### 项目目录结构
 ```
 .
+├── batch-clone-project.sh  一键克隆本项目shell
+├── build-run-project.sh  一键运行本项目shell
 ├── Dockerfile  docker构建文件
 ├── LICENSE   授权文件
 ├── README.md   导航指南
@@ -179,6 +181,13 @@ prometheus_metrics接口
 └── 微商城系统架构设计.png
 ```
 
+### 为什么本项目建议你安装python环境
+这是因为本项目提供的生成pb.gw工具是python脚本，因此需要你有python环境。   
+为了降低你的使用难度，我们会在后期减轻对python的依赖，进而用go或shell替代，请耐心等待。
+
+### 如何一键运行项目
+运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh   
+然后一键运行本项目：sh build-run-project.sh
 
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
@@ -286,7 +295,7 @@ Mac，Linux下编辑 /etc/hosts
 
 ##### 如何生成
 生成pb，gw代码需要本地安装protoc,protoc-gen-go，grpc-gateway 可以参考https://segmentfault.com/a/1190000013339403 grpc系列文章   
-生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中(GOPATH/src/gitee.com/kelvins-io/)   
+生成proto.pb.go代码时请将https://gitee.com/kelvins-io/common clone下来并放到gopath路径中(GOPATH/src/gitee.com/kelvins-io/)（如果你执行过batch-clone-project.sh脚本或已经存在了请跳过）   
 生成proto.pb.go代码方式：   
 在micro-mall-xxx根目录执行python genpb.py .../micro-xxx-proto   
 例如：为micro-mall-api项目添加micro-users-proto的pb代码   
@@ -298,6 +307,9 @@ cd micro-mall-api
 没有Python环境的需要安装python，Mac的话自带python   
 python genpb.py ../micro-mall-users-proto   
 没有报错，且检查proto目录是否创建micro-mall-users-proto目录   
+
+#### 如何一键生成
+如果你不想手动执行python脚本来生成，请执行 sh build-run-project.sh   
 
 #### 配置文件
 看看下面环节   

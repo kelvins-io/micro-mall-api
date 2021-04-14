@@ -25,15 +25,6 @@ func bindata_read(data []byte, name string) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-var _proto_keep = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x01\x00\x00\xff\xff\x00\x00\x00\x00\x00\x00\x00\x00")
-
-func proto_keep() ([]byte, error) {
-	return bindata_read(
-		_proto_keep,
-		"proto/.keep",
-	)
-}
-
 // Asset loads and returns the asset for the given name.
 // It returns an error if the asset could not be found or
 // could not be loaded.
@@ -56,7 +47,6 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() ([]byte, error){
-	"proto/.keep": proto_keep,
 }
 // AssetDir returns the file names below a certain
 // directory embedded in the file by go-bindata.
@@ -98,8 +88,4 @@ type _bintree_t struct {
 	Children map[string]*_bintree_t
 }
 var _bintree = &_bintree_t{nil, map[string]*_bintree_t{
-	"proto": &_bintree_t{nil, map[string]*_bintree_t{
-		".keep": &_bintree_t{proto_keep, map[string]*_bintree_t{
-		}},
-	}},
 }}
