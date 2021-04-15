@@ -7,11 +7,14 @@ import (
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/pkg/util/kprocess"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"github.com/robfig/cron/v3"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 )
+
+const localAddr = "0.0.0.0:"
 
 func RunApplication(application *vars.WEBApplication) {
 	if application.Name == "" {
@@ -22,7 +25,7 @@ func RunApplication(application *vars.WEBApplication) {
 	vars.App = application
 	err := runApp(application)
 	if err != nil {
-		logging.Fatalf("App.RunListenerApplication err: %v", err)
+		logging.Fatalf("App.runApp err: %v", err)
 	}
 }
 
@@ -60,24 +63,29 @@ func runApp(webApp *vars.WEBApplication) error {
 	//4.  setup server monitor
 
 	// 5 run task
-	//cn := cron.New(cron.WithSeconds())
-	//cronTasks := webApp.RegisterTasks()
-	//for i := 0;i<len(cronTasks);i++{
-	//	if cronTasks[i].TaskFunc != nil {
-	//		_,err = cn.AddFunc(cronTasks[i].Cron,cronTasks[i].TaskFunc)
-	//		if err != nil {
-	//			logging.Fatalf("App run cron task err: %v",err)
-	//		}
-	//	}
-	//}
-	//cn.Start()
+	if webApp.RegisterTasks != nil {
+		cronTasks := webApp.RegisterTasks()
+		if len(cronTasks) != 0 {
+			cn := cron.New(cron.WithSeconds())
+			for i := 0; i < len(cronTasks); i++ {
+				if cronTasks[i].TaskFunc != nil {
+					_, err = cn.AddFunc(cronTasks[i].Cron, cronTasks[i].TaskFunc)
+					if err != nil {
+						logging.Fatalf("App run cron task err: %v", err)
+					}
+				}
+			}
+			cn.Start()
+			logging.Info("App run cron task")
+		}
+	}
 
 	// 6. set init service port
 	var addr string
 	if webApp.EndPort != 0 {
-		addr = "127.0.0.1:" + strconv.Itoa(webApp.EndPort)
+		addr = localAddr + strconv.Itoa(webApp.EndPort)
 	} else if vars.ServerSetting.EndPort != 0 {
-		addr = "127.0.0.1:" + strconv.Itoa(vars.ServerSetting.EndPort)
+		addr = localAddr + strconv.Itoa(vars.ServerSetting.EndPort)
 	}
 
 	// 7. run http server
@@ -89,7 +97,12 @@ func runApp(webApp *vars.WEBApplication) error {
 	if vars.ServerSetting.PIDFile != "" {
 		pidFile = vars.ServerSetting.PIDFile
 	}
-	ln, err := kprocess.Listen("tcp", addr, pidFile)
+	kp := new(kprocess.KProcess)
+	network := "tcp"
+	if vars.ServerSetting != nil && vars.ServerSetting.Network != "" {
+		network = vars.ServerSetting.Network
+	}
+	ln, err := kp.Listen(network, addr, pidFile)
 	if err != nil {
 		logging.Fatalf("App kprocess listen err: %v", err)
 	}
@@ -103,10 +116,10 @@ func runApp(webApp *vars.WEBApplication) error {
 	go func() {
 		err = serve.Serve(ln)
 		if err != nil {
-			logging.Fatalf("App run server err: %v", err)
+			logging.Fatalf("App run Serve err: %v", err)
 		}
 	}()
-	<-kprocess.Exit()
+	<-kp.Exit()
 
 	appPrepareForceExit()
 	err = serve.Shutdown(context.Background())

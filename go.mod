@@ -20,6 +20,7 @@ require (
 	github.com/grpc-ecosystem/grpc-gateway v1.14.7
 	github.com/jinzhu/gorm v1.9.16
 	github.com/prometheus/client_golang v1.7.1
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/sony/sonyflake v1.0.0

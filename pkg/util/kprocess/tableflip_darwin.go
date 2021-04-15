@@ -14,58 +14,66 @@ import (
 	"github.com/cloudflare/tableflip"
 )
 
-var (
+type KProcess struct {
+	pidFile string
 	processUp *tableflip.Upgrader
-)
+}
 
 // This shows how to use the upgrader
 // with the graceful shutdown facilities of net/http.
-func Listen(network, addr, pidFile string) (ln net.Listener, err error) {
-	log.Printf(fmt.Sprintf("exec process pid %d \n", os.Getpid()))
+func (k *KProcess) Listen(network, addr, pidFile string) (ln net.Listener, err error) {
+	log.Printf(fmt.Sprintf("[info] exec process pid %d \n", os.Getpid()))
 
-	processUp, err = tableflip.New(tableflip.Options{
+	k.processUp, err = tableflip.New(tableflip.Options{
 		UpgradeTimeout: 500 * time.Millisecond,
 		PIDFile:        pidFile,
 	})
 	if err != nil {
 		return nil, err
 	}
+	k.pidFile = pidFile
 
-	go Signal(Upgrade, Stop)
+	go k.signal(k.upgrade, k.stop)
 
 	// Listen must be called before Ready
 	if network != "" && addr != "" {
-		ln, err = processUp.Listen(network, addr)
+		ln, err = k.processUp.Listen(network, addr)
 		if err != nil {
 			return nil, err
 		}
 	}
-	if err := processUp.Ready(); err != nil {
+	if err := k.processUp.Ready(); err != nil {
 		return nil, err
 	}
 
 	return ln, nil
 }
 
-func Stop() error {
-	if processUp != nil {
-		processUp.Stop()
+func (k *KProcess) stop() error {
+	if k.processUp != nil {
+		k.processUp.Stop()
+		return os.Remove(k.pidFile)
 	}
 	return nil
 }
 
-func Upgrade() error {
-	if processUp != nil {
-		return processUp.Upgrade()
+func (k *KProcess) upgrade() error {
+	if k.processUp != nil {
+		return k.processUp.Upgrade()
 	}
 	return nil
 }
 
-func Exit() <-chan struct{} {
-	return processUp.Exit()
+func (k *KProcess) Exit() <-chan struct{} {
+	if k.processUp != nil {
+		return k.processUp.Exit()
+	}
+	ch := make(chan struct{})
+	close(ch)
+	return ch
 }
 
-func Signal(upgradeFunc, stopFunc func() error) {
+func (k *KProcess) signal(upgradeFunc, stopFunc func() error) {
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGUSR1, syscall.SIGUSR2, syscall.SIGTERM)
 	for s := range sig {
@@ -74,7 +82,7 @@ func Signal(upgradeFunc, stopFunc func() error) {
 			if stopFunc != nil {
 				err := stopFunc()
 				if err != nil {
-					log.Println("ProcessUp stopFunc failed:", err)
+					log.Println("KProcessUp stopFunc failed:", err)
 				}
 			}
 			return
@@ -82,7 +90,7 @@ func Signal(upgradeFunc, stopFunc func() error) {
 			if upgradeFunc != nil {
 				err := upgradeFunc()
 				if err != nil {
-					log.Println("ProcessUp Upgrade failed:", err)
+					log.Println("KProcessUp Upgrade failed:", err)
 				}
 			}
 		}

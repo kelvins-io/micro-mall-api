@@ -1,18 +1,12 @@
 package app
 
 import (
-	"flag"
 	"fmt"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/log"
 	"os"
 	"time"
-)
-
-var (
-	port       = flag.Int64("p", 0, "Set server port.")
-	loggerPath = flag.String("logger_path", "", "Set Logger Root Path.")
 )
 
 // 初始化application--日志部分
@@ -46,7 +40,7 @@ func appShutdown(application *vars.Application) error {
 
 func appPrepareForceExit() {
 	time.AfterFunc(10*time.Second, func() {
-		logging.Info("App monitor server Shutdown timeout")
+		logging.Info("App server Shutdown timeout")
 		os.Exit(1)
 	})
 }
