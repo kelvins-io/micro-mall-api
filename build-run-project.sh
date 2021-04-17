@@ -21,6 +21,7 @@ case $input in
   ;;
 esac
 
+rm -rf ./proto
 echo 开始生成pb,gw文件
 python genpb.py ../micro-mall-comments-proto
 python genpb.py ../micro-mall-logistics-proto
