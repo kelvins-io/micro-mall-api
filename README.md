@@ -1,4 +1,5 @@
 # micro-mall-api
+[![micro-mall-api](logo.png)](https://gitee.com/cristiane)
 
 #### 介绍
 微商城-api，基于gRPC构建的微服务商城，包含用户，商品，购物车，订单，支付共计16个微服务并通过micro-mall-api聚合
