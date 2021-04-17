@@ -250,7 +250,7 @@ make install
 # 如果报错请执行ldconfig
 ```
 go get -u google.golang.org/grpc@v1.32.0   
-go get -u google.golang.org/protobuf@v1.25.0
+go get -u google.golang.org/protobuf@v1.25.0   
 go get -u github.com/golang/protobuf/protoc-gen-go@v.1.4.3    
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.14.3   
 go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger   
