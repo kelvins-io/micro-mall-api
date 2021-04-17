@@ -21,27 +21,29 @@ case $input in
   ;;
 esac
 
-rm -rf ./proto
-echo 开始生成pb,gw文件
-python genpb.py ../micro-mall-comments-proto
-python genpb.py ../micro-mall-logistics-proto
-python genpb.py ../micro-mall-order-proto
-python genpb.py ../micro-mall-pay-proto
-python genpb.py ../micro-mall-sku-proto
-python genpb.py ../micro-mall-shop-proto
-python genpb.py ../micro-mall-trolley-proto
-python genpb.py ../micro-mall-users-proto
+
+#echo 开始生成pb,gw文件
+#python genpb.py ../micro-mall-comments-proto
+#python genpb.py ../micro-mall-logistics-proto
+#python genpb.py ../micro-mall-order-proto
+#python genpb.py ../micro-mall-pay-proto
+#python genpb.py ../micro-mall-sku-proto
+#python genpb.py ../micro-mall-shop-proto
+#python genpb.py ../micro-mall-trolley-proto
+#python genpb.py ../micro-mall-users-proto
 
 echo 拉取依赖
 go mod vendor
 
-echo 开始构建linux-amd64版本
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-mall-api-linux-amd64 main.go
-echo 开始构建macOS-amd64版本
+echo 开始构建版本
+if [ "$(uname)" == "Darwin" ] ; then
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o micro-mall-api-darwin-amd64 main.go
-echo 开始构建windows-amd64版本
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-mall-api-linux-amd64 main.go
+elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
 CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o micro-mall-api-windows-amd64.exe main.go
-echo 构建完毕
+fi
+
 
 read -r -p "你需要运行此项目吗? [Y-y/N-n] " input
 case $input in
