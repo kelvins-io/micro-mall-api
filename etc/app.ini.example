@@ -16,6 +16,9 @@ TokenExpireSecond = 2592000
 
 [micro-mall-verify_code]
 ExpireMinute = 100
+SendPeriodLimitCount = 10
+SendPeriodLimitExpireSecond = 3600
+SendIntervalExpireSecond = 60
 
 [micro-mall-mysql]
 Host = "127.0.0.1:3306"

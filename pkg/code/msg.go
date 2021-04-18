@@ -15,6 +15,8 @@ var MsgFlags = map[int]string{
 	ErrorVerifyCodeEmpty:      "验证码为空",
 	ErrorVerifyCodeInvalid:    "验证码无效",
 	ErrorVerifyCodeExpire:     "验证码过期",
+	ErrorVerifyCodeInterval:   "验证码仍在请求时间间隔内",
+	ErrorVerifyCodeLimited:    "验证码在请求时间段达到最大限制",
 	DbDuplicateEntry:          "Duplicate entry",
 	ErrorUserPwd:              "用户密码错误",
 	ErrorMerchantNotExist:     "商户未提交过认证资料",

@@ -267,9 +267,48 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	return code.SUCCESS
 }
 
+
+func checkVerifyCodeLimit(limiter repository.CheckVerifyCodeLimiter,key string,limitCount int) (int,int) {
+	if limitCount <= 0 {
+		limitCount = repository.DefaultVerifyCodeSendPeriodLimitCount
+	}
+	count, err := limiter.GetVerifyCodePeriodLimitCount(key)
+	if err!=nil {
+		return code.ERROR,count
+	}
+	if count >= limitCount {
+		return code.ErrorVerifyCodeLimited,count
+	}
+
+	intervalTime, err := limiter.GetVerifyCodeInterval(key)
+	if err!=nil{
+		return code.ERROR,count
+	}
+	if intervalTime == 0 {
+		return code.SUCCESS,count
+	}
+
+	return code.ErrorVerifyCodeInterval,count
+}
+
 func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int, verifyCode string) {
 	retCode = code.SUCCESS
-	var err error
+	var(
+		err error
+		//redis : new(repository.CheckVerifyCodeRedisLimiter)
+		//local cache map: new(repository.CheckVerifyCodeRedisLimiter)
+		limiter = new(repository.CheckVerifyCodeMapCacheLimiter)
+	)
+
+	//Limits on the number of verification code requests and time interval
+	limitKey := fmt.Sprintf("%s%s",req.CountryCode,req.Phone)
+	limitRetCode,limitCount := checkVerifyCodeLimit(limiter,limitKey, vars.VerifyCodeSetting.SendPeriodLimitCount)
+	if limitRetCode != code.SUCCESS {
+		vars.ErrorLogger.Infof(ctx, "checkVerifyCodeLimit %v %v is limited", req.CountryCode, req.Phone)
+		retCode = limitRetCode
+		return
+	}
+
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
@@ -320,6 +359,19 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 			}
 		}
 		vars.GPool.SendJob(job)
+	}
+
+	err = limiter.SetVerifyCodeInterval(limitKey, vars.VerifyCodeSetting.SendIntervalExpireSecond)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodeInterval err: %v, req: %+v", err, req)
+		retCode = code.ERROR
+		return
+	}
+	err = limiter.SetVerifyCodePeriodLimitCount(limitKey, limitCount+1,vars.VerifyCodeSetting.SendPeriodLimitExpireSecond)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodePeriodLimitCount err: %v, req: %+v", err, req)
+		retCode = code.ERROR
+		return
 	}
 
 	return

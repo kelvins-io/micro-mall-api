@@ -26,6 +26,8 @@ const (
 	ErrorVerifyCodeInvalid    = 50003
 	ErrorVerifyCodeExpire     = 50004
 	ErrorSkuAmountNotEnough   = 50005
+	ErrorVerifyCodeInterval   = 50006
+	ErrorVerifyCodeLimited    = 50007
 	UserBalanceNotEnough      = 600001
 	UserAccountStateLock      = 600002
 	UserAccountNotExist       = 600003
