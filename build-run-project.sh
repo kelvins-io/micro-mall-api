@@ -35,14 +35,36 @@ esac
 echo 拉取依赖
 go mod vendor
 
-echo 开始构建版本
-if [ "$(uname)" == "Darwin" ] ; then
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o micro-mall-api-darwin-amd64 main.go
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-mall-api-linux-amd64 main.go
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o micro-mall-api-windows-amd64.exe main.go
-fi
+read -r -p "是否只构建当前平台版本? [Y-y/N-n] " input
+case $input in
+    [yY][eE][sS]|[yY])
+    echo "Yes"
+    echo 开始构建版本
+    if [ "$(uname)" == "Darwin" ] ; then
+    CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o micro-mall-api-darwin-amd64 main.go
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-mall-api-linux-amd64 main.go
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+    CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o micro-mall-api-windows-amd64.exe main.go
+    fi
+    ;;
+
+    [nN][oO]|[nN])
+    echo "No"
+    echo 开始构建Darwin版本
+    CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -o micro-mall-api-darwin-amd64 main.go
+    echo 开始构建Linux版本
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o micro-mall-api-linux-amd64 main.go
+    echo 开始构建Windows版本
+    CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o micro-mall-api-windows-amd64.exe main.go
+#    exit 1
+    ;;
+
+    *)
+    echo "Invalid input..."
+    exit 1
+    ;;
+esac
 
 
 read -r -p "你需要运行此项目吗? [Y-y/N-n] " input
