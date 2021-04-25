@@ -55,6 +55,18 @@ gitee.com/kelvins-io/common v1.0.6 h1:SXWsY0AKslS2mNgvvJ+/7e9smIQ4t/4ahaEz6Sswj5
 gitee.com/kelvins-io/common v1.0.6/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
 gitee.com/kelvins-io/common v1.0.7 h1:tkL8iFwiOW12OKtffkgdLziao0whVub9AOVL6PKETU0=
 gitee.com/kelvins-io/common v1.0.7/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
+gitee.com/kelvins-io/g2cache v0.0.0-20210417154556-2388dd052075 h1:oKVnFUS0+uhSViPjoBNZuSGFeQoXW+28SheLJyYZUxo=
+gitee.com/kelvins-io/g2cache v0.0.0-20210417154556-2388dd052075/go.mod h1:mPuFlEWcKbcqChBTK5EdpniYePKYQ19uiXCbO4kb93E=
+gitee.com/kelvins-io/g2cache v1.0.0 h1:uEnvpCPbwT5vWFtbpTxHOeS/024NphK0rp4IDe+GEiU=
+gitee.com/kelvins-io/g2cache v1.0.0/go.mod h1:taPzdgT5ztRIQt4r8c72DB6x/6LrV9IqGTCWS40Tccw=
+gitee.com/kelvins-io/g2cache v4.0.0+incompatible h1:Cjw3r6iriavvLAMEeSxVROcw9jqZcSd3wptU5KZFMns=
+gitee.com/kelvins-io/g2cache v4.0.0+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
+gitee.com/kelvins-io/g2cache v4.0.1+incompatible h1:CfG3kDnphOqj4+Ey4IA7nFmxM5l9rVOAd+dZu0cj2Ls=
+gitee.com/kelvins-io/g2cache v4.0.1+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
+gitee.com/kelvins-io/g2cache v4.0.2+incompatible h1:L1mFsPLVqtIH/qPHtZ9v59FrWOxhekSWCFlvAESR+mg=
+gitee.com/kelvins-io/g2cache v4.0.2+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
+gitee.com/kelvins-io/g2cache v4.0.3+incompatible h1:novMyF+9rkzxzq99IGx3+BJoQf5jozkXTSF7pwDOmZc=
+gitee.com/kelvins-io/g2cache v4.0.3+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
 gitee.com/kelvins-io/kelvins v1.1.1 h1:ez+NGENM4JLslxMPvlY73JJ3fMqqeG67nz6mbA9r2qg=
 gitee.com/kelvins-io/kelvins v1.1.1/go.mod h1:htfrz3VuFQgo9mLILIjYtVZSixYm1/Kchj/WeuPs6C8=
 gitee.com/kelvins-io/kelvins v1.1.2 h1:Fs2nwYWVskG9tvBnyhmNHAwPX0ehp4JRtAFnXbC8d6I=
@@ -140,6 +152,8 @@ github.com/cloudflare/tableflip v1.2.2 h1:WkhiowHlg0nZuH7Y2beLVIZDfxtSvKta1f22PE
 github.com/cloudflare/tableflip v1.2.2/go.mod h1:P4gRehmV6Z2bY5ao5ml9Pd8u6kuEnlB37pUFMmv7j2E=
 github.com/cncf/udpa/go v0.0.0-20191209042840-269d4d468f6f/go.mod h1:M8M6+tZqaGXZJjfX53e64911xZQV5JYwmTeXPW+k8Sc=
 github.com/coocood/freecache v1.1.0/go.mod h1:ePwxCDzOYvARfHdr1pByNct1at3CoKnsipOHwKlNbzI=
+github.com/coocood/freecache v1.1.1 h1:uukNF7QKCZEdZ9gAV7WQzvh0SbjwdMF6m3x3rxEkaPc=
+github.com/coocood/freecache v1.1.1/go.mod h1:OKrEjkGVoxZhyWAJoeFi5BMLUJm2Tit0kpGkIr7NGYY=
 github.com/coreos/bbolt v1.3.3/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.18+incompatible h1:Zz1aXgDrFFi1nadh58tA9ktt06cmPTwNNP3dXwIq1lE=
 github.com/coreos/etcd v3.3.18+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
@@ -321,6 +335,7 @@ github.com/google/martian v2.1.0+incompatible/go.mod h1:9I4somxYTbIHy5NJKHRl3wXi
 github.com/google/martian/v3 v3.0.0/go.mod h1:y5Zk1BBys9G+gd6Jrk0W3cC1+ELVxBWuIGO+w/tUAp0=
 github.com/google/pprof v0.0.0-20181206194817-3ea8567a2e57/go.mod h1:zfwlbNMJ+OItoe0UupaVj+oy1omPYYDuagoSzA8v9mc=
 github.com/google/pprof v0.0.0-20190515194954-54271f7e092f/go.mod h1:zfwlbNMJ+OItoe0UupaVj+oy1omPYYDuagoSzA8v9mc=
+github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70/go.mod h1:zfwlbNMJ+OItoe0UupaVj+oy1omPYYDuagoSzA8v9mc=
 github.com/google/pprof v0.0.0-20191218002539-d4f498aebedc/go.mod h1:ZgVRPoUq/hfqzAqh7sHMqb3I9Rq5C59dIz2SbBwJ4eM=
 github.com/google/pprof v0.0.0-20200212024743-f11f1df84d12/go.mod h1:ZgVRPoUq/hfqzAqh7sHMqb3I9Rq5C59dIz2SbBwJ4eM=
 github.com/google/pprof v0.0.0-20200229191704-1ebb73c60ed3/go.mod h1:ZgVRPoUq/hfqzAqh7sHMqb3I9Rq5C59dIz2SbBwJ4eM=
@@ -753,6 +768,7 @@ golang.org/x/sys v0.0.0-20190531175056-4c3a928424d2/go.mod h1:h1NjWce9XRLGQEsW7w
 golang.org/x/sys v0.0.0-20190606165138-5da285871e9c/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190624142023-c5567b49c5d0/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20190726091711-fc99dfbffb4e/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
+golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191001151750-bb3f8db39f24/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191005200804-aed5e4c7ecf9/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 golang.org/x/sys v0.0.0-20191008105621-543471e840be/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=

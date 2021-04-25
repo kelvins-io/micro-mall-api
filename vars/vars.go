@@ -8,6 +8,7 @@ import (
 	"xorm.io/xorm"
 
 	"gitee.com/kelvins-io/common/log"
+	"gitee.com/kelvins-io/g2cache"
 )
 
 var (
@@ -22,8 +23,10 @@ var (
 	JwtSetting            *setting.JwtSettingS
 	MysqlSettingMicroMall *setting.MysqlSettingS
 	RedisSettingMicroMall *setting.RedisSettingS
+	G2CacheSetting		  *setting.G2CacheSettingS
 	EmailConfigSetting    *EmailConfigSettingS
 	VerifyCodeSetting     *VerifyCodeSettingS
 	RedisPoolMicroMall    *redis.Pool
 	GPool                 *goroutine.Pool
+	G2CacheEngine		  *g2cache.G2Cache
 )

@@ -42,13 +42,21 @@ func SetupVars() error {
 			return err
 		}
 	}
+	if vars.G2CacheSetting != nil && vars.G2CacheSetting.RedisConfDSN != "" {
+		vars.G2CacheEngine, err = setup.NewG2Cache(vars.G2CacheSetting,nil,nil)
+		if err != nil {
+			return err
+		}
+	}
 	vars.GPool = goroutine.NewPool(20, 1000)
 
 	return nil
 }
 
-func SetStopFunc() error {
+func SetStopFunc() (err error) {
 	vars.GPool.WaitAll()
 	vars.GPool.Release()
-	return nil
+	vars.G2CacheEngine.Close()
+	err = vars.RedisPoolMicroMall.Close()
+	return err
 }

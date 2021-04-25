@@ -12,6 +12,7 @@ const (
 	SectionRedisMicroMall = "micro-mall-redis"
 	SectionEmailConfig    = "email-config"
 	SectionVerifyCode     = "micro-mall-verify_code"
+	SectionG2Cache        = "micro-mall-g2cache"
 )
 
 // LoadConfig 加载自定义配置项
@@ -26,6 +27,10 @@ func LoadConfig() error {
 	log.Printf("[info] Load default config %s", SectionRedisMicroMall)
 	vars.RedisSettingMicroMall = new(setting.RedisSettingS)
 	config.MapConfig(SectionRedisMicroMall, vars.RedisSettingMicroMall)
+	//加载G2Cache二级缓存配置
+	log.Printf("[info] Load default config %s", SectionG2Cache)
+	vars.G2CacheSetting = new(setting.G2CacheSettingS)
+	config.MapConfig(SectionG2Cache, vars.G2CacheSetting)
 	// 加载email数据源
 	log.Printf("[info] Load default config %s", SectionEmailConfig)
 	vars.EmailConfigSetting = new(vars.EmailConfigSettingS)

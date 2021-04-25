@@ -1,13 +1,13 @@
 package setting
 
 type ServerSettingS struct {
-	Network        string
-	EndPort        int
-	ReadTimeout    int
-	WriteTimeout   int
-	IdleTimeout    int
-	Mode           string
-	PIDFile        string
+	Network      string
+	EndPort      int
+	ReadTimeout  int
+	WriteTimeout int
+	IdleTimeout  int
+	Mode         string
+	PIDFile      string
 }
 
 type JwtSettingS struct {
@@ -78,4 +78,21 @@ type QueueAliAMQPSettingS struct {
 	ExchangeType    string
 	BindingKey      string
 	PrefetchCount   int
+}
+
+//g2cache config
+type G2CacheSettingS struct {
+	CacheDebug           bool
+	CacheMonitor         bool
+	OutCachePubSub       bool
+	CacheMonitorSecond   int
+	EntryLazyFactor      int
+	GPoolWorkerNum       int
+	GPoolJobQueueChanLen int
+	FreeCacheSize        int // 100MB
+	PubSubRedisChannel   string
+	RedisConfDSN         string
+	RedisConfDB          int
+	RedisConfPwd         string
+	RedisConfMaxConn     int
 }

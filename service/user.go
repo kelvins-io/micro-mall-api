@@ -253,15 +253,21 @@ type checkVerifyCodeArgs struct {
 }
 
 func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
-	record, err := repository.GetVerifyCode(req.businessType, req.countryCode, req.phone, req.verifyCode)
+	key := fmt.Sprintf("%s:%s-%s-%d",mysql.TableVerifyCodeRecord,req.countryCode,req.phone,req.businessType)
+	var obj mysql.VerifyCodeRecord
+	err := vars.G2CacheEngine.Get(key,60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
+		record, err := repository.GetVerifyCode(req.businessType, req.countryCode, req.phone, req.verifyCode)
+		return record,err
+	})
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetVerifyCode err: %v, req: %+v", err, req)
 		return code.ERROR
 	}
-	if record.Id == 0 {
+
+	if obj.Id == 0 {
 		return code.ErrorVerifyCodeInvalid
 	}
-	if int64(record.Expire) < time.Now().Unix() {
+	if int64(obj.Expire) < time.Now().Unix() {
 		return code.ErrorVerifyCodeExpire
 	}
 	return code.SUCCESS
@@ -344,6 +350,14 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	err = repository.CreateVerifyCodeRecord(&verifyCodeRecord)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "CreateVerifyCodeRecord err: %v, req: %+v", err, req)
+		retCode = code.ERROR
+		return
+	}
+
+	key := fmt.Sprintf("%s:%s-%s-%d",mysql.TableVerifyCodeRecord,req.CountryCode,req.Phone,req.BusinessType)
+	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60 * vars.VerifyCodeSetting.ExpireMinute, false)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %+v", err, key,verifyCodeRecord)
 		retCode = code.ERROR
 		return
 	}

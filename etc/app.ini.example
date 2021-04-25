@@ -38,6 +38,17 @@ Password = "oyuioyiuoyui"
 DB = 1
 PoolNum = 10
 
+[micro-mall-g2cache]
+CacheDebug = false
+CacheMonitor = false
+OutCachePubSub = false
+FreeCacheSize = 52428800
+PubSubRedisChannel = "micro-mall-pubsub-channel"
+RedisConfDSN = "127.0.0.1:6379"
+RedisConfDB = 1
+RedisConfPwd = "oyuioyiuoyui"
+RedisConfMaxConn = 30
+
 [email-config]
 User = "xxxx@qq.com"
 Password = "xxxx"
