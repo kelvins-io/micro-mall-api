@@ -54,9 +54,19 @@ func SetupVars() error {
 }
 
 func SetStopFunc() (err error) {
-	vars.GPool.WaitAll()
-	vars.GPool.Release()
-	vars.G2CacheEngine.Close()
-	err = vars.RedisPoolMicroMall.Close()
-	return err
+	if vars.GPool != nil {
+		vars.GPool.Release()
+		vars.GPool.WaitAll()
+	}
+	if vars.G2CacheEngine != nil {
+		vars.G2CacheEngine.Close()
+	}
+	if vars.RedisPoolMicroMall != nil {
+		err = vars.RedisPoolMicroMall.Close()
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
