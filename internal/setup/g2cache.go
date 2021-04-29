@@ -40,6 +40,8 @@ func NewG2Cache(g2cacheSetting *setting.G2CacheSettingS, out g2cache.OutCache, l
 	}
 	if len(g2cacheSetting.RedisConfDSN) <= 0 {
 		return nil, fmt.Errorf("g2cacheSetting.RedisConfDSN is empty")
+	} else {
+		g2cache.DefaultRedisConf.DSN = g2cacheSetting.RedisConfDSN
 	}
 	if g2cacheSetting.RedisConfDB >= 0 {
 		g2cache.DefaultRedisConf.DB = g2cacheSetting.RedisConfDB
