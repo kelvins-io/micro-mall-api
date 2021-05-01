@@ -36,7 +36,9 @@ prometheus_metrics接口
 ```
 .
 ├── batch-clone-project.sh  一键克隆本项目shell
-├── build-run-project.sh  一键运行本项目shell
+├── build-project-proto.sh  开发环境编译项目proto shell
+├── build.sh  一键构建项目shell
+├── batch-run.sh  一键构建运行项目shell
 ├── Dockerfile  docker构建文件
 ├── LICENSE   授权文件
 ├── README.md   导航指南
@@ -188,7 +190,7 @@ prometheus_metrics接口
 
 ### 如何一键运行项目
 运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh   
-然后一键运行本项目：sh build-run-project.sh
+然后一键运行本项目：sh build-run.sh   
 
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
@@ -310,7 +312,7 @@ python genpb.py ../micro-mall-users-proto
 没有报错，且检查proto目录是否创建micro-mall-users-proto目录   
 
 #### 如何一键生成
-如果你不想手动执行python脚本来生成，请执行 sh build-run-project.sh   
+如果你不想手动执行python脚本来生成，请执行sh build-project-proto.sh      
 
 #### 配置文件
 看看下面环节   
