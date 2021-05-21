@@ -4,9 +4,9 @@
 GIT_CLONE_METHOD="$1"
 GIT_CLONE_METHOD_URL="git@gitee.com:"
 
-if [ "$GIT_CLONE_METHOD" = "https" ] || [ "$GIT_CLONE_METHOD" = "ssh" ] ;then
+if [ "$GIT_CLONE_METHOD" = "http" ] || [ "$GIT_CLONE_METHOD" = "ssh" ] ;then
     # git clone https
-    if [ "$GIT_CLONE_METHOD" = "https" ];then
+    if [ "$GIT_CLONE_METHOD" = "http" ];then
        GIT_CLONE_METHOD_URL="https://gitee.com/"
     fi
     # git clone ssh
@@ -15,9 +15,8 @@ if [ "$GIT_CLONE_METHOD" = "https" ] || [ "$GIT_CLONE_METHOD" = "ssh" ] ;then
     fi
 else
     echo "Reference:"
-    echo "  ./batch-clone-project.sh ssh (default)"
-    echo "  ./batch-clone-project.sh https"
-    GIT_CLONE_METHOD_URL="git@gitee.com:"
+    echo "  ./batch-clone-project.sh http (default)"
+    GIT_CLONE_METHOD_URL="https://gitee.com/"
 fi
 
 #echo ${GIT_CLONE_METHOD_URL}
