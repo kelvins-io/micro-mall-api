@@ -207,6 +207,11 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 }
 
 func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
+	userInfoRsp, ret := GetUserInfo(ctx, req.Uid)
+	if ret != code.SUCCESS {
+		return ret
+	}
+
 	conn, err := util.GetGrpcClient(args.RpcServiceMicroMallUsers)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", args.RpcServiceMicroMallUsers, err)
@@ -214,19 +219,11 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	}
 	defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
-	userInfoReq := &users.GetUserInfoRequest{Uid: int64(req.Uid)}
-	userInfoRsp, err := client.GetUserInfo(ctx, userInfoReq)
-	if err != nil || userInfoRsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", args.RpcServiceMicroMallUsers, err, userInfoReq)
-		return code.ERROR
-	}
-	if userInfoRsp.Common.Code == users.RetCode_USER_NOT_EXIST || userInfoRsp.Info.Uid <= 0 {
-		return code.ErrorUserNotExist
-	}
+
 	reqCheckVerifyCode := checkVerifyCodeArgs{
 		businessType: args.VerifyCodePassword,
-		countryCode:  userInfoRsp.Info.CountryCode,
-		phone:        userInfoRsp.Info.Phone,
+		countryCode:  userInfoRsp.CountryCode,
+		phone:        userInfoRsp.Phone,
 		verifyCode:   req.VerifyCode,
 	}
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
@@ -253,11 +250,11 @@ type checkVerifyCodeArgs struct {
 }
 
 func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
-	key := fmt.Sprintf("%s:%s-%s-%d",mysql.TableVerifyCodeRecord,req.countryCode,req.phone,req.businessType)
+	key := fmt.Sprintf("%s:%s-%s-%d", mysql.TableVerifyCodeRecord, req.countryCode, req.phone, req.businessType)
 	var obj mysql.VerifyCodeRecord
-	err := vars.G2CacheEngine.Get(key,60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
+	err := vars.G2CacheEngine.Get(key, 60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
 		record, err := repository.GetVerifyCode(req.businessType, req.countryCode, req.phone, req.verifyCode)
-		return record,err
+		return record, err
 	})
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetVerifyCode err: %v, req: %+v", err, req)
@@ -273,33 +270,32 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	return code.SUCCESS
 }
 
-
-func checkVerifyCodeLimit(limiter repository.CheckVerifyCodeLimiter,key string,limitCount int) (int,int) {
+func checkVerifyCodeLimit(limiter repository.CheckVerifyCodeLimiter, key string, limitCount int) (int, int) {
 	if limitCount <= 0 {
 		limitCount = repository.DefaultVerifyCodeSendPeriodLimitCount
 	}
 	count, err := limiter.GetVerifyCodePeriodLimitCount(key)
-	if err!=nil {
-		return code.ERROR,count
+	if err != nil {
+		return code.ERROR, count
 	}
 	if count >= limitCount {
-		return code.ErrorVerifyCodeLimited,count
+		return code.ErrorVerifyCodeLimited, count
 	}
 
 	intervalTime, err := limiter.GetVerifyCodeInterval(key)
-	if err!=nil{
-		return code.ERROR,count
+	if err != nil {
+		return code.ERROR, count
 	}
 	if intervalTime == 0 {
-		return code.SUCCESS,count
+		return code.SUCCESS, count
 	}
 
-	return code.ErrorVerifyCodeInterval,count
+	return code.ErrorVerifyCodeInterval, count
 }
 
 func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int, verifyCode string) {
 	retCode = code.SUCCESS
-	var(
+	var (
 		err error
 		//redis : new(repository.CheckVerifyCodeRedisLimiter)
 		//local cache map: new(repository.CheckVerifyCodeRedisLimiter)
@@ -307,33 +303,20 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	)
 
 	//Limits on the number of verification code requests and time interval
-	limitKey := fmt.Sprintf("%s%s",req.CountryCode,req.Phone)
-	limitRetCode,limitCount := checkVerifyCodeLimit(limiter,limitKey, vars.VerifyCodeSetting.SendPeriodLimitCount)
+	limitKey := fmt.Sprintf("%s%s", req.CountryCode, req.Phone)
+	limitRetCode, limitCount := checkVerifyCodeLimit(limiter, limitKey, vars.VerifyCodeSetting.SendPeriodLimitCount)
 	if limitRetCode != code.SUCCESS {
 		vars.ErrorLogger.Infof(ctx, "checkVerifyCodeLimit %v %v is limited", req.CountryCode, req.Phone)
 		retCode = limitRetCode
 		return
 	}
 
-	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
-		retCode = code.ERROR
+	userRsp, ret := GetUserInfoByPhone(ctx, req.CountryCode, req.Phone)
+	if ret != code.SUCCESS {
+		retCode = ret
 		return
 	}
-	defer conn.Close()
-	client := users.NewUsersServiceClient(conn)
-	userReq := &users.GetUserInfoByPhoneRequest{
-		CountryCode: req.CountryCode,
-		Phone:       req.Phone,
-	}
-	userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
-	if err != nil || userRsp.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
-		retCode = code.ERROR
-		return
-	}
+
 	verifyCode = random.KrandNum(6)
 
 	verifyCodeRecord := mysql.VerifyCodeRecord{
@@ -354,10 +337,10 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		return
 	}
 
-	key := fmt.Sprintf("%s:%s-%s-%d",mysql.TableVerifyCodeRecord,req.CountryCode,req.Phone,req.BusinessType)
-	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60 * vars.VerifyCodeSetting.ExpireMinute, false)
+	key := fmt.Sprintf("%s:%s-%s-%d", mysql.TableVerifyCodeRecord, req.CountryCode, req.Phone, req.BusinessType)
+	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %+v", err, key,verifyCodeRecord)
+		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %+v", err, key, verifyCodeRecord)
 		retCode = code.ERROR
 		return
 	}
@@ -381,7 +364,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		retCode = code.ERROR
 		return
 	}
-	err = limiter.SetVerifyCodePeriodLimitCount(limitKey, limitCount+1,vars.VerifyCodeSetting.SendPeriodLimitExpireSecond)
+	err = limiter.SetVerifyCodePeriodLimitCount(limitKey, limitCount+1, vars.VerifyCodeSetting.SendPeriodLimitExpireSecond)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodePeriodLimitCount err: %v, req: %+v", err, req)
 		retCode = code.ERROR
@@ -391,45 +374,92 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	return
 }
 
+const userInfoCachePhoneKeyPrefix = "micro-mall-api:user_info:phone:%s-%s"
+
+func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.GetUserInfoByPhoneResponse, int) {
+	var result users.GetUserInfoByPhoneResponse
+	var err error
+	var userInfoCacheKey = fmt.Sprintf(userInfoCachePhoneKeyPrefix, countryCode, phone)
+	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
+		serverName := args.RpcServiceMicroMallUsers
+		conn, err := util.GetGrpcClient(serverName)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			return &result, err
+		}
+		defer conn.Close()
+		client := users.NewUsersServiceClient(conn)
+		userReq := &users.GetUserInfoByPhoneRequest{
+			CountryCode: countryCode,
+			Phone:       phone,
+		}
+		userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
+		if err != nil || userRsp.Common.Code != users.RetCode_SUCCESS {
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			return &result, fmt.Errorf("rpc: GetUserInfoByPhone err : %v, userRsp: %+v, countryCode: %v,phone: %v", err, userRsp, countryCode, phone)
+		}
+		return &result, nil
+	})
+	if err != nil {
+		return &result, code.ERROR
+	}
+
+	return &result, code.SUCCESS
+}
+
+const userInfoCacheUidKeyPrefix = "micro-mall-api:user_info:uid:%d"
+
 func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 	var result args.UserInfoRsp
-	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	var userInfoCacheKey = fmt.Sprintf(userInfoCacheUidKeyPrefix, uid)
+	var err error
+	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
+		serverName := args.RpcServiceMicroMallUsers
+		conn, err := util.GetGrpcClient(serverName)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			return &result, err
+		}
+		defer conn.Close()
+		client := users.NewUsersServiceClient(conn)
+		req := users.GetUserInfoRequest{
+			Uid: int64(uid),
+		}
+		userInfo, err := client.GetUserInfo(ctx, &req)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, req)
+			return &result, err
+		}
+		if userInfo.Common.Code != users.RetCode_SUCCESS {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
+			return &result, fmt.Errorf("rpc: GetUserInfo err: %v, uid: %v", err, uid)
+		}
+		if userInfo.Common.Code == users.RetCode_USER_NOT_EXIST || userInfo.Info.Uid <= 0 {
+			return &result, fmt.Errorf(code.GetMsg(code.ErrorUserNotExist))
+		}
+		result = args.UserInfoRsp{
+			Id:          uid,
+			AccountId:   userInfo.GetInfo().GetAccountId(),
+			UserName:    userInfo.GetInfo().GetUserName(),
+			Sex:         int(userInfo.GetInfo().GetSex()),
+			Phone:       userInfo.GetInfo().GetPhone(),
+			CountryCode: userInfo.GetInfo().GetCountryCode(),
+			Email:       userInfo.GetInfo().GetEmail(),
+			State:       int(userInfo.GetInfo().GetState()),
+			IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
+			Inviter:     int(userInfo.GetInfo().GetInviter()),
+			InviteCode:  userInfo.GetInfo().GetInviterCode(),
+			ContactAddr: userInfo.GetInfo().GetContactAddr(),
+			Age:         int(userInfo.GetInfo().GetAge()),
+			CreateTime:  userInfo.GetInfo().GetCreateTime(),
+			UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
+		}
+		return &result, nil
+	})
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
-	client := users.NewUsersServiceClient(conn)
-	req := users.GetUserInfoRequest{
-		Uid: int64(uid),
-	}
-	userInfo, err := client.GetUserInfo(ctx, &req)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, req)
-		return &result, code.ERROR
-	}
-	if userInfo.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
-		return &result, code.ERROR
-	}
-	result = args.UserInfoRsp{
-		Id:          uid,
-		AccountId:   userInfo.GetInfo().GetAccountId(),
-		UserName:    userInfo.GetInfo().GetUserName(),
-		Sex:         int(userInfo.GetInfo().GetSex()),
-		Phone:       userInfo.GetInfo().GetPhone(),
-		CountryCode: userInfo.GetInfo().GetCountryCode(),
-		Email:       userInfo.GetInfo().GetEmail(),
-		State:       int(userInfo.GetInfo().GetState()),
-		IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
-		Inviter:     int(userInfo.GetInfo().GetInviter()),
-		InviteCode:  userInfo.GetInfo().GetInviterCode(),
-		ContactAddr: userInfo.GetInfo().GetContactAddr(),
-		Age:         int(userInfo.GetInfo().GetAge()),
-		CreateTime:  userInfo.GetInfo().GetCreateTime(),
-		UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
-	}
+
 	return &result, code.SUCCESS
 }
 
