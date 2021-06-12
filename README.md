@@ -455,7 +455,7 @@ GET    /ping
 ```
 
 3 发送验证码   
-POST   /api/v1/common/verify_code/send   
+POST   /api/v1/verify_code/send   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -471,7 +471,7 @@ receive_email |接收验证码邮箱 | string | xxxx@xx.com
 ```
 
 4 注册用户   
-POST   /api/v1/common/register   
+POST   /api/v1/register   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -493,7 +493,7 @@ invite_code |邀请码 | string | xxx
 ```
 
 5 验证码登陆   
-POST   /api/v1/common/login/verify_code   
+POST   /api/v1/login/verify_code   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -509,7 +509,7 @@ verify_code |验证码 | string | 6位验证码
 ```
 
 6 密码登陆   
-POST   /api/v1/common/login/pwd   
+POST   /api/v1/login/pwd   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  

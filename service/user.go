@@ -319,8 +319,13 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 
 	verifyCode = random.KrandNum(6)
 
+	var uid int
+	if userRsp != nil && userRsp.Info != nil {
+		uid = int(userRsp.Info.Uid)
+	}
+
 	verifyCodeRecord := mysql.VerifyCodeRecord{
-		Uid:          int(userRsp.Info.Uid),
+		Uid:          uid,
 		BusinessType: req.BusinessType,
 		VerifyCode:   verifyCode,
 		Expire:       int(time.Now().Add(time.Duration(vars.VerifyCodeSetting.ExpireMinute) * time.Minute).Unix()),
@@ -397,6 +402,9 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 		if err != nil || userRsp.Common.Code != users.RetCode_SUCCESS {
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 			return &result, fmt.Errorf("rpc: GetUserInfoByPhone err : %v, userRsp: %+v, countryCode: %v,phone: %v", err, userRsp, countryCode, phone)
+		}
+		if userRsp != nil {
+			return userRsp, nil
 		}
 		return &result, nil
 	})

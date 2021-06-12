@@ -12,6 +12,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"golang.org/x/sync/errgroup"
+	"strconv"
 	"time"
 )
 
@@ -111,7 +112,11 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	if retCode != code.SUCCESS {
 		return
 	}
-	result.ReportFilePath = "http://localhost:52001/static/" + filePath
+	addr := "localhost:52001"
+	if vars.ServerSetting != nil && vars.ServerSetting.EndPort != 0 {
+		addr = "localhost:" + strconv.Itoa(vars.ServerSetting.EndPort)
+	}
+	result.ReportFilePath = "http://" + addr + "/static/" + filePath
 
 	return
 }
