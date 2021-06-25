@@ -52,6 +52,7 @@ func NewG2Cache(g2cacheSetting *setting.G2CacheSettingS, out g2cache.OutCache, l
 	if g2cacheSetting.RedisConfMaxConn > 0 {
 		g2cache.DefaultRedisConf.MaxConn = g2cacheSetting.RedisConfMaxConn
 	}
+	g2cache.DefaultPubSubRedisConf = g2cache.DefaultRedisConf
 
 	return g2cache.New(out, local)
 }

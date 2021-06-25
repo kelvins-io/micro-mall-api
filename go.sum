@@ -67,6 +67,8 @@ gitee.com/kelvins-io/g2cache v4.0.2+incompatible h1:L1mFsPLVqtIH/qPHtZ9v59FrWOxh
 gitee.com/kelvins-io/g2cache v4.0.2+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
 gitee.com/kelvins-io/g2cache v4.0.3+incompatible h1:novMyF+9rkzxzq99IGx3+BJoQf5jozkXTSF7pwDOmZc=
 gitee.com/kelvins-io/g2cache v4.0.3+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
+gitee.com/kelvins-io/g2cache v4.0.5+incompatible h1:a0A8DhTJf2xQ9KRiyw9E6900zCRxEWkbPFeQrMPA9c8=
+gitee.com/kelvins-io/g2cache v4.0.5+incompatible/go.mod h1:o8Bk8LZLavzR+lJu7XAGjDUe6P51FiuyxOR6EetbCBs=
 gitee.com/kelvins-io/kelvins v1.1.1 h1:ez+NGENM4JLslxMPvlY73JJ3fMqqeG67nz6mbA9r2qg=
 gitee.com/kelvins-io/kelvins v1.1.1/go.mod h1:htfrz3VuFQgo9mLILIjYtVZSixYm1/Kchj/WeuPs6C8=
 gitee.com/kelvins-io/kelvins v1.1.2 h1:Fs2nwYWVskG9tvBnyhmNHAwPX0ehp4JRtAFnXbC8d6I=
