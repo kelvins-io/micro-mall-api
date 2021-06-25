@@ -48,6 +48,10 @@ RedisConfDSN = "127.0.0.1:6379"
 RedisConfDB = 1
 RedisConfPwd = "oyuioyiuoyui"
 RedisConfMaxConn = 30
+PubSubRedisConfDSN = "127.0.0.1:6379"
+PubSubRedisConfDB = 9
+PubSubRedisConfPwd = "oyuioyiuoyui"
+PubSubRedisConfMaxConn = 3
 
 [email-config]
 User = "xxxx@qq.com"

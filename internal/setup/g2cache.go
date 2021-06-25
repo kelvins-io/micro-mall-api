@@ -52,7 +52,26 @@ func NewG2Cache(g2cacheSetting *setting.G2CacheSettingS, out g2cache.OutCache, l
 	if g2cacheSetting.RedisConfMaxConn > 0 {
 		g2cache.DefaultRedisConf.MaxConn = g2cacheSetting.RedisConfMaxConn
 	}
-	g2cache.DefaultPubSubRedisConf = g2cache.DefaultRedisConf
+	if g2cacheSetting.PubSubRedisConfDSN != "" {
+		g2cache.DefaultPubSubRedisConf.DSN = g2cacheSetting.PubSubRedisConfDSN
+	} else {
+		g2cache.DefaultPubSubRedisConf.DSN = g2cacheSetting.RedisConfDSN
+	}
+	if g2cacheSetting.PubSubRedisConfDB >= 0 {
+		g2cache.DefaultPubSubRedisConf.DB = g2cacheSetting.PubSubRedisConfDB
+	} else {
+		g2cache.DefaultPubSubRedisConf.DB = g2cacheSetting.RedisConfDB
+	}
+	if g2cacheSetting.PubSubRedisConfPwd != "" {
+		g2cache.DefaultPubSubRedisConf.Pwd = g2cacheSetting.PubSubRedisConfPwd
+	} else {
+		g2cache.DefaultPubSubRedisConf.Pwd = g2cacheSetting.RedisConfPwd
+	}
+	if g2cacheSetting.PubSubRedisConfMaxConn > 0 {
+		g2cache.DefaultPubSubRedisConf.MaxConn = g2cacheSetting.PubSubRedisConfMaxConn
+	} else {
+		g2cache.DefaultPubSubRedisConf.MaxConn = g2cacheSetting.RedisConfMaxConn
+	}
 
 	return g2cache.New(out, local)
 }
