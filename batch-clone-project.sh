@@ -1,6 +1,8 @@
 # shellcheck disable=SC2034
 # shellcheck disable=SC2153
 
+git branch
+
 GIT_CLONE_METHOD="$1"
 GIT_CLONE_METHOD_URL="git@gitee.com:"
 

@@ -1,10 +1,10 @@
-// +build amd64,windows
+// +build linux
 
 package kprocess
 
 import (
 	"fmt"
-	"log"
+	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"net"
 	"os"
 	"os/signal"
@@ -15,14 +15,16 @@ import (
 )
 
 type KProcess struct {
-	pidFile string
+	pidFile   string
+	pid       int
 	processUp *tableflip.Upgrader
 }
 
 // This shows how to use the upgrader
 // with the graceful shutdown facilities of net/http.
 func (k *KProcess) Listen(network, addr, pidFile string) (ln net.Listener, err error) {
-	log.Printf(fmt.Sprintf("[info] exec process pid %d \n", os.Getpid()))
+	k.pid = os.Getpid()
+	logging.Infof(fmt.Sprintf("exec process pid %d \n", k.pid))
 
 	k.processUp, err = tableflip.New(tableflip.Options{
 		UpgradeTimeout: 500 * time.Millisecond,
@@ -75,17 +77,26 @@ func (k *KProcess) Exit() <-chan struct{} {
 
 func (k *KProcess) signal(upgradeFunc, stopFunc func() error) {
 	sig := make(chan os.Signal, 1)
-	signal.Notify(sig, syscall.SIGTERM)
+	signal.Notify(sig, syscall.SIGUSR1, syscall.SIGUSR2, syscall.SIGTERM)
 	for s := range sig {
 		switch s {
 		case syscall.SIGTERM:
 			if stopFunc != nil {
 				err := stopFunc()
 				if err != nil {
-					log.Println("KProcessUp stopFunc failed:", err)
+					logging.Infof("KProcess exec stopFunc failed:%v\n", err)
 				}
+				logging.Infof("process [%d] stop...\n", k.pid)
 			}
 			return
+		case syscall.SIGUSR1, syscall.SIGUSR2:
+			if upgradeFunc != nil {
+				err := upgradeFunc()
+				if err != nil {
+					logging.Infof("KProcess exec Upgrade failed:%v\n", err)
+				}
+				logging.Infof("process [%d] restart...\n", k.pid)
+			}
 		}
 	}
 }

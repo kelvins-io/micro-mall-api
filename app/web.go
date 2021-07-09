@@ -25,8 +25,9 @@ func RunApplication(application *vars.WEBApplication) {
 	vars.App = application
 	err := runApp(application)
 	if err != nil {
-		logging.Fatalf("App.runApp err: %v", err)
+		logging.Fatalf("App exit over: %v\n", err)
 	}
+	logging.Info("App exit over")
 }
 
 func runApp(webApp *vars.WEBApplication) error {
@@ -116,7 +117,7 @@ func runApp(webApp *vars.WEBApplication) error {
 	go func() {
 		err = serve.Serve(ln)
 		if err != nil {
-			logging.Fatalf("App run Serve err: %v", err)
+			logging.Fatalf("App run Serve: %v", err)
 		}
 	}()
 	<-kp.Exit()
@@ -124,8 +125,9 @@ func runApp(webApp *vars.WEBApplication) error {
 	appPrepareForceExit()
 	err = serve.Shutdown(context.Background())
 	if err != nil {
-		logging.Fatalf("App server Shutdown err: %v", err)
+		logging.Fatalf("App server Shutdown: %v", err)
 	}
+	logging.Info("App server Shutdown ok")
 	err = appShutdown(webApp.Application)
 
 	return err

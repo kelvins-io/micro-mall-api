@@ -1,3 +1,5 @@
+git branch
+
 echo 本shell需要你安装了python环境用来一键生成pb,gw代码
 read -r -p "你安装python了吗? [Y-y/N-n] " input
 case $input in

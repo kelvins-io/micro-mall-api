@@ -1,3 +1,4 @@
+git branch
 
 echo 拉取依赖
 go mod vendor

@@ -40,7 +40,7 @@ func appShutdown(application *vars.Application) error {
 
 func appPrepareForceExit() {
 	time.AfterFunc(10*time.Second, func() {
-		logging.Info("App server Shutdown timeout")
+		logging.Info("App server Shutdown timeout, force exit")
 		os.Exit(1)
 	})
 }
