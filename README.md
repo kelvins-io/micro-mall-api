@@ -260,6 +260,9 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 go get -u github.com/jteeuwen/go-bindata/...   
 go get github.com/elazarl/go-bindata-assetfs/...   
 python 2.7或3.5   
+elasticsearch需要安装ik中文分词支持中文搜索   
+根据elasticsearch版本安装对应的ik分词插件：
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip （以7.5.2为例）   
 
 #### 数据库设计
 micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立的缓存，独立的事件消息   
