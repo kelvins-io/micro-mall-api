@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 28/11/2020 20:02:40
+ Date: 18/07/2021 13:25:15
 */
 
 SET NAMES utf8mb4;
@@ -84,6 +84,6 @@ CREATE TABLE `comments_tags` (
   KEY `tag_code_index` (`tag_code`) USING BTREE COMMENT 'tag索引',
   KEY `classification_major_index` (`classification_major`) USING BTREE COMMENT '主要分类',
   KEY `classification_medium_index` (`classification_medium`) USING BTREE COMMENT '次要分类'
-) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8 COMMENT='标签表';
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COMMENT='标签表';
 
 SET FOREIGN_KEY_CHECKS = 1;

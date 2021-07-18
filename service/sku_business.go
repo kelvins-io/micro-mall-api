@@ -150,6 +150,8 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 		return &result, code.ErrorShopIdNotExist
 	case sku_business.RetCode_SKU_EXIST:
 		return &result, code.ErrorSkuCodeExist
+	case sku_business.RetCode_SKU_NOT_EXIST:
+		return &result, code.ErrorSkuCodeNotExist
 	case sku_business.RetCode_TRANSACTION_FAILED:
 		return &result, code.TransactionFailed
 	default:

@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 26/11/2020 16:44:45
+ Date: 18/07/2021 13:24:34
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `sku_inventory` (
   UNIQUE KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品编码code',
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺ID索引',
   KEY `last_tx_id_index` (`last_tx_id`) USING BTREE COMMENT '最后一次修改事务ID索引'
-) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存表';
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存表';
 
 -- ----------------------------
 -- Table structure for sku_inventory_record
@@ -62,7 +62,7 @@ CREATE TABLE `sku_inventory_record` (
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku',
   KEY `out_trade_no_index` (`out_trade_no`) USING BTREE COMMENT '外部订单号',
   KEY `verify_op_type_index` (`verify`,`op_type`) USING BTREE COMMENT '操作类型-库存验证'
-) ENGINE=InnoDB AUTO_INCREMENT=1004398 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1100613 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
 
 -- ----------------------------
 -- Table structure for sku_price_history
@@ -82,7 +82,7 @@ CREATE TABLE `sku_price_history` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku_code索引',
   KEY `shop_id_sku_code_index` (`shop_id`,`sku_code`) USING BTREE COMMENT '唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=370 DEFAULT CHARSET=utf8 COMMENT='商品价格历史记录';
+) ENGINE=InnoDB AUTO_INCREMENT=380 DEFAULT CHARSET=utf8 COMMENT='商品价格历史记录';
 
 -- ----------------------------
 -- Table structure for sku_property
@@ -109,6 +109,6 @@ CREATE TABLE `sku_property` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `sku_code_index` (`code`) USING BTREE COMMENT '商品sku索引',
   KEY `sku_name_index` (`name`) USING BTREE COMMENT '商品名索引'
-) ENGINE=InnoDB AUTO_INCREMENT=285 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品详情属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=295 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品详情属性表';
 
 SET FOREIGN_KEY_CHECKS = 1;

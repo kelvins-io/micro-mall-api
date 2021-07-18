@@ -4,20 +4,77 @@
 微商城-订单系统proto
 
 #### 软件架构
-软件架构说明
+订单系统proto
 
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
 
 #### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+接口定义
+```protobuf
+    // 生成唯一订单事务号
+    rpc GenOrderTxCode(GenOrderTxCodeRequest) returns (GenOrderTxCodeResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/code"
+        };
+    }
+    // 检查外部订单号是否存在
+    rpc CheckOrderExist(CheckOrderExistRequest) returns (CheckOrderExistResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/code/exist"
+        };
+    }
+    // 创建订单
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/create"
+            body:"*"
+        };
+    }
+    // 获取订单详情
+    rpc GetOrderDetail(GetOrderDetailRequest) returns (GetOrderDetailResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/detail"
+        };
+    }
+    // 获取订单商品
+    rpc GetOrderSku(GetOrderSkuRequest) returns (GetOrderSkuResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/sku"
+        };
+    }
+    // 更新订单状态
+    rpc UpdateOrderState(UpdateOrderStateRequest) returns (UpdateOrderStateResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/state"
+            body:"*"
+        };
+    }
+    // 订单支付通知
+    rpc OrderTradeNotice(OrderTradeNoticeRequest) returns (OrderTradeNoticeResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/notice"
+            body:"*"
+        };
+    }
+    // 订单状态检查
+    rpc CheckOrderState(CheckOrderStateRequest) returns (CheckOrderStateResponse) {
+        option (google.api.http) = {
+            post: "/v1/order/check"
+            body:"*"
+        };
+    }
+    // 获取订单
+    rpc FindOrderList(FindOrderListRequest) returns (FindOrderListResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/list"
+        };
+    }
+    // 店铺订单存在检查
+    rpc InspectShopOrder(InspectShopOrderRequest) returns (InspectShopOrderResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/shop/inspect"
+        };
+    }
+```
 
 #### 参与贡献
 
@@ -26,12 +83,3 @@
 3.  提交代码
 4.  新建 Pull Request
 
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

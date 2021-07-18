@@ -100,6 +100,8 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	}
 	vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
 	switch rsp.Common.Code {
+	case order_business.RetCode_USER_STATE_NOT_VERIFY:
+		return &result, code.UserStateNotVerify
 	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
 		return &result, code.SkuPriceVersionNotExist
 	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:

@@ -60,4 +60,5 @@ const (
 	CommentsTagNotExist       = 600033
 	UserOrderNotExist         = 600034
 	OutTradeEmpty             = 600035
+	UserStateNotVerify        = 600036
 )

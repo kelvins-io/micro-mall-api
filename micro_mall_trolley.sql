@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:27:27
+ Date: 18/07/2021 13:24:26
 */
 
 SET NAMES utf8mb4;
@@ -36,6 +36,6 @@ CREATE TABLE `user_trolley` (
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT 'sku索引',
   KEY `shop_id_sku_index` (`shop_id`,`sku_code`) USING BTREE COMMENT '店铺=sku索引',
   KEY `shop_id_sku_uid_index` (`uid`,`shop_id`,`sku_code`) USING BTREE COMMENT '唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COMMENT='购物车';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='购物车';
 
 SET FOREIGN_KEY_CHECKS = 1;

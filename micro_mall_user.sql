@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 27/11/2020 13:14:56
+ Date: 18/07/2021 13:23:00
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `merchant` (
   PRIMARY KEY (`merchant_id`) USING BTREE,
   UNIQUE KEY `uid_index` (`uid`) USING BTREE COMMENT '商户用户ID',
   KEY `merchant_code_index` (`merchant_code`) USING BTREE COMMENT '商户code唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1082 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商户属性表';
+) ENGINE=InnoDB AUTO_INCREMENT=1093 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商户属性表';
 
 -- ----------------------------
 -- Table structure for user
@@ -48,7 +48,7 @@ CREATE TABLE `user` (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户密码md5值',
   `password_salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码salt值',
   `sex` tinyint(1) DEFAULT NULL COMMENT '性别，1-男，2-女',
-  `phone` char(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
+  `phone` char(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
   `country_code` char(5) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机区号',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱',
   `state` tinyint(1) NOT NULL DEFAULT '3' COMMENT '状态，0-未激活，1-审核中，2-审核未通过，3-已审核',
@@ -66,7 +66,7 @@ CREATE TABLE `user` (
   KEY `email_index` (`email`) USING BTREE COMMENT '邮箱索引',
   KEY `id_card_no_index` (`id_card_no`) USING BTREE COMMENT '身份证号索引',
   KEY `invite_code_index` (`invite_code`) USING BTREE COMMENT '邀请码索引'
-) ENGINE=InnoDB AUTO_INCREMENT=79292 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=79843 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 -- ----------------------------
 -- Table structure for user_logistics_delivery
@@ -86,6 +86,6 @@ CREATE TABLE `user_logistics_delivery` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `uid_index` (`uid`) USING BTREE COMMENT '用户ID'
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户物流交付信息';
+) ENGINE=InnoDB AUTO_INCREMENT=145 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户物流交付信息';
 
 SET FOREIGN_KEY_CHECKS = 1;

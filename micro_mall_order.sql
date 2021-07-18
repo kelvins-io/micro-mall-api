@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 26/11/2020 16:44:30
+ Date: 18/07/2021 13:24:56
 */
 
 SET NAMES utf8mb4;
@@ -35,7 +35,7 @@ CREATE TABLE `order` (
   `pay_expire` datetime NOT NULL COMMENT '支付有效期，默认30分钟内有效',
   `pay_state` tinyint NOT NULL DEFAULT '0' COMMENT '支付状态，0-未支付，1-支付中，2-支付失败，3-已支付，4-支付过期取消',
   `amount` int DEFAULT NULL COMMENT '订单关联商品数量',
-  `money` decimal(32,16) NOT NULL DEFAULT '0.0000000000000000' COMMENT '订单总金额',
+  `money` decimal(48,4) NOT NULL DEFAULT '0.0000' COMMENT '订单总金额',
   `coin_type` tinyint DEFAULT '0' COMMENT ' 订单币种，0-CNY，1-USD',
   `logistics_delivery_id` int DEFAULT NULL COMMENT '物流投递ID',
   `inventory_verify` tinyint DEFAULT '0' COMMENT '库存核实，0-未核实，1-核实',
@@ -51,7 +51,7 @@ CREATE TABLE `order` (
   KEY `inventory_verify_order_code` (`inventory_verify`,`order_code`) USING BTREE COMMENT '订单库存核实-订单号',
   KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引',
   KEY `tx_code_order_code_index` (`tx_code`,`order_code`) USING BTREE COMMENT '交易号订单号唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=547406 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=567852 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Table structure for order_estimate
@@ -90,7 +90,7 @@ CREATE TABLE `order_scene_shop` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=547099 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
+) ENGINE=InnoDB AUTO_INCREMENT=567545 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
 
 -- ----------------------------
 -- Table structure for order_sku
@@ -111,6 +111,6 @@ CREATE TABLE `order_sku` (
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺索引',
   KEY `shop_order_code_index` (`shop_id`,`order_code`) USING BTREE COMMENT '店铺-订单code',
   KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引'
-) ENGINE=InnoDB AUTO_INCREMENT=821026 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
+) ENGINE=InnoDB AUTO_INCREMENT=851695 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
 
 SET FOREIGN_KEY_CHECKS = 1;

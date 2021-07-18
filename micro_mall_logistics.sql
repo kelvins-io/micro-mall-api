@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:26:45
+ Date: 18/07/2021 13:25:03
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `logistics_record` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `logistics_code_index` (`logistics_code`) USING BTREE COMMENT '物流单号',
   KEY `operator_index` (`operator`) USING BTREE COMMENT '操作员'
-) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物流记录';
+) ENGINE=InnoDB AUTO_INCREMENT=259 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='物流记录';
 
 -- ----------------------------
 -- Table structure for order_logistics
@@ -62,6 +62,6 @@ CREATE TABLE `order_logistics` (
   UNIQUE KEY `logistics_code_order_code` (`logistics_code`,`order_code`) USING BTREE COMMENT '物流单号-订单号',
   KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单号',
   KEY `courier_index` (`courier`) USING BTREE COMMENT '国内承运人'
-) ENGINE=InnoDB AUTO_INCREMENT=240 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单物流表';
+) ENGINE=InnoDB AUTO_INCREMENT=259 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='订单物流表';
 
 SET FOREIGN_KEY_CHECKS = 1;

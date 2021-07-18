@@ -101,6 +101,7 @@ enum RetCode {
     ORDER_EXPIRE = 50021; // 订单过期
     ORDER_STATE_INVALID = 50022; // 订单无效
     REQUEST_DATA_TOO_MUCH = 50023; // 请求数据太多
+    USER_STATE_NOT_VERIFY = 50024; // 用户状态未审核或验证或被锁定
 }
 
 enum OperationType {

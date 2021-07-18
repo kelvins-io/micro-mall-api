@@ -4,6 +4,10 @@
 #### 介绍
 微商城-api，基于gRPC构建的微服务商城，包含用户，商品，购物车，订单，支付共计16个微服务并通过micro-mall-api聚合
 
+#### 框架，库依赖
+kelvins框架支持（gRPC，cron，queue，web支持）：https://gitee.com/kelvins-io/kelvins   
+g2cache缓存库支持（两级缓存）：https://gitee.com/kelvins-io/g2cache   
+
 #### 项目问题交流
 QQ群：578859618 （micro-mall-api交流群）  
 ![avatar](./交流群.JPG)
@@ -177,7 +181,8 @@ prometheus_metrics接口
 │   ├── setting.go    全局setting
 │   └── vars.go   全局变量
 ├── 交流群.JPG
-├── 微商城ETCD部署.pdf
+├── etcd环境部署-centos.pdf
+├── etcd环境部署-ubuntu.pdf
 ├── 微信赞赏码.JPG
 ├── 支付宝赞赏码.JPG
 ├── 微商城需求文档.pdf
@@ -326,6 +331,35 @@ python genpb.py ../micro-mall-users-proto
 ##### 如何配置
 在需要运行的项目根目录下etc/app.ini更改自己开发环境的配置info（可以参考默认提供的）      
 
+##### rabbitmq如何配置
+如果mq使用rabbitmq（也可不用rabbitmq），则需要   
+创建用户，密码：micro-mall/szJ9aePR   
+创建vhost：micro-mall（下面的exchange和queue均在此vhost下面）   
+创建exchange：user_register_notice，模式为direct或fanout   
+创建exchange：user_state_notice，模式为direct或fanout   
+创建exchange：trade_order_notice，模式为direct   
+创建exchange：trade_order_pay_callback，模式为direct   
+创建exchange：trade_pay_notice，模式为direct   
+创建queue：user_register_notice，持久化为true   
+创建queue：user_state_notice，持久化为true   
+创建queue：trade_order_notice，持久化为true   
+创建queue：trade_order_pay_callback，持久化为true   
+创建queue：trade_pay_notice，持久化为true   
+
+配置文件app.ini中关于rabbitmq配置说明（仅供参考）   
+```toml
+[kelvins-queue-amqp]
+Broker = "amqp://用户名:密码R@地址:端口/创建的vhost"
+DefaultQueue = "队列名"
+ResultBackend = "redis://redis的密码@127.0.0.1:6379/10" #队列消费结果保存地址
+ResultsExpireIn = 36000 # 队列任务消费结果的保存过期时间
+Exchange = "交换机"
+ExchangeType = "交换机类型"
+BindingKey = "绑定key，一般与队列名一样"
+PrefetchCount = 5 #每次从队列取任务个数
+TaskRetryCount = 3 #任务失败后重试上限
+TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
+```
 
 #### 运行项目
 在需要项目根目录运行go mod vendor安装依赖（不要运行go mod tidy）      
@@ -388,8 +422,7 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 开发环境地址：  http://127.0.0.1:52001/   
 监控地址：   
 pprof：http://localhost:52002/debug/pprof/   
-Elastic：http://localhost:52002/debug/vars   
-Prometheus：http://localhost:52002/metrics   
+Prometheus：http://localhost:52002/debug/metrics   
 
 返回码code：   
 200 		 ok   
@@ -429,7 +462,7 @@ Prometheus：http://localhost:52002/metrics
 50007 		 验证码在请求时间段达到最大限制  
 
 
-接口列表：   
+接口列表（由于未及时更新，以实际接口返回为准）：   
 ####【说明】post请求没指明content-type的接口表单和json都支持   
 1 首页   
 GET    /               
@@ -444,9 +477,8 @@ GET    /
 ```
 
 
-2 在线检测          
-GET    /ping                      
-
+2  调试          
+GET    /ping    
 返回body   
 
 ```json
@@ -455,7 +487,12 @@ GET    /ping
 	"data": "2020-09-11T21:55:28.873726+08:00",
 	"msg": "ok"
 }
-```
+```                  
+
+GET    /debug/XX  #程序内部指标
+GET     /debug/metrics  #prometheus监控
+
+
 
 3 发送验证码   
 POST   /api/v1/verify_code/send   
@@ -1228,8 +1265,12 @@ thomas | 100元 | 2021-2-18 | 指导
 皮卡猪 | 250元 | 2021-2-20 | 支持大佬
 *抹 | 20 | 2021-3-19 | 资金有限，支持下
 *康 | 66.66 | 2021-4-15 | 加油
+Bleem | -goland正版license | 2021-4-18 | 落地验证码限制以及缓存实施
 Christible | 66.00 | 2021-4-26 | 大神，膜拜。资金有限
- 
+剑峰 | 50.00 | 2021-5-10 | 支持下
+mu | 100.00 | 2021-6-9 | 意思意思
+这个杀手有点冷 | 150.00 | 2021-7-9 | 很好的一个项目
+osc | -200.00 | 2021-7-9 | 落地docker构建方案 
 
 
 ### 共同开源

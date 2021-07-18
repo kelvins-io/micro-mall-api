@@ -11,7 +11,7 @@
  Target Server Version : 80021
  File Encoding         : 65001
 
- Date: 23/11/2020 17:26:22
+ Date: 18/07/2021 13:25:29
 */
 
 SET NAMES utf8mb4;
@@ -54,6 +54,6 @@ CREATE TABLE `verify_code_record` (
   KEY `country_code_phone_index` (`country_code`,`phone`) USING BTREE COMMENT '手机号索引',
   KEY `email_index` (`email`) USING BTREE COMMENT '邮箱索引',
   KEY `verify_code_index` (`verify_code`) USING BTREE COMMENT '验证码索引'
-) ENGINE=InnoDB AUTO_INCREMENT=1095 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证码记录表';
+) ENGINE=InnoDB AUTO_INCREMENT=1968 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='验证码记录表';
 
 SET FOREIGN_KEY_CHECKS = 1;
