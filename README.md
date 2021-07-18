@@ -5,32 +5,46 @@
 微商城-api，基于gRPC构建的微服务商城，包含用户，商品，购物车，订单，支付共计16个微服务并通过micro-mall-api聚合
 
 #### 框架，库依赖
-kelvins框架支持（gRPC，cron，queue，web支持）：https://gitee.com/kelvins-io/kelvins   
-g2cache缓存库支持（两级缓存）：https://gitee.com/kelvins-io/g2cache   
+kelvins框架支持：https://gitee.com/kelvins-io/kelvins   
+g2cache缓存库支持：https://gitee.com/kelvins-io/g2cache   
 
 #### 项目问题交流
 QQ群：578859618 （micro-mall-api交流群）  
 ![avatar](./交流群.JPG)
 邮件：1225807604@qq.com   
 
+#### 赞助商列表
+昵称 | 赞助金额 |  时间 | 留言  
+---|------|------|---
+雨化田 | 100元 | 2021-1-25 | 一起加入
+thomas | 100元 | 2021-2-18 | 指导
+皮卡猪 | 250元 | 2021-2-20 | 支持大佬
+*抹 | 20 | 2021-3-19 | 资金有限，支持下
+*康 | 66.66 | 2021-4-15 | 加油
+Bleem | -goland正版license | 2021-4-18 | 落地验证码限制以及缓存实施
+Christible | 66.00 | 2021-4-26 | 大神，膜拜。资金有限
+剑峰 | 50.00 | 2021-5-10 | 支持下
+mu | 100.00 | 2021-6-9 | 意思意思
+osc | -200.00 | 2021-7-9 | 落地docker构建方案 
+这个杀手有点冷 | 150.00 | 2021-7-11 | 很好的一个项目
+
 #### 软件架构
 micro-mall系列需要etcd集群，集群有问题无法运行任何一个项目，请先搭建好！   
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
-服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq， 搜索采用elasticsearch 
+服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq/redis， 搜索采用elasticsearch 
     
 用户鉴权   
 jwt
 
 存储说明：   
 MySQL 主存储，事务处理   
-MongoDB：备份仓库，商品价格变化，商品详情（如./sku_property_ex.json），历史记录   
+MongoDB：备份仓库，商品价格变化，商品详情（如./sku_property_ex.json），历史记录，搜索数据仓   
 Redis：数据缓存，消息事件结果，用户在线状态，分布式锁支持   
 rabbitMQ：消息事件中转站，订阅   
 ETCD：配置项，微服务注册，发现，分布式锁支持   
 
 监控说明：   
 pprof接口   
-elastic_metrics接口  
 prometheus_metrics接口   
 
 架构示意图：   
@@ -175,7 +189,7 @@ prometheus_metrics接口
 │   ├── config.go   启动自定义配置
 │   ├── register.go   注册自定义服务
 │   └── vars.go   自定义配置变量
-├── static
+├── static  静态文件目录，订单报告
 ├── vars
 │   ├── server.go   server全局变量
 │   ├── setting.go    全局setting
@@ -227,7 +241,7 @@ micro-mall-search-cron   搜索定时任务
 
 #### 关于go mod
 请各位一定配置go proxy   
-GOPROXY="https://goproxy.baidu.com,https://goproxy.io,direct"   
+GOPROXY="https://goproxy.cn,https://goproxy.io,direct"   
 
 #### 克隆仓库
 将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地    
@@ -244,7 +258,7 @@ export GO_ENV=dev   #本地开发环境
 
 #### 都有哪些依赖
 部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
-go 1.13.15   
+go 1.13.15（建议）   
 goland or vscode   
 mysql，redis，rabbitmq（如果用redis做MQ则不需要），etcd集群环境，MongoDB，elasticsearch       
 protoc   安装方法如下   
@@ -424,42 +438,65 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 pprof：http://localhost:52002/debug/pprof/   
 Prometheus：http://localhost:52002/debug/metrics   
 
-返回码code：   
-200 		 ok   
-500 		 服务器出错   
-4001 		 ID为空   
-4002 		 token为空   
-4007 		 用户密码错误   
-4012 		 商品唯一code已存在系统   
-4015 		 店铺ID已存在   
-4016 		 邀请码不存在   
-600000 		 金额格式解析错误   
-4003 		 token无效   
-50003 		 验证码无效   
-600002 		 用户账户被锁定   
-600004 		 商户账户不存在   
-400 		 请求参数错误   
-50004 		 验证码过期   
-600010 		 事务执行失败   
-4005 		 用户不存在   
-50002 		 验证码为空   
-4008 		 商户未提交过认证资料   
-4011 		 商户未提交过店铺认证资料   
-600001 		 用户余额不足   
-600003 		 用户账户不存在   
-4009 		 商户认证资料已存在   
-4014 		 店铺ID不存在   
-600011 		 交易号不存在   
-4004 		 token过期   
-4006 		 用户已存在   
-50001 		 邮件发送错误   
-50000 		 Duplicate entry   
-4010 		 店铺认证资料已存在   
-4013 		 商品唯一code不存在   
-50005 		 商品库存不够   
-600005 		 商户账户被锁定    
-50006 		 验证码仍在请求时间间隔内   
-50007 		 验证码在请求时间段达到最大限制  
+返回码错误code：   
+200 		 ok 	
+400 		 请求参数错误 	
+500 		 服务器出错 			
+600003 		 用户账户不存在 			
+600027 		 订单过期 			
+600032 		 评论标签已存在 			
+50007 		 验证码在请求时间段达到最大限制 			
+600002 		 用户账户被锁定 			
+4004 		 用户token过期 			
+4012 		 商品sku-code已存在系统 			
+600018 		 订单事务号为空 			
+600021 		 用户设置记录不存在 			
+600036 		 用户状态未验证或审核或被锁定 			
+4005 		 用户不存在 			
+4006 		 用户已存在 			
+50000 		 Duplicate entry 			
+4011 		 商户未提交过店铺认证资料 			
+4007 		 用户密码错误 			
+600017 		 支付时间过期 			
+600012 		 订单正在支付中 			
+600025 		 订单状态无效 					
+50004 		 验证码过期 			
+4016 		 邀请码不存在 			
+600013 		 订单已完成支付 			
+600024 		 商品价格版本不存在 			
+600029 		 用户账户无效 			
+4002 		 用户token为空 			
+50001 		 邮件发送错误 			
+50003 		 验证码无效 			
+600005 		 商户账户被锁定 			
+600028 		 订单已完成支付 			
+600035 		 外部交易号为空 			
+600023 		 交易订单不匹配当前用户 			
+600026 		 订单状态被锁定 			
+4010 		 店铺认证资料已存在 			
+4013 		 商品sku-code不存在 			
+50005 		 商品库存不够 			
+600001 		 用户余额不足 			
+600000 		 金额格式解析错误 			
+600019 		 订单已存在 			
+50002 		 验证码为空 			
+4014 		 店铺ID不存在 			
+4008 		 商户未提交过认证资料 			
+4003 		 用户token无效 			
+4015 		 店铺ID已存在 			
+600011 		 交易号不存在 			
+600020 		 用户设置信息已存在 			
+4001 		 ID为空 			
+600016 		 用户暂时不允许登录 			
+4009 		 商户认证资料已存在 			
+600010 		 事务执行失败 			
+600034 		 用户订单不存在 			
+600004 		 商户账户不存在 			
+600014 		 物流记录已存在 			
+50006 		 验证码仍在请求时间间隔内 			
+600015 		 物流记录不存在 			
+600022 		 用户物流收货地址不存在 			
+600033 		 评论标签不存在
 
 
 接口列表（由于未及时更新，以实际接口返回为准）：   
@@ -750,7 +787,7 @@ state | 状态 | int | 状态
 amount | 上架数量 | int | 大于0
 shop_id | 店铺ID | int | 商品所属店铺ID
 
-#### operation_type等于4时，参数只需要shop_id,sku_code,amount
+operation_type等于4时，参数只需要shop_id,sku_code,amount
 
 返回body： 
 
@@ -1257,21 +1294,6 @@ token | 授权码 | string | 需要用户服务特别授权码
 **1 感谢 jetbrains 为本项目提供的 goland 激活码**   
 
 ![avatar](./icon-goland.png)
-#### 赞助商列表
-昵称 | 赞助金额 |  时间 | 留言  
----|------|------|---
-雨化田 | 100元 | 2021-1-25 | 一起加入
-thomas | 100元 | 2021-2-18 | 指导
-皮卡猪 | 250元 | 2021-2-20 | 支持大佬
-*抹 | 20 | 2021-3-19 | 资金有限，支持下
-*康 | 66.66 | 2021-4-15 | 加油
-Bleem | -goland正版license | 2021-4-18 | 落地验证码限制以及缓存实施
-Christible | 66.00 | 2021-4-26 | 大神，膜拜。资金有限
-剑峰 | 50.00 | 2021-5-10 | 支持下
-mu | 100.00 | 2021-6-9 | 意思意思
-这个杀手有点冷 | 150.00 | 2021-7-9 | 很好的一个项目
-osc | -200.00 | 2021-7-9 | 落地docker构建方案 
-
 
 ### 共同开源
 1 请star收藏项目   
