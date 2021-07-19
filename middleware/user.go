@@ -22,13 +22,12 @@ func CheckUserToken() gin.HandlerFunc {
 			app.JsonResponse(c, http.StatusOK, code.ErrorTokenInvalid, code.GetMsg(code.ErrorTokenInvalid))
 			c.Abort()
 			return
-		} else if time.Now().Unix() > claims.ExpiresAt {
-			app.JsonResponse(c, http.StatusOK, code.ErrorTokenExpire, code.GetMsg(code.ErrorTokenExpire))
+		} else if claims == nil || claims.Uid == 0 {
+			app.JsonResponse(c, http.StatusOK, code.ErrorUserNotExist, code.GetMsg(code.ErrorUserNotExist))
 			c.Abort()
 			return
-		}
-		if claims == nil || claims.Uid == 0 {
-			app.JsonResponse(c, http.StatusOK, code.ErrorUserNotExist, code.GetMsg(code.ErrorUserNotExist))
+		} else if time.Now().Unix() > claims.ExpiresAt {
+			app.JsonResponse(c, http.StatusOK, code.ErrorTokenExpire, code.GetMsg(code.ErrorTokenExpire))
 			c.Abort()
 			return
 		}
