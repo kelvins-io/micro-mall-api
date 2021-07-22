@@ -58,6 +58,9 @@ prometheus_metrics接口
 ├── build.sh  一键构建项目shell
 ├── batch-run.sh  一键构建运行项目shell
 ├── Dockerfile  docker构建文件
+├── docker-build-run.sh  docker构建运行shell
+├── docker-compose.yml  基础组件compose构建文件
+├── docker-compose-build.yml  micro-mall系列项目compose构建文件
 ├── LICENSE   授权文件
 ├── README.md   导航指南
 ├── app   
@@ -207,9 +210,16 @@ prometheus_metrics接口
 这是因为本项目提供的生成pb.gw工具是python脚本，因此需要你有python环境。   
 为了降低你的使用难度，我们会在后期减轻对python的依赖，进而用go或shell替代，请耐心等待。
 
-### 如何一键运行项目
+### 如何一键运行micro-mall系列项目
 运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh   
 然后一键运行本项目：sh build-run.sh   
+其它micro-mall项目同理   
+
+### 如何用docker来一键构建运行micro-mall系列项目
+如果你有docker环境（docker环境可以避免安装依赖的中间件）那么你可以：   
+sh docker-build-run.sh    
+
+**1 在此特别鸣谢osc为micro-mall系列项目支持docker编排方案**   
 
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     

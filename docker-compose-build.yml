@@ -1,0 +1,232 @@
+version: '3.1'
+networks:
+  default:
+    external:
+      name: mall
+services:
+  micro-mall-api:
+    image: ubuntu:latest
+    container_name: micro-mall-api
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ./micro-mall-api:/www/micro-mall-api
+      - ./etc:/www/etc
+    ports:
+      - 52001:52001
+    command: ['./micro-mall-api']
+    
+  micro-mall-users:
+    image: ubuntu:latest
+    container_name: micro-mall-users
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-users/micro-mall-users:/www/micro-mall-users
+      - ../micro-mall-users/etc:/www/etc
+    command: ['./micro-mall-users']
+    
+  micro-mall-users-consumer:
+    image: ubuntu:latest
+    container_name: micro-mall-users-consumer
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-users-consumer/micro-mall-users-consumer:/www/micro-mall-users-consumer
+      - ../micro-mall-users-consumer/etc:/www/etc
+    command: [ './micro-mall-users-consumer' ]
+    
+  micro-mall-pay:
+    image: ubuntu:latest
+    container_name: micro-mall-pay
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-pay/micro-mall-pay:/www/micro-mall-pay
+      - ../micro-mall-pay/etc:/www/etc
+    command: [ './micro-mall-pay' ]
+      
+  micro-mall-sku:
+    image: ubuntu:latest
+    container_name: micro-mall-sku
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-sku/micro-mall-sku:/www/micro-mall-sku
+      - ../micro-mall-sku/etc:/www/etc
+    command: [ './micro-mall-sku' ]
+      
+  micro-mall-shop:
+    image: ubuntu:latest
+    container_name: micro-mall-shop
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-shop/micro-mall-shop:/www/micro-mall-shop
+      - ../micro-mall-shop/etc:/www/etc
+    command: [ './micro-mall-shop' ]
+      
+
+  micro-mall-trolley:
+    image: ubuntu:latest
+    container_name: micro-mall-trolley
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-trolley/micro-mall-trolley:/www/micro-mall-trolley
+      - ../micro-mall-trolley/etc:/www/etc
+    command: [ './micro-mall-trolley' ]
+
+  micro-mall-comments:
+    image: ubuntu:latest
+    container_name: micro-mall-comments
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-comments/micro-mall-comments:/www/micro-mall-comments
+      - ../micro-mall-comments/etc:/www/etc
+    command: ['./micro-mall-comments']
+
+  micro-mall-search-cron:
+    image: ubuntu:latest
+    container_name: micro-mall-search-cron
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-search-cron/micro-mall-search-cron:/www/micro-mall-search-cron
+      - ../micro-mall-search-cron/etc:/www/etc
+    command: [ './micro-mall-search-cron' ]
+
+  micro-mall-order-cron:
+    image: ubuntu:latest
+    container_name: micro-mall-order-cron
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-order-cron/micro-mall-order-cron:/www/micro-mall-order-cron
+      - ../micro-mall-order-cron/etc:/www/etc
+    command: [ './micro-mall-order-cron' ]
+
+  micro-mall-search:
+    image: ubuntu:latest
+    container_name: micro-mall-search
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-search/micro-mall-search:/www/micro-mall-search
+      - ../micro-mall-search/etc:/www/etc
+    command: [ './micro-mall-search' ]    
+      
+  micro-mall-order:
+    image: ubuntu:latest
+    container_name: micro-mall-order
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-order/micro-mall-order:/www/micro-mall-order
+      - ../micro-mall-order/etc:/www/etc
+    command: [ './micro-mall-order' ]
+      
+  micro-mall-pay-consumer:
+    image: ubuntu:latest
+    container_name: micro-mall-pay-consumer
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-pay-consumer/micro-mall-pay-consumer:/www/micro-mall-pay-consumer
+      - ../micro-mall-pay-consumer/etc:/www/etc
+    command: [ './micro-mall-pay-consumer' ]
+
+  micro-mall-logistics:
+    image: ubuntu:latest
+    container_name: micro-mall-logistics
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-logistics/micro-mall-logistics:/www/micro-mall-logistics
+      - ../micro-mall-logistics/etc:/www/etc
+    command: [ './micro-mall-logistics' ]
+
+  micro-mall-order-consumer:
+    image: ubuntu:latest
+    container_name: micro-mall-order-consumer
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-order-consumer/micro-mall-order-consumer:/www/micro-mall-order-consumer
+      - ../micro-mall-order-consumer/etc:/www/etc
+    command: [ './micro-mall-order-consumer' ]
+
+  micro-mall-sku-cron:
+    image: ubuntu:latest
+    container_name: micro-mall-sku-cron
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-sku-cron/micro-mall-sku-cron:/www/micro-mall-sku-cron
+      - ../micro-mall-sku-cron/etc:/www/etc
+    command: [ './micro-mall-sku-cron' ]
