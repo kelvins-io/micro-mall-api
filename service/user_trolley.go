@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -12,7 +11,6 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_trolley_proto/trolley_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"golang.org/x/sync/errgroup"
-	"strconv"
 )
 
 func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (*args.SkuJoinUserTrolleyRsp, int) {
@@ -26,7 +24,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 		}
 		ret := verifyShopBusiness(ctx, []int64{int64(req.ShopId)})
 		if ret != code.SUCCESS {
-			return fmt.Errorf("%d", ret)
+			return args.NewTaskGroupErr(code.GetMsg(ret), ret)
 		}
 		return nil
 	})
@@ -37,18 +35,17 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 		}
 		ret := verifySkuBusiness(ctx, int64(req.ShopId), req.SkuCode)
 		if ret != code.SUCCESS {
-			return fmt.Errorf("%d", ret)
+			return args.NewTaskGroupErr(code.GetMsg(ret), ret)
 		}
 		return nil
 	})
 	err := taskGroup.Wait()
 	if err != nil {
-		retStr := err.Error()
-		ret, _ := strconv.Atoi(retStr)
-		if ret == 0 {
-			return &result, code.ERROR
+		taskGroupErr, ok := err.(*args.TaskGroupErr)
+		if ok {
+			return &result, taskGroupErr.RetCode()
 		}
-		return &result, ret
+		return &result, code.ERROR
 	}
 
 	serverName := args.RpcServiceMicroMallTrolley

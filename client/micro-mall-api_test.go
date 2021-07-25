@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "96ec449c-b8cf-4a51-b9d8-a219d74773a4")
+	data.Set("tx_code", "83ef48e1-9ab3-4826-9915-da4bb6506a72")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -852,7 +852,7 @@ func TestTradeCreateOrder(t *testing.T) {
 	goods2 := OrderShopGoods{
 		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
 		Price:   "23.78",
-		Amount:  1,
+		Amount:  2,
 		Name:    "百威淡色拉格啤酒",
 		Version: 1,
 	}

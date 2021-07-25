@@ -107,6 +107,30 @@ type TradeShopOrderEntry struct {
 	Reduction   string `json:"reduction"`
 }
 
+type TaskGroupErr struct {
+	errMsg string
+	retCode int
+}
+
+func (t *TaskGroupErr) Error() string  {
+	return t.errMsg
+}
+
+func (t *TaskGroupErr) RetCode() int  {
+	return t.retCode
+}
+
+func (t *TaskGroupErr) ErrMsg() string  {
+	return t.errMsg
+}
+
+func NewTaskGroupErr(errMsg string, retCode int) error {
+	return &TaskGroupErr{
+		errMsg:  errMsg,
+		retCode: retCode,
+	}
+}
+
 func GetMsg(code int) string {
 	msg, ok := MsgFlags[code]
 	if ok {

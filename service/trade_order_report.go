@@ -78,11 +78,11 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 		if err != nil {
 			return nil
 		}
-		retCode = orderReportGetUserInfo(ctx, uidList, uidToUserInfo)
-		if retCode == code.SUCCESS {
-			return nil
+		ret := orderReportGetUserInfo(ctx, uidList, uidToUserInfo)
+		if ret != code.SUCCESS {
+			return args.NewTaskGroupErr(code.GetMsg(ret), ret)
 		}
-		return fmt.Errorf(code.GetMsg(retCode))
+		return nil
 	})
 	shopIdToShopInfo := make(map[int64]shop_business.ShopInfo)
 	taskGroup.Go(func() error {
@@ -90,16 +90,21 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 		if err != nil {
 			return nil
 		}
-		retCode = orderReportGetShopInfo(ctx, shopIdList, shopIdToShopInfo)
-		if retCode == code.SUCCESS {
-			return nil
+		ret := orderReportGetShopInfo(ctx, shopIdList, shopIdToShopInfo)
+		if ret != code.SUCCESS {
+			return args.NewTaskGroupErr(code.GetMsg(ret), ret)
 		}
-		return fmt.Errorf(code.GetMsg(retCode))
+		return nil
 	})
 	err = taskGroup.Wait()
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "orderReportGetUserInfo  orderReportGetShopInfo taskGroup wait err: %v", err)
-		retCode = code.ERROR
+		taskGroupErr, ok := err.(*args.TaskGroupErr)
+		if ok {
+			retCode = taskGroupErr.RetCode()
+		} else {
+			retCode = code.ERROR
+		}
 		return
 	}
 	if len(uidToUserInfo) == 0 {
