@@ -2,12 +2,19 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
+	"gitee.com/cristiane/micro-mall-api/pkg/util/goroutine"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_order_proto/order_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_pay_proto/pay_business"
+	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
+	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/kelvins"
+	"golang.org/x/sync/errgroup"
+	"strconv"
 	"time"
 )
 
@@ -16,7 +23,7 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
 	defer conn.Close()
@@ -24,13 +31,14 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 	r := order_business.GenOrderTxCodeRequest{Uid: uid}
 	rsp, err := client.GenOrderTxCode(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode err: %v, req: %d", err, uid)
 		return "", code.ERROR
 	}
 	if rsp.Common.Code == order_business.RetCode_SUCCESS {
 		result = rsp.OrderTxCode
 		return result, code.SUCCESS
 	}
+	vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode req: %d ,resp: %+v", uid, rsp)
 	if rsp.OrderTxCode == "" {
 		return "", code.ERROR
 	}
@@ -39,10 +47,42 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 
 func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*args.CreateTradeOrderRsp, int) {
 	var result args.CreateTradeOrderRsp
+	taskGroup, errCtx := errgroup.WithContext(ctx)
+	taskGroup.Go(func() error {
+		err := goroutine.CheckGoroutineErr(errCtx)
+		if err != nil {
+			return nil
+		}
+		ret := verifyUserDeliveryInfo(ctx, req.Uid, req.UserDeliveryId)
+		if ret != code.SUCCESS {
+			return fmt.Errorf("%d", ret)
+		}
+		return nil
+	})
+	taskGroup.Go(func() error {
+		err := goroutine.CheckGoroutineErr(errCtx)
+		if err != nil {
+			return nil
+		}
+		ret := verifyUserState(ctx, req.Uid)
+		if ret != code.SUCCESS {
+			return fmt.Errorf("%d", ret)
+		}
+		return nil
+	})
+	err := taskGroup.Wait()
+	if err != nil {
+		retStr := err.Error()
+		ret, _ := strconv.Atoi(retStr)
+		if ret == 0 {
+			ret = code.ERROR
+		}
+		return &result, ret
+	}
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
@@ -54,10 +94,8 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		PayerClientIp: req.ClientIp,
 		DeviceId:      req.DeviceId,
 		OrderTxCode:   req.OrderTxCode,
-		Detail: &order_business.OrderDetail{
-			ShopDetail: nil,
-		},
-		DeliveryInfo: &order_business.OrderDeliveryInfo{UserDeliveryId: req.UserDeliveryId},
+		Detail:        &order_business.OrderDetail{},
+		DeliveryInfo:  &order_business.OrderDeliveryInfo{UserDeliveryId: req.UserDeliveryId},
 	}
 	r.Detail.ShopDetail = make([]*order_business.OrderShopDetail, len(req.Detail))
 	for i := 0; i < len(req.Detail); i++ {
@@ -91,17 +129,15 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	}
 	rsp, err := client.CreateOrder(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "CreateOrder err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == order_business.RetCode_SUCCESS {
 		result.TxCode = rsp.TxCode
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "CreateOrder %v,err: %v, rsp: %+v", serverName, err, rsp)
+	vars.ErrorLogger.Errorf(ctx, "CreateOrder req: %+v, rsp: %+v", *req, rsp)
 	switch rsp.Common.Code {
-	case order_business.RetCode_USER_STATE_NOT_VERIFY:
-		return &result, code.UserStateNotVerify
 	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
 		return &result, code.SkuPriceVersionNotExist
 	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:
@@ -109,9 +145,7 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	case order_business.RetCode_ORDER_TX_CODE_EMPTY:
 		return &result, code.TradeOrderTxCodeEmpty
 	case order_business.RetCode_ORDER_EXIST: // 如果订单已存在，显示创建成功，防止客户端反复重试
-		return &result, code.TradeOrderExist
-	case order_business.RetCode_USER_NOT_EXIST:
-		return &result, code.ErrorUserNotExist
+		return &result, code.SUCCESS
 	case order_business.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
 	case order_business.RetCode_SHOP_EXIST:
@@ -127,33 +161,34 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	}
 }
 
-func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.OrderTradeRsp, retCode int) {
-	result = &args.OrderTradeRsp{}
-	retCode = code.SUCCESS
+func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result args.TradeOrderDetail, retCode int) {
 	// 根据交易号获取订单详情
+	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
 	defer conn.Close()
 	client := order_business.NewOrderBusinessServiceClient(conn)
-	r := order_business.GetOrderDetailRequest{TxCode: req.TxCode}
+	r := order_business.GetOrderDetailRequest{TxCode: txCode, Uid: uid}
 	rsp, err := client.GetOrderDetail(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail %v,err: %v, req: %+v", serverName, err, r)
-		retCode = code.ERROR
-		return
-	}
-	if rsp == nil || rsp.Common == nil || rsp.Common.Code == order_business.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail %v,err: %v, rsp: %+v", serverName, err, rsp)
+		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail err: %v, req: %s %d", err, txCode, uid)
 		retCode = code.ERROR
 		return
 	}
 	if rsp.Common.Code != order_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail @@req: %s, rsp: %+v", txCode, rsp)
 		switch rsp.Common.Code {
+		case order_business.RetCode_ORDER_TX_CODE_NOT_EXIST:
+			retCode = code.TxCodeNotExist
+			return
+		case order_business.RetCode_ORDER_PAY_ING:
+			retCode = code.OrderPayIng
+			return
 		case order_business.RetCode_ORDER_STATE_INVALID:
 			retCode = code.OrderStateInvalid
 			return
@@ -175,52 +210,190 @@ func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.Ord
 		retCode = code.TxCodeNotExist
 		return
 	}
-	// 发起支付流程
-	serverName = args.RpcServiceMicroMallPay
-	conn, err = util.GetGrpcClient(serverName)
+	result.CoinType = int(rsp.CoinType)
+	taskGroup, errCtx := errgroup.WithContext(ctx)
+	orderList := rsp.List
+	// 获取店铺code
+	shopIdList := make([]int64, len(orderList))
+	for i := 0; i < len(orderList); i++ {
+		shopIdList[i] = orderList[i].ShopId
+	}
+	shopIdToShopCode := make(map[int64]string)
+	taskGroup.Go(func() error {
+		err := goroutine.CheckGoroutineErr(errCtx)
+		if err != nil {
+			return err
+		}
+		serverName := args.RpcServiceMicroMallShop
+		conn, err := util.GetGrpcClient(serverName)
+		if err != nil {
+			kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			retCode = code.ERROR
+			return err
+		}
+		defer conn.Close()
+		serveShop := shop_business.NewShopBusinessServiceClient(conn)
+		rShop := shop_business.GetShopMajorInfoRequest{
+			ShopIds: shopIdList,
+		}
+		rspShop, err := serveShop.GetShopMajorInfo(ctx, &rShop)
+		if err != nil {
+			kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo %v,err: %v", serverName, err)
+			return fmt.Errorf("%v", code.ERROR)
+		}
+		if rspShop.Common.Code != shop_business.RetCode_SUCCESS {
+			kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo %v,rspShop: %v", serverName, rspShop.Common.Code)
+			switch rspShop.Common.Code {
+			case shop_business.RetCode_SHOP_STATE_NOT_VERIFY:
+				return fmt.Errorf("%v", code.ShopStateNotVerify)
+			case shop_business.RetCode_SHOP_NOT_EXIST:
+				return fmt.Errorf("%v", code.ErrorShopIdNotExist)
+			default:
+				return fmt.Errorf("%v", code.ERROR)
+			}
+		}
+		// 店铺ID和店铺code映射关系
+		for i := 0; i < len(rspShop.InfoList); i++ {
+			shopIdToShopCode[rspShop.InfoList[i].ShopId] = rspShop.InfoList[i].ShopCode
+		}
+		return nil
+	})
+	err = taskGroup.Wait()
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		kelvins.ErrLogger.Errorf(ctx, "GetOrderDetail taskGroup.Wait err: %v", err)
+		retStr := err.Error()
+		ret, _ := strconv.Atoi(retStr)
+		if ret == 0 {
+			retCode = code.ERROR
+		} else {
+			retCode = ret
+		}
+		return
+	}
+	if len(shopIdToShopCode) == 0 {
+		retCode = code.ErrorShopBusinessNotExist
+		return
+	}
+	result.OrderList = make([]args.TradeShopOrderEntry, len(orderList))
+	for i := 0; i < len(orderList); i++ {
+		detail := args.TradeShopOrderEntry{
+			ShopAccount: shopIdToShopCode[orderList[i].ShopId],
+			OrderCode:   orderList[i].OrderCode,
+			Description: orderList[i].Description,
+			Money:       orderList[i].Money,
+		}
+		result.OrderList[i] = detail
+	}
+	return
+}
+
+func tradePayVerifyUser(ctx context.Context, uid int64) (account string, retCode int) {
+	retCode = code.SUCCESS
+
+	retCode = verifyUserState(ctx, uid)
+	if retCode != code.SUCCESS {
+		return
+	}
+
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		retCode = code.ERROR
+		return
+	}
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	r := users.GetUserAccountIdRequest{
+		UidList: []int64{uid},
+	}
+	rsp, err := client.GetUserAccountId(ctx, &r)
+	if err != nil {
+		kelvins.ErrLogger.Errorf(ctx, "GetUserAccountId err: %v, req: %v", err, uid)
+		retCode = code.ERROR
+		return
+	}
+	switch rsp.Common.Code {
+	case users.RetCode_SUCCESS:
+		if rsp.InfoList[0].AccountId == "" {
+			retCode = code.UserAccountNotExist
+			return
+		}
+		account = rsp.InfoList[0].AccountId
+	case users.RetCode_USER_NOT_EXIST:
+		retCode = code.ErrorUserNotExist
+	default:
+		retCode = code.ERROR
+	}
+	return
+}
+
+func decimalZeroCovert(amount string) string  {
+	if amount == "" {
+		return "0"
+	}
+	return amount
+}
+
+func OrderTrade(ctx context.Context, req *args.OrderTradeArgs) (result *args.OrderTradeRsp, retCode int) {
+	result = &args.OrderTradeRsp{}
+	retCode = code.SUCCESS
+
+	rsp, ret := verifyTradeOrder(ctx, req.OpUid, req.TxCode)
+	if ret != code.SUCCESS {
+		retCode = ret
+		return
+	}
+
+	userAccount, ret := tradePayVerifyUser(ctx, req.OpUid)
+	if ret != code.SUCCESS {
+		retCode = ret
+		return
+	}
+
+	// 发起支付流程
+	serverName := args.RpcServiceMicroMallPay
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
 	defer conn.Close()
 	payClient := pay_business.NewPayBusinessServiceClient(conn)
 	payReq := pay_business.TradePayRequest{
-		Account:   rsp.Account,
+		Account:   userAccount,
 		CoinType:  pay_business.CoinType(rsp.CoinType),
-		EntryList: nil,
 		OpUid:     req.OpUid,
 		OpIp:      req.OpIp,
 		OutTxCode: req.TxCode,
 	}
-	payReq.EntryList = make([]*pay_business.TradePayEntry, len(rsp.List))
-	for i := 0; i < len(rsp.List); i++ {
+	payReq.EntryList = make([]*pay_business.TradePayEntry, len(rsp.OrderList))
+	for i := 0; i < len(rsp.OrderList); i++ {
 		tradeEntry := &pay_business.TradePayEntry{
-			OutTradeNo:  rsp.List[i].OrderCode,
-			TimeExpire:  rsp.List[i].TimeExpire,
-			NotifyUrl:   rsp.List[i].NotifyUrl,
-			Description: rsp.List[i].Description,
-			Merchant:    rsp.List[i].Merchant,
-			Attach:      rsp.List[i].Description,
+			OutTradeNo:  rsp.OrderList[i].OrderCode,
+			Description: rsp.OrderList[i].Description,
+			Merchant:    rsp.OrderList[i].ShopAccount,
+			Attach:      rsp.OrderList[i].Description,
 			Detail: &pay_business.TradeGoodsDetail{
-				Amount:    rsp.List[i].Detail.Money,
-				Reduction: "0",
+				Amount:    decimalZeroCovert(rsp.OrderList[i].Money),
+				Reduction: decimalZeroCovert(rsp.OrderList[i].Reduction),
 			},
 		}
 		payReq.EntryList[i] = tradeEntry
 	}
 	payRsp, err := payClient.TradePay(ctx, &payReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, req: %v", serverName, err, payReq)
+		vars.ErrorLogger.Errorf(ctx, "TradePay err: %v, req: %v", err, *req)
 		retCode = code.ERROR
 		return
 	}
-	if  payRsp.Common.Code == pay_business.RetCode_SUCCESS {
+	if payRsp.Common.Code == pay_business.RetCode_SUCCESS {
 		result.IsSuccess = true
 		retCode = code.SUCCESS
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "TradePay %v,err: %v, rsp: %+v", serverName, err, payRsp)
+	vars.ErrorLogger.Errorf(ctx, "TradePay req: %+v, rsp: %+v", *req, payRsp)
 	switch payRsp.Common.Code {
 	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
 		retCode = code.TradeOrderNotMatchUser

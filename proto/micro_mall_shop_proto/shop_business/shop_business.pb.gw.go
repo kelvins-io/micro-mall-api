@@ -123,10 +123,7 @@ func local_request_ShopBusinessService_GetShopMaterial_0(ctx context.Context, ma
 	var protoReq GetShopMaterialRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ShopBusinessService_GetShopMaterial_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_ShopBusinessService_GetShopMaterial_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -159,10 +156,7 @@ func local_request_ShopBusinessService_GetShopInfo_0(ctx context.Context, marsha
 	var protoReq GetShopInfoRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ShopBusinessService_GetShopInfo_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_ShopBusinessService_GetShopInfo_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -195,10 +189,7 @@ func local_request_ShopBusinessService_SearchSyncShop_0(ctx context.Context, mar
 	var protoReq SearchSyncShopRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ShopBusinessService_SearchSyncShop_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_ShopBusinessService_SearchSyncShop_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -231,10 +222,7 @@ func local_request_ShopBusinessService_SearchShop_0(ctx context.Context, marshal
 	var protoReq SearchShopRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ShopBusinessService_SearchShop_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_ShopBusinessService_SearchShop_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -267,10 +255,7 @@ func local_request_ShopBusinessService_GetShopMajorInfo_0(ctx context.Context, m
 	var protoReq GetShopMajorInfoRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_ShopBusinessService_GetShopMajorInfo_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_ShopBusinessService_GetShopMajorInfo_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -282,7 +267,6 @@ func local_request_ShopBusinessService_GetShopMajorInfo_0(ctx context.Context, m
 // RegisterShopBusinessServiceHandlerServer registers the http handlers for service ShopBusinessService to "mux".
 // UnaryRPC     :call ShopBusinessServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterShopBusinessServiceHandlerFromEndpoint instead.
 func RegisterShopBusinessServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server ShopBusinessServiceServer) error {
 
 	mux.Handle("POST", pattern_ShopBusinessService_ShopApply_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

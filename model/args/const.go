@@ -16,7 +16,7 @@ const (
 )
 
 const (
-	RpcServiceMicroMallUsers     = "micro-mall-users"     // 用户服务
+	RpcServiceMicroMallUsers     = "micro-mall-users"     // 用户服务,商户服务
 	RpcServiceMicroMallShop      = "micro-mall-shop"      // 店铺服务
 	RpcServiceMicroMallSku       = "micro-mall-sku"       // 商品服务
 	RpcServiceMicroMallTrolley   = "micro-mall-trolley"   // 购物车
@@ -90,6 +90,21 @@ type SkuInventoryInfo struct {
 	Amount        int64  `json:"amount"`
 	ShopId        int64  `json:"shop_id"`
 	Version       int64  `json:"version"`
+}
+
+type TradeOrderDetail struct {
+	UserAccount string                `json:"user_account"`
+	CoinType    int                   `json:"coin_type"`
+	OrderList   []TradeShopOrderEntry `json:"order_list"`
+}
+
+type TradeShopOrderEntry struct {
+	OrderCode   string `json:"order_code"`
+	Description string `json:"description"`
+	ShopAccount string `json:"shop_account"`
+	Attach      string `json:"attach"`
+	Money       string `json:"money"`
+	Reduction   string `json:"reduction"`
 }
 
 func GetMsg(code int) string {

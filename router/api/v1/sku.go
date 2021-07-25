@@ -55,7 +55,6 @@ func SkuBusinessSupplementPropertyApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-
 	rsp, retCode := service.SkuSupplementProperty(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

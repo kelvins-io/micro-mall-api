@@ -11,10 +11,17 @@ import (
 
 func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.SkuBusinessPutAwayRsp, int) {
 	var result args.SkuBusinessPutAwayRsp
+	if req.ShopId > 0 {
+		ret := verifyShopBusiness(ctx,[]int64{req.ShopId})
+		if ret != code.SUCCESS {
+			return &result, ret
+		}
+	}
+
 	serverName := args.RpcServiceMicroMallSku
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
@@ -46,16 +53,16 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 	}
 	rsp, err := client.PutAwaySku(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "PutAwaySku %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "PutAwaySku err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "PutAwaySku %v,err: %v, rsp: %+v", serverName, err, rsp)
+	vars.ErrorLogger.Errorf(ctx, "PutAwaySku req: %+v, rsp: %+v", *req, rsp)
 	switch rsp.Common.Code {
-	case sku_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ErrorShopIdNotExist
+	case sku_business.RetCode_SKU_EXIST:
+		return &result, code.ErrorSkuCodeExist
 	case sku_business.RetCode_SKU_NOT_EXIST:
 		return &result, code.ErrorSkuCodeNotExist
 	case sku_business.RetCode_TRANSACTION_FAILED:
@@ -71,20 +78,26 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 	serverName := args.RpcServiceMicroMallSku
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
 
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	r := sku_business.GetSkuListRequest{
-		ShopId: req.ShopId,
+		ShopId:      req.ShopId,
+		SkuCodeList: req.SkuCodeList,
 	}
 	rsp, err := client.GetSkuList(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetSkuList %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "GetSkuList err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
+	if rsp.Common.Code != sku_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "GetSkuList req: %+v, resp: %+v", *req, rsp)
+		return &result, code.ERROR
+	}
+
 	result.SkuInventoryInfoList = make([]args.SkuInventoryInfo, len(rsp.List))
 	for i := 0; i < len(rsp.List); i++ {
 		info := args.SkuInventoryInfo{
@@ -114,10 +127,16 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 
 func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*args.SkuPropertyExRsp, int) {
 	var result args.SkuPropertyExRsp
+	if req.ShopId > 0 {
+		ret := verifyShopBusiness(ctx,[]int64{req.ShopId})
+		if ret != code.SUCCESS {
+			return &result, ret
+		}
+	}
 	serverName := args.RpcServiceMicroMallSku
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
@@ -139,15 +158,14 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	}
 	rsp, err := client.SupplementSkuProperty(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty %v,err: %v, req: %+v", serverName, err, r)
+		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
 	}
+	vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty  req: %+v, resp: %+v", *req, rsp)
 	switch rsp.Common.Code {
-	case sku_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ErrorShopIdNotExist
 	case sku_business.RetCode_SKU_EXIST:
 		return &result, code.ErrorSkuCodeExist
 	case sku_business.RetCode_SKU_NOT_EXIST:

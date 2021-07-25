@@ -6,7 +6,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
-	goroute "gitee.com/cristiane/micro-mall-api/pkg/util/goroutine"
+	"gitee.com/cristiane/micro-mall-api/pkg/util/goroutine"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_order_proto/order_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
@@ -25,7 +25,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -45,12 +45,12 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	}
 	findOrderRsp, err := orderClient.FindOrderList(ctx, &findOrderReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindOrderList %v,err: %v, findOrderReq: %+v", serverName, err, findOrderReq)
+		vars.ErrorLogger.Errorf(ctx, "FindOrderList err: %v, req: %+v", err, *req)
 		retCode = code.ERROR
 		return
 	}
 	if findOrderRsp.Common.Code != order_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "FindOrderList %v,err: %v, findOrderRsp: %+v", serverName, err, findOrderRsp)
+		vars.ErrorLogger.Errorf(ctx, "FindOrderList req: %+v, resp: %+v", *req, findOrderRsp)
 		retCode = code.ERROR
 		return
 	}
@@ -74,7 +74,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	taskGroup, errCtx := errgroup.WithContext(ctx)
 	uidToUserInfo := map[int64]users.UserInfoMain{}
 	taskGroup.Go(func() error {
-		err := goroute.CheckGoroutineErr(errCtx)
+		err := goroutine.CheckGoroutineErr(errCtx)
 		if err != nil {
 			return nil
 		}
@@ -86,7 +86,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	})
 	shopIdToShopInfo := make(map[int64]shop_business.ShopInfo)
 	taskGroup.Go(func() error {
-		err := goroute.CheckGoroutineErr(errCtx)
+		err := goroutine.CheckGoroutineErr(errCtx)
 		if err != nil {
 			return nil
 		}
@@ -98,7 +98,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	})
 	err = taskGroup.Wait()
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "taskGroup wait err: %v", err)
+		vars.ErrorLogger.Errorf(ctx, "orderReportGetUserInfo  orderReportGetShopInfo taskGroup wait err: %v", err)
 		retCode = code.ERROR
 		return
 	}
@@ -133,16 +133,7 @@ func orderReportOutExcel(
 		Sheet: "订单报告",
 	}
 	reportSheet.Rows = append(reportSheet.Rows, []string{
-		"订单号",
-		"用户",
-		"ip",
-		"设备",
-		"时间",
-		"店铺",
-		"总额",
-		"描述",
-		"状态",
-		"支付状态",
+		"订单号", "用户", "ip", "设备", "时间", "店铺", "总额", "描述", "状态", "支付状态",
 	})
 	for i := 0; i < len(findOrderRsp.List); i++ {
 		record := findOrderRsp.List[i]
@@ -209,7 +200,7 @@ func orderReportGetUserInfo(ctx context.Context, uidList []int64, uidToUserInfo 
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -218,7 +209,7 @@ func orderReportGetUserInfo(ctx context.Context, uidList []int64, uidToUserInfo 
 	userReq := users.FindUserInfoRequest{UidList: uidList}
 	userRsp, err := userClient.FindUserInfo(ctx, &userReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindUserInfo %v,err: %v, req: %+v", serverName, err, userReq)
+		vars.ErrorLogger.Errorf(ctx, "FindUserInfo err: %v, req: %+v", err, uidList)
 		retCode = code.ERROR
 		return
 	}
@@ -241,7 +232,7 @@ func orderReportGetShopInfo(ctx context.Context, shopIdList []int64, shopIdToSho
 	serverName := args.RpcServiceMicroMallShop
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -250,7 +241,7 @@ func orderReportGetShopInfo(ctx context.Context, shopIdList []int64, shopIdToSho
 	shopReq := shop_business.GetShopInfoRequest{ShopIds: shopIdList}
 	shopRsp, err := shopClient.GetShopInfo(ctx, &shopReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetShopInfo %v,err: %v, req: %+v", serverName, err, shopReq)
+		vars.ErrorLogger.Errorf(ctx, "GetShopInfo err: %v, req: %+v", err, shopIdList)
 		retCode = code.ERROR
 		return
 	}

@@ -207,6 +207,7 @@ func (t *LoginUserWithPwdArgs) Valid(v *validation.Validation) {
 }
 
 type GenVerifyCodeArgs struct {
+	Uid          int    `json:"uid"`
 	CountryCode  string `form:"country_code" json:"country_code"`
 	Phone        string `form:"phone" json:"phone"`
 	BusinessType int    `form:"business_type" json:"business_type"`
@@ -214,12 +215,15 @@ type GenVerifyCodeArgs struct {
 }
 
 func (t *GenVerifyCodeArgs) Valid(v *validation.Validation) {
-	if len(t.CountryCode) < 2 {
-		v.SetError("CountryCode", "国际码不能少于2位")
+	if t.Uid <= 0 {
+		if len(t.CountryCode) < 2 {
+			v.SetError("CountryCode", "国际码不能少于2位")
+		}
+		if len(t.Phone) < 11 {
+			v.SetError("Phone", "手机号不能少于11位")
+		}
 	}
-	if len(t.Phone) < 11 {
-		v.SetError("Phone", "手机号不能少于11位")
-	}
+
 	if !util.IntSliceContainsItem(VerifyCodeTypes, t.BusinessType) {
 		v.SetError("BusinessType", "不支持的获取验证码类型")
 	}
@@ -458,7 +462,8 @@ type SkuBusinessPutAwayRsp struct {
 }
 
 type GetSkuListArgs struct {
-	ShopId int64 `form:"shop_id" json:"shop_id"`
+	ShopId      int64    `form:"shop_id" json:"shop_id"`
+	SkuCodeList []string `form:"sku_code_list" json:"sku_code_list"`
 }
 
 type GetSkuListRsp struct {

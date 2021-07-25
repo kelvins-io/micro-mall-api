@@ -1,7 +1,7 @@
 echo 拉取依赖
 go mod vendor
 
-cp -f ./etc/app.ini.example ./etc/app.ini
+cp -n ./etc/app.ini.example ./etc/app.ini
 
 mkdir -p logs
 mkdir -p static

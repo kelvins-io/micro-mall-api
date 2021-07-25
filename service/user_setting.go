@@ -13,7 +13,7 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
 	defer conn.Close()
@@ -36,22 +36,27 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 		userReq.Info.IsDefault = users.IsDefaultType_DEFAULT_TYPE_FALSE
 	}
 	rsp, err := client.ModifyUserDeliveryInfo(ctx, &userReq)
-	if err != nil || rsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v, req: %+v", serverName, err, userReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo err: %v, req: %+v, resp: %+v", err, *req, rsp)
 		return code.ERROR
 	}
-	if rsp.Common.Code != users.RetCode_SUCCESS {
-		switch rsp.Common.Code {
-		case users.RetCode_USER_DELIVERY_INFO_EXIST:
-			return code.UserSettingInfoExist
-		case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
-			return code.UserSettingInfoNotExist
-		case users.RetCode_TRANSACTION_FAILED:
-			return code.TransactionFailed
-		}
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v, rsp: %+v", serverName, err, rsp)
+	switch rsp.Common.Code {
+	case users.RetCode_SUCCESS:
+		return code.SUCCESS
+	default:
+		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo  req: %+v, resp: %+v", *req, rsp)
 	}
-	return code.SUCCESS
+
+	switch rsp.Common.Code {
+	case users.RetCode_USER_DELIVERY_INFO_EXIST:
+		return code.UserSettingInfoExist
+	case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
+		return code.UserSettingInfoNotExist
+	case users.RetCode_TRANSACTION_FAILED:
+		return code.TransactionFailed
+	default:
+		return code.ERROR
+	}
 }
 
 func GetUserSettingAddress(ctx context.Context, req *args.UserSettingAddressGetArgs) ([]args.UserDeliveryInfo, int) {
@@ -59,33 +64,38 @@ func GetUserSettingAddress(ctx context.Context, req *args.UserSettingAddressGetA
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
 	defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	userReq := users.GetUserDeliveryInfoRequest{Uid: int64(req.Uid), UserDeliveryId: int32(req.DeliveryId)}
 	rsp, err := client.GetUserDeliveryInfo(ctx, &userReq)
-	if err != nil || rsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v, req: %+v", serverName, err, userReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %+v", err, *req)
 		return result, code.ERROR
 	}
 	if rsp.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v, rsp: %+v", serverName, err, rsp)
-		return result, code.SUCCESS
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo  req: %+v, resp: %+v", *req, rsp)
+		switch rsp.Common.Code {
+		case users.RetCode_USER_NOT_EXIST:
+			return result, code.ErrorUserNotExist
+		default:
+			return result, code.ERROR
+		}
 	}
-	result = make([]args.UserDeliveryInfo, len(rsp.Info))
-	for i := 0; i < len(rsp.Info); i++ {
+	result = make([]args.UserDeliveryInfo, len(rsp.InfoList))
+	for i := 0; i < len(rsp.InfoList); i++ {
 		deliveryInfo := args.UserDeliveryInfo{
-			Id:           rsp.Info[i].Id,
-			DeliveryUser: rsp.Info[i].DeliveryUser,
-			MobilePhone:  rsp.Info[i].MobilePhone,
-			Area:         rsp.Info[i].Area,
-			DetailedArea: rsp.Info[i].DetailedArea,
-			Label:        rsp.Info[i].Label,
+			Id:           rsp.InfoList[i].Id,
+			DeliveryUser: rsp.InfoList[i].DeliveryUser,
+			MobilePhone:  rsp.InfoList[i].MobilePhone,
+			Area:         rsp.InfoList[i].Area,
+			DetailedArea: rsp.InfoList[i].DetailedArea,
+			Label:        rsp.InfoList[i].Label,
 			IsDefault:    false,
 		}
-		if rsp.Info[i].IsDefault == users.IsDefaultType_DEFAULT_TYPE_TRUE {
+		if rsp.InfoList[i].IsDefault == users.IsDefaultType_DEFAULT_TYPE_TRUE {
 			deliveryInfo.IsDefault = true
 		} else {
 			deliveryInfo.IsDefault = false

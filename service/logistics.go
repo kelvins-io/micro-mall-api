@@ -15,7 +15,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 	serverName := args.RpcServiceMicroMallLogistics
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -49,7 +49,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 	}
 	logisticsRsp, err := client.ApplyLogistics(ctx, &logisticsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, req: %+v", serverName, err, logisticsReq)
+		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics err: %v, req: %+v", err, *req)
 		retCode = code.ERROR
 		return
 	}
@@ -57,7 +57,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		result.LogisticsCode = logisticsRsp.LogisticsCode
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "ApplyLogistics %v,err: %v, rsp: %+v", serverName, err, logisticsRsp)
+	vars.ErrorLogger.Errorf(ctx, "ApplyLogistics req: %+v, rsp: %+v", *req, logisticsRsp)
 	switch logisticsRsp.Common.Code {
 	case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
 		retCode = code.LogisticsRecordExist

@@ -14,7 +14,7 @@ func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (
 	serverName := args.RpcServiceMicroMallSku
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
 	defer conn.Close()
@@ -22,11 +22,11 @@ func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (
 	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchSkuInventory(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %+v",err, *req)
 		return nil, code.ERROR
 	}
 	if searchRsp.Common.Code != sku_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory %v,err: %v, rsp: %+v", serverName, err, searchRsp)
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory req: %+v, rsp: %+v", *req, searchRsp)
 		return nil, code.ERROR
 	}
 	return searchRsp.List, code.SUCCESS
@@ -36,7 +36,7 @@ func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int
 	serverName := args.RpcServiceMicroMallShop
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
 	defer conn.Close()
@@ -44,11 +44,11 @@ func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int
 	searchReq := &shop_business.SearchShopRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchShop(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchShop %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %+v", err,*req)
 		return nil, code.ERROR
 	}
 	if searchRsp.Common.Code != shop_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "SearchShop %v,err: %v, rsp: %+v", serverName, err, searchRsp)
+		vars.ErrorLogger.Errorf(ctx, "SearchShop req: %+v, rsp: %+v", *req, searchRsp)
 		return nil, code.ERROR
 	}
 	return searchRsp.List, code.SUCCESS

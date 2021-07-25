@@ -27,35 +27,26 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
 		return &result, retCode
 	}
-	// 通过手机号查询用户是否存在
+
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
-
 	client := users.NewUsersServiceClient(conn)
-	checkUserReq := users.CheckUserByPhoneRequest{
-		CountryCode: req.CountryCode,
-		Phone:       req.Phone,
-	}
-	checkResult, err := client.CheckUserByPhone(ctx, &checkUserReq)
-	if err != nil || checkResult.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "CheckUserByPhone %v,err: %v,r : %+v", serverName, checkUserReq)
-		return &result, code.ERROR
-	}
-	if checkResult.IsExist {
-		return &result, code.ErrorUserExist
-	}
+	defer conn.Close()
 	inviteId := int64(0)
 	if req.InviteCode != "" {
 		// 检查邀请码
 		inviteUserReq := &users.GetUserByInviteCodeRequest{InviteCode: req.InviteCode}
 		inviteUser, err := client.GetUserInfoByInviteCode(ctx, inviteUserReq)
-		if err != nil || inviteUser.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode %v,err: %v,r : %+v", serverName, inviteUserReq)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode err: %v,req: %q", err, req.InviteCode)
+			return &result, code.ERROR
+		}
+		if inviteUser.Common.Code != users.RetCode_SUCCESS {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %q, resp: %+v", req.InviteCode, inviteUser)
 			return &result, code.ERROR
 		}
 		if inviteUser.Info.Uid <= 0 {
@@ -77,17 +68,21 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		Password:    req.Password,
 	}
 	registerRsp, err := client.Register(ctx, registerReq)
-	if err != nil || registerRsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode %v,err: %v,r : %+v", serverName, registerReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode err:%v, req: %+v", err, registerReq)
 		return &result, code.ERROR
 	}
+	if registerRsp.Common.Code == users.RetCode_SUCCESS {
+		result.InviteCode = registerRsp.Result.InviteCode
+		return &result, code.SUCCESS
+	}
+	vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %+v, resp: %+v", registerReq, registerRsp)
 	switch registerRsp.Common.Code {
 	case users.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
+	default:
+		return &result, code.ERROR
 	}
-	result.InviteCode = registerRsp.Result.InviteCode
-
-	return &result, code.SUCCESS
 }
 
 func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (string, int) {
@@ -104,7 +99,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
 	defer conn.Close()
@@ -122,11 +117,16 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		},
 	}
 	loginRsp, err := client.LoginUser(ctx, loginReq)
-	if err != nil || loginRsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "LoginUser %v,err: %v,r : %+v", serverName, loginReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %+v", err, *req)
 		return "", code.ERROR
 	}
-	token = loginRsp.IdentityToken
+	if loginRsp.Common.Code == users.RetCode_SUCCESS {
+		token = loginRsp.IdentityToken
+		return token, code.SUCCESS
+	}
+
+	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %+v,resp: %+v", *req, loginRsp)
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return "", code.ErrorUserNotExist
@@ -134,16 +134,16 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		return "", code.ErrorUserPwd
 	case users.RetCode_USER_LOGIN_NOT_ALLOW:
 		return "", code.UserLoginNotAllow
+	default:
+		return "", code.ERROR
 	}
-
-	return token, code.SUCCESS
 }
 
 func updateUserStateLogin(ctx context.Context, uid int) int {
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
 	defer conn.Close()
@@ -156,11 +156,22 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 		},
 	}
 	rsp, err := client.UpdateUserLoginState(ctx, req)
-	if err != nil || rsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState %v,err: %v, req: %+v", serverName, err, req)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState err: %v, req: %d", err, uid)
 		return code.ERROR
 	}
-	return code.SUCCESS
+
+	if rsp.Common.Code == users.RetCode_SUCCESS {
+		return code.SUCCESS
+	}
+
+	vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState req: %+v, resp: %+v", req, rsp)
+	switch rsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		return code.ErrorUserNotExist
+	default:
+		return code.ERROR
+	}
 }
 
 func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (string, int) {
@@ -168,7 +179,7 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
 	defer conn.Close()
@@ -189,11 +200,17 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		},
 	}
 	loginRsp, err := client.LoginUser(ctx, loginReq)
-	if err != nil || loginRsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "LoginUser %v,err: %v,r : %+v", serverName, loginReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %+v", err, *req)
 		return "", code.ERROR
 	}
-	token = loginRsp.IdentityToken
+	if loginRsp.Common.Code == users.RetCode_SUCCESS {
+		token = loginRsp.IdentityToken
+		return token, code.SUCCESS
+	}
+
+	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %+v,resp: %+v", *req, loginRsp)
+
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return "", code.ErrorUserNotExist
@@ -201,9 +218,9 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		return "", code.ErrorUserPwd
 	case users.RetCode_USER_LOGIN_NOT_ALLOW:
 		return "", code.UserLoginNotAllow
+	default:
+		return "", code.ERROR
 	}
-
-	return token, code.SUCCESS
 }
 
 func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
@@ -211,10 +228,10 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	if ret != code.SUCCESS {
 		return ret
 	}
-
-	conn, err := util.GetGrpcClient(args.RpcServiceMicroMallUsers)
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", args.RpcServiceMicroMallUsers, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
 	defer conn.Close()
@@ -234,14 +251,22 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		Pwd: req.Password,
 	}
 	pwdResetRsp, err := client.PasswordReset(ctx, pwdResetReq)
-	if err != nil || pwdResetRsp.Common.Code == users.RetCode_ERROR {
-		vars.ErrorLogger.Errorf(ctx, "PasswordReset %v,err: %v, req: %+v", args.RpcServiceMicroMallUsers, err, pwdResetReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "PasswordReset err: %v, req: %+v", err, *req)
 		return code.ERROR
 	}
-	if pwdResetRsp.Common.Code == users.RetCode_USER_NOT_EXIST {
-		return code.ErrorUserNotExist
+
+	if pwdResetRsp.Common.Code == users.RetCode_SUCCESS {
+		return code.SUCCESS
 	}
-	return code.SUCCESS
+	vars.ErrorLogger.Errorf(ctx, "PasswordReset req: %+v, resp: %+v", *req, pwdResetRsp)
+	switch pwdResetRsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		return code.ErrorUserNotExist
+	default:
+		return code.ERROR
+	}
+
 }
 
 type checkVerifyCodeArgs struct {
@@ -311,19 +336,18 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		return
 	}
 
-	userRsp, ret := GetUserInfoByPhone(ctx, req.CountryCode, req.Phone)
-	if ret != code.SUCCESS {
-		retCode = ret
-		return
-	}
-
-	verifyCode = random.KrandNum(6)
-
 	var uid int
-	if userRsp != nil && userRsp.Info != nil {
-		uid = int(userRsp.Info.Uid)
+	verifyCode = random.KrandNum(6)
+	if req.Uid <= 0 {
+		userRsp, ret := GetUserInfoByPhone(ctx, req.CountryCode, req.Phone)
+		if ret != code.SUCCESS {
+			retCode = ret
+			return
+		}
+		if userRsp != nil && userRsp.Info != nil {
+			uid = int(userRsp.Info.Uid)
+		}
 	}
-
 	verifyCodeRecord := mysql.VerifyCodeRecord{
 		Uid:          uid,
 		BusinessType: req.BusinessType,
@@ -389,7 +413,7 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 		serverName := args.RpcServiceMicroMallUsers
 		conn, err := util.GetGrpcClient(serverName)
 		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
 		}
 		defer conn.Close()
@@ -399,9 +423,13 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 			Phone:       phone,
 		}
 		userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
-		if err != nil || userRsp.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
-			return &result, fmt.Errorf("rpc: GetUserInfoByPhone err : %v, userRsp: %+v, countryCode: %v,phone: %v", err, userRsp, countryCode, phone)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone err:%v, req: %+v", err, userReq)
+			return &result, fmt.Errorf("GetUserInfoByPhone err: %v countryCode:%v,phone: %v", err, countryCode, phone)
+		}
+		if userRsp.Common.Code != users.RetCode_SUCCESS {
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone userRsp: %+v, countryCode: %v,phone: %v", userRsp, countryCode, phone)
+			return &result, fmt.Errorf("GetUserInfoByPhone ret: %d", userRsp.Common.Code)
 		}
 		if userRsp != nil {
 			return userRsp, nil
@@ -425,7 +453,7 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 		serverName := args.RpcServiceMicroMallUsers
 		conn, err := util.GetGrpcClient(serverName)
 		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
 		}
 		defer conn.Close()
@@ -435,15 +463,12 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 		}
 		userInfo, err := client.GetUserInfo(ctx, &req)
 		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v", serverName, err, req)
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfo err: %v, req: %d", err, uid)
 			return &result, err
 		}
 		if userInfo.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
-			return &result, fmt.Errorf("rpc: GetUserInfo err: %v, uid: %v", err, uid)
-		}
-		if userInfo.Common.Code == users.RetCode_USER_NOT_EXIST || userInfo.Info.Uid <= 0 {
-			return &result, fmt.Errorf(code.GetMsg(code.ErrorUserNotExist))
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfo  req: %d, rsp: %+v", uid, userInfo)
+			return &result, fmt.Errorf("GetUserInfo  uid: %d, resp: %+v", uid, userInfo)
 		}
 		result = args.UserInfoRsp{
 			Id:          uid,
@@ -478,7 +503,7 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
 	defer conn.Close()
@@ -492,12 +517,12 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 	}
 	userInfo, err := client.ListUserInfo(ctx, &reqList)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ListUserInfo %v,err: %v, req: %+v", serverName, err, req)
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo err: %v, req: %+v", err, req)
 		retCode = code.ERROR
 		return
 	}
 	if userInfo.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "ListUserInfo %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, userInfo)
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo  req: %+v, rsp: %+v", req, userInfo)
 		retCode = code.ERROR
 		return
 	}
@@ -512,4 +537,65 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 		result.UserInfoList[i] = m
 	}
 	return
+}
+
+func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32) int {
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return code.ERROR
+	}
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	r := users.GetUserDeliveryInfoRequest{
+		Uid:            uid,
+		UserDeliveryId: userDeliveryId,
+	}
+	resp, err := client.GetUserDeliveryInfo(ctx, &r)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %+v", err, r)
+		return code.ERROR
+	}
+
+	switch resp.Common.Code {
+	case users.RetCode_SUCCESS:
+		if len(resp.InfoList) == 0 || resp.InfoList[0].Id <= 0 {
+			return code.UserDeliveryInfoNotExist
+		}
+		return code.SUCCESS
+	case users.RetCode_USER_NOT_EXIST:
+		return code.ErrorUserNotExist
+	case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
+		return code.UserDeliveryInfoNotExist
+	default:
+		return code.ERROR
+	}
+}
+
+func verifyUserState(ctx context.Context, uid int64) int {
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return code.ERROR
+	}
+	defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	req := users.CheckUserStateRequest{UidList: []int64{uid}}
+	resp, err := client.CheckUserState(ctx, &req)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "CheckUserState err: %v, req: %d", err, uid)
+		return code.ERROR
+	}
+	switch resp.Common.Code {
+	case users.RetCode_SUCCESS:
+		return code.SUCCESS
+	case users.RetCode_USER_NOT_EXIST:
+		return code.ErrorUserNotExist
+	case users.RetCode_USER_STATE_NOT_VERIFY:
+		return code.UserStateNotVerify
+	default:
+		return code.ERROR
+	}
 }

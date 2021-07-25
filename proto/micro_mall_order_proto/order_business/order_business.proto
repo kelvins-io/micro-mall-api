@@ -102,6 +102,7 @@ enum RetCode {
     ORDER_STATE_INVALID = 50022; // 订单无效
     REQUEST_DATA_TOO_MUCH = 50023; // 请求数据太多
     USER_STATE_NOT_VERIFY = 50024; // 用户状态未审核或验证或被锁定
+    ORDER_PAY_ING = 50025;
 }
 
 enum OperationType {
@@ -258,26 +259,20 @@ message OrderSku {
 
 message GetOrderDetailRequest {
     string tx_code = 1;
+    int64 uid = 2;
 }
 
 message ShopOrderDetail {
     string order_code  = 1;
-    string merchant = 2; // 店铺商户,店铺主体
-    string time_expire = 3; // 订单有效期
-    string notify_url = 4; // 订单支付成功通知
-    string description = 5; // 订单描述
-    TradeGoodsDetail detail = 199;
+    int64 shop_id = 2; // 店铺主体
+    string description = 3; // 订单描述
+    string money = 4; // 需要支付金额
 }
 
 message GetOrderDetailResponse {
     CommonResponse common = 1;
-    string account = 4; // 订单涉及的用户
     CoinType coin_type = 2; // 币种
     repeated ShopOrderDetail list = 90;
-}
-
-message TradeGoodsDetail {
-    string money = 1; // 需要支付金额
 }
 
 message OrderDetail {

@@ -167,12 +167,9 @@ message TradePayRequest {
 
 message TradePayEntry {
     string out_trade_no = 1; // 外部订单号
-    string time_expire = 2; // 交易结束时间， 格式为 2018-06-08T10:34:56+08:00
-    string notify_url = 3; // 交易通知地址， 通知URL必须为get请求，不携带body
-    string description = 4; // 商品描述
-    string merchant = 5; // 商户code
-    string attach = 6; // 附加数据，在支付和查询body中原样返回
-
+    string description = 2; // 商品描述
+    string merchant = 3; // 店铺
+    string attach = 4; // 附加数据，在支付和查询body中原样返回
     TradeGoodsDetail detail = 199;
 }
 

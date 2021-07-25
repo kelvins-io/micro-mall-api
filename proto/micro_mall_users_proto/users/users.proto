@@ -294,7 +294,7 @@ message GetUserDeliveryInfoRequest {
 
 message GetUserDeliveryInfoResponse {
     CommonResponse common = 1;
-    repeated UserDeliveryInfo info = 2;
+    repeated UserDeliveryInfo info_list = 2;
 }
 
 message CheckUserDeliveryInfoRequest {

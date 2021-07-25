@@ -6,15 +6,40 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
+	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 )
 
 func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*args.ShopBusinessInfoRsp, int) {
 	var result args.ShopBusinessInfoRsp
+	if req.MerchantId > 0 {
+		serverName := args.RpcServiceMicroMallUsers
+		conn, err := util.GetGrpcClient(serverName)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+			return &result, code.ERROR
+		}
+		defer conn.Close()
+		client := users.NewMerchantsServiceClient(conn)
+		r := users.GetMerchantsMaterialRequest{MaterialId: int64(req.MerchantId)}
+		resp, err := client.GetMerchantsMaterial(ctx, &r)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "GetMerchantsMaterial err: %v, req: %d", err, r.MaterialId)
+			return &result, code.ERROR
+		}
+		if resp.Common.Code != users.RetCode_SUCCESS {
+			return &result, code.ERROR
+		}
+		vars.ErrorLogger.Errorf(ctx, "GetMerchantsMaterial  req: %d, resp: %+v", r.MaterialId, resp)
+		if resp.Info == nil || resp.Info.Uid != int64(req.Uid) {
+			return &result, code.MerchantAccountNotExist
+		}
+	}
+
 	serverName := args.RpcServiceMicroMallShop
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
@@ -37,23 +62,15 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 	}
 	rsp, err := client.ShopApply(ctx, &shopApplyReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ShopApply %v,err: %v, req: %+v", serverName, err, shopApplyReq)
+		vars.ErrorLogger.Errorf(ctx, "ShopApply err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == shop_business.RetCode_SUCCESS {
 		result.ShopId = int(rsp.ShopId)
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "ShopApply %v,err: %v, rsp: %+v", serverName, err, rsp)
+	vars.ErrorLogger.Errorf(ctx, "ShopApply req: %+v, resp: %+v", *req, rsp)
 	switch rsp.Common.Code {
-	case shop_business.RetCode_USER_NOT_EXIST:
-		return &result, code.ErrorUserNotExist
-	case shop_business.RetCode_USER_EXIST:
-		return &result, code.ErrorUserExist
-	case shop_business.RetCode_MERCHANT_EXIST:
-		return &result, code.ErrorMerchantExist
-	case shop_business.RetCode_MERCHANT_NOT_EXIST:
-		return &result, code.ErrorMerchantNotExist
 	case shop_business.RetCode_SHOP_EXIST:
 		return &result, code.ErrorShopBusinessExist
 	case shop_business.RetCode_SHOP_NOT_EXIST:

@@ -9,15 +9,56 @@
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. sh build.sh
 
 #### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
+接口定义
+```protobuf
+    // 提交店铺申请材料
+    rpc ShopApply(ShopApplyRequest) returns (ShopApplyResponse) {
+        option (google.api.http) = {
+            post: "/v1/shop_business/shop/apply"
+            body:"*"
+        };
+    }
+    // 店铺质押保证金
+    rpc ShopPledge(ShopPledgeRequest) returns (ShopPledgeResponse) {
+        option (google.api.http) = {
+            put: "/v1/shop_business/shop/pledge"
+            body:"*"
+        };
+    }
+    // 获取店铺材料
+    rpc GetShopMaterial(GetShopMaterialRequest) returns (GetShopMaterialResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/material"
+        };
+    }
+    // 获取店铺数据
+    rpc GetShopInfo(GetShopInfoRequest) returns (GetShopInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/info"
+        };
+    }
+    // 搜索同步店铺数据
+    rpc SearchSyncShop(SearchSyncShopRequest) returns (SearchSyncShopResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/search/sync"
+        };
+    }
+    // 搜索店铺
+    rpc SearchShop(SearchShopRequest) returns (SearchShopResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/search"
+        };
+    }
+    // 获取店铺主要信息
+    rpc GetShopMajorInfo(GetShopMajorInfoRequest) returns (GetShopMajorInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/shop_business/shop/info/major"
+        };
+    }
+```
 
 #### 参与贡献
 
@@ -26,12 +67,3 @@
 3.  提交代码
 4.  新建 Pull Request
 
-
-#### 码云特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5.  码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

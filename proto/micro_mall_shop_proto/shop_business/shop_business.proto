@@ -150,6 +150,7 @@ enum RetCode {
     MERCHANT_EXIST = 50004;
     SHOP_NOT_EXIST = 50005;
     SHOP_EXIST = 50006;
+    SHOP_STATE_NOT_VERIFY = 50007;
 }
 
 enum OperationType {

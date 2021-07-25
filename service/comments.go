@@ -14,7 +14,7 @@ func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs)
 	serverName := args.RpcServiceMicroMallComments
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -44,14 +44,14 @@ func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs)
 	}
 	commentsOrderRsp, err := client.CommentsOrder(ctx, &commentsOrderReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CommentsOrder %v,err: %v,commentsOrderReq : %+v", serverName, err, commentsOrderReq)
+		vars.ErrorLogger.Errorf(ctx, "CommentsOrder err: %v,req : %+v", err, *req)
 		retCode = code.ERROR
 		return
 	}
 	if commentsOrderRsp.Common.Code == comments_business.RetCode_SUCCESS {
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "CommentsOrder %v,commentsOrderRsp : %+v", serverName, *commentsOrderRsp)
+	vars.ErrorLogger.Errorf(ctx, "CommentsOrder req: %+v, commentsOrderRsp : %+v", *req, commentsOrderRsp)
 	switch commentsOrderRsp.Common.Code {
 	case comments_business.RetCode_USER_ORDER_STATE_INVALID:
 		retCode = code.OrderStateInvalid
@@ -74,7 +74,7 @@ func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs
 	serverName := args.RpcServiceMicroMallComments
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -86,28 +86,29 @@ func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs
 	}
 	commentsRsp, err := client.FindShopComments(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindShopComments %v,err: %v,commentsReq : %+v", serverName, commentsReq)
+		vars.ErrorLogger.Errorf(ctx, "FindShopComments err: %v,req : %+v", err, commentsReq)
 		retCode = code.ERROR
 		return
 	}
-	if commentsRsp.Common.Code == comments_business.RetCode_SUCCESS {
-		result = make([]args.OrderCommentsInfo, len(commentsRsp.CommentsList))
-		for i := 0; i < len(commentsRsp.CommentsList); i++ {
-			row := commentsRsp.CommentsList[i]
-			info := args.OrderCommentsInfo{
-				ShopId:    row.ShopId,
-				OrderCode: row.OrderCode,
-				Star:      int8(row.StarLevel),
-				Content:   row.Content,
-				ImgList:   row.ImgList,
-				CommentId: row.CommentId,
-			}
-			result[i] = info
-		}
+	if commentsRsp.Common.Code != comments_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "FindShopComments req: %+v, resp : %+v", *req, commentsRsp)
+		retCode = code.ERROR
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "FindShopComments %v,err: %v,commentsOrderRsp : %+v", serverName, commentsRsp)
-	retCode = code.ERROR
+
+	result = make([]args.OrderCommentsInfo, len(commentsRsp.CommentsList))
+	for i := 0; i < len(commentsRsp.CommentsList); i++ {
+		row := commentsRsp.CommentsList[i]
+		info := args.OrderCommentsInfo{
+			ShopId:    row.ShopId,
+			OrderCode: row.OrderCode,
+			Star:      int8(row.StarLevel),
+			Content:   row.Content,
+			ImgList:   row.ImgList,
+			CommentId: row.CommentId,
+		}
+		result[i] = info
+	}
 	return
 }
 
@@ -116,7 +117,7 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 	serverName := args.RpcServiceMicroMallComments
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -135,14 +136,15 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 	}
 	commentsRsp, err := client.ModifyCommentsTags(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags %v,err: %v,commentsReq : %+v", serverName, commentsReq)
+		vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags err: %v,req : %+v", err, commentsReq)
 		retCode = code.ERROR
 		return
 	}
 	if commentsRsp.Common.Code == comments_business.RetCode_SUCCESS {
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags %v,err: %v,commentsOrderRsp : %+v", serverName, commentsRsp)
+
+	vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags req: %+v, rsp : %+v", *req, commentsRsp)
 	switch commentsRsp.Common.Code {
 	case comments_business.RetCode_COMMENT_TAG_NOT_EXIST:
 		retCode = code.CommentsTagNotExist
@@ -159,7 +161,7 @@ func GetCommentsTagsList(ctx context.Context, req *args.GetCommentsTagsListArgs)
 	serverName := args.RpcServiceMicroMallComments
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -172,31 +174,32 @@ func GetCommentsTagsList(ctx context.Context, req *args.GetCommentsTagsListArgs)
 	}
 	commentsRsp, err := client.FindCommentsTags(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags %v,err: %v,commentsReq : %+v", serverName, commentsReq)
+		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags err: %v,req : %+v", err, *req)
 		retCode = code.ERROR
 		return
 	}
-	if commentsRsp.Common.Code == comments_business.RetCode_SUCCESS {
-		result = make([]args.CommentsTags, len(commentsRsp.Tags))
-		for i := 0; i < len(commentsRsp.Tags); i++ {
-			row := commentsRsp.Tags[i]
-			tags := args.CommentsTags{
-				TagCode:              row.TagCode,
-				ClassificationMajor:  row.ClassificationMajor,
-				ClassificationMedium: row.ClassificationMedium,
-				ClassificationMinor:  row.ClassificationMinor,
-				Content:              row.Content,
-			}
-			result[i] = tags
+	if commentsRsp.Common.Code != comments_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags req: %+v,resp : %+v", *req, commentsRsp)
+		switch commentsRsp.Common.Code {
+		case comments_business.RetCode_COMMENT_TAG_NOT_EXIST:
+			retCode = code.CommentsTagNotExist
+		default:
+			retCode = code.ERROR
 		}
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "FindCommentsTags %v,err: %v,commentsOrderRsp : %+v", serverName, commentsRsp)
-	switch commentsRsp.Common.Code {
-	case comments_business.RetCode_COMMENT_TAG_NOT_EXIST:
-		retCode = code.CommentsTagNotExist
-	default:
-		retCode = code.ERROR
+
+	result = make([]args.CommentsTags, len(commentsRsp.Tags))
+	for i := 0; i < len(commentsRsp.Tags); i++ {
+		row := commentsRsp.Tags[i]
+		tags := args.CommentsTags{
+			TagCode:              row.TagCode,
+			ClassificationMajor:  row.ClassificationMajor,
+			ClassificationMedium: row.ClassificationMedium,
+			ClassificationMinor:  row.ClassificationMinor,
+			Content:              row.Content,
+		}
+		result[i] = tags
 	}
 	return
 }

@@ -61,4 +61,6 @@ const (
 	UserOrderNotExist         = 600034
 	OutTradeEmpty             = 600035
 	UserStateNotVerify        = 600036
+	ShopStateNotVerify        = 600037
+	OrderPayIng               = 600038
 )

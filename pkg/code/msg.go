@@ -23,8 +23,8 @@ var MsgFlags = map[int]string{
 	ErrorMerchantExist:        "商户认证资料已存在",
 	ErrorShopBusinessExist:    "店铺认证资料已存在",
 	ErrorShopBusinessNotExist: "商户未提交过店铺认证资料",
-	ErrorSkuCodeExist:         "商品sku-code已存在系统",
-	ErrorSkuCodeNotExist:      "商品sku-code不存在",
+	ErrorSkuCodeExist:         "商品sku已入库",
+	ErrorSkuCodeNotExist:      "商品sku未入库",
 	ErrorShopIdNotExist:       "店铺ID不存在",
 	ErrorShopIdExist:          "店铺ID已存在",
 	ErrorInviteCodeNotExist:   "邀请码不存在",
@@ -59,6 +59,8 @@ var MsgFlags = map[int]string{
 	UserOrderNotExist:         "用户订单不存在",
 	OutTradeEmpty:             "外部交易号为空",
 	UserStateNotVerify:        "用户状态未验证或审核或被锁定",
+	ShopStateNotVerify:        "店铺状态未审核或被冻结",
+	OrderPayIng:               "交易单号正在支付中",
 }
 
 //func init() {

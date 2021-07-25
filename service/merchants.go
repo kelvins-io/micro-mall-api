@@ -14,7 +14,7 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
 	defer conn.Close()
@@ -25,26 +25,26 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 			RegisterAddr: req.RegisterAddr,
 			HealthCardNo: req.HealthCardNo,
 			Identity:     int32(req.Identity),
-			State:        0,
+			State:        3,
 			TaxCardNo:    req.TaxCardNo,
 		},
 		OperationType: users.OperationType(req.OperationType),
 	}
 	rsp, err := client.MerchantsMaterial(ctx, &merchantReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, req: %+v", serverName, err, merchantReq)
+		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  err: %v, req: %+v", err, *req)
 		return &result, code.ERROR
 	}
+
 	if rsp.Common.Code == users.RetCode_SUCCESS {
 		result.MerchantId = rsp.MaterialId
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial %v,err: %v, rsp: %+v", serverName, err, rsp)
+
+	vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  req: %+v, resp: %+v", *req, rsp)
 	switch rsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return &result, code.ErrorUserNotExist
-	case users.RetCode_USER_EXIST:
-		return &result, code.ErrorUserExist
 	case users.RetCode_MERCHANT_EXIST:
 		return &result, code.ErrorMerchantExist
 	case users.RetCode_MERCHANT_NOT_EXIST:

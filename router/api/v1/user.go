@@ -57,6 +57,15 @@ func LoginUserWithPwdApi(c *gin.Context) {
 
 func GetVerifyCodeApi(c *gin.Context) {
 	var form args.GenVerifyCodeArgs
+	value, exist := c.Get("uid")
+	if exist {
+		uid, ok := value.(int)
+		if !ok {
+			app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+			return
+		}
+		form.Uid = uid
+	}
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {

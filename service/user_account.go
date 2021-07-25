@@ -22,7 +22,7 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v",serverName, err)
 		return code.ERROR
 	}
 	defer conn.Close()
@@ -42,33 +42,33 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 	}
 	usersRsp, err := client.UserAccountCharge(ctx, &usersReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "UserAccountCharge %v,err: %v, req: %+v", serverName, err, req)
+		vars.ErrorLogger.Errorf(ctx, "UserAccountCharge err: %v, req: %+v", err, *req)
 		return code.ERROR
 	}
 	if usersRsp.Common.Code == users.RetCode_SUCCESS {
 		return
-	} else {
-		vars.ErrorLogger.Errorf(ctx, "UserAccountCharge %v,err: %v, req: %+v, rsp: %+v", serverName, err, req, usersRsp)
-		switch usersRsp.Common.Code {
-		case users.RetCode_USER_NOT_EXIST:
-			retCode = code.ErrorUserNotExist
-		case users.RetCode_ACCOUNT_LOCK:
-			retCode = code.UserAccountStateLock
-		case users.RetCode_ACCOUNT_INVALID:
-			retCode = code.UserAccountStateInvalid
-		case users.RetCode_TRANSACTION_FAILED:
-			retCode = code.TransactionFailed
-		case users.RetCode_ACCOUNT_NOT_EXIST:
-			retCode = code.UserAccountNotExist
-		case users.RetCode_USER_CHARGE_SUCCESS:
-			retCode = code.TradePaySuccess
-		case users.RetCode_USER_CHARGE_RUN:
-			retCode = code.TradePayRun
-		case users.RetCode_USER_CHARGE_TRADE_NO_EMPTY:
-			retCode = code.OutTradeEmpty
-		default:
-			retCode = code.ERROR
-		}
-		return
 	}
+
+	vars.ErrorLogger.Errorf(ctx, "UserAccountCharge req: %+v, rsp: %+v", *req, usersRsp)
+	switch usersRsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		retCode = code.ErrorUserNotExist
+	case users.RetCode_ACCOUNT_LOCK:
+		retCode = code.UserAccountStateLock
+	case users.RetCode_ACCOUNT_INVALID:
+		retCode = code.UserAccountStateInvalid
+	case users.RetCode_TRANSACTION_FAILED:
+		retCode = code.TransactionFailed
+	case users.RetCode_ACCOUNT_NOT_EXIST:
+		retCode = code.UserAccountNotExist
+	case users.RetCode_USER_CHARGE_SUCCESS:
+		retCode = code.TradePaySuccess
+	case users.RetCode_USER_CHARGE_RUN:
+		retCode = code.TradePayRun
+	case users.RetCode_USER_CHARGE_TRADE_NO_EMPTY:
+		retCode = code.OutTradeEmpty
+	default:
+		retCode = code.ERROR
+	}
+	return
 }

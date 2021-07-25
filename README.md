@@ -510,7 +510,8 @@ code | 含义
 600015	 |	 物流记录不存在   
 600022 	 |	 用户物流收货地址不存在   
 600033   |   评论标签不存在   
-
+600037   |   店铺状态未审核或被冻结
+600038   |   交易单号正在支付中
 
 接口列表（由于未及时更新，以实际接口返回为准）：   
 ####【说明】post请求没指明content-type的接口表单和json都支持   
@@ -1179,6 +1180,7 @@ amount | 金额 | string | 如，99.09
 coin_type | 币种 | int | 如，0-RMB，1-USDT
 device_code | 设备 | string | vivo NEX
 device_platform | 平台 | string | Android
+out_trade_no | 外部交易号 | string | uuid
 
 返回body   
 ```json

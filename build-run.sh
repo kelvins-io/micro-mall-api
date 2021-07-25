@@ -6,7 +6,7 @@ go mod vendor
 echo 开始构建
 go build -o micro-mall-api main.go
 
-cp -f ./etc/app.ini.example ./etc/app.ini
+cp -n ./etc/app.ini.example ./etc/app.ini
 
 mkdir -p logs
 mkdir -p static

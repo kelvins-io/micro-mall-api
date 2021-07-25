@@ -89,10 +89,7 @@ func local_request_SkuBusinessService_GetSkuList_0(ctx context.Context, marshale
 	var protoReq GetSkuListRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_SkuBusinessService_GetSkuList_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_SkuBusinessService_GetSkuList_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -342,7 +339,6 @@ func local_request_SkuBusinessService_ConfirmSkuInventory_0(ctx context.Context,
 // RegisterSkuBusinessServiceHandlerServer registers the http handlers for service SkuBusinessService to "mux".
 // UnaryRPC     :call SkuBusinessServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterSkuBusinessServiceHandlerFromEndpoint instead.
 func RegisterSkuBusinessServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server SkuBusinessServiceServer) error {
 
 	mux.Handle("POST", pattern_SkuBusinessService_PutAwaySku_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
