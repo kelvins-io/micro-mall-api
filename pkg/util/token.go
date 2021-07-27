@@ -2,7 +2,7 @@ package util
 
 import (
 	"gitee.com/cristiane/micro-mall-api/vars"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 	"time"
 )
 
