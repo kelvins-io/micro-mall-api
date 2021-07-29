@@ -50,6 +50,8 @@ prometheus_metrics接口
 架构示意图：   
 ![avatar](./微商城系统架构设计.png)
 
+我的架构图都是在[processON在线画图，点击领7天会员福利](https://www.processon.com/i/5ac1db5ee4b0cf24e963bd80) 上面画的，有超多UML，软件架构，产品原型模板可以选择。
+
 ### 项目目录结构
 ```
 .
@@ -1319,3 +1321,4 @@ token | 授权码 | string | 需要用户服务特别授权码
 3 fork项目   
 4 clone fork后的项目到本地开发   
 5 提交pr   
+6 参与开源代码被合并后将获得goland 正版license   
