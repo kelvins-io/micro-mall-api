@@ -27,7 +27,7 @@ const (
 // cfg reads file app.ini.
 var (
 	cfg      *ini.File
-	flagConf = flag.String("conf_file", "", "Set app config.")
+	flagConf = flag.String("web_conf_file", "", "Set app config.")
 )
 
 // LoadDefaultConfig loads config form cfg.

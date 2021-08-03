@@ -215,7 +215,7 @@ prometheus_metrics接口
 ### 如何一键运行micro-mall系列项目
 运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh   
 然后一键运行本项目：sh build-run.sh   
-其它micro-mall项目同理   
+其它micro-mall项目同理（支持多实例负载均衡）   
 
 ### 如何用docker来一键构建运行micro-mall系列项目
 如果你有docker环境（docker环境可以避免安装依赖的中间件）那么你可以：   
@@ -225,7 +225,8 @@ sh docker-build-run.sh
 
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
-你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN,GO_ENV）   
+你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN）   
+新版本kelvins将不再依赖GO_ENV      
 然后看看下面的环节      
 
 #### 服务注册说明
@@ -265,7 +266,7 @@ windows请使用git bash shell运行：sh batch-clone-project.sh
 除了micro-mall-api服务需要在/etc/app.ini中配置端口外，其余需要占用tcp端口的服务都是在运行时自动生成随机端口号并注册到etcd集群中   
 
 #### 运行环境说明
-export GO_ENV=dev   #本地开发环境   
+~~export GO_ENV=dev   #本地开发环境~~   
 可选值：dev,test,release,prod   
 
 #### 都有哪些依赖
@@ -389,7 +390,10 @@ TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
 
 #### 运行项目
 在需要项目根目录运行go mod vendor安装依赖（不要运行go mod tidy）      
-go run main.go   
+sh build-run.sh      
+
+#### 负载均衡
+同一应用多实例调用时自动负载均衡而不需要额外配置   
 
 
 ### 模块分类
