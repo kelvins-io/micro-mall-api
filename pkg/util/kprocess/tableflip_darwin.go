@@ -27,7 +27,7 @@ func (k *KProcess) Listen(network, addr, pidFile string) (ln net.Listener, err e
 	logging.Infof(fmt.Sprintf("exec process pid %d \n", k.pid))
 
 	k.processUp, err = tableflip.New(tableflip.Options{
-		UpgradeTimeout: 500 * time.Millisecond,
+		UpgradeTimeout: 5 * time.Second,
 		PIDFile:        pidFile,
 	})
 	if err != nil {
