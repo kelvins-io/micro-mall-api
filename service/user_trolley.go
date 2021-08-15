@@ -49,7 +49,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 	}
 
 	serverName := args.RpcServiceMicroMallTrolley
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
@@ -87,7 +87,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 func verifySkuBusiness(ctx context.Context, shopId int64, skuCode string) (retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallSku
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -131,7 +131,7 @@ func verifySkuBusiness(ctx context.Context, shopId int64, skuCode string) (retCo
 func verifyShopBusiness(ctx context.Context, shopIdList []int64) (retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallShop
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -167,7 +167,7 @@ func verifyShopBusiness(ctx context.Context, shopIdList []int64) (retCode int) {
 func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArgs) (*args.SkuRemoveUserTrolleyRsp, int) {
 	var result args.SkuRemoveUserTrolleyRsp
 	serverName := args.RpcServiceMicroMallTrolley
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
@@ -205,7 +205,7 @@ func GetUserTrolleyList(ctx context.Context, uid int64) (*args.UserTrolleyListRs
 	var result args.UserTrolleyListRsp
 	result.List = make([]args.UserTrolleyRecord, 0)
 	serverName := args.RpcServiceMicroMallTrolley
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR

@@ -12,7 +12,7 @@ import (
 func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs) (retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallComments
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
@@ -72,7 +72,7 @@ func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs)
 func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs) (result []args.OrderCommentsInfo, retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallComments
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
@@ -115,7 +115,7 @@ func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs
 func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallComments
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -159,7 +159,7 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 func GetCommentsTagsList(ctx context.Context, req *args.GetCommentsTagsListArgs) (result []args.CommentsTags, retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallComments
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR

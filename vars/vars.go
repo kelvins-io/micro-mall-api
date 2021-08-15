@@ -23,10 +23,12 @@ var (
 	JwtSetting            *setting.JwtSettingS
 	MysqlSettingMicroMall *setting.MysqlSettingS
 	RedisSettingMicroMall *setting.RedisSettingS
-	G2CacheSetting		  *setting.G2CacheSettingS
+	G2CacheSetting        *setting.G2CacheSettingS
 	EmailConfigSetting    *EmailConfigSettingS
 	VerifyCodeSetting     *VerifyCodeSettingS
 	RedisPoolMicroMall    *redis.Pool
 	GPool                 *goroutine.Pool
-	G2CacheEngine		  *g2cache.G2Cache
+	G2CacheEngine         *g2cache.G2Cache
+	LoggerLevel           string
+	Environment           string
 )

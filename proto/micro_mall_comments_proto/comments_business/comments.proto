@@ -3,6 +3,7 @@ syntax = "proto3";
 package comments_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+option go_package = "proto/micro_mall_comments_proto/comments_business;comments_business";
 
 // 评论服务
 service CommentsBusinessService {

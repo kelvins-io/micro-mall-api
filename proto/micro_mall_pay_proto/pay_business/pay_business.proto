@@ -4,6 +4,8 @@ package pay_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
 
+option go_package = "proto/micro_mall_pay_proto/pay_business;pay_business";
+
 // 支付业务
 service PayBusinessService {
     // 统一收单支付

@@ -12,14 +12,14 @@ import (
 func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.SkuBusinessPutAwayRsp, int) {
 	var result args.SkuBusinessPutAwayRsp
 	if req.ShopId > 0 {
-		ret := verifyShopBusiness(ctx,[]int64{req.ShopId})
+		ret := verifyShopBusiness(ctx, []int64{req.ShopId})
 		if ret != code.SUCCESS {
 			return &result, ret
 		}
 	}
 
 	serverName := args.RpcServiceMicroMallSku
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
@@ -76,7 +76,7 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 	var result args.GetSkuListRsp
 	result.SkuInventoryInfoList = make([]args.SkuInventoryInfo, 0)
 	serverName := args.RpcServiceMicroMallSku
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR
@@ -128,13 +128,13 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*args.SkuPropertyExRsp, int) {
 	var result args.SkuPropertyExRsp
 	if req.ShopId > 0 {
-		ret := verifyShopBusiness(ctx,[]int64{req.ShopId})
+		ret := verifyShopBusiness(ctx, []int64{req.ShopId})
 		if ret != code.SUCCESS {
 			return &result, ret
 		}
 	}
 	serverName := args.RpcServiceMicroMallSku
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR

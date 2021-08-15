@@ -202,6 +202,9 @@ prometheus_metrics接口
 ├── 交流群.JPG
 ├── etcd环境部署-centos.pdf
 ├── etcd环境部署-ubuntu.pdf
+├── docker-etcd-build.sh  etcd集群构建shell
+├── etcd_cluster
+│   └── docker-compose-etcd.yml etcd集群构建docker镜像
 ├── 微信赞赏码.JPG
 ├── 支付宝赞赏码.JPG
 ├── 微商城需求文档.pdf
@@ -215,6 +218,7 @@ prometheus_metrics接口
 ### 如何一键运行micro-mall系列项目
 运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh   
 然后一键运行本项目：sh build-run.sh   
+或者sh build.sh&&./micro-mall-api -s start   
 其它micro-mall项目同理（支持多实例负载均衡）   
 
 ### 如何用docker来一键构建运行micro-mall系列项目
@@ -233,6 +237,9 @@ micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，�
 由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档    
 export ETCDV3_SERVER_URLS=http://10.211.55.12:2379,http://10.211.55.13:2379  #地址仅供示范     
 export ETCDCTL_API=3   
+
+#### etcd-cluster构建
+运行sh docker-etcd-build.sh
 
 #### 都有哪些服务
 micro-mall-api   接入层   
@@ -267,7 +274,7 @@ windows请使用git bash shell运行：sh batch-clone-project.sh
 
 #### 运行环境说明
 ~~export GO_ENV=dev   #本地开发环境~~   
-可选值：dev,test,release,prod   
+可选值：dev,test,release   
 
 #### 都有哪些依赖
 部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
@@ -391,6 +398,7 @@ TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
 #### 运行项目
 在需要项目根目录运行go mod vendor安装依赖（不要运行go mod tidy）      
 sh build-run.sh      
+或sh build.sh&&./micro-mall-api -s start   
 
 #### 负载均衡
 同一应用多实例调用时自动负载均衡而不需要额外配置   

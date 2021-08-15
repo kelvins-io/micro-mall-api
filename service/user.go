@@ -25,7 +25,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	}
 
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return &result, code.ERROR
@@ -93,7 +93,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		return token, retCode
 	}
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
@@ -137,7 +137,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 
 func updateUserStateLogin(ctx context.Context, uid int) int {
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
@@ -173,7 +173,7 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (string, int) {
 	var token string
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return "", code.ERROR
@@ -225,7 +225,7 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		return ret
 	}
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
@@ -273,7 +273,7 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 	var userInfoCacheKey = fmt.Sprintf(userInfoCachePhoneKeyPrefix, countryCode, phone)
 	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
 		serverName := args.RpcServiceMicroMallUsers
-		conn, err := util.GetGrpcClient(serverName)
+		conn, err := util.GetGrpcClient(ctx, serverName)
 		if err != nil {
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
@@ -313,7 +313,7 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 	var err error
 	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
 		serverName := args.RpcServiceMicroMallUsers
-		conn, err := util.GetGrpcClient(serverName)
+		conn, err := util.GetGrpcClient(ctx, serverName)
 		if err != nil {
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
@@ -363,7 +363,7 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 	retCode = code.SUCCESS
 
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
@@ -403,7 +403,7 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 
 func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32) int {
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return code.ERROR
@@ -437,7 +437,7 @@ func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32
 
 func verifyUserState(ctx context.Context, uid int64) int {
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return code.ERROR

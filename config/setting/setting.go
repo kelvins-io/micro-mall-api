@@ -6,7 +6,7 @@ type ServerSettingS struct {
 	ReadTimeout  int
 	WriteTimeout int
 	IdleTimeout  int
-	Mode         string
+	Environment  string
 	PIDFile      string
 }
 
@@ -33,6 +33,8 @@ type MysqlSettingS struct {
 	ConnMaxLifeSecond int
 	MultiStatements   bool
 	ParseTime         bool
+	Environment       string
+	LoggerLevel       string
 }
 
 // RedisSettingS defines for connecting redis.

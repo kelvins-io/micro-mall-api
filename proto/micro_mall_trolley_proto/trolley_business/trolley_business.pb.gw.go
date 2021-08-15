@@ -89,10 +89,7 @@ func local_request_TrolleyBusinessService_RemoveSku_0(ctx context.Context, marsh
 	var protoReq RemoveSkuRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_TrolleyBusinessService_RemoveSku_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_TrolleyBusinessService_RemoveSku_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -125,10 +122,7 @@ func local_request_TrolleyBusinessService_GetUserTrolleyList_0(ctx context.Conte
 	var protoReq GetUserTrolleyListRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_TrolleyBusinessService_GetUserTrolleyList_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_TrolleyBusinessService_GetUserTrolleyList_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -140,7 +134,6 @@ func local_request_TrolleyBusinessService_GetUserTrolleyList_0(ctx context.Conte
 // RegisterTrolleyBusinessServiceHandlerServer registers the http handlers for service TrolleyBusinessService to "mux".
 // UnaryRPC     :call TrolleyBusinessServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterTrolleyBusinessServiceHandlerFromEndpoint instead.
 func RegisterTrolleyBusinessServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrolleyBusinessServiceServer) error {
 
 	mux.Handle("PUT", pattern_TrolleyBusinessService_JoinSku_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

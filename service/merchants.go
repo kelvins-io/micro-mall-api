@@ -12,7 +12,7 @@ import (
 func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*args.MerchantsMaterialRsp, int) {
 	var result args.MerchantsMaterialRsp
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR

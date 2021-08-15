@@ -89,10 +89,7 @@ func local_request_CommentsBusinessService_FindShopComments_0(ctx context.Contex
 	var protoReq FindShopCommentsRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_CommentsBusinessService_FindShopComments_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_CommentsBusinessService_FindShopComments_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -125,10 +122,7 @@ func local_request_CommentsBusinessService_FindCommentsTags_0(ctx context.Contex
 	var protoReq FindCommentsTagRequest
 	var metadata runtime.ServerMetadata
 
-	if err := req.ParseForm(); err != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
-	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_CommentsBusinessService_FindCommentsTags_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_CommentsBusinessService_FindCommentsTags_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -174,7 +168,6 @@ func local_request_CommentsBusinessService_ModifyCommentsTags_0(ctx context.Cont
 // RegisterCommentsBusinessServiceHandlerServer registers the http handlers for service CommentsBusinessService to "mux".
 // UnaryRPC     :call CommentsBusinessServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features (such as grpc.SendHeader, etc) to stop working. Consider using RegisterCommentsBusinessServiceHandlerFromEndpoint instead.
 func RegisterCommentsBusinessServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server CommentsBusinessServiceServer) error {
 
 	mux.Handle("POST", pattern_CommentsBusinessService_CommentsOrder_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {

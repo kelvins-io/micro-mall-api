@@ -1,6 +1,8 @@
 package router
 
 import (
+	"context"
+	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/middleware"
 	v1 "gitee.com/cristiane/micro-mall-api/router/api/v1"
 	"gitee.com/cristiane/micro-mall-api/router/process"
@@ -11,15 +13,8 @@ import (
 	"os"
 )
 
-func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
-
-	gin.DefaultWriter = io.MultiWriter(os.Stdout, accessInfoLogger)
-	gin.DefaultErrorWriter = io.MultiWriter(os.Stderr, accessErrLogger)
-
-	gin.SetMode(gin.ReleaseMode) // 默认生产
-	if vars.ServerSetting != nil && vars.ServerSetting.Mode != "" {
-		gin.SetMode(vars.ServerSetting.Mode)
-	}
+func InitRouter() *gin.Engine {
+	ginEngineInit()
 
 	r := gin.Default()
 	r.Use(middleware.Cors())
@@ -104,4 +99,43 @@ func InitRouter(accessInfoLogger, accessErrLogger io.Writer) *gin.Engine {
 	}
 
 	return r
+}
+
+func ginEngineInit() {
+	var accessLogWriter io.Writer = &AccessInfoLogger{}
+	var errLogWriter io.Writer = &AccessErrLogger{}
+	if vars.Environment == config.DefaultEnvironmentDev {
+		accessLogWriter = io.MultiWriter(accessLogWriter, os.Stdout)
+		errLogWriter = io.MultiWriter(errLogWriter, os.Stdout)
+	}
+	gin.DefaultWriter = accessLogWriter
+	gin.DefaultErrorWriter = errLogWriter
+
+	gin.SetMode(gin.ReleaseMode) // 默认生产
+	if vars.Environment != "" {
+		switch vars.Environment {
+		case config.DefaultEnvironmentDev:
+			gin.SetMode(gin.DebugMode)
+		case config.DefaultEnvironmentTest:
+			gin.SetMode(gin.TestMode)
+		case config.DefaultEnvironmentRelease:
+			gin.SetMode(gin.ReleaseMode)
+		default:
+			gin.SetMode(gin.ReleaseMode)
+		}
+	}
+}
+
+type AccessInfoLogger struct{}
+
+func (a *AccessInfoLogger) Write(p []byte) (n int, err error) {
+	vars.AccessLogger.Infof(context.Background(), "[gin-info] %s", p)
+	return 0, nil
+}
+
+type AccessErrLogger struct{}
+
+func (a *AccessErrLogger) Write(p []byte) (n int, err error) {
+	vars.AccessLogger.Errorf(context.Background(), "[gin-err] %s", p)
+	return 0, nil
 }

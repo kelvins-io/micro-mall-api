@@ -23,7 +23,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	retCode = code.SUCCESS
 	// 查找订单信息
 	serverName := args.RpcServiceMicroMallOrder
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -203,7 +203,7 @@ func orderReportGetUserInfo(ctx context.Context, uidList []int64, uidToUserInfo 
 	retCode = code.SUCCESS
 	// 查找用户信息
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q,err: %v", serverName, err)
 		retCode = code.ERROR
@@ -235,7 +235,7 @@ func orderReportGetShopInfo(ctx context.Context, shopIdList []int64, shopIdToSho
 	// 查找店铺信息
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallShop
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR

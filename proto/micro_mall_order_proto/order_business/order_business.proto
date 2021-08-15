@@ -3,7 +3,7 @@ syntax = "proto3";
 package order_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
-
+option go_package = "proto/micro_mall_order_proto/order_business;order_business";
 
 // 订单服务
 service OrderBusinessService {

@@ -12,7 +12,7 @@ import (
 
 func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (interface{}, int) {
 	serverName := args.RpcServiceMicroMallSku
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
@@ -34,7 +34,7 @@ func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (
 
 func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int) {
 	serverName := args.RpcServiceMicroMallShop
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR

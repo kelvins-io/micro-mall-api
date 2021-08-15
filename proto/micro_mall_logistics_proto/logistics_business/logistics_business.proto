@@ -3,6 +3,7 @@ syntax = "proto3";
 package logistics_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+option go_package = "proto/micro_mall_logistics_proto/logistics_business;logistics_business";
 
 // 物流业务
 service LogisticsBusinessService {

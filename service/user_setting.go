@@ -11,7 +11,7 @@ import (
 
 func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressPutArgs) int {
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
@@ -62,7 +62,7 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 func GetUserSettingAddress(ctx context.Context, req *args.UserSettingAddressGetArgs) ([]args.UserDeliveryInfo, int) {
 	result := make([]args.UserDeliveryInfo, 0)
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR

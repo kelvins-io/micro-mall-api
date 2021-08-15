@@ -9,7 +9,6 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/robfig/cron/v3"
 	"net/http"
-	"os"
 	"strconv"
 	"time"
 )
@@ -25,7 +24,7 @@ func RunApplication(application *vars.WEBApplication) {
 	vars.App = application
 	err := runApp(application)
 	if err != nil {
-		logging.Fatalf("App exit over: %v\n", err)
+		logging.Infof("App exit over: %v\n", err)
 	}
 	logging.Info("App exit over")
 }
@@ -61,7 +60,14 @@ func runApp(webApp *vars.WEBApplication) error {
 		}
 	}
 
-	//4.  setup server monitor
+	// startup control
+	next, err := startUpControl(vars.ServerSetting.PIDFile)
+	if err != nil {
+		return err
+	}
+	if !next {
+		return nil
+	}
 
 	// 5 run task
 	if webApp.RegisterTasks != nil {
@@ -93,17 +99,13 @@ func runApp(webApp *vars.WEBApplication) error {
 	if webApp.RegisterHttpRoute == nil {
 		logging.Fatalf("App RegisterHttpRoute nil ??")
 	}
-	wd, _ := os.Getwd()
-	pidFile := fmt.Sprintf("%s/%s.pid", wd, webApp.Name)
-	if vars.ServerSetting.PIDFile != "" {
-		pidFile = vars.ServerSetting.PIDFile
-	}
+
 	kp := new(kprocess.KProcess)
 	network := "tcp"
 	if vars.ServerSetting != nil && vars.ServerSetting.Network != "" {
 		network = vars.ServerSetting.Network
 	}
-	ln, err := kp.Listen(network, addr, pidFile)
+	ln, err := kp.Listen(network, addr, vars.ServerSetting.PIDFile)
 	if err != nil {
 		logging.Fatalf("App kprocess listen err: %v", err)
 	}
@@ -117,7 +119,7 @@ func runApp(webApp *vars.WEBApplication) error {
 	go func() {
 		err = serve.Serve(ln)
 		if err != nil {
-			logging.Fatalf("App run Serve: %v", err)
+			logging.Infof("App run Serve: %v\n", err)
 		}
 	}()
 	<-kp.Exit()
@@ -125,7 +127,7 @@ func runApp(webApp *vars.WEBApplication) error {
 	appPrepareForceExit()
 	err = serve.Shutdown(context.Background())
 	if err != nil {
-		logging.Fatalf("App server Shutdown: %v", err)
+		logging.Infof("App server Shutdown: %v\n", err)
 	}
 	logging.Info("App server Shutdown ok")
 	err = appShutdown(webApp.Application)

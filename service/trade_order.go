@@ -19,7 +19,7 @@ import (
 func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 	result := ""
 	serverName := args.RpcServiceMicroMallOrder
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
@@ -85,7 +85,7 @@ func CreateTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 func createTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*args.CreateTradeOrderRsp, int) {
 	var result args.CreateTradeOrderRsp
 	serverName := args.RpcServiceMicroMallOrder
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return &result, code.ERROR
@@ -170,7 +170,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 	// 根据交易号获取订单详情
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallOrder
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -224,7 +224,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 	}
 	shopIdToShopCode := make(map[int64]string)
 	serverName = args.RpcServiceMicroMallShop
-	conn, err = util.GetGrpcClient(serverName)
+	conn, err = util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 		retCode = code.ERROR
@@ -285,7 +285,7 @@ func tradePayVerifyUser(ctx context.Context, uid int64) (account string, retCode
 	}
 
 	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
@@ -347,7 +347,7 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 	result = &args.OrderTradeRsp{}
 	// 发起支付流程
 	serverName := args.RpcServiceMicroMallPay
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR

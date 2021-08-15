@@ -1,5 +1,5 @@
 [web-server]
-Mode = "debug"
+Environment = "debug"
 EndPort = 52001
 ReadTimeout = 10
 WriteTimeout = 10

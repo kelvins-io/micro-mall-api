@@ -4,6 +4,8 @@ package users;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
 
+option go_package = "proto/micro_mall_users_proto/users;users";
+
 service UsersService {
     // 获取用户信息
     rpc GetUserInfo(GetUserInfoRequest) returns (GetUserInfoResponse) {

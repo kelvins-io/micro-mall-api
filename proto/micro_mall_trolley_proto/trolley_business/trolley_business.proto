@@ -3,6 +3,7 @@ syntax = "proto3";
 package trolley_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+option go_package = "proto/micro_mall_trolley_proto/trolley_business;trolley_business";
 
 // 购物车系统
 service TrolleyBusinessService {

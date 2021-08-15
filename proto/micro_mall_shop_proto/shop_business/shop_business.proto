@@ -3,6 +3,7 @@ syntax = "proto3";
 package shop_business;
 
 import "gitee.com/kelvins-io/common/proto/google/api/annotations.proto";
+option go_package = "proto/micro_mall_shop_proto/shop_business;shop_business";
 
 service ShopBusinessService {
     // 提交店铺申请材料

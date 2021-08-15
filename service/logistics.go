@@ -13,7 +13,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 	result = &args.ApplyLogisticsRsp{}
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallLogistics
-	conn, err := util.GetGrpcClient(serverName)
+	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
