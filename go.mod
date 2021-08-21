@@ -5,7 +5,7 @@ go 1.13
 require (
 	gitee.com/kelvins-io/common v1.1.1
 	gitee.com/kelvins-io/g2cache v4.0.5+incompatible
-	gitee.com/kelvins-io/kelvins v1.5.0
+	gitee.com/kelvins-io/kelvins v1.5.1
 	github.com/RichardKnop/machinery v1.9.1
 	github.com/astaxie/beego v1.12.2
 	github.com/cloudflare/tableflip v1.2.2

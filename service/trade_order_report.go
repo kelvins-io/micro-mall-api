@@ -29,7 +29,7 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	orderClient := order_business.NewOrderBusinessServiceClient(conn)
 	findOrderReq := order_business.FindOrderListRequest{
 		ShopIdList: []int64{req.ShopId},
@@ -209,7 +209,7 @@ func orderReportGetUserInfo(ctx context.Context, uidList []int64, uidToUserInfo 
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	userClient := users.NewUsersServiceClient(conn)
 	userReq := users.FindUserInfoRequest{UidList: uidList}
 	userRsp, err := userClient.FindUserInfo(ctx, &userReq)
@@ -241,7 +241,7 @@ func orderReportGetShopInfo(ctx context.Context, shopIdList []int64, shopIdToSho
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	shopClient := shop_business.NewShopBusinessServiceClient(conn)
 	shopReq := shop_business.GetShopInfoRequest{ShopIds: shopIdList}
 	shopRsp, err := shopClient.GetShopInfo(ctx, &shopReq)

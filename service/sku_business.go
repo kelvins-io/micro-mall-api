@@ -24,7 +24,7 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	r := sku_business.PutAwaySkuRequest{
 		OperationType: sku_business.OperationType(req.OperationType),
@@ -81,7 +81,7 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	r := sku_business.GetSkuListRequest{
@@ -139,7 +139,7 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	r := sku_business.SupplementSkuPropertyRequest{
 		OperationMeta: &sku_business.OperationMeta{

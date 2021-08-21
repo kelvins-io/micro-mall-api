@@ -25,7 +25,7 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v",serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	usersReq := users.UserAccountChargeRequest{
 		UidList:     []int64{int64(req.Uid)},

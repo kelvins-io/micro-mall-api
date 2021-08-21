@@ -24,7 +24,7 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := order_business.NewOrderBusinessServiceClient(conn)
 	r := order_business.GenOrderTxCodeRequest{Uid: uid}
 	rsp, err := client.GenOrderTxCode(ctx, &r)
@@ -90,7 +90,7 @@ func createTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := order_business.NewOrderBusinessServiceClient(conn)
 	r := order_business.CreateOrderRequest{
 		Uid:           req.Uid,
@@ -176,7 +176,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := order_business.NewOrderBusinessServiceClient(conn)
 	r := order_business.GetOrderDetailRequest{TxCode: txCode, Uid: uid}
 	rsp, err := client.GetOrderDetail(ctx, &r)
@@ -230,7 +230,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	serveShop := shop_business.NewShopBusinessServiceClient(conn)
 	rShop := shop_business.GetShopMajorInfoRequest{
 		ShopIds: shopIdList,
@@ -291,7 +291,7 @@ func tradePayVerifyUser(ctx context.Context, uid int64) (account string, retCode
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	r := users.GetUserAccountIdRequest{
 		UidList: []int64{uid},
@@ -353,7 +353,7 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	payClient := pay_business.NewPayBusinessServiceClient(conn)
 	payReq := pay_business.TradePayRequest{
 		Account:   userAccount,

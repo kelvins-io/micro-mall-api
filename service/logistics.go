@@ -19,7 +19,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := logistics_business.NewLogisticsBusinessServiceClient(conn)
 	goods := make([]*logistics_business.GoodsInfo, len(req.Goods))
 	for i := 0; i < len(req.Goods); i++ {

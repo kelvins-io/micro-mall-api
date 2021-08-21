@@ -18,7 +18,7 @@ func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs)
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := comments_business.NewCommentsBusinessServiceClient(conn)
 	commentsOrderReq := comments_business.CommentsOrderRequest{
 		Uid: req.Uid,
@@ -78,7 +78,7 @@ func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := comments_business.NewCommentsBusinessServiceClient(conn)
 	commentsReq := &comments_business.FindShopCommentsRequest{
 		ShopId: req.ShopId,
@@ -121,7 +121,7 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := comments_business.NewCommentsBusinessServiceClient(conn)
 	commentsReq := &comments_business.ModifyCommentsTagsRequest{
 		OpType: comments_business.OperationType(req.OperationType),
@@ -165,7 +165,7 @@ func GetCommentsTagsList(ctx context.Context, req *args.GetCommentsTagsListArgs)
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := comments_business.NewCommentsBusinessServiceClient(conn)
 	commentsReq := &comments_business.FindCommentsTagRequest{
 		TagCode:              req.TagCode,

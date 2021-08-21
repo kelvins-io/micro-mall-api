@@ -17,7 +17,7 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewMerchantsServiceClient(conn)
 	merchantReq := users.MerchantsMaterialRequest{
 		Info: &users.MerchantsMaterialInfo{

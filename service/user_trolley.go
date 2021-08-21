@@ -54,7 +54,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := trolley_business.NewTrolleyBusinessServiceClient(conn)
 	r := trolley_business.JoinSkuRequest{
@@ -93,7 +93,7 @@ func verifySkuBusiness(ctx context.Context, shopId int64, skuCode string) (retCo
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	req := sku_business.GetSkuListRequest{
 		ShopId:      shopId,
@@ -137,7 +137,7 @@ func verifyShopBusiness(ctx context.Context, shopIdList []int64) (retCode int) {
 		retCode = code.ERROR
 		return
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	shopClient := shop_business.NewShopBusinessServiceClient(conn)
 	shopReq := shop_business.GetShopMajorInfoRequest{ShopIds: shopIdList}
 	shopResp, err := shopClient.GetShopMajorInfo(ctx, &shopReq)
@@ -172,7 +172,7 @@ func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArg
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := trolley_business.NewTrolleyBusinessServiceClient(conn)
 	r := trolley_business.RemoveSkuRequest{
@@ -210,7 +210,7 @@ func GetUserTrolleyList(ctx context.Context, uid int64) (*args.UserTrolleyListRs
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := trolley_business.NewTrolleyBusinessServiceClient(conn)
 	r := trolley_business.GetUserTrolleyListRequest{

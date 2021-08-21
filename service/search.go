@@ -17,7 +17,7 @@ func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := sku_business.NewSkuBusinessServiceClient(conn)
 	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchSkuInventory(ctx, searchReq)
@@ -39,7 +39,7 @@ func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := shop_business.NewShopBusinessServiceClient(conn)
 	searchReq := &shop_business.SearchShopRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchShop(ctx, searchReq)

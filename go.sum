@@ -92,6 +92,10 @@ gitee.com/kelvins-io/kelvins v1.4.9 h1:Lml42cB9bJXfZccxhyBMhmsGeGsv4VawoN1zN/8fu
 gitee.com/kelvins-io/kelvins v1.4.9/go.mod h1:iMFI+rMQP+VmhU9HmBba6pTB4CyG2yxCbUbc4jSEgX4=
 gitee.com/kelvins-io/kelvins v1.5.0 h1:mcInY9rHPdPkhxuVaog3JVOYCOk/KPUZ/2BX6k8qyJE=
 gitee.com/kelvins-io/kelvins v1.5.0/go.mod h1:iMFI+rMQP+VmhU9HmBba6pTB4CyG2yxCbUbc4jSEgX4=
+gitee.com/kelvins-io/kelvins v1.5.1-0.20210819024405-d5499c1f71e5 h1:OdQuBGSQQ/s3KP25ksY4tZlbdJDag3r9WKEBX3zfEoI=
+gitee.com/kelvins-io/kelvins v1.5.1-0.20210819024405-d5499c1f71e5/go.mod h1:iJPUTMfZi7A1VZy9xkOK+bJVJwkkoBx+d4yH00uRZjQ=
+gitee.com/kelvins-io/kelvins v1.5.1001 h1:7tGUdD72KB0zpaUY1dB8CKYBn3HDI0Cv3E7nx+Z8YBY=
+gitee.com/kelvins-io/kelvins v1.5.1001/go.mod h1:iJPUTMfZi7A1VZy9xkOK+bJVJwkkoBx+d4yH00uRZjQ=
 gitee.com/kelvins-io/service-config v1.0.0/go.mod h1:htuk7Oj0ifRcwgqSJf45IsN1rSq9kEsje/fcQClQS+Y=
 github.com/360EntSecGroup-Skylar/excelize/v2 v2.3.1 h1:j56fC19WoD3z+u+ZHxm2XwRGyS1XmdSMk7058BLhdsM=
 github.com/360EntSecGroup-Skylar/excelize/v2 v2.3.1/go.mod h1:gXEhMjm1VadSGjAzyDlBxmdYglP8eJpYWxpwJnmXRWw=

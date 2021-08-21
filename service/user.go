@@ -31,7 +31,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		return &result, code.ERROR
 	}
 	client := users.NewUsersServiceClient(conn)
-	defer conn.Close()
+	//defer conn.Close()
 	inviteId := int64(0)
 	if req.InviteCode != "" {
 		// 检查邀请码
@@ -98,7 +98,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
 		LoginType: users.LoginType_VERIFY_CODE,
@@ -142,7 +142,7 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	req := &users.UpdateUserLoginStateRequest{
 		Uid: int64(uid),
@@ -178,7 +178,7 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
 		LoginType: users.LoginType_PWD,
@@ -230,7 +230,7 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 
 	reqCheckVerifyCode := checkVerifyCodeArgs{
@@ -278,7 +278,7 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
 		}
-		defer conn.Close()
+		//defer conn.Close()
 		client := users.NewUsersServiceClient(conn)
 		userReq := &users.GetUserInfoByPhoneRequest{
 			CountryCode: countryCode,
@@ -318,7 +318,7 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, err
 		}
-		defer conn.Close()
+		//defer conn.Close()
 		client := users.NewUsersServiceClient(conn)
 		req := users.GetUserInfoRequest{
 			Uid: int64(uid),
@@ -368,7 +368,7 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	reqList := users.ListUserInfoRequest{
 		PageMeta: &users.PageMeta{
@@ -408,7 +408,7 @@ func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	r := users.GetUserDeliveryInfoRequest{
 		Uid:            uid,
@@ -442,7 +442,7 @@ func verifyUserState(ctx context.Context, uid int64) int {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	req := users.CheckUserStateRequest{UidList: []int64{uid}}
 	resp, err := client.CheckUserState(ctx, &req)

@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "fc33305a-b4cf-4e5a-be93-bdbb763b4b5e")
+	data.Set("tx_code", "f6b6796d-393e-4734-9e6f-fd333a98589e")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -837,6 +837,12 @@ type CreateOrderRsp struct {
 		TxCode string `json:"tx_code"`
 	} `json:"data"`
 	Msg string `json:"msg"`
+}
+
+func TestTradeOrder(t *testing.T) {
+	for i := 0;i<100;i++{
+		TestTradeCreateOrder(t)
+	}
 }
 
 func TestTradeCreateOrder(t *testing.T) {

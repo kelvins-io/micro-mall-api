@@ -19,7 +19,7 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 			return &result, code.ERROR
 		}
-		defer conn.Close()
+		//defer conn.Close()
 		client := users.NewMerchantsServiceClient(conn)
 		r := users.GetMerchantsMaterialRequest{MaterialId: int64(req.MerchantId)}
 		resp, err := client.GetMerchantsMaterial(ctx, &r)
@@ -42,7 +42,7 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return &result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := shop_business.NewShopBusinessServiceClient(conn)
 	shopApplyReq := shop_business.ShopApplyRequest{
 		OperationType:    shop_business.OperationType(req.OperationType),

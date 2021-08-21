@@ -16,7 +16,7 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	userReq := users.ModifyUserDeliveryInfoRequest{
 		OperationType: users.OperationType(req.OperationType),
@@ -67,7 +67,7 @@ func GetUserSettingAddress(ctx context.Context, req *args.UserSettingAddressGetA
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return result, code.ERROR
 	}
-	defer conn.Close()
+	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	userReq := users.GetUserDeliveryInfoRequest{Uid: int64(req.Uid), UserDeliveryId: int32(req.DeliveryId)}
 	rsp, err := client.GetUserDeliveryInfo(ctx, &userReq)
