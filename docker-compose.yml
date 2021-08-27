@@ -88,7 +88,7 @@ services:
     volumes:
       - redis:/data
   rabbitmq:
-    image: rabbitmq:management
+    image: rabbitmq:3.8.19-management
     container_name: rabbitmq
     restart: always
     environment:
