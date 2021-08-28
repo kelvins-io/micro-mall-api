@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (retCode int) {
@@ -42,14 +43,14 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 	}
 	usersRsp, err := client.UserAccountCharge(ctx, &usersReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "UserAccountCharge err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "UserAccountCharge err: %v, req: %v", err, json.MarshalToStringNoError(usersReq))
 		return code.ERROR
 	}
 	if usersRsp.Common.Code == users.RetCode_SUCCESS {
 		return
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "UserAccountCharge req: %+v, rsp: %+v", *req, usersRsp)
+	vars.ErrorLogger.Errorf(ctx, "UserAccountCharge req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(usersRsp))
 	switch usersRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		retCode = code.ErrorUserNotExist

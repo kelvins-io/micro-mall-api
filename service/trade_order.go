@@ -11,6 +11,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 	"gitee.com/kelvins-io/kelvins"
 	"golang.org/x/sync/errgroup"
 	"time"
@@ -36,7 +37,7 @@ func GenOrderCode(ctx context.Context, uid int64) (string, int) {
 		result = rsp.OrderTxCode
 		return result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode req: %d ,resp: %+v", uid, rsp)
+	vars.ErrorLogger.Errorf(ctx, "GenOrderTxCode req: %d ,resp: %v", uid, json.MarshalToStringNoError(rsp))
 	if rsp.OrderTxCode == "" {
 		return "", code.ERROR
 	}
@@ -134,14 +135,14 @@ func createTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 	}
 	rsp, err := client.CreateOrder(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CreateOrder err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "CreateOrder err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == order_business.RetCode_SUCCESS {
 		result.TxCode = rsp.TxCode
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "CreateOrder req: %+v, rsp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "CreateOrder req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
 		return &result, code.SkuPriceVersionNotExist
@@ -186,7 +187,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 		return
 	}
 	if rsp.Common.Code != order_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail @@req: %s, rsp: %+v", txCode, rsp)
+		vars.ErrorLogger.Errorf(ctx, "GetOrderDetail req: %s, rsp: %v", txCode, json.MarshalToStringNoError(rsp))
 		switch rsp.Common.Code {
 		case order_business.RetCode_ORDER_TX_CODE_NOT_EXIST:
 			retCode = code.TxCodeNotExist
@@ -242,7 +243,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 		return
 	}
 	if rspShop.Common.Code != shop_business.RetCode_SUCCESS {
-		kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo %v,rspShop: %v", serverName, rspShop.Common.Code)
+		kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo  req %v,rspShop: %v", json.MarshalToStringNoError(shopIdList), json.MarshalToStringNoError(rspShop))
 		switch rspShop.Common.Code {
 		case shop_business.RetCode_SHOP_STATE_NOT_VERIFY:
 			retCode = code.ShopStateNotVerify
@@ -387,7 +388,7 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 		retCode = code.SUCCESS
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "TradePay req: %+v, rsp: %+v", *req, payRsp)
+	vars.ErrorLogger.Errorf(ctx, "TradePay req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(payRsp))
 	switch payRsp.Common.Code {
 	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
 		retCode = code.TradeOrderNotMatchUser

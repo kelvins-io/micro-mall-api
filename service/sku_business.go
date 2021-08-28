@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_sku_proto/sku_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.SkuBusinessPutAwayRsp, int) {
@@ -53,13 +54,13 @@ func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.Sk
 	}
 	rsp, err := client.PutAwaySku(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "PutAwaySku err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "PutAwaySku err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "PutAwaySku req: %+v, rsp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "PutAwaySku req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SKU_EXIST:
 		return &result, code.ErrorSkuCodeExist
@@ -90,11 +91,11 @@ func GetSkuList(ctx context.Context, req *args.GetSkuListArgs) (*args.GetSkuList
 	}
 	rsp, err := client.GetSkuList(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetSkuList err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "GetSkuList err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code != sku_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetSkuList req: %+v, resp: %+v", *req, rsp)
+		vars.ErrorLogger.Errorf(ctx, "GetSkuList req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 		return &result, code.ERROR
 	}
 
@@ -158,13 +159,13 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	}
 	rsp, err := client.SupplementSkuProperty(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == sku_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty  req: %+v, resp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "SupplementSkuProperty  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case sku_business.RetCode_SKU_EXIST:
 		return &result, code.ErrorSkuCodeExist

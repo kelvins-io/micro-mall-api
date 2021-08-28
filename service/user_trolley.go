@@ -10,6 +10,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_sku_proto/sku_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_trolley_proto/trolley_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -67,7 +68,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 	}
 	rsp, err := client.JoinSku(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "JoinSku err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "JoinSku err: %v, req: %v", err, json.MarshalToStringNoError(r))
 		return &result, code.ERROR
 	}
 
@@ -75,7 +76,7 @@ func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (
 		return &result, code.SUCCESS
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "JoinSku req: %+v, resp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "JoinSku req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case trolley_business.RetCode_SKU_NOT_EXIST:
 		return &result, code.ErrorSkuCodeNotExist
@@ -116,7 +117,7 @@ func verifySkuBusiness(ctx context.Context, shopId int64, skuCode string) (retCo
 		}
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "GetSkuList req: %v %v resp: %v", err, shopId, skuCode, resp)
+	vars.ErrorLogger.Errorf(ctx, "GetSkuList err: %v, req: %v %v resp: %v", err, shopId, skuCode, json.MarshalToStringNoError(resp))
 	switch resp.Common.Code {
 	case sku_business.RetCode_INVALID_PARAMETER:
 		retCode = code.InvalidParams
@@ -142,14 +143,14 @@ func verifyShopBusiness(ctx context.Context, shopIdList []int64) (retCode int) {
 	shopReq := shop_business.GetShopMajorInfoRequest{ShopIds: shopIdList}
 	shopResp, err := shopClient.GetShopMajorInfo(ctx, &shopReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo err: %v, req: %d", err, shopIdList)
+		vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo err: %v, req: %v", err, json.MarshalToStringNoError(shopIdList))
 		retCode = code.ERROR
 		return
 	}
 	if shopResp.Common.Code == shop_business.RetCode_SUCCESS {
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo  req: %d, resp: %+v", err, shopIdList, shopResp)
+	vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo  req: %v, resp: %v", err, json.MarshalToStringNoError(shopIdList), json.MarshalToStringNoError(shopResp))
 	switch shopResp.Common.Code {
 	case shop_business.RetCode_SHOP_NOT_EXIST:
 		retCode = code.ErrorShopIdNotExist
@@ -182,12 +183,12 @@ func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArg
 	}
 	rsp, err := client.RemoveSku(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "RemoveSku err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "RemoveSku err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 
 	if rsp.Common.Code != trolley_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "RemoveSku  req: %+v, resp: %+v", req, rsp)
+		vars.ErrorLogger.Errorf(ctx, "RemoveSku  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	}
 	switch rsp.Common.Code {
 	case trolley_business.RetCode_SUCCESS:

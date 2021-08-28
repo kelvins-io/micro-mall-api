@@ -1,3 +1,4 @@
+echo 当前分支
 git branch
 
 echo 拉取依赖
@@ -12,4 +13,4 @@ mkdir -p logs
 mkdir -p static
 
 echo 开始运行micro-mall-api
-./micro-mall-api
+./micro-mall-api -s start

@@ -11,6 +11,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 	"golang.org/x/sync/errgroup"
 	"strconv"
 	"time"
@@ -45,12 +46,12 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	}
 	findOrderRsp, err := orderClient.FindOrderList(ctx, &findOrderReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindOrderList err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "FindOrderList err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
 	if findOrderRsp.Common.Code != order_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "FindOrderList req: %+v, resp: %+v", *req, findOrderRsp)
+		vars.ErrorLogger.Errorf(ctx, "FindOrderList req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(findOrderRsp))
 		retCode = code.ERROR
 		return
 	}
@@ -191,7 +192,7 @@ func orderReportOutExcel(
 	}
 	err := GenExcelFile(&excelReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GenExcelFile err: %v, req: %+v", err, excelReq)
+		vars.ErrorLogger.Errorf(ctx, "GenExcelFile err: %v, req: %v", err, json.MarshalToStringNoError(excelReq))
 		retCode = code.ERROR
 		return
 	}
@@ -214,7 +215,7 @@ func orderReportGetUserInfo(ctx context.Context, uidList []int64, uidToUserInfo 
 	userReq := users.FindUserInfoRequest{UidList: uidList}
 	userRsp, err := userClient.FindUserInfo(ctx, &userReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindUserInfo err: %v, req: %+v", err, uidList)
+		vars.ErrorLogger.Errorf(ctx, "FindUserInfo err: %v, req: %v", err, json.MarshalToStringNoError(uidList))
 		retCode = code.ERROR
 		return
 	}
@@ -246,7 +247,7 @@ func orderReportGetShopInfo(ctx context.Context, shopIdList []int64, shopIdToSho
 	shopReq := shop_business.GetShopInfoRequest{ShopIds: shopIdList}
 	shopRsp, err := shopClient.GetShopInfo(ctx, &shopReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetShopInfo err: %v, req: %+v", err, shopIdList)
+		vars.ErrorLogger.Errorf(ctx, "GetShopInfo err: %v, req: %v", err, json.MarshalToStringNoError(shopIdList))
 		retCode = code.ERROR
 		return
 	}

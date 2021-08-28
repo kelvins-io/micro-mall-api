@@ -95,7 +95,7 @@ func TestSearchShop(t *testing.T) {
 }
 
 func TestSearchSkuInventory(t *testing.T) {
-	r := baseUrl + searchSkuInventory + "?keyword=百威"
+	r := baseUrl + searchSkuInventory + "?keyword=抽纸"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "f6b6796d-393e-4734-9e6f-fd333a98589e")
+	data.Set("tx_code", "d92a4e73-2ff6-44ae-8d56-af6ba20e8a13")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -310,7 +310,7 @@ func TestCommentsOrderCreate(t *testing.T) {
 }
 
 func TestGetShopCommentsList(t *testing.T) {
-	r := baseUrl + commentsShopList + "?shop_id=30072"
+	r := baseUrl + commentsShopList + "?shop_id=30071"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -562,7 +562,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10050)
+		req.Header.Set("token", token_10048)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -602,7 +602,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10050)
+		req.Header.Set("token", token_79845)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
@@ -673,7 +673,7 @@ func BenchmarkTestOrderTrade_2(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10051)
+		req.Header.Set("token", token_79854)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -713,7 +713,7 @@ func BenchmarkTestOrderTrade_2(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10051)
+		req.Header.Set("token", token_79845)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
@@ -900,7 +900,7 @@ func TestTradeCreateOrder(t *testing.T) {
 		Description:    "双12预热",
 		DeviceId:       "Galaxy Note20 Ultra",
 		OrderTxCode:    uuid.New().String(),
-		UserDeliveryId: 147,
+		UserDeliveryId: 166,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))
@@ -925,7 +925,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18834515657")
+	data.Set("phone", "25501707783")
 	data.Set("business_type", "3")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
@@ -973,16 +973,16 @@ func TestRegisterUser(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("user_name", GetFullName())
-	data.Set("password", "1550170773")
+	data.Set("password", "25501707783")
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "18834515657")
+	data.Set("phone", "25501707783")
 	data.Set("email", "565608463@gmail.com")
-	data.Set("verify_code", "452740")
+	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "廊坊市淮南路清明河畔李家大院")
-	data.Set("invite_code", "")
+	data.Set("invite_code", "495bda950000065")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -999,8 +999,8 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18834515657")
-	data.Set("verify_code", "673031")
+	data.Set("phone", "25501707783")
+	data.Set("verify_code", "177918")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1017,8 +1017,8 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "18834515656")
-	data.Set("password", "1550170773")
+	data.Set("phone", "25501707783")
+	data.Set("password", "123455")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1082,7 +1082,7 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "547467")
+	data.Set("verify_code", "506041")
 	data.Set("password", "18834515654")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
@@ -1124,7 +1124,7 @@ func TestShopBusinessApply(t *testing.T) {
 	data.Set("nick_name", "深圳市交个朋友科技有限公司")
 	data.Set("full_name", "深圳市交个朋友科技有限公司")
 	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋")
-	data.Set("merchant_id", "1098")
+	data.Set("merchant_id", "1118")
 	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -1147,7 +1147,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30078")
+	data.Set("shop_id", "30080")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "百威淡色拉格啤酒")
 	data.Set("price", "23.78")
@@ -1175,7 +1175,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 }
 
 func TestGetSkuList(t *testing.T) {
-	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30074"
+	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30080"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -1234,8 +1234,8 @@ func TestSkuBusinessSupplement(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30078")
-	data.Set("sku_code", "171dd271-5229-47de-817e-0eb20ae0896f")
+	data.Set("shop_id", "30080")
+	data.Set("sku_code", "74bc6c3e-ab6e-4639-a0a4-62770fd66d83")
 	data.Set("name", "百威淡色拉格啤酒")
 	data.Set("size", "1.8m")
 	data.Set("shape", "长方形")

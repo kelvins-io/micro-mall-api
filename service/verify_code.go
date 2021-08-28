@@ -9,6 +9,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util/email"
 	"gitee.com/cristiane/micro-mall-api/repository"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 	"gitee.com/kelvins-io/common/random"
 	"strings"
 	"time"
@@ -27,7 +28,7 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 		return record, err
 	})
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetVerifyCode err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "GetVerifyCode err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return code.ERROR
 	}
 
@@ -73,7 +74,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	)
 
 	//Limits on the number of verification code requests and time interval
-	limitKey := fmt.Sprintf("%s%s", req.CountryCode, req.Phone)
+	limitKey := fmt.Sprintf("%s%s%d", req.CountryCode, req.Phone, req.BusinessType)
 	limitRetCode, limitCount := checkVerifyCodeLimit(limiter, limitKey, vars.VerifyCodeSetting.SendPeriodLimitCount)
 	if limitRetCode != code.SUCCESS {
 		vars.ErrorLogger.Infof(ctx, "checkVerifyCodeLimit %v %v is limited", req.CountryCode, req.Phone)
@@ -106,7 +107,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	}
 	err = repository.CreateVerifyCodeRecord(&verifyCodeRecord)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CreateVerifyCodeRecord err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "CreateVerifyCodeRecord err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
@@ -114,7 +115,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	key := fmt.Sprintf("%s:%s-%s-%d", mysql.TableVerifyCodeRecord, req.CountryCode, req.Phone, req.BusinessType)
 	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %+v", err, key, verifyCodeRecord)
+		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %v", err, key, json.MarshalToStringNoError(verifyCodeRecord))
 		retCode = code.ERROR
 		return
 	}
@@ -134,13 +135,13 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 
 	err = limiter.SetVerifyCodeInterval(limitKey, vars.VerifyCodeSetting.SendIntervalExpireSecond)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodeInterval err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodeInterval err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
 	err = limiter.SetVerifyCodePeriodLimitCount(limitKey, limitCount+1, vars.VerifyCodeSetting.SendPeriodLimitExpireSecond)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodePeriodLimitCount err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "SetVerifyCodePeriodLimitCount err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}

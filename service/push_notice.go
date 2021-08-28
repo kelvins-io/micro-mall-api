@@ -64,7 +64,7 @@ func (p *PushNoticeService) buildQueueData(ctx context.Context, args interface{}
 		})
 
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "build errSign err: %v, taskSign: %v", err, sign)
+		vars.ErrorLogger.Errorf(ctx, "build errSign err: %v, taskSign: %v", err, json.MarshalToStringNoError(sign))
 		return nil, code.ERROR
 	}
 
@@ -99,7 +99,7 @@ func (p *PushNoticeService) sendTaskToQueue(ctx context.Context, taskSign *tasks
 
 	result, err := p.server.TaskServer.SendTaskWithContext(ctx, taskSign)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "pushMessage err:%v, data:%v", err, taskSign)
+		vars.ErrorLogger.Errorf(ctx, "pushMessage err:%v, data:%v", err, json.MarshalToStringNoError(taskSign))
 		return "", code.ERROR
 	}
 

@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressPutArgs) int {
@@ -37,14 +38,14 @@ func ModifyUserSettingAddress(ctx context.Context, req *args.UserSettingAddressP
 	}
 	rsp, err := client.ModifyUserDeliveryInfo(ctx, &userReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo err: %v, req: %+v, resp: %+v", err, *req, rsp)
+		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo err: %v, req: %v, resp: %v", err, json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 		return code.ERROR
 	}
 	switch rsp.Common.Code {
 	case users.RetCode_SUCCESS:
 		return code.SUCCESS
 	default:
-		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo  req: %+v, resp: %+v", *req, rsp)
+		vars.ErrorLogger.Errorf(ctx, "ModifyUserDeliveryInfo  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	}
 
 	switch rsp.Common.Code {
@@ -72,11 +73,11 @@ func GetUserSettingAddress(ctx context.Context, req *args.UserSettingAddressGetA
 	userReq := users.GetUserDeliveryInfoRequest{Uid: int64(req.Uid), UserDeliveryId: int32(req.DeliveryId)}
 	rsp, err := client.GetUserDeliveryInfo(ctx, &userReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return result, code.ERROR
 	}
 	if rsp.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo  req: %+v, resp: %+v", *req, rsp)
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 		switch rsp.Common.Code {
 		case users.RetCode_USER_NOT_EXIST:
 			return result, code.ErrorUserNotExist

@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_comments_proto/comments_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs) (retCode int) {
@@ -44,14 +45,14 @@ func CreateOrderComments(ctx context.Context, req *args.CreateOrderCommentsArgs)
 	}
 	commentsOrderRsp, err := client.CommentsOrder(ctx, &commentsOrderReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "CommentsOrder err: %v,req : %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "CommentsOrder err: %v,req : %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
 	if commentsOrderRsp.Common.Code == comments_business.RetCode_SUCCESS {
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "CommentsOrder req: %+v, commentsOrderRsp : %+v", *req, commentsOrderRsp)
+	vars.ErrorLogger.Errorf(ctx, "CommentsOrder req: %v, commentsOrderRsp : %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(commentsOrderRsp))
 	switch commentsOrderRsp.Common.Code {
 	case comments_business.RetCode_USER_ORDER_STATE_INVALID:
 		retCode = code.OrderStateInvalid
@@ -86,12 +87,12 @@ func GetOrderCommentsList(ctx context.Context, req *args.GetShopCommentsListArgs
 	}
 	commentsRsp, err := client.FindShopComments(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindShopComments err: %v,req : %+v", err, commentsReq)
+		vars.ErrorLogger.Errorf(ctx, "FindShopComments err: %v,req : %v", err, json.MarshalToStringNoError(commentsReq))
 		retCode = code.ERROR
 		return
 	}
 	if commentsRsp.Common.Code != comments_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "FindShopComments req: %+v, resp : %+v", *req, commentsRsp)
+		vars.ErrorLogger.Errorf(ctx, "FindShopComments req: %v, resp : %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(commentsRsp))
 		retCode = code.ERROR
 		return
 	}
@@ -136,7 +137,7 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 	}
 	commentsRsp, err := client.ModifyCommentsTags(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags err: %v,req : %+v", err, commentsReq)
+		vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags err: %v,req : %v", err, json.MarshalToStringNoError(commentsReq))
 		retCode = code.ERROR
 		return
 	}
@@ -144,7 +145,7 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 		return
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags req: %+v, rsp : %+v", *req, commentsRsp)
+	vars.ErrorLogger.Errorf(ctx, "ModifyCommentsTags req: %v, rsp : %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(commentsRsp))
 	switch commentsRsp.Common.Code {
 	case comments_business.RetCode_COMMENT_TAG_NOT_EXIST:
 		retCode = code.CommentsTagNotExist
@@ -174,12 +175,12 @@ func GetCommentsTagsList(ctx context.Context, req *args.GetCommentsTagsListArgs)
 	}
 	commentsRsp, err := client.FindCommentsTags(ctx, commentsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags err: %v,req : %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags err: %v,req : %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
 	if commentsRsp.Common.Code != comments_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags req: %+v,resp : %+v", *req, commentsRsp)
+		vars.ErrorLogger.Errorf(ctx, "FindCommentsTags req: %v,resp : %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(commentsRsp))
 		switch commentsRsp.Common.Code {
 		case comments_business.RetCode_COMMENT_TAG_NOT_EXIST:
 			retCode = code.CommentsTagNotExist

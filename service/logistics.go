@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_logistics_proto/logistics_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *args.ApplyLogisticsRsp, retCode int) {
@@ -49,7 +50,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 	}
 	logisticsRsp, err := client.ApplyLogistics(ctx, &logisticsReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "ApplyLogistics err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
@@ -57,7 +58,7 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		result.LogisticsCode = logisticsRsp.LogisticsCode
 		return
 	}
-	vars.ErrorLogger.Errorf(ctx, "ApplyLogistics req: %+v, rsp: %+v", *req, logisticsRsp)
+	vars.ErrorLogger.Errorf(ctx, "ApplyLogistics req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(logisticsRsp))
 	switch logisticsRsp.Common.Code {
 	case logistics_business.RetCode_LOGISTICS_CODE_EXIST:
 		retCode = code.LogisticsRecordExist

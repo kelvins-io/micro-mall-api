@@ -8,6 +8,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 	"time"
 )
 
@@ -42,7 +43,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 			return &result, code.ERROR
 		}
 		if inviteUser.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %q, resp: %+v", req.InviteCode, inviteUser)
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %q, resp: %v", req.InviteCode, json.MarshalToStringNoError(inviteUser))
 			return &result, code.ERROR
 		}
 		if inviteUser.Info.Uid <= 0 {
@@ -65,14 +66,14 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	}
 	registerRsp, err := client.Register(ctx, registerReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode err:%v, req: %+v", err, registerReq)
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode err:%v, req: %v", err, json.MarshalToStringNoError(registerReq))
 		return &result, code.ERROR
 	}
 	if registerRsp.Common.Code == users.RetCode_SUCCESS {
 		result.InviteCode = registerRsp.Result.InviteCode
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %+v, resp: %+v", registerReq, registerRsp)
+	vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %v, resp: %v", json.MarshalToStringNoError(registerReq), json.MarshalToStringNoError(registerRsp))
 	switch registerRsp.Common.Code {
 	case users.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
@@ -114,7 +115,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	}
 	loginRsp, err := client.LoginUser(ctx, loginReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
 		return "", code.ERROR
 	}
 	if loginRsp.Common.Code == users.RetCode_SUCCESS {
@@ -122,7 +123,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		return token, code.SUCCESS
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %+v,resp: %+v", *req, loginRsp)
+	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return "", code.ErrorUserNotExist
@@ -161,7 +162,7 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 		return code.SUCCESS
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState req: %+v, resp: %+v", req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "UpdateUserLoginState req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return code.ErrorUserNotExist
@@ -197,7 +198,7 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 	}
 	loginRsp, err := client.LoginUser(ctx, loginReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
 		return "", code.ERROR
 	}
 	if loginRsp.Common.Code == users.RetCode_SUCCESS {
@@ -205,7 +206,7 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		return token, code.SUCCESS
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %+v,resp: %+v", *req, loginRsp)
+	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
@@ -248,14 +249,14 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	}
 	pwdResetRsp, err := client.PasswordReset(ctx, pwdResetReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "PasswordReset err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "PasswordReset err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return code.ERROR
 	}
 
 	if pwdResetRsp.Common.Code == users.RetCode_SUCCESS {
 		return code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "PasswordReset req: %+v, resp: %+v", *req, pwdResetRsp)
+	vars.ErrorLogger.Errorf(ctx, "PasswordReset req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(pwdResetRsp))
 	switch pwdResetRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return code.ErrorUserNotExist
@@ -286,11 +287,11 @@ func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.
 		}
 		userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
 		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone err:%v, req: %+v", err, userReq)
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone err:%v, req: %v", err, json.MarshalToStringNoError(userReq))
 			return &result, fmt.Errorf("GetUserInfoByPhone err: %v countryCode:%v,phone: %v", err, countryCode, phone)
 		}
 		if userRsp.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone userRsp: %+v, countryCode: %v,phone: %v", userRsp, countryCode, phone)
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone userRsp: %v, countryCode: %v,phone: %v", json.MarshalToStringNoError(userRsp), countryCode, phone)
 			return &result, fmt.Errorf("GetUserInfoByPhone ret: %d", userRsp.Common.Code)
 		}
 		if userRsp != nil {
@@ -329,8 +330,8 @@ func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
 			return &result, err
 		}
 		if userInfo.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfo  req: %d, rsp: %+v", uid, userInfo)
-			return &result, fmt.Errorf("GetUserInfo  uid: %d, resp: %+v", uid, userInfo)
+			vars.ErrorLogger.Errorf(ctx, "GetUserInfo  req: %d, rsp: %v", uid, json.MarshalToStringNoError(userInfo))
+			return &result, fmt.Errorf("GetUserInfo  uid: %d, resp: %v", uid, json.MarshalToStringNoError(userInfo))
 		}
 		result = args.UserInfoRsp{
 			Id:          uid,
@@ -379,12 +380,12 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 	}
 	userInfo, err := client.ListUserInfo(ctx, &reqList)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ListUserInfo err: %v, req: %+v", err, req)
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		retCode = code.ERROR
 		return
 	}
 	if userInfo.Common.Code != users.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "ListUserInfo  req: %+v, rsp: %+v", req, userInfo)
+		vars.ErrorLogger.Errorf(ctx, "ListUserInfo  req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(userInfo))
 		retCode = code.ERROR
 		return
 	}
@@ -416,7 +417,7 @@ func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32
 	}
 	resp, err := client.GetUserDeliveryInfo(ctx, &r)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %+v", err, r)
+		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %v", err, json.MarshalToStringNoError(r))
 		return code.ERROR
 	}
 

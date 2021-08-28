@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*args.MerchantsMaterialRsp, int) {
@@ -32,7 +33,7 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 	}
 	rsp, err := client.MerchantsMaterial(ctx, &merchantReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 
@@ -41,7 +42,7 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 		return &result, code.SUCCESS
 	}
 
-	vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  req: %+v, resp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "MerchantsMaterial  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return &result, code.ErrorUserNotExist

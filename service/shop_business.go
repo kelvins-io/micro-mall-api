@@ -8,6 +8,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_shop_proto/shop_business"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
+	"gitee.com/kelvins-io/common/json"
 )
 
 func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*args.ShopBusinessInfoRsp, int) {
@@ -30,7 +31,7 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		if resp.Common.Code != users.RetCode_SUCCESS {
 			return &result, code.ERROR
 		}
-		vars.ErrorLogger.Errorf(ctx, "GetMerchantsMaterial  req: %d, resp: %+v", r.MaterialId, resp)
+		vars.ErrorLogger.Errorf(ctx, "GetMerchantsMaterial  req: %d, resp: %v", r.MaterialId, json.MarshalToStringNoError(resp))
 		if resp.Info == nil || resp.Info.Uid != int64(req.Uid) {
 			return &result, code.MerchantAccountNotExist
 		}
@@ -62,14 +63,14 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 	}
 	rsp, err := client.ShopApply(ctx, &shopApplyReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "ShopApply err: %v, req: %+v", err, *req)
+		vars.ErrorLogger.Errorf(ctx, "ShopApply err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
 	if rsp.Common.Code == shop_business.RetCode_SUCCESS {
 		result.ShopId = int(rsp.ShopId)
 		return &result, code.SUCCESS
 	}
-	vars.ErrorLogger.Errorf(ctx, "ShopApply req: %+v, resp: %+v", *req, rsp)
+	vars.ErrorLogger.Errorf(ctx, "ShopApply req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
 	switch rsp.Common.Code {
 	case shop_business.RetCode_SHOP_EXIST:
 		return &result, code.ErrorShopBusinessExist
