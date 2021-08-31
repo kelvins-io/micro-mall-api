@@ -58,14 +58,23 @@ prometheus_metrics接口
 ### 项目目录结构
 ```
 .
-├── batch-clone-project.sh  一键克隆本项目shell
+├── batch-clone-project.sh  一键克隆本项目 shell
 ├── build-project-proto.sh  开发环境编译项目proto shell
-├── build.sh  一键构建项目shell
-├── batch-run.sh  一键构建运行项目shell
+├── build.sh  一键构建项目 shell
+├── batch-run.sh  一键构建运行项目 shell
+├── build-run-all.sh  一键构建运行micro-mall所有项目 shell
+├── stop.sh  停止当前项目 shell
+├── stop-all.sh  一键停止micro-mall所有项目 shell
+├── clean-logs-all.sh  一键清理micro-mall所有目录下logs shell
+├── git-push-all.sh  一键git push micro-mall所有项目（开发者专用） shell
 ├── Dockerfile  docker构建文件
-├── docker-build-run.sh  docker构建运行shell
+├── docker-build-run.sh  docker构建运行 shell
 ├── docker-compose.yml  基础组件compose构建文件
 ├── docker-compose-build.yml  micro-mall系列项目compose构建文件
+├── docker-etcd-build.sh  etcd集群构建 shell
+├── etcd_cluster
+│   └── docker-compose-etcd.yml etcd集群构建docker镜像
+├── test-gateway-http.sh  运行client目录下测试用例 shell
 ├── LICENSE   授权文件
 ├── README.md   导航指南
 ├── app   
@@ -205,9 +214,6 @@ prometheus_metrics接口
 ├── 交流群.JPG
 ├── etcd环境部署-centos.pdf
 ├── etcd环境部署-ubuntu.pdf
-├── docker-etcd-build.sh  etcd集群构建shell
-├── etcd_cluster
-│   └── docker-compose-etcd.yml etcd集群构建docker镜像
 ├── 微信赞赏码.JPG
 ├── 支付宝赞赏码.JPG
 ├── 微商城需求文档.pdf

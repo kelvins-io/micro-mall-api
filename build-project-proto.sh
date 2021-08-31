@@ -1,3 +1,4 @@
+#! /bin/bash
 git branch
 
 echo 本shell需要你安装了python环境用来一键生成pb,gw代码

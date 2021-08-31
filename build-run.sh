@@ -1,3 +1,4 @@
+#! /bin/bash
 echo 当前分支
 git branch
 
@@ -13,4 +14,4 @@ mkdir -p logs
 mkdir -p static
 
 echo 开始运行micro-mall-api
-./micro-mall-api -s start
+nohup ./micro-mall-api -s start >nohup.out  2>&1  &

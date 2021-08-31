@@ -839,11 +839,11 @@ type CreateOrderRsp struct {
 	Msg string `json:"msg"`
 }
 
-func TestTradeOrder(t *testing.T) {
-	for i := 0;i<100;i++{
-		TestTradeCreateOrder(t)
-	}
-}
+//func TestTradeOrder(t *testing.T) {
+//	for i := 0;i<100;i++{
+//		TestTradeCreateOrder(t)
+//	}
+//}
 
 func TestTradeCreateOrder(t *testing.T) {
 	r := baseUrl + tradeCreateOrder

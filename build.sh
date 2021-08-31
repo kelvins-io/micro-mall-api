@@ -1,3 +1,4 @@
+#! /bin/bash
 echo 当前分支
 git branch
 
