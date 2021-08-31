@@ -26,6 +26,9 @@ else
   echo ""
 fi
 
+# shellcheck disable=SC2034
+commitMsg="$1"
+
 function loopPathGitPush() {
   for file in ${project_names[*]}; do
       cd "$file" || exit
@@ -34,7 +37,7 @@ function loopPathGitPush() {
       # shellcheck disable=SC2046
       statusConfirm $(pwd)
       git add .
-      git commit -m "$1"
+      git commit -m "$commitMsg"
       git push origin
       git push github
       cd ../
