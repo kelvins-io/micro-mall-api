@@ -35,7 +35,7 @@ function loopPathGitPush() {
       echo "=> $file"
       git status
       # shellcheck disable=SC2046
-      statusConfirm $(pwd)
+#      statusConfirm $(pwd)
       git add .
       git commit -m "$commitMsg"
       git push origin
