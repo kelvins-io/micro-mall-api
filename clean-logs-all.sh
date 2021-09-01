@@ -24,6 +24,7 @@ function loopPathCleanLogs() {
       cd "$file" || exit
       echo "=> $file"
       rm -rf logs/
+      rm -rf nohup.out
       cd ../
   done
 }
