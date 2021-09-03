@@ -114,6 +114,8 @@ gitee.com/kelvins-io/kelvins v1.5.3 h1:W2BGRKrScVfTsimlVxBvmV07HdNcL92KgT2m9pUfL
 gitee.com/kelvins-io/kelvins v1.5.3/go.mod h1:X3+698UnS4+pCiXf90APkpdcEpxOwI0phyPDdpUmQnM=
 gitee.com/kelvins-io/kelvins v1.5.4 h1:0MhGmzI7pK4hhk+AEZQmof7OnQZCf8mCA1d4VkE154A=
 gitee.com/kelvins-io/kelvins v1.5.4/go.mod h1:W7wufcH1FjenGbLiqSBmJwhSvvIJVXCxrqdwCeX1Sss=
+gitee.com/kelvins-io/kelvins v1.5.5 h1:AQWQRF0kAPRki+PZrhGzsFT+ut63eNLp1xTBG+mjFkE=
+gitee.com/kelvins-io/kelvins v1.5.5/go.mod h1:aE9SAL7HIEKBjyWg9rxso5Ly8shnOepW7xdOYd0RX84=
 gitee.com/kelvins-io/kelvins v1.5.1001 h1:7tGUdD72KB0zpaUY1dB8CKYBn3HDI0Cv3E7nx+Z8YBY=
 gitee.com/kelvins-io/kelvins v1.5.1001/go.mod h1:iJPUTMfZi7A1VZy9xkOK+bJVJwkkoBx+d4yH00uRZjQ=
 gitee.com/kelvins-io/kelvins v1.5.1002 h1:tcZiCWibpYQKghNkJlPIcpV6lauH5jAKZlqHk9L5KM4=
@@ -230,6 +232,7 @@ github.com/coocood/freecache v1.1.1/go.mod h1:OKrEjkGVoxZhyWAJoeFi5BMLUJm2Tit0kp
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/bbolt v1.3.3/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
+github.com/coreos/etcd v3.3.13+incompatible h1:8F3hqu9fGYLBifCmRCJsicFqDx/D68Rt3q1JMazcgBQ=
 github.com/coreos/etcd v3.3.13+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/etcd v3.3.18+incompatible h1:Zz1aXgDrFFi1nadh58tA9ktt06cmPTwNNP3dXwIq1lE=
 github.com/coreos/etcd v3.3.18+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
@@ -291,6 +294,8 @@ github.com/envoyproxy/go-control-plane v0.9.9-0.20201210154907-fd9021fe5dad/go.m
 github.com/envoyproxy/go-control-plane v0.9.9-0.20210512163311-63b5d3c536b0/go.mod h1:hliV/p42l8fGbc6Y9bQ70uLwIvmJyVE5k4iMKlh8wCQ=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
+github.com/etcd-io/etcd v3.3.25+incompatible h1:dwTnorWhynXruhNhJ89adl8WPdiBTWnqOeBxgri26SM=
+github.com/etcd-io/etcd v3.3.25+incompatible/go.mod h1:cdZ77EstHBwVtD6iTgzgvogwcjo9m4iOqoijouPJ4bs=
 github.com/facebookgo/stack v0.0.0-20160209184415-751773369052/go.mod h1:UbMTZqLaRiH3MsBH8va0n7s1pQYcu3uTb8G4tygF4Zg=
 github.com/fatih/color v1.7.0 h1:DkWD4oS2D8LGGgTQ6IvwJJXSL5Vp2ffcQg58nFV38Ys=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=

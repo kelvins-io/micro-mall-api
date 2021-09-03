@@ -23,8 +23,7 @@ function loopPathCleanLogs() {
   for file in ${project_names[*]}; do
       cd "$file" || exit
       echo "=> $file"
-      rm -rf logs/
-      rm -rf nohup.out
+      sh clean-logs.sh
       cd ../
   done
 }
@@ -32,7 +31,7 @@ function loopPathCleanLogs() {
 # 返回上一级
 cd ../
 # 遍历所有目录 清理logs
-echo "开始遍历目录下logs"
+echo "开始遍历目录下logs目录"
 # shellcheck disable=SC2046
 loopPathCleanLogs $(pwd)
 # shellcheck disable=SC2028

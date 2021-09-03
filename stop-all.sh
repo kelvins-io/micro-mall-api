@@ -35,6 +35,6 @@ cd ../
 loopPathStop $(pwd)
 # shellcheck disable=SC2028
 echo "\n"
-echo "显示 micro-mall-* 进程运行状态"
+echo "停止完成，显示 micro-mall-* 进程运行状态"
 # shellcheck disable=SC2009
 ps -ef | grep micro-mall

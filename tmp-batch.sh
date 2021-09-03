@@ -18,23 +18,21 @@ project_names=(
 "micro-mall-search-cron"
 )
 
-# 循环目录 构建运行
-function loopPathBuildRun() {
+# 遍历所有目录 执行任务
+function loopPathExec() {
   for file in ${project_names[*]}; do
       cd "$file" || exit
       echo "=> $file"
-      sh build-run.sh
+
+      # shellcheck disable=SC2028
+      echo "执行一些批量任务"
       cd ../
   done
 }
 
 # 返回上一级
 cd ../
-# 遍历所有目录构建运行
+
 # shellcheck disable=SC2046
-loopPathBuildRun $(pwd)
+loopPathExec $(pwd)
 # shellcheck disable=SC2028
-echo "\n"
-echo "启动完成，显示 micro-mall-* 进程运行状态"
-# shellcheck disable=SC2009
-ps -ef | grep micro-mall

@@ -18,23 +18,25 @@ project_names=(
 "micro-mall-search-cron"
 )
 
-# 循环目录 构建运行
-function loopPathBuildRun() {
+# 遍历所有目录重启进程
+echo "重启进程不支持Windows平台"
+
+function loopPathRestart() {
   for file in ${project_names[*]}; do
       cd "$file" || exit
       echo "=> $file"
-      sh build-run.sh
+      sh restart.sh
       cd ../
   done
 }
 
 # 返回上一级
 cd ../
-# 遍历所有目录构建运行
+
 # shellcheck disable=SC2046
-loopPathBuildRun $(pwd)
+loopPathRestart $(pwd)
 # shellcheck disable=SC2028
 echo "\n"
-echo "启动完成，显示 micro-mall-* 进程运行状态"
+echo "重启完成，显示 micro-mall-* 进程运行状态"
 # shellcheck disable=SC2009
 ps -ef | grep micro-mall
