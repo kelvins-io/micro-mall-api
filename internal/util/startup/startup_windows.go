@@ -1,6 +1,10 @@
 package startup
 
-import "runtime"
+import (
+	"gitee.com/cristiane/micro-mall-api/internal/logging"
+	"runtime"
+	"syscall"
+)
 
 func execProcessCmd(pid int, upType startUpType) (next bool, err error) {
 	cmd := *control
