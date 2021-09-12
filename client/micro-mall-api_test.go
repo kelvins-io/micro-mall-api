@@ -83,7 +83,7 @@ func TestListUserInfo(t *testing.T)  {
 }
 
 func TestSearchShop(t *testing.T) {
-	r := baseUrl + searchShop + "?keyword=交个朋友"
+	r := baseUrl + searchShop + "?keyword=时代"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "e593d083-3e3b-4ef1-99f0-e12f00442e88")
+	data.Set("tx_code", "19dede15-798c-488c-8907-132c334988d9")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -925,8 +925,8 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
-	data.Set("business_type", "3")
+	data.Set("phone", "35501707783")
+	data.Set("business_type", "1")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -973,11 +973,11 @@ func TestRegisterUser(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("user_name", GetFullName())
-	data.Set("password", "25501707783")
+	data.Set("password", "35501707783")
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
+	data.Set("phone", "35501707783")
 	data.Set("email", "565608463@gmail.com")
 	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))

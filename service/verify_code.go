@@ -35,6 +35,7 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	if obj.Id == 0 {
 		return code.ErrorVerifyCodeInvalid
 	}
+
 	if int64(obj.Expire) < time.Now().Unix() {
 		return code.ErrorVerifyCodeExpire
 	}
