@@ -23,7 +23,7 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v",serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return code.ERROR
 	}
 	//defer conn.Close()
@@ -32,7 +32,7 @@ func UserAccountCharge(ctx context.Context, req *args.UserAccountChargeArgs) (re
 		UidList:     []int64{int64(req.Uid)},
 		AccountType: users.AccountType(req.AccountType),
 		CoinType:    users.CoinType(req.CoinType),
-		OutTradeNo: req.OutTradeNo,
+		OutTradeNo:  req.OutTradeNo,
 		Amount:      req.Amount,
 		OpMeta: &users.OperationMeta{
 			OpUid:      int64(req.Uid),

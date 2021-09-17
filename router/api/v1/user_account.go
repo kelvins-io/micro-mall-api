@@ -6,6 +6,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 )
 
@@ -29,6 +30,9 @@ func UserAccountChargeApi(c *gin.Context) {
 	if err != nil {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
+	}
+	if form.OutTradeNo == "" {
+		form.OutTradeNo = uuid.New().String()
 	}
 	retCode := service.UserAccountCharge(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, "")

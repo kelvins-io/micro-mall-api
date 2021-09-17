@@ -26,6 +26,9 @@ func (t *UserAccountChargeArgs) Valid(v *validation.Validation) {
 			v.SetError("Amount", "充值金额不是有效数字")
 		}
 	}
+	//if t.OutTradeNo == "" {
+	//	v.SetError("OutTradeNo", "外部交易号不能为空")
+	//}
 	if !util.IntSliceContainsItem([]int{0, 1}, t.CoinType) {
 		v.SetError("CoinType", "币种不支持")
 	}
@@ -397,12 +400,12 @@ type SkuRemoveUserTrolleyArgs struct {
 	Uid     int
 	SkuCode string `form:"sku_code" json:"sku_code"`
 	ShopId  int    `form:"shop_id" json:"shop_id"`
-	Amount  int    `json:"amount" form:"amount"`
+	Count   int    `json:"count" form:"count"`
 }
 
 func (t *SkuRemoveUserTrolleyArgs) Valid(v *validation.Validation) {
-	if t.Amount <= 0 {
-		t.Amount = 1
+	if t.Count == 0 { // -1 表示全部移除，否则按数量
+		t.Count = 1
 	}
 	if t.SkuCode == "" {
 		v.SetError("SkuCode", "商品唯一code不能为空")
@@ -568,10 +571,10 @@ func (t *CreateTradeOrderArgs) Valid(v *validation.Validation) {
 		v.SetError("Detail", "至少包含一个店铺的订单")
 		return
 	}
-	if t.OrderTxCode == "" {
-		v.SetError("OrderTxCode", "订单事务ID不能为空")
-		return
-	}
+	//if t.OrderTxCode == "" {
+	//	v.SetError("OrderTxCode", "订单事务ID不能为空")
+	//	return
+	//}
 	if t.UserDeliveryId <= 0 {
 		v.SetError("UserDeliveryId", "订单交付（收货地址）信息不能为空")
 		return

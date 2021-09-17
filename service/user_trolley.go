@@ -180,19 +180,20 @@ func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArg
 		Uid:     int64(req.Uid),
 		SkuCode: req.SkuCode,
 		ShopId:  int64(req.ShopId),
+		Count:   int32(req.Count),
 	}
 	rsp, err := client.RemoveSku(ctx, &r)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "RemoveSku err: %v, req: %v", err, json.MarshalToStringNoError(req))
 		return &result, code.ERROR
 	}
-
-	if rsp.Common.Code != trolley_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "RemoveSku  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
-	}
-	switch rsp.Common.Code {
-	case trolley_business.RetCode_SUCCESS:
+	if rsp.Common.Code == trolley_business.RetCode_SUCCESS {
 		return &result, code.SUCCESS
+	}
+
+	vars.ErrorLogger.Errorf(ctx, "RemoveSku  req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
+
+	switch rsp.Common.Code {
 	case trolley_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopIdNotExist
 	case trolley_business.RetCode_SKU_NOT_EXIST:

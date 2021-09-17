@@ -108,19 +108,19 @@ type TradeShopOrderEntry struct {
 }
 
 type TaskGroupErr struct {
-	errMsg string
+	errMsg  string
 	retCode int
 }
 
-func (t *TaskGroupErr) Error() string  {
+func (t *TaskGroupErr) Error() string {
 	return t.errMsg
 }
 
-func (t *TaskGroupErr) RetCode() int  {
+func (t *TaskGroupErr) RetCode() int {
 	return t.retCode
 }
 
-func (t *TaskGroupErr) ErrMsg() string  {
+func (t *TaskGroupErr) ErrMsg() string {
 	return t.errMsg
 }
 

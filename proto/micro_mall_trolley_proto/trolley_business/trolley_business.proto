@@ -51,6 +51,7 @@ message RemoveSkuRequest {
     int64 uid = 1;
     string sku_code = 2;
     int64 shop_id = 3;
+    int32 count = 4; // count==-1 rm all
 }
 
 message RemoveSkuResponse {

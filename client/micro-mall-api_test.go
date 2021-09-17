@@ -22,7 +22,7 @@ func TestGateway(t *testing.T) {
 	t.Run("登录用户-密码", TestLoginUserWithPwd)
 	t.Run("重置密码", TestLoginUserPwdReset)
 	t.Run("获取用户信息", TestGetUserInfo)
-	t.Run("list用户info",TestListUserInfo)
+	t.Run("list用户info", TestListUserInfo)
 	t.Run("用户申请提交审核资料", TestMerchantsMaterial)
 	t.Run("商户提交开店材料", TestShopBusinessApply)
 	t.Run("店铺上架商品", TestSkuBusinessPutAway)
@@ -69,8 +69,8 @@ func TestGetUserInfo(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func TestListUserInfo(t *testing.T)  {
-	r := baseUrl + userInfoList+"?page_size=1000&page_num=1&token=xxx"
+func TestListUserInfo(t *testing.T) {
+	r := baseUrl + userInfoList + "?page_size=1000&page_num=1&token=xxx"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "19dede15-798c-488c-8907-132c334988d9")
+	data.Set("tx_code", "0f0ee5f7-fb1e-4cc1-a60d-b7d504955b121")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -353,7 +353,7 @@ func TestUserAccountCharge(t *testing.T) {
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
 	data.Set("out_trade_no", uuid.New().String())
-	data.Set("amount", "99999999")
+	data.Set("amount", "1.99")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -899,7 +899,7 @@ func TestTradeCreateOrder(t *testing.T) {
 	data := CreateTradeOrderArgs{
 		Description:    "双12预热",
 		DeviceId:       "Galaxy Note20 Ultra",
-		OrderTxCode:    uuid.New().String(),
+		OrderTxCode:    "",
 		UserDeliveryId: 166,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
@@ -915,7 +915,7 @@ func TestTradeCreateOrder(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func TestTime(t *testing.T)  {
+func TestTime(t *testing.T) {
 	now := time.Now().Unix()
 	t.Log(now)
 }
@@ -1017,8 +1017,8 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
-	data.Set("password", "123455")
+	data.Set("phone", "15501707783")
+	data.Set("password", "07030501310")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1278,7 +1278,7 @@ func TestSkuRemoveUserTrolley(t *testing.T) {
 	t.Logf("request url: %s", r)
 	skuCode := "ec4abc12-9836-4546-a587-f72e375f7884"
 	shopId := "30073"
-	r += "?sku_code=" + skuCode + "&shop_id=" + shopId
+	r += "?sku_code=" + skuCode + "&shop_id=" + shopId + "&amount=-1"
 	req, err := http.NewRequest("DELETE", r, nil)
 	if err != nil {
 		t.Error(err)

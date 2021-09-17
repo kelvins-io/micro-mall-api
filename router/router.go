@@ -102,13 +102,14 @@ func InitRouter() *gin.Engine {
 }
 
 func ginEngineInit() {
-	var accessLogWriter io.Writer = &AccessInfoLogger{}
 	var errLogWriter io.Writer = &AccessErrLogger{}
-	if vars.Environment == config.DefaultEnvironmentDev {
+	environ := vars.Environment
+	if environ == config.DefaultEnvironmentDev || environ == config.DefaultEnvironmentTest {
+		var accessLogWriter io.Writer = &AccessInfoLogger{}
 		accessLogWriter = io.MultiWriter(accessLogWriter, os.Stdout)
 		errLogWriter = io.MultiWriter(errLogWriter, os.Stdout)
+		gin.DefaultWriter = accessLogWriter
 	}
-	gin.DefaultWriter = accessLogWriter
 	gin.DefaultErrorWriter = errLogWriter
 
 	gin.SetMode(gin.ReleaseMode) // 默认生产

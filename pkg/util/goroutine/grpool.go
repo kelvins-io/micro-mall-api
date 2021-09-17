@@ -2,6 +2,8 @@ package goroutine
 
 // thank https://github.com/ivpusic/grpool
 import (
+	"context"
+	"gitee.com/cristiane/micro-mall-api/internal/vars"
 	"log"
 	"sync"
 	"time"
@@ -35,7 +37,11 @@ func (w *worker) start() {
 func runJob(f func()) {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Printf("Job panic err: %v", err)
+			if vars.ErrorLogger != nil {
+				vars.ErrorLogger.Errorf(context.TODO(), "gpool Job panic err: %v", err)
+			} else {
+				log.Printf("gpool Job panic err: %v", err)
+			}
 		}
 	}()
 	f()

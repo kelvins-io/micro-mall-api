@@ -94,7 +94,7 @@ func ParseTimeOfStr(unixT int64) string {
 	return time.Unix(unixT, 0).Format(ctLayoutStr)
 }
 
-func ParseTimeOfCustom(unixT int64, layStr string) string  {
+func ParseTimeOfCustom(unixT int64, layStr string) string {
 	return time.Unix(unixT, 0).Format(layStr)
 }
 
@@ -119,8 +119,8 @@ func GetActivityBeginTime(beginTimeEv string) (int64, error) {
 	return beginTime.Unix(), nil
 }
 
-func GetExpireTimeDay(expireUnixT ,nowUnix int64) int32 {
-	return int32(time.Unix(expireUnixT,0).Sub(time.Unix(nowUnix,0)).Hours()/24)
+func GetExpireTimeDay(expireUnixT, nowUnix int64) int32 {
+	return int32(time.Unix(expireUnixT, 0).Sub(time.Unix(nowUnix, 0)).Hours() / 24)
 }
 
 //获取时间段内的每天日期

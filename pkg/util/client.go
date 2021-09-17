@@ -21,7 +21,7 @@ func GetGrpcClient(ctx context.Context, serverName string) (*grpc.ClientConn, er
 	return client.GetConn(ctx, opts...)
 }
 
-func GetHttpEndpoints(ctx context.Context,serverName string) ([]string, error) {
+func GetHttpEndpoints(ctx context.Context, serverName string) ([]string, error) {
 	client, err := client_conn.NewConnClient(serverName)
 	if err != nil {
 		return nil, err

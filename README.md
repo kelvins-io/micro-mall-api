@@ -467,6 +467,12 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 ![avatar](./微信赞赏码.JPG)
 支付宝
 ![avatar](./支付宝赞赏码.JPG)
+
+### 测试报告
+![avatar](./micro-mall测试报告.png)
+测试环境如下：所有服务，中间件，虚拟机，IDE，测试客户端均运行在这台机器上   
+![avatar](./测试环境.png)
+
 ### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   
 监控地址：   
@@ -734,7 +740,7 @@ header token
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
-sku_code | string | int | 商品唯一sku_code
+sku_code | 商品code | string | 商品唯一sku_code
 shop_id | 店铺ID | int | 商品所属店铺ID
 count | 数量 | int | 大于0
 time | 加入时间 | string | 2020-09-05 13:25:43
@@ -752,8 +758,9 @@ header token
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
-sku_code | string | int | 商品唯一sku_code
+sku_code | 商品code | string | 商品唯一sku_code
 shop_id | 店铺ID | int | 商品所属店铺ID
+amount | 数量 | int | 要移除的数量，-1表示全部移除该商品
 
 返回body： 
 ```json

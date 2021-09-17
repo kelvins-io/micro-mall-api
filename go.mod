@@ -5,9 +5,9 @@ go 1.13
 require (
 	gitee.com/kelvins-io/common v1.1.4
 	gitee.com/kelvins-io/g2cache v4.0.5+incompatible
-	gitee.com/kelvins-io/kelvins v1.5.8
+	gitee.com/kelvins-io/kelvins v1.5.9
 	github.com/RichardKnop/machinery v1.10.6
-	github.com/astaxie/beego v1.12.2
+	github.com/astaxie/beego v1.12.3
 	github.com/cloudflare/tableflip v1.2.2
 	github.com/coocood/freecache v1.1.1 // indirect
 	github.com/cosmtrek/air v1.21.2 // indirect
@@ -15,7 +15,7 @@ require (
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-ini/ini v1.60.2
 	github.com/go-sql-driver/mysql v1.5.0
-	github.com/golang-jwt/jwt v3.2.1+incompatible
+	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/protobuf v1.5.2
 	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/google/uuid v1.2.0

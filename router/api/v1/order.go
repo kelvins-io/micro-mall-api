@@ -6,6 +6,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 )
 
@@ -27,6 +28,9 @@ func CreateTradeOrderApi(c *gin.Context) {
 	if err != nil {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
+	}
+	if form.OrderTxCode == "" {
+		form.OrderTxCode = uuid.New().String()
 	}
 	form.Uid = int64(uid)
 	form.ClientIp = c.ClientIP()

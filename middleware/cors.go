@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"fmt"
+	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"net/http"
 	"strings"
 )
@@ -30,7 +32,11 @@ func Cors() gin.HandlerFunc {
 			c.Header("Access-Control-Allow-Credentials", "true")
 			c.Set("content-type", "application/json")
 		}
-		//放行所有OPTIONS方法
+		requestId := uuid.New().String()
+		c.Header("X-Request-Id", requestId)
+		c.Set("X-Request-Id", requestId)
+		c.Header("X-Powered-By", "kelvins/gin "+vars.Version)
+		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {
 			c.JSON(http.StatusOK, "Options Request!")
 		}

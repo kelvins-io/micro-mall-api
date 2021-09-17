@@ -23,7 +23,7 @@ func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (
 	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchSkuInventory(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %v",err, json.MarshalToStringNoError(req))
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %v", err, json.MarshalToStringNoError(req))
 		return nil, code.ERROR
 	}
 	if searchRsp.Common.Code != sku_business.RetCode_SUCCESS {
@@ -45,7 +45,7 @@ func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int
 	searchReq := &shop_business.SearchShopRequest{Keyword: req.Keyword}
 	searchRsp, err := client.SearchShop(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %v", err,json.MarshalToStringNoError(req))
+		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %v", err, json.MarshalToStringNoError(req))
 		return nil, code.ERROR
 	}
 	if searchRsp.Common.Code != shop_business.RetCode_SUCCESS {

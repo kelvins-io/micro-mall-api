@@ -46,7 +46,7 @@ var firstName = []string{
 var lastNameLen = len(lastName)
 var firstNameLen = len(firstName)
 
-func init()  {
+func init() {
 	rand.Seed(time.Now().UnixNano())
 }
 

@@ -7,6 +7,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/internal/setup"
 	"gitee.com/cristiane/micro-mall-api/internal/util/startup"
+	varsInternal "gitee.com/cristiane/micro-mall-api/internal/vars"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/log"
 	"os"
@@ -92,6 +93,7 @@ func setupCommonVars(application *vars.WEBApplication) error {
 	if err != nil {
 		return err
 	}
+	varsInternal.ErrorLogger = vars.ErrorLogger
 
 	vars.BusinessLogger, err = log.GetBusinessLogger("business")
 	if err != nil {

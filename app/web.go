@@ -16,6 +16,9 @@ import (
 const localAddr = "0.0.0.0:"
 
 func RunApplication(application *vars.WEBApplication) {
+	if application == nil || application.Application == nil {
+		panic("webApplication is nil or application is nil")
+	}
 	if application.Name == "" {
 		logging.Fatal("Application name can't not be empty")
 	}
