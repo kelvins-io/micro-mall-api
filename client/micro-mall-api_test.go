@@ -201,7 +201,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "0f0ee5f7-fb1e-4cc1-a60d-b7d504955b121")
+	data.Set("tx_code", "9936d529-75ec-459d-8018-a9774c18b2bd")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -329,7 +329,7 @@ func BenchmarkUserAccountCharge(b *testing.B) {
 	data.Set("device_platform", "Android 10")
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
-	data.Set("amount", "999999999999999.99")
+	data.Set("amount", "11.99")
 	b.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -774,7 +774,7 @@ func BenchmarkTestOrderTrade_3(b *testing.B) {
 	data := CreateTradeOrderArgs{
 		Description:    "双12预热",
 		DeviceId:       "Galaxy Note20 Ultra",
-		UserDeliveryId: 131,
+		UserDeliveryId: 166,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -785,7 +785,7 @@ func BenchmarkTestOrderTrade_3(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10048)
+		req.Header.Set("token", qToken)
 		rsp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -825,7 +825,7 @@ func BenchmarkTestOrderTrade_3(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_10048)
+		req.Header.Set("token", qToken)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()

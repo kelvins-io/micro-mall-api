@@ -72,6 +72,8 @@ gitee.com/kelvins-io/common v1.1.3 h1:Qfwxd33NCGo2xLi/Qe6Es0r86hZU4zf1Fh8xAdA9wE
 gitee.com/kelvins-io/common v1.1.3/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
 gitee.com/kelvins-io/common v1.1.4 h1:azoEPcnN42z5r42+RaUNaLyIAwnN/qqxw4X7uvmxGoU=
 gitee.com/kelvins-io/common v1.1.4/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
+gitee.com/kelvins-io/common v1.1.5 h1:86w2CmvQTIr5WM4c5nrsUQZaaDI7+6I/0Jqhz5FKXWE=
+gitee.com/kelvins-io/common v1.1.5/go.mod h1:oyiyeVd/DMxKLv2pZDlvTWUihXpcoiQ07ejxYEBPybA=
 gitee.com/kelvins-io/g2cache v0.0.0-20210417154556-2388dd052075 h1:oKVnFUS0+uhSViPjoBNZuSGFeQoXW+28SheLJyYZUxo=
 gitee.com/kelvins-io/g2cache v0.0.0-20210417154556-2388dd052075/go.mod h1:mPuFlEWcKbcqChBTK5EdpniYePKYQ19uiXCbO4kb93E=
 gitee.com/kelvins-io/g2cache v1.0.0 h1:uEnvpCPbwT5vWFtbpTxHOeS/024NphK0rp4IDe+GEiU=
@@ -124,6 +126,8 @@ gitee.com/kelvins-io/kelvins v1.5.8 h1:yQ1GlQga/n+y1rkkXHnUXwD6UAxhTQfprGV8U1MAo
 gitee.com/kelvins-io/kelvins v1.5.8/go.mod h1:aE9SAL7HIEKBjyWg9rxso5Ly8shnOepW7xdOYd0RX84=
 gitee.com/kelvins-io/kelvins v1.5.9 h1:Yc9eb19AhPjX4r+tzEbkqwvxZhj/uGWj+03ZYe4IBvQ=
 gitee.com/kelvins-io/kelvins v1.5.9/go.mod h1:iSyBhFvkpFvpsvskItNXWMoC/LV9ybejPF+NRB9DtL8=
+gitee.com/kelvins-io/kelvins v1.5.10 h1:Pg5DvlCUzU4sj8yZz8NY29i+v4XvP/oiBXM9VyskNyU=
+gitee.com/kelvins-io/kelvins v1.5.10/go.mod h1:ar3UWKB2twuESmWtHK/NmC9kRapwmG6uZGpx7zIzrNw=
 gitee.com/kelvins-io/kelvins v1.5.1001 h1:7tGUdD72KB0zpaUY1dB8CKYBn3HDI0Cv3E7nx+Z8YBY=
 gitee.com/kelvins-io/kelvins v1.5.1001/go.mod h1:iJPUTMfZi7A1VZy9xkOK+bJVJwkkoBx+d4yH00uRZjQ=
 gitee.com/kelvins-io/kelvins v1.5.1002 h1:tcZiCWibpYQKghNkJlPIcpV6lauH5jAKZlqHk9L5KM4=

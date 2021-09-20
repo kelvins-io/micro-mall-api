@@ -54,6 +54,7 @@ PubSubRedisConfPwd = "oyuioyiuoyui"
 PubSubRedisConfMaxConn = 30
 
 [email-config]
+Enable = false
 User = "xxxx@qq.com"
 Password = "xxxx"
 Host = "smtp.qq.com"

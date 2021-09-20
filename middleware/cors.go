@@ -30,12 +30,12 @@ func Cors() gin.HandlerFunc {
 			c.Header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 			c.Header("Access-Control-Expose-Headers", "Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type")
 			c.Header("Access-Control-Allow-Credentials", "true")
-			c.Set("content-type", "application/json")
+			c.Header("Content-Type", "application/json")
 		}
 		requestId := uuid.New().String()
 		c.Header("X-Request-Id", requestId)
 		c.Set("X-Request-Id", requestId)
-		c.Header("X-Powered-By", "kelvins/gin "+vars.Version)
+		c.Header("X-Powered-By", "web_gin_template/gin "+vars.Version)
 		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {
 			c.JSON(http.StatusOK, "Options Request!")

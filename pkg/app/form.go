@@ -49,7 +49,7 @@ func buildFormErr(errs []*validation.Error) error {
 
 func markErrors(ctx *gin.Context, errors []*validation.Error) {
 	buf := strings.Builder{}
-	buf.WriteString(fmt.Sprintf("%v %v %v 400 ", ctx.Request.RemoteAddr, ctx.Request.Method, ctx.Request.RequestURI))
+	buf.WriteString(fmt.Sprintf("%v %v %v 400 ", ctx.ClientIP(), ctx.Request.Method, ctx.Request.RequestURI))
 	buf.WriteString("{")
 	for _, err := range errors {
 		buf.WriteString(fmt.Sprintf("%v：%v ", err.Key, err.Message))
