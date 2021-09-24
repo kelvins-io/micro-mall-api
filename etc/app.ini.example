@@ -5,6 +5,7 @@ ReadTimeout = 10
 WriteTimeout = 10
 IdleTimeout = 10
 PIDFile = "./micro-mall-api.pid"
+SupportH2 = true
 
 [web-logger]
 RootPath = "./logs"

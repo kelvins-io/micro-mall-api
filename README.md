@@ -10,7 +10,7 @@ g2cache缓存库支持：https://gitee.com/kelvins-io/g2cache
 
 #### 项目问题交流
 QQ群：578859618 （micro-mall-api交流群）  
-![avatar](./交流群.JPG)
+![avatar](./交流群.JPG)   
 邮件：1225807604@qq.com   
 
 #### 赞助商列表
@@ -35,6 +35,8 @@ Doyle | 100.00 | 2021-8-31 | 一点小意思
 
 #### 软件架构
 micro-mall系列需要etcd集群，集群有问题无法运行任何一个项目，请先搭建好！   
+接入层micro-mall-api采用HTTP2（兼容HTTP1.1）对接客户端   
+micro-mall-api基于gRPC对接其它服务   
 gin + xorm + mysql + redis + rabbitmq + grpc + etcd + MongoDB + protobuf + prometheus     
 服务间通信采用gRPC（protobuf v3 ），服务注册/发现采用etcd，消息事件采用rabbitmq/redis， 搜索采用elasticsearch 
     
@@ -472,6 +474,14 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 ![avatar](./micro-mall测试报告.png)
 测试环境如下：所有服务，中间件，虚拟机，IDE，测试客户端均运行在这台机器上   
 ![avatar](./测试环境.png)
+
+### micro-mall-api启用HTTP2
+启用http2后，调用接口，使用wireshark抓包结果   
+![avatar](./micro-mall-api启用H2wireshark抓包.png)
+
+#### RPC接口压测报告
+使用ghz压测接口   
+![avatar](./ghz压测RPC接口.png)
 
 ### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   

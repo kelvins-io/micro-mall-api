@@ -1,13 +1,16 @@
 package client
 
 import (
+	"crypto/tls"
 	"fmt"
 	"gitee.com/kelvins-io/common/json"
 	"github.com/google/uuid"
+	"golang.org/x/net/http2"
 	"io/ioutil"
 	"log"
 	"math"
 	"math/rand"
+	"net"
 	"net/http"
 	"net/url"
 	"strings"
@@ -56,6 +59,19 @@ func BenchmarkGateway(b *testing.B) {
 	b.Run("批量创建订单并支付-用户2", BenchmarkTestOrderTrade_2)
 	b.Run("批量创建订单并支付-用户3", BenchmarkTestOrderTrade_3)
 }
+
+var (
+	// 服务端支持http2，进行http2调用需要客户端发起协议升级，配置http2 transport
+	clientH2 = http.Client{
+		// Skip TLS dial
+		Transport: &http2.Transport{
+			AllowHTTP: true,
+			DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
+				return net.Dial(network, addr)
+			},
+		},
+	}
+)
 
 func TestGetUserInfo(t *testing.T) {
 	r := baseUrl + userInfo
@@ -201,7 +217,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "9936d529-75ec-459d-8018-a9774c18b2bd")
+	data.Set("tx_code", "a12ee677-2621-4a97-98ea-d4211e3712cb")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -563,7 +579,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 		}
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("token", token_10048)
-		rsp, err := http.DefaultClient.Do(req)
+		rsp, err := clientH2.Do(req)
 		if err != nil {
 			b.Error(err)
 			return
@@ -674,7 +690,7 @@ func BenchmarkTestOrderTrade_2(b *testing.B) {
 		}
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("token", token_79854)
-		rsp, err := http.DefaultClient.Do(req)
+		rsp, err := clientH2.Do(req)
 		if err != nil {
 			b.Error(err)
 			return
@@ -786,7 +802,7 @@ func BenchmarkTestOrderTrade_3(b *testing.B) {
 		}
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("token", qToken)
-		rsp, err := http.DefaultClient.Do(req)
+		rsp, err := clientH2.Do(req)
 		if err != nil {
 			b.Error(err)
 			return
@@ -1047,7 +1063,7 @@ func BenchmarkTestLoginUserWithPwd(b *testing.B) {
 	req.Header.Set("token", qToken)
 	for i := 0; i < math.MaxInt32; i++ {
 		//b.Logf("request token=%v", qToken)
-		rsp, err := http.DefaultClient.Do(req)
+		rsp, err := clientH2.Do(req)
 		if err != nil {
 			b.Error(err)
 			return
@@ -1301,10 +1317,13 @@ type HttpCommonRsp struct {
 
 func commonTest(r string, req *http.Request, t *testing.T) {
 	t.Logf("request token=%v", qToken)
-	rsp, err := http.DefaultClient.Do(req)
+	rsp, err := clientH2.Do(req)
 	if err != nil {
 		t.Error(err)
 		return
+	}
+	for i, v := range rsp.Header {
+		t.Logf("req url: %v, header %v=%v", r, i, v)
 	}
 	t.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
@@ -1332,7 +1351,7 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 }
 
 func commonBenchmarkTest(r string, req *http.Request, b *testing.B) {
-	rsp, err := http.DefaultClient.Do(req)
+	rsp, err := clientH2.Do(req)
 	if err != nil {
 		b.Error(err)
 		return

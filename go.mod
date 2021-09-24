@@ -5,7 +5,7 @@ go 1.13
 require (
 	gitee.com/kelvins-io/common v1.1.5
 	gitee.com/kelvins-io/g2cache v4.0.5+incompatible
-	gitee.com/kelvins-io/kelvins v1.5.10
+	gitee.com/kelvins-io/kelvins v1.5.11
 	github.com/RichardKnop/machinery v1.10.6
 	github.com/astaxie/beego v1.12.3
 	github.com/cloudflare/tableflip v1.2.2
@@ -27,9 +27,12 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sony/sonyflake v1.0.0
 	github.com/tealeg/xlsx v1.0.5
+	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	google.golang.org/grpc v1.40.0
 	google.golang.org/protobuf v1.26.0
 	gopkg.in/ini.v1 v1.60.2 // indirect
 	xorm.io/xorm v1.0.4
 )
+
+

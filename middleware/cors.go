@@ -2,11 +2,13 @@ package middleware
 
 import (
 	"fmt"
+	varsInternal "gitee.com/cristiane/micro-mall-api/internal/vars"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func Cors() gin.HandlerFunc {
@@ -36,6 +38,8 @@ func Cors() gin.HandlerFunc {
 		c.Header("X-Request-Id", requestId)
 		c.Set("X-Request-Id", requestId)
 		c.Header("X-Powered-By", "web_gin_template/gin "+vars.Version)
+		incomeTime := time.Now()
+		c.Set(varsInternal.AccessIncomeTimeKey, incomeTime)
 		// 放行所有OPTIONS方法
 		if method == "OPTIONS" {
 			c.JSON(http.StatusOK, "Options Request!")

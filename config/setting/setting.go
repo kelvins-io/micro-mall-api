@@ -8,6 +8,7 @@ type ServerSettingS struct {
 	IdleTimeout  int
 	Environment  string
 	PIDFile      string
+	SupportH2    bool
 }
 
 type JwtSettingS struct {

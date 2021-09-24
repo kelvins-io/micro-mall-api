@@ -8,6 +8,8 @@ import (
 	"gitee.com/cristiane/micro-mall-api/pkg/util/kprocess"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/robfig/cron/v3"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"strconv"
 	"time"
@@ -113,8 +115,14 @@ func runApp(webApp *vars.WEBApplication) error {
 		logging.Fatalf("App kprocess listen err: %v", err)
 	}
 	ginEngine := webApp.RegisterHttpRoute()
+	var handler http.Handler
+	if vars.ServerSetting != nil && vars.ServerSetting.SupportH2 {
+		handler = h2c.NewHandler(ginEngine, &http2.Server{IdleTimeout: time.Duration(vars.ServerSetting.IdleTimeout) * time.Second})
+	} else {
+		handler = ginEngine
+	}
 	serve := http.Server{
-		Handler:      ginEngine,
+		Handler:      handler,
 		ReadTimeout:  time.Duration(vars.ServerSetting.ReadTimeout) * time.Second,
 		WriteTimeout: time.Duration(vars.ServerSetting.WriteTimeout) * time.Second,
 		IdleTimeout:  time.Duration(vars.ServerSetting.IdleTimeout) * time.Second,

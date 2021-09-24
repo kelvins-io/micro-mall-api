@@ -3,6 +3,7 @@ package app
 import (
 	"flag"
 	"fmt"
+	"gitee.com/cristiane/micro-mall-api/config/setting"
 	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/internal/setup"
@@ -60,6 +61,10 @@ func initApplication(application *vars.Application) error {
 	}
 	application.Environment = environment
 	vars.Environment = environment
+
+	if vars.ServerSetting == nil {
+		vars.ServerSetting = new(setting.ServerSettingS)
+	}
 
 	err := log.InitGlobalConfig(rootPath, loggerLevel, application.Name)
 	if err != nil {
