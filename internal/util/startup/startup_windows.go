@@ -7,8 +7,7 @@ import (
 )
 
 func execProcessCmd(pid int, upType startUpType) (next bool, err error) {
-	cmd := *control
-	switch cmd {
+	switch upType {
 	case startUpReStart:
 		logging.Infof("process platform(%s) not support restart\n", runtime.GOOS)
 	case startUpStop:
