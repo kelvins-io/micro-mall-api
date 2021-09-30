@@ -12,6 +12,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/log"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -74,7 +75,14 @@ func initApplication(application *vars.Application) error {
 	return nil
 }
 
+var appCloseChOnce sync.Once
+
 func appShutdown(application *vars.Application) error {
+	if appCloseCh != nil {
+		appCloseChOnce.Do(func() {
+			close(appCloseCh)
+		})
+	}
 	if application.StopFunc != nil {
 		return application.StopFunc()
 	}
@@ -132,7 +140,10 @@ func setupCommonVars(application *vars.WEBApplication) error {
 
 var execStopFunc bool
 
+var appCloseCh = make(chan struct{})
+
 func startUpControl(pidFile string) (next bool, err error) {
+	vars.AppCloseCh = appCloseCh
 	next, err = startup.ParseCliCommand(pidFile)
 	if next {
 		execStopFunc = true

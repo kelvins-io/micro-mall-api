@@ -18,6 +18,8 @@ const (
 	SectionLogger = "web-logger"
 	// jwt is token vaild
 	SectionJwt = "web-jwt"
+	// SectionRateLimit is rate limit
+	SectionRateLimit = "web-rate-limit"
 	// SectionMysql is a sectoin name for mysql.
 	SectionMysql = "web-mysql"
 	// SectionRedis is a section name for redis.
@@ -47,21 +49,24 @@ func LoadDefaultConfig(application *vars.Application) error {
 	// Setup default settings
 	for _, sectionName := range cfg.SectionStrings() {
 		if sectionName == SectionServer {
-			log.Printf("[info] Load default config %s", sectionName)
 			vars.ServerSetting = new(setting.ServerSettingS)
 			MapConfig(sectionName, vars.ServerSetting)
 			continue
 		}
+		if sectionName == SectionRateLimit {
+			vars.RateLimitSetting = new(setting.RateLimitSettingS)
+			MapConfig(sectionName, vars.RateLimitSetting)
+			continue
+		}
 		if sectionName == SectionLogger {
-			log.Printf("[info] Load default config %s", sectionName)
 			vars.LoggerSetting = new(setting.LoggerSettingS)
 			MapConfig(sectionName, vars.LoggerSetting)
 			continue
 		}
 		if sectionName == SectionJwt {
-			log.Printf("[info] Load default config %s", sectionName)
 			vars.JwtSetting = new(setting.JwtSettingS)
 			MapConfig(sectionName, vars.JwtSetting)
+			continue
 		}
 	}
 	return nil
@@ -69,6 +74,7 @@ func LoadDefaultConfig(application *vars.Application) error {
 
 // MapConfig uses cfg to map config.
 func MapConfig(section string, v interface{}) {
+	log.Printf("[info] Load default config %s", section)
 	sec, err := cfg.GetSection(section)
 	if err != nil {
 		log.Fatalf("[err] Fail to parse '%s': %v", section, err)

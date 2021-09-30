@@ -18,6 +18,7 @@ func InitRouter() *gin.Engine {
 
 	r := gin.Default()
 	r.Use(middleware.Cors())
+	r.Use(middleware.RateLimit(vars.RateLimitSetting.MaxConcurrent))
 	r.GET("/", v1.IndexApi)
 	pprof.Register(r, "/debug")
 	r.GET("/debug/metrics", process.MetricsApi)

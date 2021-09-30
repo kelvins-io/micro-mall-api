@@ -20,6 +20,7 @@ var (
 	ErrorLogger           log.LoggerContextIface
 	BusinessLogger        log.LoggerContextIface
 	ServerSetting         *setting.ServerSettingS
+	RateLimitSetting      *setting.RateLimitSettingS
 	JwtSetting            *setting.JwtSettingS
 	MysqlSettingMicroMall *setting.MysqlSettingS
 	RedisSettingMicroMall *setting.RedisSettingS
@@ -29,6 +30,7 @@ var (
 	RedisPoolMicroMall    *redis.Pool
 	GPool                 *goroutine.Pool
 	G2CacheEngine         *g2cache.G2Cache
+	AppCloseCh            <-chan struct{}
 	LoggerLevel           string
 	Environment           string
 )

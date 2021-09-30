@@ -11,6 +11,9 @@ SupportH2 = true
 RootPath = "./logs"
 Level = "info"
 
+[web-rate-limit]
+MaxConcurrent = 0
+
 [web-jwt]
 Secret = "&WJof0jaY4ByTHR2"
 TokenExpireSecond = 2592000

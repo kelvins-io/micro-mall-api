@@ -4,7 +4,6 @@ import (
 	"gitee.com/cristiane/micro-mall-api/config"
 	"gitee.com/cristiane/micro-mall-api/config/setting"
 	"gitee.com/cristiane/micro-mall-api/vars"
-	"log"
 )
 
 const (
@@ -19,24 +18,18 @@ const (
 func LoadConfig() error {
 
 	// 外部MySQL数据源
-	log.Printf("[info] Load default config %s", SectionMysqlMicroMall)
 	vars.MysqlSettingMicroMall = new(setting.MysqlSettingS)
 	config.MapConfig(SectionMysqlMicroMall, vars.MysqlSettingMicroMall)
-
 	// 加载外部Redis数据源
-	log.Printf("[info] Load default config %s", SectionRedisMicroMall)
 	vars.RedisSettingMicroMall = new(setting.RedisSettingS)
 	config.MapConfig(SectionRedisMicroMall, vars.RedisSettingMicroMall)
 	//加载G2Cache二级缓存配置
-	log.Printf("[info] Load default config %s", SectionG2Cache)
 	vars.G2CacheSetting = new(setting.G2CacheSettingS)
 	config.MapConfig(SectionG2Cache, vars.G2CacheSetting)
 	// 加载email数据源
-	log.Printf("[info] Load default config %s", SectionEmailConfig)
 	vars.EmailConfigSetting = new(vars.EmailConfigSettingS)
 	config.MapConfig(SectionEmailConfig, vars.EmailConfigSetting)
 	// 加载验证码配置
-	log.Printf("[info] Load default config %s", SectionVerifyCode)
 	vars.VerifyCodeSetting = new(vars.VerifyCodeSettingS)
 	config.MapConfig(SectionVerifyCode, vars.VerifyCodeSetting)
 

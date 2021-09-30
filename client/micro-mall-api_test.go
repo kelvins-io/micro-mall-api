@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 	"testing"
 	"time"
 )
@@ -83,6 +84,28 @@ func TestGetUserInfo(t *testing.T) {
 	}
 	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
+}
+
+func TestRateLimit(t *testing.T)  {
+	r := baseUrl + userInfoList + "?page_size=1000&page_num=1&token=xxx"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	wg := sync.WaitGroup{}
+	num := 10
+	wg.Add(num)
+	for i:= 0;i<num;i++{
+		go func() {
+			defer wg.Done()
+			commonTest(r, req, t)
+		}()
+	}
+	wg.Wait()
 }
 
 func TestListUserInfo(t *testing.T) {
@@ -217,7 +240,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "a12ee677-2621-4a97-98ea-d4211e3712cb")
+	data.Set("tx_code", "7ed23b37-60eb-4260-817f-7c51125b1e07")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -941,8 +964,8 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "35501707783")
-	data.Set("business_type", "1")
+	data.Set("phone", "25501707783")
+	data.Set("business_type", "2")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1016,7 +1039,7 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "25501707783")
-	data.Set("verify_code", "177918")
+	data.Set("verify_code", "506041")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1033,8 +1056,8 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "15501707783")
-	data.Set("password", "07030501310")
+	data.Set("phone", "25501707783")
+	data.Set("password", "15501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1322,9 +1345,9 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 		t.Error(err)
 		return
 	}
-	for i, v := range rsp.Header {
-		t.Logf("req url: %v, header %v=%v", r, i, v)
-	}
+	//for i, v := range rsp.Header {
+	//	t.Logf("req url: %v, header %v=%v", r, i, v)
+	//}
 	t.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
 		t.Error("StatusCode != 200")

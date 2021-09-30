@@ -4,6 +4,7 @@ const (
 	SUCCESS                   = 200
 	InvalidParams             = 400
 	ERROR                     = 500
+	TooManyRequests           = 4000
 	IdNotEmpty                = 4001
 	ErrorTokenEmpty           = 4002
 	ErrorTokenInvalid         = 4003

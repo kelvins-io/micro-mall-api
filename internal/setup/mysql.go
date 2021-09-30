@@ -71,7 +71,9 @@ func NewMySQLWithGORM(mysqlSetting *setting.MysqlSettingS) (*gorm.DB, error) {
 			logger: logger,
 		}
 		db.LogMode(true)
-		gormLogger.out = os.Stdout
+		if environ == config.DefaultEnvironmentDev {
+			gormLogger.out = os.Stdout
+		}
 		db.SetLogger(gormLogger)
 	}
 
@@ -181,7 +183,9 @@ func NewMySQLWithXORM(mysqlSetting *setting.MysqlSettingS) (xorm.EngineInterface
 		engine.SetLogLevel(xormLogLevel[mysqlSetting.LoggerLevel])
 		var writer io.Writer
 		writer = xormlogger
-		writer = io.MultiWriter(writer, os.Stdout)
+		if environ == config.DefaultEnvironmentDev {
+			writer = io.MultiWriter(writer, os.Stdout)
+		}
 		engine.SetLogger(xormLog.NewSimpleLogger(writer))
 	}
 

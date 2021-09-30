@@ -16,6 +16,10 @@ type JwtSettingS struct {
 	TokenExpireSecond int
 }
 
+type RateLimitSettingS struct {
+	MaxConcurrent int
+}
+
 type LoggerSettingS struct {
 	RootPath string
 	Level    string

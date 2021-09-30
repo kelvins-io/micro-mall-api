@@ -3,6 +3,7 @@ package code
 var MsgFlags = map[int]string{
 	SUCCESS:                   "ok",
 	ERROR:                     "服务器出错",
+	TooManyRequests:           "请求太多，稍后再试",
 	InvalidParams:             "请求参数错误",
 	IdNotEmpty:                "ID为空",
 	ErrorTokenEmpty:           "用户token为空",
