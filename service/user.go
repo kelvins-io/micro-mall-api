@@ -462,3 +462,45 @@ func verifyUserState(ctx context.Context, uid int64) int {
 		return code.ERROR
 	}
 }
+
+func SearchUserInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return nil, code.ERROR
+	}
+	client := users.NewUsersServiceClient(conn)
+	rsp, err := client.SearchUserInfo(ctx, &users.SearchUserInfoRequest{Query: query})
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v", err, query)
+		return nil, code.ERROR
+	}
+	if rsp.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
+		return nil, code.ERROR
+	}
+	return rsp.List, code.SUCCESS
+}
+
+func SearchMerchantInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return nil, code.ERROR
+	}
+	client := users.NewMerchantsServiceClient(conn)
+	rsp, err := client.SearchMerchantInfo(ctx, &users.SearchMerchantInfoRequest{Query: query})
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v", err, query)
+		return nil, code.ERROR
+	}
+	if rsp.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
+		return nil, code.ERROR
+	}
+	return rsp.List, code.SUCCESS
+}

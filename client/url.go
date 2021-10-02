@@ -30,6 +30,8 @@ const (
 	userSettingAddress      = "/user/setting/address"
 	searchSkuInventory      = "/search/sku_inventory"
 	searchShop              = "/search/shop"
+	searchUserInfo          = "/search/user_info"
+	searchMerchantInfo      = "/search/merchant_info"
 	reportOrder             = "/user/order/report"
 	userAccountCharge       = "/user/account/charge"
 	commentsOrderCreate     = "/user/comments/order/create"

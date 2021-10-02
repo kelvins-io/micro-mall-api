@@ -97,6 +97,8 @@ func InitRouter() *gin.Engine {
 	{
 		search.GET("/sku_inventory", v1.SearchSkuInventoryApi) // 搜索商品库存
 		search.GET("/shop", v1.SearchShopApi)                  // 搜索店铺
+		search.GET("/user_info", v1.SearchUserInfoApi)         // 搜索用户
+		search.GET("/merchant_info", v1.SearchMerchantInfoApi) // 商户搜索
 	}
 
 	return r

@@ -43,6 +43,8 @@ func TestGateway(t *testing.T) {
 	t.Run("获取用户收货地址", TestUserSettingAddressGet)
 	t.Run("商品库存搜索", TestSearchSkuInventory)
 	t.Run("店铺搜索", TestSearchShop)
+	t.Run("商户搜素", TestMerchantInfoSearch)
+	t.Run("搜索用户", TestSearchUserInfo)
 	t.Run("获取店铺订单报告", TestGetOrderReport)
 	t.Run("用户账户充值", TestUserAccountCharge)
 	t.Run("订单评价", TestCommentsOrderCreate)
@@ -86,7 +88,19 @@ func TestGetUserInfo(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func TestRateLimit(t *testing.T)  {
+func TestSearchUserInfo(t *testing.T) {
+	r := baseUrl + searchUserInfo + "?query=王友"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestRateLimit(t *testing.T) {
 	r := baseUrl + userInfoList + "?page_size=1000&page_num=1&token=xxx"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
@@ -99,7 +113,7 @@ func TestRateLimit(t *testing.T)  {
 	wg := sync.WaitGroup{}
 	num := 10
 	wg.Add(num)
-	for i:= 0;i<num;i++{
+	for i := 0; i < num; i++ {
 		go func() {
 			defer wg.Done()
 			commonTest(r, req, t)
@@ -122,7 +136,7 @@ func TestListUserInfo(t *testing.T) {
 }
 
 func TestSearchShop(t *testing.T) {
-	r := baseUrl + searchShop + "?keyword=时代"
+	r := baseUrl + searchShop + "?keyword=京港"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -964,8 +978,8 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
-	data.Set("business_type", "2")
+	data.Set("phone", "98501707783")
+	data.Set("business_type", "1")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1016,11 +1030,11 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "35501707783")
+	data.Set("phone", "98501707783")
 	data.Set("email", "565608463@gmail.com")
 	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
-	data.Set("contact_addr", "廊坊市淮南路清明河畔李家大院")
+	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
 	data.Set("invite_code", "495bda950000065")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1056,8 +1070,8 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
-	data.Set("password", "15501707783")
+	data.Set("phone", "98501707783")
+	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1139,7 +1153,7 @@ func TestMerchantsMaterial(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋-深圳星光无限实业有限责任公司")
+	data.Set("register_addr", "京港市上海路111号")
 	data.Set("health_card_no", "R8nJ65TDUGAlqrwerSdb9")
 	data.Set("identity", "1")
 	data.Set("tax_card_no", "qX2Mr545kznWrlvO4sIp7")
@@ -1154,17 +1168,29 @@ func TestMerchantsMaterial(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+func TestMerchantInfoSearch(t *testing.T) {
+	r := baseUrl + searchMerchantInfo + "?query=京港"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
 func TestShopBusinessApply(t *testing.T) {
 	r := baseUrl + shopBusinessApply
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
 	data.Set("shop_id", "0")
-	data.Set("nick_name", "深圳市交个朋友科技有限公司")
-	data.Set("full_name", "深圳市交个朋友科技有限公司")
-	data.Set("register_addr", "深圳市宝安区兴业路宝源二区72栋")
-	data.Set("merchant_id", "1118")
-	data.Set("business_addr", "深圳市宝安区宝源二区73栋111号")
+	data.Set("nick_name", "京港市趣味来电制造厂")
+	data.Set("full_name", "京港市趣味来电制造厂")
+	data.Set("register_addr", "京港市趣味来电制造厂")
+	data.Set("merchant_id", "1172")
+	data.Set("business_addr", "京港市趣味来电制造厂")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
 	data.Set("business_desc", "qX2MkznWrlvO4sIp7")

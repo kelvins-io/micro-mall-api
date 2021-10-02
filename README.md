@@ -257,11 +257,13 @@ export ETCDCTL_API=3
 #### 都有哪些服务
 micro-mall-api   接入层   
 micro-mall-users  用户服务   
+micro-mall-users-cron  用户定时服务   
 micro-mall-users-consumer  用户事件消费者   
 micro-mall-order   订单服务   
 micro-mall-order-cron   订单定时任务   
 micro-mall-order-consumer   订单事件消费者   
 micro-mall-shop   店铺服务   
+micro-mall-shop-cron   店铺定时服务   
 micro-mall-trolley   购物车服务   
 micro-mall-sku   商品库服务   
 micro-mall-sku-cron   商品库定时任务   
@@ -271,6 +273,9 @@ micro-mall-comments   评论服务
 micro-mall-logistics   物流服务   
 micro-mall-search    搜索服务   
 micro-mall-search-cron   搜索定时任务   
+micro-mall-search-shop-consumer   店铺信息同步消费   
+micro-mall-search-sku-consumer   商品库存信息同步消费   
+micro-mall-search-users-consumer   用户信息同步消费   
 
 #### 关于go mod
 请各位一定配置go proxy   
@@ -312,9 +317,6 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 go get -u github.com/jteeuwen/go-bindata/...   
 go get github.com/elazarl/go-bindata-assetfs/...   
 python 2.7或3.5   
-elasticsearch需要安装ik中文分词支持中文搜索   
-根据elasticsearch版本安装对应的ik分词插件：
-elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip （以7.5.2为例）   
 
 #### 数据库设计
 micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立的缓存，独立的事件消息   
@@ -387,11 +389,39 @@ python genpb.py ../micro-mall-users-proto
 创建exchange：trade_order_notice，模式为direct   
 创建exchange：trade_order_pay_callback，模式为direct   
 创建exchange：trade_pay_notice，模式为direct   
+创建exchange：shop_info_search_notice，模式为direct   
+创建exchange：sku_inventory_search_notice，模式为direct   
+创建exchange：user_info_search_notice，模式为direct   
 创建queue：user_register_notice，持久化为true   
 创建queue：user_state_notice，持久化为true   
 创建queue：trade_order_notice，持久化为true   
 创建queue：trade_order_pay_callback，持久化为true   
 创建queue：trade_pay_notice，持久化为true   
+创建queue：shop_info_search_notice，持久化为true   
+创建queue：sku_inventory_search_notice，持久化为true   
+创建queue：user_info_search_notice，持久化为true   
+
+#### elasticsearch 配置
+1.安装中文分词插件   
+```shell
+elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
+```
+2.创建索引   
+```shell
+# 用户信息索引
+curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
+# 商户申请信息索引
+curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
+# 店铺信息索引
+curl -X PUT "localhost:9200/micro-mall-shop-info?pretty"
+# 列举索引
+curl -X GET "localhost:9200/_cat/indices?v"
+health status index                              uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   micro-mall-shop                    93u2W6uLTn--EuzifHKFgQ   1   1         25            2       57kb           57kb
+yellow open   micro-mall-user-info               WUFGM9IrR2u9d3egU-krWg   1   1      15562         5262      2.7mb          2.7mb
+yellow open   micro-mall-sku-inventory           XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
+yellow open   micro-mall-merchants-material-info WAzVixxOQ4-QPFjGWEWnWA   1   1          8            0     57.9kb         57.9kb
+```
 
 配置文件app.ini中关于rabbitmq配置说明（仅供参考）   
 ```toml
@@ -425,9 +455,11 @@ https://gitee.com/cristiane/micro-mall-api
 https://gitee.com/cristiane/micro-mall-users   
 https://gitee.com/cristiane/micro-mall-users-proto   
 https://gitee.com/cristiane/micro-mall-users-consumer   
+https://gitee.com/cristiane/micro-mall-users-cron   
 
 店铺服务   
 https://gitee.com/cristiane/micro-mall-shop   
+https://gitee.com/cristiane/micro-mall-shop-cron      
 https://gitee.com/cristiane/micro-mall-shop-proto   
 
 商品服务   
@@ -457,6 +489,9 @@ https://gitee.com/cristiane/micro-mall-logistics-proto
 搜索服务   
 https://gitee.com/cristiane/micro-mall-search   
 https://gitee.com/cristiane/micro-mall-search-cron   
+https://gitee.com/cristiane/micro-mall-search-sku-consumer      
+https://gitee.com/cristiane/micro-mall-search-shop-consumer    
+https://gitee.com/cristiane/micro-mall-search-users-consumer    
 https://gitee.com/cristiane/micro-mall-search-proto   
 
 评论服务   
@@ -1349,7 +1384,75 @@ token | 授权码 | string | 需要用户服务特别授权码
 	"msg": "ok"
 }
 ```
- 
+
+用户信息搜索   
+get /search/user_info?keyword=王友      
+响应：   
+```json
+{
+	"code": 200,
+	"data": [{
+		"info": {
+			"uid": 10141,
+			"account_id": "bf00de2c-1612-47a4-bddf-0e97b912d8ff",
+			"user_name": "王友",
+			"sex": 1,
+			"country_code": "86",
+			"phone": "41606450736",
+			"email": "mybaishati@gmail.com",
+			"state": 3,
+			"id_card_no": "100000001606450736",
+			"inviter_code": "495bdcec1000065",
+			"contact_addr": "南京市王友大院",
+			"age": 33,
+			"create_time": "2020-11-27T12:18:56+08:00"
+		},
+		"score": 11.652336
+	}, {
+		"info": {
+			"uid": 12371,
+			"account_id": "eee4a1e7-79c0-4f6c-bd9e-af01e139d7bf",
+			"user_name": "甘友",
+			"sex": 1,
+			"country_code": "86",
+			"phone": "41606451085538176000",
+			"email": "mybaishati@gmail.com",
+			"state": 3,
+			"id_card_no": "100000001606451085",
+			"inviter_code": "495be574d000065",
+			"contact_addr": "南京市甘友大院",
+			"age": 33,
+			"create_time": "2020-11-27T12:24:45+08:00"
+		},
+		"score": 6.071039
+	}],
+	"msg": "ok"
+}
+```
+商户认证信息搜索   
+get /search/merchant_info?keyword=王友   
+响应：
+```json
+{
+	"code": 200,
+	"data": [{
+		"info": {
+			"uid": 79857,
+			"material_id": 1172,
+			"register_addr": "京港市上海路111号",
+			"health_card_no": "R8nJ65TDUGAlqrwerSdb9",
+			"identity": 1,
+			"state": 3,
+			"tax_card_no": "qX2Mr545kznWrlvO4sIp7",
+			"create_time": "2021-10-03T01:50:15+08:00"
+		},
+		"score": 5.01196
+	}],
+	"msg": "ok"
+}
+```
+
+
 ### 赞助
 
 **1 感谢 jetbrains 为本项目提供的 goland 激活码**   

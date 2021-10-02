@@ -3,7 +3,9 @@ project_names=(
 "micro-mall-api"
 "micro-mall-users"
 "micro-mall-users-consumer"
+"micro-mall-users-cron"
 "micro-mall-shop"
+"micro-mall-shop-cron"
 "micro-mall-trolley"
 "micro-mall-sku"
 "micro-mall-sku-cron"
@@ -16,6 +18,9 @@ project_names=(
 "micro-mall-comments"
 "micro-mall-search"
 "micro-mall-search-cron"
+"micro-mall-search-shop-consumer"
+"micro-mall-search-sku-consumer"
+"micro-mall-search-users-consumer"
 )
 
 # 遍历所有目录 清楚bin

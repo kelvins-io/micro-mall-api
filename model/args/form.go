@@ -508,6 +508,14 @@ type ListUserInfoRsp struct {
 	UserInfoList []UserMobilePhone `json:"user_info_list"`
 }
 
+type SearchUserInfoArgs struct {
+	Query string `json:"query" form:"query"`
+}
+
+type SearchMerchantInfoArgs struct {
+	Query string `json:"query" form:"query"`
+}
+
 type UserMobilePhone struct {
 	CountryCode string `json:"country_code"`
 	Phone       string `json:"phone"`

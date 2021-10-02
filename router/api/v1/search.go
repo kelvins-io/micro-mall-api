@@ -32,3 +32,27 @@ func SearchShopApi(c *gin.Context) {
 	rsp, retCode := service.SearchShop(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }
+
+func SearchUserInfoApi(c *gin.Context) {
+	var form args.SearchUserInfoArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	list, retCode := service.SearchUserInfo(c, form.Query)
+	app.JsonResponse(c, http.StatusOK, retCode, list)
+}
+
+func SearchMerchantInfoApi(c *gin.Context) {
+	var form args.SearchMerchantInfoArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	list, retCode := service.SearchMerchantInfo(c, form.Query)
+	app.JsonResponse(c, http.StatusOK, retCode, list)
+}

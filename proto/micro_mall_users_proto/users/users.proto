@@ -115,6 +115,12 @@ service UsersService {
             get: "/v1/user/info/list"
         };
     }
+    // 搜索用户
+    rpc SearchUserInfo(SearchUserInfoRequest) returns (SearchUserInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/info/search"
+        };
+    }
 }
 
 service MerchantsService {
@@ -143,6 +149,12 @@ service MerchantsService {
         option (google.api.http) = {
             put: "/v1/user/merchants/associate/shop_business"
             body: "*"
+        };
+    }
+    // 搜索商户
+    rpc SearchMerchantInfo(SearchMerchantInfoRequest) returns (SearchMerchantInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/merchants/info/search"
         };
     }
 }
@@ -494,7 +506,21 @@ message MerchantsAssociateShopRequest {
 }
 
 message MerchantsAssociateShopResponse {
-    CommonResponse common =1;
+    CommonResponse common = 1;
+}
+
+message SearchMerchantInfoRequest {
+    string query = 1;
+}
+
+message SearchMerchantInfoResponse {
+    CommonResponse common = 1;
+    repeated SearchMerchantsInfoEntry list = 2;
+}
+
+message SearchMerchantsInfoEntry {
+    MerchantsMaterialInfo info = 1;
+    double score = 2;
 }
 
 message MerchantsMaterialAuditRequest {
@@ -520,6 +546,20 @@ message ListUserInfoResponse {
     CommonResponse common = 1;
     repeated MobilePhone user_info_list = 2;
     reserved 3;
+}
+
+message SearchUserInfoRequest {
+    string query = 1;
+}
+
+message SearchUserInfoResponse {
+    CommonResponse common = 1;
+    repeated SearchUserInfoEntry list = 2;
+}
+
+message SearchUserInfoEntry {
+    UserInfo info = 1;
+    double score = 2;
 }
 
 message CommonResponse {
