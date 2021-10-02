@@ -1386,7 +1386,7 @@ token | 授权码 | string | 需要用户服务特别授权码
 ```
 
 用户信息搜索   
-get /search/user_info?keyword=王友      
+get /search/user_info?query=王友      
 响应：   
 ```json
 {
@@ -1430,7 +1430,7 @@ get /search/user_info?keyword=王友
 }
 ```
 商户认证信息搜索   
-get /search/merchant_info?keyword=王友   
+get /search/merchant_info?query=王友   
 响应：
 ```json
 {
