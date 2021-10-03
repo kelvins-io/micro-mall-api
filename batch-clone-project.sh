@@ -45,10 +45,12 @@ echo "开始clone micro-mall-api 仓库"
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-api.git
 echo "开始clone micro-mall-users 仓库"
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-users.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-users-cron.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-users-proto.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-users-consumer.git
 echo "开始clone micro-mall-shop 仓库"
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-shop.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-shop-cron.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-shop-proto.git
 echo "开始clone micro-mall-sku 仓库"
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-sku.git
@@ -71,6 +73,9 @@ git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-logistics.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-logistics-proto.git
 echo "开始clone micro-mall-search 仓库"
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-shop-consumer.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-sku-consumer.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-users-consumer.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-proto.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-cron.git
 echo "开始clone micro-mall-comments 仓库"
