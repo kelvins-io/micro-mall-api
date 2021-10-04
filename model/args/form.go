@@ -516,6 +516,10 @@ type SearchMerchantInfoArgs struct {
 	Query string `json:"query" form:"query"`
 }
 
+type SearchTradeOrderArgs struct {
+	Query string `json:"query" form:"query"`
+}
+
 type UserMobilePhone struct {
 	CountryCode string `json:"country_code"`
 	Phone       string `json:"phone"`

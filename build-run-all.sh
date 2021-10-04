@@ -21,6 +21,7 @@ project_names=(
 "micro-mall-search-shop-consumer"
 "micro-mall-search-sku-consumer"
 "micro-mall-search-users-consumer"
+"micro-mall-search-order-consumer"
 )
 
 # 循环目录 构建运行

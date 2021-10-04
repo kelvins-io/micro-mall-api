@@ -56,3 +56,15 @@ func SearchMerchantInfoApi(c *gin.Context) {
 	list, retCode := service.SearchMerchantInfo(c, form.Query)
 	app.JsonResponse(c, http.StatusOK, retCode, list)
 }
+
+func SearchTradeOrderApi(c *gin.Context) {
+	var form args.SearchTradeOrderArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	list, retCode := service.SearchTradeOrderInfo(c, form.Query)
+	app.JsonResponse(c, http.StatusOK, retCode, list)
+}

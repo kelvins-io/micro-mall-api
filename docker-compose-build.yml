@@ -203,6 +203,20 @@ services:
       - ../micro-mall-search-users-consumer/etc:/www/etc
     command: [ './micro-mall-search-users-consumer' ]
 
+  micro-mall-search-order-consumer:
+    image: ubuntu:latest
+    container_name: micro-mall-search-order-consumer
+    environment:
+      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - GO_ENV=dev
+    restart: always
+    working_dir: /www
+    volumes:
+      - ../micro-mall-search-order-consumer/micro-mall-search-order-consumer:/www/micro-mall-search-order-consumer
+      - ../micro-mall-search-order-consumer/etc:/www/etc
+    command: [ './micro-mall-search-order-consumer' ]
+
   micro-mall-order-cron:
     image: ubuntu:latest
     container_name: micro-mall-order-cron

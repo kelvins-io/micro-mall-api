@@ -177,3 +177,26 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 		return &result, code.ERROR
 	}
 }
+
+
+func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (interface{}, int) {
+	serverName := args.RpcServiceMicroMallSku
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		return "", code.ERROR
+	}
+	//defer conn.Close()
+	client := sku_business.NewSkuBusinessServiceClient(conn)
+	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: req.Keyword}
+	searchRsp, err := client.SearchSkuInventory(ctx, searchReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %v", err, json.MarshalToStringNoError(req))
+		return nil, code.ERROR
+	}
+	if searchRsp.Common.Code != sku_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(searchRsp))
+		return nil, code.ERROR
+	}
+	return searchRsp.List, code.SUCCESS
+}

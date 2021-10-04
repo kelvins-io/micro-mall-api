@@ -196,7 +196,6 @@ prometheus_metrics接口
 │   ├── logistics.go    物流业务调用gRPC
 │   ├── merchants.go    商户业务调用gRPC
 │   ├── push_notice.go    队列推送
-│   ├── search.go   搜索业务调用gRPC
 │   ├── shop_business.go    店铺业务调用gRPC
 │   ├── sku_business.go   商品库业务调用gRPC
 │   ├── trade_order.go    支付订单业务调用gRPC
@@ -276,6 +275,7 @@ micro-mall-search-cron   搜索定时任务
 micro-mall-search-shop-consumer   店铺信息同步消费   
 micro-mall-search-sku-consumer   商品库存信息同步消费   
 micro-mall-search-users-consumer   用户信息同步消费   
+micro-mall-search-order-consumer   交易订单信息同步消费
 
 #### 关于go mod
 请各位一定配置go proxy   
@@ -392,6 +392,7 @@ python genpb.py ../micro-mall-users-proto
 创建exchange：shop_info_search_notice，模式为direct   
 创建exchange：sku_inventory_search_notice，模式为direct   
 创建exchange：user_info_search_notice，模式为direct   
+创建exchange：trade_order_info_search_notice，模式为direct   
 创建queue：user_register_notice，持久化为true   
 创建queue：user_state_notice，持久化为true   
 创建queue：trade_order_notice，持久化为true   
@@ -400,6 +401,7 @@ python genpb.py ../micro-mall-users-proto
 创建queue：shop_info_search_notice，持久化为true   
 创建queue：sku_inventory_search_notice，持久化为true   
 创建queue：user_info_search_notice，持久化为true   
+创建queue：trade_order_info_search_notice，持久化为true
 
 #### elasticsearch 配置
 1.安装中文分词插件   
@@ -413,13 +415,18 @@ curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
 # 商户申请信息索引
 curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
 # 店铺信息索引
-curl -X PUT "localhost:9200/micro-mall-shop-info?pretty"
+curl -X PUT "localhost:9200/micro-mall-shop?pretty"
+# 交易订单息索引
+curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
+# 商品库存息索引
+curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
 # 列举索引
 curl -X GET "localhost:9200/_cat/indices?v"
 health status index                              uuid                   pri rep docs.count docs.deleted store.size pri.store.size
 yellow open   micro-mall-shop                    93u2W6uLTn--EuzifHKFgQ   1   1         25            2       57kb           57kb
 yellow open   micro-mall-user-info               WUFGM9IrR2u9d3egU-krWg   1   1      15562         5262      2.7mb          2.7mb
 yellow open   micro-mall-sku-inventory           XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
+yellow open   micro-mall-trade-order             XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
 yellow open   micro-mall-merchants-material-info WAzVixxOQ4-QPFjGWEWnWA   1   1          8            0     57.9kb         57.9kb
 ```
 
@@ -492,6 +499,7 @@ https://gitee.com/cristiane/micro-mall-search-cron
 https://gitee.com/cristiane/micro-mall-search-sku-consumer      
 https://gitee.com/cristiane/micro-mall-search-shop-consumer    
 https://gitee.com/cristiane/micro-mall-search-users-consumer    
+https://gitee.com/cristiane/micro-mall-search-order-consumer    
 https://gitee.com/cristiane/micro-mall-search-proto   
 
 评论服务   
@@ -1451,7 +1459,82 @@ get /search/merchant_info?query=王友
 	"msg": "ok"
 }
 ```
-
+交易订单搜索   
+get /search/merchant_info?query=龟苓膏   
+响应：     
+```json
+{
+  "code": 200,
+  "data": [{
+    "order_code": "b250d641-ce9c-4f91-882d-b2b2b6fb1d6e",
+    "shop_id": 30071,
+    "money": "共计：50.4600",
+    "description": "国庆大促",
+    "create_time": "2021-10-04 20:10:04",
+    "pay_state": "支付取消",
+    "pay_time": "2021-10-04 21:00:30",
+    "shop_address": "舟山市来福路90号来福花园5栋1单元2309",
+    "shop_name": "大发发连锁超市",
+    "goods": [{
+      "goods_name": "高乐低儿童遥控玩具",
+      "price": "2.9000000000000000",
+      "sku_code": "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+      "amount": 1
+    }, {
+      "goods_name": "富源不爱龟苓膏",
+      "price": "23.7800000000000000",
+      "sku_code": "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+      "amount": 2
+    }],
+    "score": 18.350704
+  }, {
+    "order_code": "178aa53b-925e-4a0f-9786-93a47411143d",
+    "shop_id": 30071,
+    "money": "共计：50.4600",
+    "description": "国庆大促",
+    "create_time": "2021-10-04 21:02:39",
+    "pay_state": "未支付",
+    "pay_time": "2021-10-04 21:02:39",
+    "shop_address": "舟山市来福路90号来福花园5栋1单元2309",
+    "shop_name": "大发发连锁超市",
+    "goods": [{
+      "goods_name": "高乐低儿童遥控玩具",
+      "price": "2.9000000000000000",
+      "sku_code": "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
+      "amount": 1
+    }, {
+      "goods_name": "富源不爱龟苓膏",
+      "price": "23.7800000000000000",
+      "sku_code": "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+      "amount": 2
+    }],
+    "score": 18.350704
+  }, {
+    "order_code": "296d0410-75a9-424d-bfa3-8767364abf67",
+    "shop_id": 30072,
+    "money": "共计：39.8000",
+    "description": "国庆大促",
+    "create_time": "2021-10-04 21:02:39",
+    "pay_state": "未支付",
+    "pay_time": "2021-10-04 21:02:39",
+    "shop_address": "辽宁省葫芦岛市迎宾路33号轻工业产业园67号",
+    "shop_name": "辽宁省葫芦岛电子商务公司",
+    "goods": [{
+      "goods_name": "张宇解百纳龟苓膏",
+      "price": "19.9000000000000000",
+      "sku_code": "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+      "amount": 1
+    }, {
+      "goods_name": "张鱼解百纳2008窖藏特曲红酒",
+      "price": "19.9000000000000000",
+      "sku_code": "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+      "amount": 1
+    }],
+    "score": 16.219776
+  }],
+  "msg": "ok"
+}
+```
 
 ### 赞助
 

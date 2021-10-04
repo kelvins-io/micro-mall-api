@@ -76,6 +76,7 @@ git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-shop-consumer.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-sku-consumer.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-users-consumer.git
+git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-order-consumer.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-proto.git
 git clone ${GIT_CLONE_METHOD_URL}cristiane/micro-mall-search-cron.git
 echo "开始clone micro-mall-comments 仓库"

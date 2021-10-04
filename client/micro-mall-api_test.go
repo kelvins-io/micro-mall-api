@@ -45,6 +45,7 @@ func TestGateway(t *testing.T) {
 	t.Run("店铺搜索", TestSearchShop)
 	t.Run("商户搜素", TestMerchantInfoSearch)
 	t.Run("搜索用户", TestSearchUserInfo)
+	t.Run("交易订单搜索", TestSearchTradeOrder)
 	t.Run("获取店铺订单报告", TestGetOrderReport)
 	t.Run("用户账户充值", TestUserAccountCharge)
 	t.Run("订单评价", TestCommentsOrderCreate)
@@ -90,6 +91,18 @@ func TestGetUserInfo(t *testing.T) {
 
 func TestSearchUserInfo(t *testing.T) {
 	r := baseUrl + searchUserInfo + "?query=王友"
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestSearchTradeOrder(t *testing.T) {
+	r := baseUrl + searchTradeOrder + "?query=龟苓膏"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -148,14 +161,14 @@ func TestSearchShop(t *testing.T) {
 }
 
 func TestSearchSkuInventory(t *testing.T) {
-	r := baseUrl + searchSkuInventory + "?keyword=抽纸"
+	r := baseUrl + searchSkuInventory + "?keyword=啤酒"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
 		t.Error(err)
 		return
 	}
-	//req.Header.Set("token", qToken)
+	req.Header.Set("token", qToken)
 	commonTest(r, req, t)
 }
 
@@ -905,14 +918,14 @@ func TestTradeCreateOrder(t *testing.T) {
 		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
 		Price:   "2.9",
 		Amount:  1,
-		Name:    "清风抽纸",
+		Name:    "高乐低儿童遥控玩具",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
 		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
 		Price:   "23.78",
 		Amount:  2,
-		Name:    "百威淡色拉格啤酒",
+		Name:    "富源不爱龟苓膏",
 		Version: 1,
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
@@ -923,9 +936,9 @@ func TestTradeCreateOrder(t *testing.T) {
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
 				Id:       30071,
-				Name:     "福建交个朋友",
-				AreaCode: "福建",
-				Address:  "福建交个朋友",
+				Name:     "大发发连锁超市",
+				AreaCode: "浙江舟山",
+				Address:  "舟山市来福路90号来福花园5栋1单元2309",
 			},
 		},
 	}
@@ -933,27 +946,34 @@ func TestTradeCreateOrder(t *testing.T) {
 		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
 		Price:   "19.9",
 		Amount:  1,
-		Name:    "三只松鼠无骨凤爪",
+		Name:    "张宇解百纳龟苓膏",
+		Version: 1,
+	}
+	goods4 := OrderShopGoods{
+		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
+		Price:   "19.9",
+		Amount:  1,
+		Name:    "张鱼解百纳2008窖藏特曲红酒",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
 		ShopId:   30072,
 		CoinType: 0,
-		Goods:    []*OrderShopGoods{&goods3},
+		Goods:    []*OrderShopGoods{&goods3, &goods4},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
 				Id:       30072,
-				Name:     "深圳市交个朋友科技有限公司",
-				AreaCode: "深圳市南山区",
-				Address:  "深圳市交个朋友科技有限公司",
+				Name:     "辽宁省葫芦岛电子商务公司",
+				AreaCode: "葫芦岛市",
+				Address:  "辽宁省葫芦岛市迎宾路33号轻工业产业园67号",
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "双12预热",
-		DeviceId:       "Galaxy Note20 Ultra",
+		Description:    "国庆大促",
+		DeviceId:       "iPhone14 XS Max",
 		OrderTxCode:    "",
-		UserDeliveryId: 166,
+		UserDeliveryId: 220,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))

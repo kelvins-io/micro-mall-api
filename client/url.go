@@ -31,6 +31,7 @@ const (
 	searchSkuInventory      = "/search/sku_inventory"
 	searchShop              = "/search/shop"
 	searchUserInfo          = "/search/user_info"
+	searchTradeOrder        = "/search/trade_order"
 	searchMerchantInfo      = "/search/merchant_info"
 	reportOrder             = "/user/order/report"
 	userAccountCharge       = "/user/account/charge"

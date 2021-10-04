@@ -438,3 +438,24 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 func GetOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (*args.GetOrderReportRsp, int) {
 	return getOrderReport(ctx, req)
 }
+
+func SearchTradeOrderInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallOrder
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return nil, code.ERROR
+	}
+	client := order_business.NewOrderBusinessServiceClient(conn)
+	rsp, err := client.SearchTradeOrder(ctx, &order_business.SearchTradeOrderRequest{Query: query})
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "SearchTradeOrder err: %v, query: %v", err, query)
+		return nil, code.ERROR
+	}
+	if rsp.Common.Code != order_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "SearchTradeOrder err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
+		return nil, code.ERROR
+	}
+	return rsp.List, code.SUCCESS
+}

@@ -72,6 +72,12 @@ service OrderBusinessService {
             get: "/v1/order/shop/inspect"
         };
     }
+    // 订单搜索
+    rpc SearchTradeOrder(SearchTradeOrderRequest) returns (SearchTradeOrderResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/search"
+        };
+    }
 }
 
 enum RetCode {
@@ -201,6 +207,37 @@ message InspectShopOrderRequest {
 
 message InspectShopOrderResponse {
     CommonResponse common = 1;
+}
+
+message SearchTradeOrderRequest {
+    string query = 1;
+}
+
+message SearchTradeOrderResponse {
+    CommonResponse common = 1;
+    repeated SearchTradeOrderInfo list = 2;
+}
+
+message SearchTradeOrderInfo {
+    string order_code = 1;
+    int64 shop_id = 2;
+    string money = 3;
+    string description = 4;
+    string create_time = 5;
+    string pay_state = 6;
+    string pay_time = 7;
+    string shop_address = 8;
+    string shop_name = 9;
+    repeated SearchTradeOrderGoods goods = 100;
+
+    double score  = 999;
+}
+
+message SearchTradeOrderGoods {
+    string goods_name = 1;
+    string price = 2;
+    string sku_code = 3;
+    int32 amount = 4;
 }
 
 message FindOrderListRequest {

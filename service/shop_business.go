@@ -80,3 +80,25 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		return &result, code.ERROR
 	}
 }
+
+func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int) {
+	serverName := args.RpcServiceMicroMallShop
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		return "", code.ERROR
+	}
+	//defer conn.Close()
+	client := shop_business.NewShopBusinessServiceClient(conn)
+	searchReq := &shop_business.SearchShopRequest{Keyword: req.Keyword}
+	searchRsp, err := client.SearchShop(ctx, searchReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %v", err, json.MarshalToStringNoError(req))
+		return nil, code.ERROR
+	}
+	if searchRsp.Common.Code != shop_business.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "SearchShop req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(searchRsp))
+		return nil, code.ERROR
+	}
+	return searchRsp.List, code.SUCCESS
+}

@@ -21,6 +21,7 @@ project_names=(
 "micro-mall-search-shop-consumer"
 "micro-mall-search-sku-consumer"
 "micro-mall-search-users-consumer"
+"micro-mall-search-order-consumer"
 )
 
 # 遍历所有目录编译
