@@ -15,15 +15,31 @@ import (
 	"time"
 )
 
+const (
+	verifyCodeCachePrefix = "micro-mall-api:verify_code:"
+)
+
 type checkVerifyCodeArgs struct {
 	businessType                   int
 	countryCode, phone, verifyCode string
 }
 
 func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
-	key := fmt.Sprintf("%s:%s-%s-%d", mysql.TableVerifyCodeRecord, req.countryCode, req.phone, req.businessType)
+	key := fmt.Sprintf("%s:%s-%s-%d", verifyCodeCachePrefix, req.countryCode, req.phone, req.businessType)
+	limiter := new(repository.CheckVerifyCodeRedisLimiter)
+	err := limiter.CheckVerifyState(key)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "CheckVerifyState err: %v, key: %v", err, key)
+		switch err {
+		case repository.VerifyFailureForbidden:
+			return code.ErrorVerifyCodeForbidden
+		default:
+			return code.ERROR
+		}
+	}
+
 	var obj mysql.VerifyCodeRecord
-	err := vars.G2CacheEngine.Get(key, 60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
+	err = vars.G2CacheEngine.Get(key, 60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
 		record, err := repository.GetVerifyCode(req.businessType, req.countryCode, req.phone, req.verifyCode)
 		return record, err
 	})
@@ -32,13 +48,24 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 		return code.ERROR
 	}
 
-	if obj.Id == 0 {
+	if obj.Id == 0 || obj.VerifyCode != req.verifyCode {
+		err := limiter.VerifyFailure(key)
+		if err != nil {
+			vars.ErrorLogger.Errorf(ctx, "VerifyFailure err: %v, key: %v", err, key)
+			switch err {
+			case repository.VerifyFailureForbidden:
+				return code.ErrorVerifyCodeForbidden
+			default:
+				return code.ERROR
+			}
+		}
 		return code.ErrorVerifyCodeInvalid
 	}
 
 	if int64(obj.Expire) < time.Now().Unix() {
 		return code.ErrorVerifyCodeExpire
 	}
+
 	return code.SUCCESS
 }
 
@@ -70,8 +97,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	var (
 		err error
 		//redis : new(repository.CheckVerifyCodeRedisLimiter)
-		//local cache map: new(repository.CheckVerifyCodeRedisLimiter)
-		limiter = new(repository.CheckVerifyCodeMapCacheLimiter)
+		limiter = new(repository.CheckVerifyCodeRedisLimiter)
 	)
 
 	//Limits on the number of verification code requests and time interval
@@ -113,7 +139,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		return
 	}
 
-	key := fmt.Sprintf("%s:%s-%s-%d", mysql.TableVerifyCodeRecord, req.CountryCode, req.Phone, req.BusinessType)
+	key := fmt.Sprintf("%s:%s-%s-%d", verifyCodeCachePrefix, req.CountryCode, req.Phone, req.BusinessType)
 	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %v", err, key, json.MarshalToStringNoError(verifyCodeRecord))

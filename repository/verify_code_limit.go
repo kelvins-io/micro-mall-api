@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/gomodule/redigo/redis"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -18,11 +19,17 @@ import (
 //@modify time 2021-04-15
 
 const (
-	VerifyCodePeriodLimitCountKeyPrefix          = "MicroMallApi:VerifyCodePeriodLimitCount:"
-	VerifyCodeIntervalKeyPrefix                  = "MicroMallApi:VerifyCodeInterval:"
+	VerifyCodePeriodLimitCountKeyPrefix          = "micro-mall-api:verify_code_period_limit_count:"
+	VerifyCodeIntervalKeyPrefix                  = "micro-mall-api:verify_code_interval:"
+	VerifyCodeFailureKey                         = "micro-mall-api:verify_code_failure:"
+	VerifyCodeFailureMax                         = 3
 	DefaultVerifyCodeSendPeriodLimitCount        = 10
 	DefaultVerifyCodeSendPeriodLimitExpireSecond = 3600
 	DefaultVerifyCodeSendIntervalExpireSecond    = 60
+)
+
+var (
+	VerifyFailureForbidden = fmt.Errorf("verify code failure too many")
 )
 
 type CheckVerifyCodeLimiter interface {
@@ -34,6 +41,10 @@ type CheckVerifyCodeLimiter interface {
 	GetVerifyCodeInterval(key string) (int64, error)
 	//The remaining time of the next request for verification code within the set time interval
 	SetVerifyCodeInterval(key string, intervalTime int64) error
+	// VerifyFailure is verify code failure
+	VerifyFailure(key string) error
+	// CheckVerifyState is verify code failure max
+	CheckVerifyState(key string) error
 }
 
 type CheckVerifyCodeRedisLimiter struct {
@@ -42,9 +53,7 @@ type CheckVerifyCodeRedisLimiter struct {
 func (c *CheckVerifyCodeRedisLimiter) GetVerifyCodePeriodLimitCount(key string) (int, error) {
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-
 	key = fmt.Sprintf("%s%s", VerifyCodePeriodLimitCountKeyPrefix, key)
-
 	count, err := redis.Int(conn.Do("GET", key))
 	if err != nil && err != redis.ErrNil {
 		return 0, err
@@ -52,16 +61,69 @@ func (c *CheckVerifyCodeRedisLimiter) GetVerifyCodePeriodLimitCount(key string) 
 	return count, nil
 }
 
+func (c *CheckVerifyCodeRedisLimiter) VerifyFailure(key string) error {
+	frequency, err := c.getVerifyFailureFrequency(key)
+	if err != nil {
+		return err
+	}
+	if frequency >= VerifyCodeFailureMax {
+		return VerifyFailureForbidden
+	}
+	frequency++
+	conn := vars.RedisPoolMicroMall.Get()
+	defer conn.Close()
+	_, err = conn.Do("SET", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key), fmt.Sprintf("%d", frequency))
+	if err != nil {
+		return err
+	}
+
+	expireTime := 24 * 3600
+	_, err = conn.Do("EXPIRE", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key), expireTime)
+	if err != nil {
+		_, err := redis.Bool(conn.Do("DEL", key))
+		if err != nil {
+			return err
+		}
+		return err
+	}
+	return nil
+}
+
+func (c *CheckVerifyCodeRedisLimiter) CheckVerifyState(key string) error {
+	frequency, err := c.getVerifyFailureFrequency(key)
+	if err != nil {
+		return err
+	}
+	if frequency >= VerifyCodeFailureMax {
+		return VerifyFailureForbidden
+	}
+	return nil
+}
+
+func (c *CheckVerifyCodeRedisLimiter) getVerifyFailureFrequency(key string) (int, error) {
+	var frequency int
+	conn := vars.RedisPoolMicroMall.Get()
+	defer conn.Close()
+	str, err := redis.String(conn.Do("GET", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key)))
+	if err != nil && err != redis.ErrNil {
+		return 0, err
+	}
+	if str != "" && err != redis.ErrNil {
+		frequency, err = strconv.Atoi(str)
+		if err != nil {
+			return 0, err
+		}
+	}
+	return frequency, nil
+}
+
 func (c *CheckVerifyCodeRedisLimiter) SetVerifyCodePeriodLimitCount(key string, limitCount int, expireTime int64) error {
 	if expireTime <= 0 {
 		expireTime = DefaultVerifyCodeSendPeriodLimitExpireSecond
 	}
-
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-
 	key = fmt.Sprintf("%s%s", VerifyCodePeriodLimitCountKeyPrefix, key)
-
 	_, err := conn.Do("SET", key, limitCount)
 	if err != nil {
 		return err
@@ -80,9 +142,7 @@ func (c *CheckVerifyCodeRedisLimiter) SetVerifyCodePeriodLimitCount(key string, 
 func (c *CheckVerifyCodeRedisLimiter) GetVerifyCodeInterval(key string) (int64, error) {
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-
 	key = fmt.Sprintf("%s%s", VerifyCodeIntervalKeyPrefix, key)
-
 	expireTime, err := redis.Int64(conn.Do("TTL", key))
 	if err != nil || expireTime <= 0 {
 		return 0, err
@@ -94,12 +154,9 @@ func (c *CheckVerifyCodeRedisLimiter) SetVerifyCodeInterval(key string, interval
 	if intervalTime <= 0 {
 		intervalTime = DefaultVerifyCodeSendIntervalExpireSecond
 	}
-
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-
 	key = fmt.Sprintf("%s%s", VerifyCodeIntervalKeyPrefix, key)
-
 	endTime := time.Now().Add(time.Duration(intervalTime) * time.Second).Unix()
 	_, err := conn.Do("SET", key, endTime)
 	if err != nil {
@@ -119,6 +176,7 @@ func (c *CheckVerifyCodeRedisLimiter) SetVerifyCodeInterval(key string, interval
 var (
 	verifyCodeLimitedMapCache  = new(sync.Map)
 	verifyCodeIntervalMapCache = new(sync.Map)
+	verifyCodeFailureMapCache  = new(sync.Map)
 )
 
 type CheckVerifyCodeMapCacheLimiter struct {
@@ -178,5 +236,31 @@ func (c CheckVerifyCodeMapCacheLimiter) SetVerifyCodeInterval(key string, interv
 	}
 	expireTime := time.Now().Add(time.Duration(intervalTime) * time.Second).Unix()
 	verifyCodeIntervalMapCache.Store(key, expireTime)
+	return nil
+}
+
+func (c CheckVerifyCodeMapCacheLimiter) VerifyFailure(key string) error {
+	var frequency int
+	v, ok := verifyCodeFailureMapCache.Load(key)
+	if ok {
+		frequency = v.(int)
+	}
+	if frequency >= VerifyCodeFailureMax {
+		return VerifyFailureForbidden
+	}
+	frequency++
+	verifyCodeFailureMapCache.Store(key, frequency)
+	return nil
+}
+
+func (c CheckVerifyCodeMapCacheLimiter) CheckVerifyState(key string) error {
+	var frequency int
+	v, ok := verifyCodeFailureMapCache.Load(key)
+	if ok {
+		frequency = v.(int)
+	}
+	if frequency >= VerifyCodeFailureMax {
+		return VerifyFailureForbidden
+	}
 	return nil
 }

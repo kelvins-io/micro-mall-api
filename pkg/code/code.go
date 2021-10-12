@@ -29,6 +29,7 @@ const (
 	ErrorSkuAmountNotEnough   = 50005
 	ErrorVerifyCodeInterval   = 50006
 	ErrorVerifyCodeLimited    = 50007
+	ErrorVerifyCodeForbidden  = 50008
 	UserBalanceNotEnough      = 600001
 	UserAccountStateLock      = 600002
 	UserAccountNotExist       = 600003
@@ -41,7 +42,7 @@ const (
 	TradePaySuccess           = 600013
 	LogisticsRecordExist      = 600014
 	LogisticsRecordNotExist   = 600015
-	UserLoginNotAllow         = 600016
+	UserStateForbiddenLogin   = 600016
 	TradePayExpire            = 600017
 	TradeOrderTxCodeEmpty     = 600018
 	TradeOrderExist           = 600019

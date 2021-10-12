@@ -129,8 +129,8 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_PWD_NOT_MATCH:
 		return "", code.ErrorUserPwd
-	case users.RetCode_USER_LOGIN_NOT_ALLOW:
-		return "", code.UserLoginNotAllow
+	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
+		return "", code.UserStateForbiddenLogin
 	default:
 		return "", code.ERROR
 	}
@@ -213,8 +213,8 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_PWD_NOT_MATCH:
 		return "", code.ErrorUserPwd
-	case users.RetCode_USER_LOGIN_NOT_ALLOW:
-		return "", code.UserLoginNotAllow
+	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
+		return "", code.UserStateForbiddenLogin
 	default:
 		return "", code.ERROR
 	}
@@ -458,6 +458,8 @@ func verifyUserState(ctx context.Context, uid int64) int {
 		return code.ErrorUserNotExist
 	case users.RetCode_USER_STATE_NOT_VERIFY:
 		return code.UserStateNotVerify
+	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
+		return code.UserStateForbiddenLogin
 	default:
 		return code.ERROR
 	}

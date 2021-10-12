@@ -45,12 +45,6 @@ service UsersService {
             body: "*"
         };
     }
-    // 检查用户身份
-    rpc CheckUserIdentity(CheckUserIdentityRequest) returns (CheckUserIdentityResponse) {
-        option (google.api.http) = {
-            get: "/v1/user/identity"
-        };
-    }
     // 重置登录密码
     rpc PasswordReset(PasswordResetRequest) returns (PasswordResetResponse) {
         option (google.api.http) = {
@@ -169,7 +163,7 @@ enum RetCode {
     ACCOUNT_EXIST = 50005;
     ACCOUNT_NOT_EXIST = 50006;
     USER_PWD_NOT_MATCH = 50007;
-    USER_LOGIN_NOT_ALLOW = 50008;
+//    USER_LOGIN_NOT_ALLOW = 50008;
     USER_DELIVERY_INFO_EXIST = 50009;
     USER_DELIVERY_INFO_NOT_EXIST = 50010;
     TRANSACTION_FAILED = 50011;
@@ -179,6 +173,7 @@ enum RetCode {
     USER_CHARGE_SUCCESS = 50015;
     USER_CHARGE_TRADE_NO_EMPTY = 50016;
     USER_STATE_NOT_VERIFY = 50017;
+    USER_STATE_FORBIDDEN_LOGIN = 50018;
 }
 
 enum OperationType {
@@ -340,16 +335,6 @@ message UserAccountInfo {
 message GetUserAccountIdResponse {
     CommonResponse common = 1;
     repeated UserAccountInfo  info_list = 2;
-}
-
-message CheckUserIdentityRequest {
-    string country_code = 1;
-    string phone = 2;
-    string pwd = 3;
-}
-
-message CheckUserIdentityResponse {
-    CommonResponse common = 1;
 }
 
 message GetUserByInviteCodeRequest {

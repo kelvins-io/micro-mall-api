@@ -999,7 +999,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "98501707783")
-	data.Set("business_type", "1")
+	data.Set("business_type", "2")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1072,8 +1072,8 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "25501707783")
-	data.Set("verify_code", "506041")
+	data.Set("phone", "98501707783")
+	data.Set("verify_code", "506042")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1091,7 +1091,7 @@ func TestLoginUserWithPwd(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "98501707783")
-	data.Set("password", "35501707783")
+	data.Set("password", "35501707783-")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
