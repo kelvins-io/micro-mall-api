@@ -138,7 +138,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	}
 
 	key := fmt.Sprintf("%s-%s-%d", req.CountryCode, req.Phone, req.BusinessType)
-	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
+	err = vars.G2CacheEngine.Set(verifyCodeCachePrefix+key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %v", err, key, json.MarshalToStringNoError(verifyCodeRecord))
 		retCode = code.ERROR
