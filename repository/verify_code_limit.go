@@ -72,13 +72,13 @@ func (c *CheckVerifyCodeRedisLimiter) VerifyFailure(key string) error {
 	frequency++
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-	_, err = conn.Do("SET", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key), fmt.Sprintf("%d", frequency))
+	_, err = conn.Do("SET", fmt.Sprintf("%v%v", VerifyCodeFailureKey, key), fmt.Sprintf("%d", frequency))
 	if err != nil {
 		return err
 	}
 
 	expireTime := 24 * 3600
-	_, err = conn.Do("EXPIRE", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key), expireTime)
+	_, err = conn.Do("EXPIRE", fmt.Sprintf("%v%v", VerifyCodeFailureKey, key), expireTime)
 	if err != nil {
 		_, err := redis.Bool(conn.Do("DEL", key))
 		if err != nil {
@@ -104,7 +104,7 @@ func (c *CheckVerifyCodeRedisLimiter) getVerifyFailureFrequency(key string) (int
 	var frequency int
 	conn := vars.RedisPoolMicroMall.Get()
 	defer conn.Close()
-	str, err := redis.String(conn.Do("GET", fmt.Sprintf("%v-%v", VerifyCodeFailureKey, key)))
+	str, err := redis.String(conn.Do("GET", fmt.Sprintf("%v%v", VerifyCodeFailureKey, key)))
 	if err != nil && err != redis.ErrNil {
 		return 0, err
 	}

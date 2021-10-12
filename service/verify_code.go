@@ -15,17 +15,15 @@ import (
 	"time"
 )
 
-const (
-	verifyCodeCachePrefix = "micro-mall-api:verify_code:"
-)
-
 type checkVerifyCodeArgs struct {
 	businessType                   int
 	countryCode, phone, verifyCode string
 }
 
+const verifyCodeCachePrefix = "micro-mall-api:verify-code:"
+
 func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
-	key := fmt.Sprintf("%s:%s-%s-%d", verifyCodeCachePrefix, req.countryCode, req.phone, req.businessType)
+	key := fmt.Sprintf("%s-%s-%d", req.countryCode, req.phone, req.businessType)
 	limiter := new(repository.CheckVerifyCodeRedisLimiter)
 	err := limiter.CheckVerifyState(key)
 	if err != nil {
@@ -39,7 +37,7 @@ func checkVerifyCode(ctx context.Context, req *checkVerifyCodeArgs) int {
 	}
 
 	var obj mysql.VerifyCodeRecord
-	err = vars.G2CacheEngine.Get(key, 60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
+	err = vars.G2CacheEngine.Get(verifyCodeCachePrefix+key, 60*vars.VerifyCodeSetting.ExpireMinute, &obj, func() (interface{}, error) {
 		record, err := repository.GetVerifyCode(req.businessType, req.countryCode, req.phone, req.verifyCode)
 		return record, err
 	})
@@ -101,7 +99,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	)
 
 	//Limits on the number of verification code requests and time interval
-	limitKey := fmt.Sprintf("%s%s%d", req.CountryCode, req.Phone, req.BusinessType)
+	limitKey := fmt.Sprintf("%s-%s-%d", req.CountryCode, req.Phone, req.BusinessType)
 	limitRetCode, limitCount := checkVerifyCodeLimit(limiter, limitKey, vars.VerifyCodeSetting.SendPeriodLimitCount)
 	if limitRetCode != code.SUCCESS {
 		vars.ErrorLogger.Infof(ctx, "checkVerifyCodeLimit %v %v is limited", req.CountryCode, req.Phone)
@@ -139,7 +137,7 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 		return
 	}
 
-	key := fmt.Sprintf("%s:%s-%s-%d", verifyCodeCachePrefix, req.CountryCode, req.Phone, req.BusinessType)
+	key := fmt.Sprintf("%s-%s-%d", req.CountryCode, req.Phone, req.BusinessType)
 	err = vars.G2CacheEngine.Set(key, &verifyCodeRecord, 60*vars.VerifyCodeSetting.ExpireMinute, false)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "G2CacheEngine Set err: %v, key: %s,val: %v", err, key, json.MarshalToStringNoError(verifyCodeRecord))
