@@ -91,7 +91,7 @@ service UsersService {
             get: "/v1/user/info/check"
         };
     }
-    // 检查用户
+    // 检查用户状态
     rpc CheckUserState(CheckUserStateRequest) returns (CheckUserStateResponse) {
         option (google.api.http) = {
             get: "/v1/user/state/check"

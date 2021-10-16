@@ -267,7 +267,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "7ed23b37-60eb-4260-817f-7c51125b1e07")
+	data.Set("tx_code", "a9ae7bba-9808-4f4d-94ad-896fbd2b306d")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1363,7 +1363,7 @@ func TestSkuRemoveUserTrolley(t *testing.T) {
 	t.Logf("request url: %s", r)
 	skuCode := "ec4abc12-9836-4546-a587-f72e375f7884"
 	shopId := "30073"
-	r += "?sku_code=" + skuCode + "&shop_id=" + shopId + "&amount=-1"
+	r += "?sku_code=" + skuCode + "&shop_id=" + shopId + "&amount=1"
 	req, err := http.NewRequest("DELETE", r, nil)
 	if err != nil {
 		t.Error(err)

@@ -5826,7 +5826,7 @@ type UsersServiceClient interface {
 	UserAccountCharge(ctx context.Context, in *UserAccountChargeRequest, opts ...grpc.CallOption) (*UserAccountChargeResponse, error)
 	// 检查用户收货地址
 	CheckUserDeliveryInfo(ctx context.Context, in *CheckUserDeliveryInfoRequest, opts ...grpc.CallOption) (*CheckUserDeliveryInfoResponse, error)
-	// 检查用户
+	// 检查用户状态
 	CheckUserState(ctx context.Context, in *CheckUserStateRequest, opts ...grpc.CallOption) (*CheckUserStateResponse, error)
 	// 获取用户accountId
 	GetUserAccountId(ctx context.Context, in *GetUserAccountIdRequest, opts ...grpc.CallOption) (*GetUserAccountIdResponse, error)
@@ -6025,7 +6025,7 @@ type UsersServiceServer interface {
 	UserAccountCharge(context.Context, *UserAccountChargeRequest) (*UserAccountChargeResponse, error)
 	// 检查用户收货地址
 	CheckUserDeliveryInfo(context.Context, *CheckUserDeliveryInfoRequest) (*CheckUserDeliveryInfoResponse, error)
-	// 检查用户
+	// 检查用户状态
 	CheckUserState(context.Context, *CheckUserStateRequest) (*CheckUserStateResponse, error)
 	// 获取用户accountId
 	GetUserAccountId(context.Context, *GetUserAccountIdRequest) (*GetUserAccountIdResponse, error)
