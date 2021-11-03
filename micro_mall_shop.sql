@@ -41,6 +41,6 @@ CREATE TABLE `shop_business` (
   UNIQUE KEY `legal_person_nick_name_index` (`legal_person`,`nick_name`) USING BTREE COMMENT '法人店铺名索引',
   UNIQUE KEY `shop_code_index` (`shop_code`) USING BTREE COMMENT '店铺唯一code',
   KEY `legal_person_index` (`legal_person`) USING BTREE COMMENT '店铺f法人'
-) ENGINE=InnoDB AUTO_INCREMENT=30073 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='店铺主体登记表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='店铺主体登记表';
 
 SET FOREIGN_KEY_CHECKS = 1;

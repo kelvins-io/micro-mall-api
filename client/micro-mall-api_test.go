@@ -267,7 +267,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "a9ae7bba-9808-4f4d-94ad-896fbd2b306d")
+	data.Set("tx_code", "cc631271-0a9d-44a8-a2f7-9e9096a006f5")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -419,7 +419,7 @@ func TestUserAccountCharge(t *testing.T) {
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
 	data.Set("out_trade_no", uuid.New().String())
-	data.Set("amount", "1.99")
+	data.Set("amount", "1000.99")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1396,7 +1396,7 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 	//}
 	t.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
-		t.Error("StatusCode != 200")
+		t.Errorf("StatusCode(%v) != 200\n",rsp.StatusCode)
 		return
 	}
 	body, err := ioutil.ReadAll(rsp.Body)

@@ -50,6 +50,8 @@ func MerchantsMaterial(ctx context.Context, req *args.MerchantsMaterialArgs) (*a
 		return &result, code.ErrorMerchantExist
 	case users.RetCode_MERCHANT_NOT_EXIST:
 		return &result, code.ErrorMerchantNotExist
+	case users.RetCode_TRANSACTION_FAILED:
+		return &result, code.TransactionFailed
 	default:
 		return &result, code.ERROR
 	}

@@ -51,7 +51,7 @@ CREATE TABLE `order` (
   KEY `inventory_verify_order_code` (`inventory_verify`,`order_code`) USING BTREE COMMENT '订单库存核实-订单号',
   KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引',
   KEY `tx_code_order_code_index` (`tx_code`,`order_code`) USING BTREE COMMENT '交易号订单号唯一索引'
-) ENGINE=InnoDB AUTO_INCREMENT=567852 DEFAULT CHARSET=utf8 COMMENT='订单表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 -- ----------------------------
 -- Table structure for order_estimate
@@ -90,7 +90,7 @@ CREATE TABLE `order_scene_shop` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=567545 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='订单店铺信息';
 
 -- ----------------------------
 -- Table structure for order_sku
@@ -111,6 +111,6 @@ CREATE TABLE `order_sku` (
   KEY `shop_id_index` (`shop_id`) USING BTREE COMMENT '店铺索引',
   KEY `shop_order_code_index` (`shop_id`,`order_code`) USING BTREE COMMENT '店铺-订单code',
   KEY `order_code_index` (`order_code`) USING BTREE COMMENT '订单code索引'
-) ENGINE=InnoDB AUTO_INCREMENT=851695 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8 COMMENT='订单商品明细';
 
 SET FOREIGN_KEY_CHECKS = 1;

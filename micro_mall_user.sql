@@ -66,7 +66,7 @@ CREATE TABLE `user` (
   KEY `email_index` (`email`) USING BTREE COMMENT '邮箱索引',
   KEY `id_card_no_index` (`id_card_no`) USING BTREE COMMENT '身份证号索引',
   KEY `invite_code_index` (`invite_code`) USING BTREE COMMENT '邀请码索引'
-) ENGINE=InnoDB AUTO_INCREMENT=79843 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户信息表';
 
 -- ----------------------------
 -- Table structure for user_logistics_delivery

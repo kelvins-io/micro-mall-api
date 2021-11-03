@@ -77,6 +77,8 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	switch registerRsp.Common.Code {
 	case users.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
+	case users.RetCode_TRANSACTION_FAILED:
+		return &result, code.TransactionFailed
 	default:
 		return &result, code.ERROR
 	}
@@ -260,6 +262,8 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	switch pwdResetRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
 		return code.ErrorUserNotExist
+	case users.RetCode_TRANSACTION_FAILED:
+		return code.TransactionFailed
 	default:
 		return code.ERROR
 	}

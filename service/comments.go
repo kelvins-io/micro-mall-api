@@ -151,6 +151,8 @@ func ModifyCommentsTags(ctx context.Context, req *args.ModifyCommentsTagsArgs) (
 		retCode = code.CommentsTagNotExist
 	case comments_business.RetCode_COMMENT_TAG_EXIST:
 		retCode = code.CommentsTagExist
+	case comments_business.RetCode_TRANSACTION_FAILED:
+		retCode = code.TransactionFailed
 	default:
 		retCode = code.ERROR
 	}

@@ -76,6 +76,8 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 		return &result, code.ErrorShopBusinessExist
 	case shop_business.RetCode_SHOP_NOT_EXIST:
 		return &result, code.ErrorShopBusinessNotExist
+	case shop_business.RetCode_TRANSACTION_FAILED:
+		return &result, code.TransactionFailed
 	default:
 		return &result, code.ERROR
 	}

@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL-本地
+ Source Server         : 本地MySQL
  Source Server Type    : MySQL
- Source Server Version : 80021
+ Source Server Version : 80026
  Source Host           : localhost:3306
  Source Schema         : micro_mall_pay
 
  Target Server Type    : MySQL
- Target Server Version : 80021
+ Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 18/07/2021 13:24:49
+ Date: 03/11/2021 04:43:44
 */
 
 SET NAMES utf8mb4;
@@ -36,7 +36,7 @@ CREATE TABLE `account` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `account_index` (`owner`,`account_type`,`coin_type`) USING BTREE COMMENT '账户索引',
   KEY `create_time_index` (`create_time`) USING BTREE COMMENT '创建时间'
-) ENGINE=InnoDB AUTO_INCREMENT=128259 DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb3 COMMENT='账户表';
 
 -- ----------------------------
 -- Table structure for pay_record
@@ -59,11 +59,11 @@ CREATE TABLE `pay_record` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `out_trade_no_index` (`out_trade_no`) USING BTREE COMMENT '外部商户单号',
+  UNIQUE KEY `out_trade_no_index` (`out_trade_no`) USING BTREE COMMENT '外部商户单号',
   KEY `merchant_index` (`merchant`) USING BTREE COMMENT '外部商户ID',
   KEY `user_index` (`user`) USING BTREE COMMENT '外部用户ID',
   KEY `tx_id_index` (`tx_id`) USING BTREE COMMENT '批次交易号'
-) ENGINE=InnoDB AUTO_INCREMENT=443774 DEFAULT CHARSET=utf8 COMMENT='支付记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb3 COMMENT='支付记录';
 
 -- ----------------------------
 -- Table structure for transaction
@@ -87,6 +87,6 @@ CREATE TABLE `transaction` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=643986 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='交易流水表';
 
 SET FOREIGN_KEY_CHECKS = 1;

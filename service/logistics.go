@@ -64,6 +64,8 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		retCode = code.LogisticsRecordExist
 	case logistics_business.RetCode_LOGISTICS_CODE_NOT_EXIST:
 		retCode = code.LogisticsRecordNotExist
+	case logistics_business.RetCode_TRANSACTION_FAILED:
+		retCode = code.TransactionFailed
 	default:
 		retCode = code.ERROR
 	}

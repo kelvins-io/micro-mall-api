@@ -145,6 +145,7 @@ message GetShopMaterialResponse {
 enum RetCode {
     SUCCESS = 0;
     ERROR = 500;
+    TRANSACTION_FAILED = 50000;
     USER_NOT_EXIST = 50001;
     USER_EXIST = 50002;
     MERCHANT_NOT_EXIST = 50003;

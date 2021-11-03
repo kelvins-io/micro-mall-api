@@ -62,7 +62,7 @@ CREATE TABLE `sku_inventory_record` (
   KEY `sku_code_index` (`sku_code`) USING BTREE COMMENT '商品sku',
   KEY `out_trade_no_index` (`out_trade_no`) USING BTREE COMMENT '外部订单号',
   KEY `verify_op_type_index` (`verify`,`op_type`) USING BTREE COMMENT '操作类型-库存验证'
-) ENGINE=InnoDB AUTO_INCREMENT=1100613 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
+) ENGINE=InnoDB AUTO_INCREMENT=1000 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='商品库存记录';
 
 -- ----------------------------
 -- Table structure for sku_price_history
