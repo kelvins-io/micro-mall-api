@@ -31,7 +31,7 @@ function loopPathExec() {
       echo "=> $file"
       git remote remove origin
       git remote add origin https://gitee.com/cristiane/$file.git
-
+      git push --set-upstream origin master
       # shellcheck disable=SC2028
       echo "执行一些批量任务"
       cd ../
