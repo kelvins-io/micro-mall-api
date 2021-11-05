@@ -29,7 +29,7 @@ func UserSettingAddressModifyApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	retCode := service.ModifyUserSettingAddress(c, &form)
+	retCode := service.ModifyUserSettingDeliveryAddress(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, "")
 }
 
@@ -53,6 +53,6 @@ func UserSettingAddressGetApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	rsp, retCode := service.GetUserSettingAddress(c, &form)
+	rsp, retCode := service.GetUserSettingDeliveryInfoAddress(c, form.Uid, form.DeliveryId)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

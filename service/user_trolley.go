@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -12,6 +13,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
 	"golang.org/x/sync/errgroup"
+	"time"
 )
 
 func SkuJoinUserTrolley(ctx context.Context, req *args.SkuJoinUserTrolleyArgs) (*args.SkuJoinUserTrolleyRsp, int) {
@@ -203,7 +205,29 @@ func SkuRemoveUserTrolley(ctx context.Context, req *args.SkuRemoveUserTrolleyArg
 	}
 }
 
-func GetUserTrolleyList(ctx context.Context, uid int64) (*args.UserTrolleyListRsp, int) {
+const userTrolleyListCache = "micro-mall-api:user-trolley-list:"
+
+func GetUserTrolleyList(ctx context.Context, uid int64) (result *args.UserTrolleyListRsp, retCode int) {
+	retCode = code.SUCCESS
+	result = &args.UserTrolleyListRsp{}
+	cacheKey := fmt.Sprintf("%v%v", userTrolleyListCache, uid)
+	err := vars.G2CacheEngine.Get(cacheKey, 15, result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		l, ret := getUserTrolleyList(ctx, uid)
+		if ret != code.SUCCESS {
+			return l, fmt.Errorf("%v", ret)
+		}
+		return l, nil
+	})
+	if err != nil {
+		retCode = code.ERROR
+		return
+	}
+	return
+}
+
+func getUserTrolleyList(ctx context.Context, uid int64) (*args.UserTrolleyListRsp, int) {
 	var result args.UserTrolleyListRsp
 	result.List = make([]args.UserTrolleyRecord, 0)
 	serverName := args.RpcServiceMicroMallTrolley

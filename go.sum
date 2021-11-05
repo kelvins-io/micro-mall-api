@@ -144,6 +144,8 @@ gitee.com/kelvins-io/kelvins v1.6.1 h1:o/GCHivg+LoEUTyanUNNirLOULrc82N/eJ/TB7+No
 gitee.com/kelvins-io/kelvins v1.6.1/go.mod h1:RSlMtWcFuAz3zVZFqSsvr8bvwSni/jWbSjKmdRiCvWw=
 gitee.com/kelvins-io/kelvins v1.6.2 h1:ItfaF22c9mv8RSySuSMxG5tJEprZ6+rt5ZWak/FaIzc=
 gitee.com/kelvins-io/kelvins v1.6.2/go.mod h1:RSlMtWcFuAz3zVZFqSsvr8bvwSni/jWbSjKmdRiCvWw=
+gitee.com/kelvins-io/kelvins v1.6.3 h1:/iu9sWAihhH8LnmH1lkD+PO311RzkG6ipFkQ/usyqI0=
+gitee.com/kelvins-io/kelvins v1.6.3/go.mod h1:Mj0iW68+qf8dT8mkVbBQEP//LglUOr/APlIooU9kuTs=
 gitee.com/kelvins-io/service-config v1.0.0/go.mod h1:htuk7Oj0ifRcwgqSJf45IsN1rSq9kEsje/fcQClQS+Y=
 github.com/360EntSecGroup-Skylar/excelize/v2 v2.3.1 h1:j56fC19WoD3z+u+ZHxm2XwRGyS1XmdSMk7058BLhdsM=
 github.com/360EntSecGroup-Skylar/excelize/v2 v2.3.1/go.mod h1:gXEhMjm1VadSGjAzyDlBxmdYglP8eJpYWxpwJnmXRWw=

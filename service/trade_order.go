@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -439,23 +440,47 @@ func GetOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (*args.Ge
 	return getOrderReport(ctx, req)
 }
 
-func SearchTradeOrderInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+func SearchTradeOrderInfo(ctx context.Context, keyWord string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	result = make([]*order_business.SearchTradeOrderInfo, 0)
+	searchKey := "micro-mall-api:search-trade-order:" + keyWord
+	err := vars.G2CacheEngine.Get(searchKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		list, ret := searchTradeOrderInfo(ctx, keyWord)
+		if ret != code.SUCCESS {
+			return &list, fmt.Errorf("%v", ret)
+		}
+		return &list, nil
+	})
+	if err != nil {
+		retCode = code.ERROR
+		return
+	}
+	return
+}
+
+func searchTradeOrderInfo(ctx context.Context, query string) (result interface{}, retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallOrder
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
-		return nil, code.ERROR
+		return
 	}
 	client := order_business.NewOrderBusinessServiceClient(conn)
 	rsp, err := client.SearchTradeOrder(ctx, &order_business.SearchTradeOrderRequest{Query: query})
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "SearchTradeOrder err: %v, query: %v", err, query)
-		return nil, code.ERROR
+		return
 	}
 	if rsp.Common.Code != order_business.RetCode_SUCCESS {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "SearchTradeOrder err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
-		return nil, code.ERROR
+		return
 	}
-	return rsp.List, code.SUCCESS
+	result = rsp.GetList()
+	return
 }

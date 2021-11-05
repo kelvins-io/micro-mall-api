@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -9,6 +10,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
+	"time"
 )
 
 func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*args.ShopBusinessInfoRsp, int) {
@@ -84,23 +86,49 @@ func ShopBusinessApply(ctx context.Context, req *args.ShopBusinessInfoArgs) (*ar
 }
 
 func SearchShop(ctx context.Context, req *args.SearchShopArgs) (interface{}, int) {
+	result := make([]*shop_business.SearchShopInfo, 0)
+	keyWord := req.Keyword
+	searchKey := "micro-mall-api:search-shop:" + keyWord
+	err := vars.G2CacheEngine.Get(searchKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		list, ret := searchShop(ctx, keyWord)
+		if ret != code.SUCCESS {
+			return &list, fmt.Errorf("%v", ret)
+		}
+		return &list, nil
+	})
+	if err != nil {
+		return nil, code.ERROR
+	}
+	return result, code.SUCCESS
+}
+
+func searchShop(ctx context.Context, keyWord string) (result []*shop_business.SearchShopInfo, retCode int) {
+	retCode = code.SUCCESS
+	result = make([]*shop_business.SearchShopInfo, 0)
 	serverName := args.RpcServiceMicroMallShop
+	var err error
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
-		return "", code.ERROR
+		return
 	}
 	//defer conn.Close()
 	client := shop_business.NewShopBusinessServiceClient(conn)
-	searchReq := &shop_business.SearchShopRequest{Keyword: req.Keyword}
-	searchRsp, err := client.SearchShop(ctx, searchReq)
+	searchReq := &shop_business.SearchShopRequest{Keyword: keyWord}
+	searchResp, err := client.SearchShop(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %v", err, json.MarshalToStringNoError(req))
-		return nil, code.ERROR
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "SearchShop  err: %v req: %v", err, json.MarshalToStringNoError(keyWord))
+		return
 	}
-	if searchRsp.Common.Code != shop_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "SearchShop req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(searchRsp))
-		return nil, code.ERROR
+	if searchResp.Common.Code != shop_business.RetCode_SUCCESS {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "SearchShop req: %v, rsp: %v", json.MarshalToStringNoError(keyWord), json.MarshalToStringNoError(searchResp))
+		return
 	}
-	return searchRsp.List, code.SUCCESS
+	result = searchResp.GetList()
+	return
 }

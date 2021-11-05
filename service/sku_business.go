@@ -2,12 +2,14 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_sku_proto/sku_business"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
+	"time"
 )
 
 func SkuPutAway(ctx context.Context, req *args.SkuBusinessPutAwayArgs) (*args.SkuBusinessPutAwayRsp, int) {
@@ -178,25 +180,48 @@ func SkuSupplementProperty(ctx context.Context, req *args.SkuPropertyExArgs) (*a
 	}
 }
 
-
 func SearchSkuInventory(ctx context.Context, req *args.SearchSkuInventoryArgs) (interface{}, int) {
+	result := make([]*sku_business.SearchSkuInventoryEntry, 0)
+	keyWord := req.Keyword
+	searchKey := "micro-mall-api:search-sku:" + keyWord
+	err := vars.G2CacheEngine.Get(searchKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		list, ret := searchSkuInventory(ctx, keyWord)
+		if ret != code.SUCCESS {
+			return &list, fmt.Errorf("%v", ret)
+		}
+		return &list, nil
+	})
+	if err != nil {
+		return nil, code.ERROR
+	}
+	return result, code.SUCCESS
+}
+
+func searchSkuInventory(ctx context.Context, keyWord string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallSku
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
-		return "", code.ERROR
+		return
 	}
 	//defer conn.Close()
 	client := sku_business.NewSkuBusinessServiceClient(conn)
-	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: req.Keyword}
+	searchReq := &sku_business.SearchSkuInventoryRequest{Keyword: keyWord}
 	searchRsp, err := client.SearchSkuInventory(ctx, searchReq)
 	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %v", err, json.MarshalToStringNoError(req))
-		return nil, code.ERROR
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory err:%v req: %v", err, json.MarshalToStringNoError(keyWord))
+		return
 	}
 	if searchRsp.Common.Code != sku_business.RetCode_SUCCESS {
-		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(searchRsp))
-		return nil, code.ERROR
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "SearchSkuInventory req: %v, rsp: %v", json.MarshalToStringNoError(keyWord), json.MarshalToStringNoError(searchRsp))
+		return
 	}
-	return searchRsp.List, code.SUCCESS
+	result = searchRsp.GetList()
+	return
 }

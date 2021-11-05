@@ -267,7 +267,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "cc631271-0a9d-44a8-a2f7-9e9096a006f5")
+	data.Set("tx_code", "4997dac4-29d1-4d88-9d7e-f3cffbce9fa6")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {

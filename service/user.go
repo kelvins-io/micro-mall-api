@@ -267,100 +267,120 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	default:
 		return code.ERROR
 	}
-
 }
-
-const userInfoCachePhoneKeyPrefix = "micro-mall-api:user_info:phone:%s-%s"
 
 func GetUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.GetUserInfoByPhoneResponse, int) {
 	var result users.GetUserInfoByPhoneResponse
 	var err error
 	var userInfoCacheKey = fmt.Sprintf(userInfoCachePhoneKeyPrefix, countryCode, phone)
-	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
-		serverName := args.RpcServiceMicroMallUsers
-		conn, err := util.GetGrpcClient(ctx, serverName)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
-			return &result, err
-		}
-		//defer conn.Close()
-		client := users.NewUsersServiceClient(conn)
-		userReq := &users.GetUserInfoByPhoneRequest{
-			CountryCode: countryCode,
-			Phone:       phone,
-		}
-		userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone err:%v, req: %v", err, json.MarshalToStringNoError(userReq))
-			return &result, fmt.Errorf("GetUserInfoByPhone err: %v countryCode:%v,phone: %v", err, countryCode, phone)
-		}
-		if userRsp.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone userRsp: %v, countryCode: %v,phone: %v", json.MarshalToStringNoError(userRsp), countryCode, phone)
-			return &result, fmt.Errorf("GetUserInfoByPhone ret: %d", userRsp.Common.Code)
-		}
-		if userRsp != nil {
-			return userRsp, nil
-		}
-		return &result, nil
+	err = vars.G2CacheEngine.Get(userInfoCacheKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		return getUserInfoByPhone(ctx, countryCode, phone)
 	})
 	if err != nil {
 		return &result, code.ERROR
 	}
-
 	return &result, code.SUCCESS
 }
 
-const userInfoCacheUidKeyPrefix = "micro-mall-api:user_info:uid:%d"
+const userInfoCachePhoneKeyPrefix = "micro-mall-api:user_info:phone:%s-%s"
 
-func GetUserInfo(ctx context.Context, uid int) (*args.UserInfoRsp, int) {
-	var result args.UserInfoRsp
+func getUserInfoByPhone(ctx context.Context, countryCode, phone string) (*users.GetUserInfoByPhoneResponse, error) {
+	result := users.GetUserInfoByPhoneResponse{}
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		return &result, err
+	}
+	//defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	userReq := &users.GetUserInfoByPhoneRequest{
+		CountryCode: countryCode,
+		Phone:       phone,
+	}
+	userRsp, err := client.GetUserInfoByPhone(ctx, userReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone err:%v, req: %v", err, json.MarshalToStringNoError(userReq))
+		return &result, fmt.Errorf("GetUserInfoByPhone err: %v countryCode:%v,phone: %v", err, countryCode, phone)
+	}
+	if userRsp.Common.Code != users.RetCode_SUCCESS {
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfoByPhone userRsp: %v, countryCode: %v,phone: %v", json.MarshalToStringNoError(userRsp), countryCode, phone)
+		return &result, fmt.Errorf("GetUserInfoByPhone ret: %d", userRsp.Common.Code)
+	}
+	if userRsp != nil {
+		return userRsp, nil
+	}
+	return &result, nil
+}
+
+func GetUserInfo(ctx context.Context, uid int) (result *args.UserInfoRsp, retCode int) {
+	retCode = code.SUCCESS
+	result = &args.UserInfoRsp{}
+	const userInfoCacheUidKeyPrefix = "micro-mall-api:user_info:uid:%d"
 	var userInfoCacheKey = fmt.Sprintf(userInfoCacheUidKeyPrefix, uid)
-	var err error
-	err = vars.G2CacheEngine.Get(userInfoCacheKey, 60, &result, func() (interface{}, error) {
-		serverName := args.RpcServiceMicroMallUsers
-		conn, err := util.GetGrpcClient(ctx, serverName)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
-			return &result, err
+	err := vars.G2CacheEngine.Get(userInfoCacheKey, 15, result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		s, ret := getUserInfo(ctx, uid)
+		if ret != code.SUCCESS {
+			return s, fmt.Errorf("%v", ret)
 		}
-		//defer conn.Close()
-		client := users.NewUsersServiceClient(conn)
-		req := users.GetUserInfoRequest{
-			Uid: int64(uid),
-		}
-		userInfo, err := client.GetUserInfo(ctx, &req)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfo err: %v, req: %d", err, uid)
-			return &result, err
-		}
-		if userInfo.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfo  req: %d, rsp: %v", uid, json.MarshalToStringNoError(userInfo))
-			return &result, fmt.Errorf("GetUserInfo  uid: %d, resp: %v", uid, json.MarshalToStringNoError(userInfo))
-		}
-		result = args.UserInfoRsp{
-			Id:          uid,
-			AccountId:   userInfo.GetInfo().GetAccountId(),
-			UserName:    userInfo.GetInfo().GetUserName(),
-			Sex:         int(userInfo.GetInfo().GetSex()),
-			Phone:       userInfo.GetInfo().GetPhone(),
-			CountryCode: userInfo.GetInfo().GetCountryCode(),
-			Email:       userInfo.GetInfo().GetEmail(),
-			State:       int(userInfo.GetInfo().GetState()),
-			IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
-			Inviter:     int(userInfo.GetInfo().GetInviter()),
-			InviteCode:  userInfo.GetInfo().GetInviterCode(),
-			ContactAddr: userInfo.GetInfo().GetContactAddr(),
-			Age:         int(userInfo.GetInfo().GetAge()),
-			CreateTime:  userInfo.GetInfo().GetCreateTime(),
-			UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
-		}
-		return &result, nil
+		return s, nil
 	})
 	if err != nil {
-		return &result, code.ERROR
+		retCode = code.ERROR
+		return
 	}
+	return
+}
 
-	return &result, code.SUCCESS
+func getUserInfo(ctx context.Context, uid int) (result *args.UserInfoRsp, retCode int) {
+	retCode = code.SUCCESS
+	var err error
+	result = &args.UserInfoRsp{}
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		return
+	}
+	//defer conn.Close()
+	client := users.NewUsersServiceClient(conn)
+	req := users.GetUserInfoRequest{
+		Uid: int64(uid),
+	}
+	userInfo, err := client.GetUserInfo(ctx, &req)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo err: %v, req: %d", err, uid)
+		return
+	}
+	if userInfo.Common.Code != users.RetCode_SUCCESS {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetUserInfo  req: %d, rsp: %v", uid, json.MarshalToStringNoError(userInfo))
+		return
+	}
+	result = &args.UserInfoRsp{
+		Id:          uid,
+		AccountId:   userInfo.GetInfo().GetAccountId(),
+		UserName:    userInfo.GetInfo().GetUserName(),
+		Sex:         int(userInfo.GetInfo().GetSex()),
+		Phone:       userInfo.GetInfo().GetPhone(),
+		CountryCode: userInfo.GetInfo().GetCountryCode(),
+		Email:       userInfo.GetInfo().GetEmail(),
+		State:       int(userInfo.GetInfo().GetState()),
+		IdCardNo:    userInfo.GetInfo().GetIdCardNo(),
+		Inviter:     int(userInfo.GetInfo().GetInviter()),
+		InviteCode:  userInfo.GetInfo().GetInviterCode(),
+		ContactAddr: userInfo.GetInfo().GetContactAddr(),
+		Age:         int(userInfo.GetInfo().GetAge()),
+		CreateTime:  userInfo.GetInfo().GetCreateTime(),
+		UpdateTime:  userInfo.GetInfo().GetUpdateTime(),
+	}
+	return
 }
 
 func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.ListUserInfoRsp, retCode int) {
@@ -407,37 +427,14 @@ func ListUserInfo(ctx context.Context, req *args.ListUserInfoArgs) (result args.
 }
 
 func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32) int {
-	serverName := args.RpcServiceMicroMallUsers
-	conn, err := util.GetGrpcClient(ctx, serverName)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
-		return code.ERROR
+	list, ret := GetUserSettingDeliveryInfoAddress(ctx, int(uid), int(userDeliveryId))
+	if ret != code.SUCCESS {
+		return ret
 	}
-	//defer conn.Close()
-	client := users.NewUsersServiceClient(conn)
-	r := users.GetUserDeliveryInfoRequest{
-		Uid:            uid,
-		UserDeliveryId: userDeliveryId,
-	}
-	resp, err := client.GetUserDeliveryInfo(ctx, &r)
-	if err != nil {
-		vars.ErrorLogger.Errorf(ctx, "GetUserDeliveryInfo err: %v, req: %v", err, json.MarshalToStringNoError(r))
-		return code.ERROR
-	}
-
-	switch resp.Common.Code {
-	case users.RetCode_SUCCESS:
-		if len(resp.InfoList) == 0 || resp.InfoList[0].Id <= 0 {
-			return code.UserDeliveryInfoNotExist
-		}
-		return code.SUCCESS
-	case users.RetCode_USER_NOT_EXIST:
-		return code.ErrorUserNotExist
-	case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
+	if len(list) == 0 {
 		return code.UserDeliveryInfoNotExist
-	default:
-		return code.ERROR
 	}
+	return code.SUCCESS
 }
 
 func verifyUserState(ctx context.Context, uid int64) int {
@@ -469,44 +466,92 @@ func verifyUserState(ctx context.Context, uid int64) int {
 	}
 }
 
-func SearchUserInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+func SearchUserInfo(ctx context.Context, keyWord string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	result = make([]*users.SearchUserInfoEntry, 0)
+	searchKey := "micro-mall-api:search-user:" + keyWord
+	err := vars.G2CacheEngine.Get(searchKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		list, ret := searchUserInfo(ctx, keyWord)
+		if ret != code.SUCCESS {
+			return &list, fmt.Errorf("%v", ret)
+		}
+		return &list, nil
+	})
+	if err != nil {
+		retCode = code.ERROR
+		return
+	}
+	return
+}
+
+func searchUserInfo(ctx context.Context, query string) (result interface{}, retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
-		return nil, code.ERROR
+		return
 	}
 	client := users.NewUsersServiceClient(conn)
 	rsp, err := client.SearchUserInfo(ctx, &users.SearchUserInfoRequest{Query: query})
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v", err, query)
-		return nil, code.ERROR
+		return
 	}
 	if rsp.Common.Code != users.RetCode_SUCCESS {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
-		return nil, code.ERROR
+		return
 	}
-	return rsp.List, code.SUCCESS
+	result = rsp.GetList()
+	return
 }
 
-func SearchMerchantInfo(ctx context.Context, query string) (result interface{}, retCode int) {
+func SearchMerchantInfo(ctx context.Context, keyWord string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	result = make([]*users.SearchMerchantsInfoEntry, 0)
+	searchKey := "micro-mall-api:search-merchant:" + keyWord
+	err := vars.G2CacheEngine.Get(searchKey, 15, &result, func() (interface{}, error) {
+		ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+		defer cancel()
+		list, ret := searchMerchantInfo(ctx, keyWord)
+		if ret != code.SUCCESS {
+			return &list, fmt.Errorf("%v", ret)
+		}
+		return &list, nil
+	})
+	if err != nil {
+		retCode = code.ERROR
+		return
+	}
+	return
+}
+
+func searchMerchantInfo(ctx context.Context, query string) (result interface{}, retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
-		return nil, code.ERROR
+		return
 	}
 	client := users.NewMerchantsServiceClient(conn)
 	rsp, err := client.SearchMerchantInfo(ctx, &users.SearchMerchantInfoRequest{Query: query})
 	if err != nil {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v", err, query)
-		return nil, code.ERROR
+		return
 	}
 	if rsp.Common.Code != users.RetCode_SUCCESS {
+		retCode = code.ERROR
 		vars.ErrorLogger.Errorf(ctx, "UserSearch err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
-		return nil, code.ERROR
+		return
 	}
-	return rsp.List, code.SUCCESS
+	result = rsp.GetList()
+	return
 }

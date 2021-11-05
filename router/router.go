@@ -18,7 +18,9 @@ func InitRouter() *gin.Engine {
 
 	r := gin.Default()
 	r.Use(middleware.Cors())
-	r.Use(middleware.RateLimit(vars.RateLimitSetting.MaxConcurrent))
+	if vars.RateLimitSetting != nil && vars.RateLimitSetting.MaxConcurrent > 0 {
+		r.Use(middleware.RateLimit(vars.RateLimitSetting.MaxConcurrent))
+	}
 	r.GET("/", v1.IndexApi)
 	pprof.Register(r, "/debug")
 	r.GET("/debug/metrics", process.MetricsApi)
@@ -117,8 +119,8 @@ func ginEngineInit() {
 	gin.DefaultErrorWriter = errLogWriter
 
 	gin.SetMode(gin.ReleaseMode) // 默认生产
-	if vars.Environment != "" {
-		switch vars.Environment {
+	if environ != "" {
+		switch environ {
 		case config.DefaultEnvironmentDev:
 			gin.SetMode(gin.DebugMode)
 		case config.DefaultEnvironmentTest:
