@@ -3,6 +3,10 @@ package app
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strconv"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/pkg/util/kprocess"
@@ -10,9 +14,6 @@ import (
 	"github.com/robfig/cron/v3"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-	"net/http"
-	"strconv"
-	"time"
 )
 
 const localAddr = "0.0.0.0:"
@@ -114,9 +115,11 @@ func runApp(webApp *vars.WEBApplication) error {
 	if err != nil {
 		logging.Fatalf("App kprocess listen err: %v", err)
 	}
+	logging.Infof("server process listen network: %v, addr: %v\n", network, addr)
 	ginEngine := webApp.RegisterHttpRoute()
 	var handler http.Handler
 	if vars.ServerSetting != nil && vars.ServerSetting.SupportH2 {
+		logging.Info("server http handler support h2")
 		handler = h2c.NewHandler(ginEngine, &http2.Server{IdleTimeout: time.Duration(vars.ServerSetting.IdleTimeout) * time.Second})
 	} else {
 		handler = ginEngine
@@ -127,13 +130,21 @@ func runApp(webApp *vars.WEBApplication) error {
 		WriteTimeout: time.Duration(vars.ServerSetting.WriteTimeout) * time.Second,
 		IdleTimeout:  time.Duration(vars.ServerSetting.IdleTimeout) * time.Second,
 	}
+	serverCloe := make(chan struct{})
 	go func() {
+		defer func() {
+			close(serverCloe)
+		}()
 		err = serve.Serve(ln)
 		if err != nil {
 			logging.Infof("App run Serve: %v\n", err)
 		}
 	}()
-	<-kp.Exit()
+
+	select {
+	case <-kp.Exit():
+	case <-serverCloe:
+	}
 
 	appPrepareForceExit()
 	err = serve.Shutdown(context.Background())
@@ -141,6 +152,7 @@ func runApp(webApp *vars.WEBApplication) error {
 		logging.Infof("App server Shutdown: %v\n", err)
 	}
 	logging.Info("App server Shutdown ok")
+
 	err = appShutdown(webApp.Application)
 
 	return err
