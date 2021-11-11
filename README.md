@@ -689,7 +689,7 @@ POST   /api/v1/register
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
 user_name |用户名 | string | 
-password |手机号 | string | 11位手机号
+password |密码 | string | 可以是密文
 sex |性别 | int | 1男，2女
 email |接收验证码邮箱 | string | xxxx@xx.com
 country_code |国际码 | string | 
