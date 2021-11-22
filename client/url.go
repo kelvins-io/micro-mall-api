@@ -34,6 +34,8 @@ const (
 	searchTradeOrder        = "/search/trade_order"
 	searchMerchantInfo      = "/search/merchant_info"
 	reportOrder             = "/user/order/report"
+	rankOrderShop           = "/user/order/rank/shop"
+	rankOrderSku            = "/user/order/rank/sku"
 	userAccountCharge       = "/user/account/charge"
 	commentsOrderCreate     = "/user/comments/order/create"
 	commentsShopList        = "/user/comments/shop/list"

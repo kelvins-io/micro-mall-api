@@ -21,6 +21,7 @@ const (
 	ErrorShopIdNotExist       = 4014
 	ErrorShopIdExist          = 4015
 	ErrorInviteCodeNotExist   = 4016
+	ErrTimeFormat             = 4017
 	DbDuplicateEntry          = 50000
 	ErrorEmailSend            = 50001
 	ErrorVerifyCodeEmpty      = 50002

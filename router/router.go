@@ -2,6 +2,9 @@ package router
 
 import (
 	"context"
+	"io"
+	"os"
+
 	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/middleware"
 	v1 "gitee.com/cristiane/micro-mall-api/router/api/v1"
@@ -9,8 +12,6 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/gin-contrib/pprof"
 	"github.com/gin-gonic/gin"
-	"io"
-	"os"
 )
 
 func InitRouter() *gin.Engine {
@@ -76,6 +77,8 @@ func InitRouter() *gin.Engine {
 			apiOrder.POST("/create", v1.CreateTradeOrderApi)   // 生成订单
 			apiOrder.POST("/trade", v1.OrderTradeApi)          // 订单支付
 			apiOrder.POST("/report", v1.GetOrderReportApi)     // 获取订单列表
+			apiOrder.GET("/rank/shop", v1.GetOrderShopRankApi) // 订单店铺业绩排行
+			apiOrder.GET("/rank/sku", v1.GetOrderSkuRankApi)   // 订单商品排行
 		}
 		apiLogistics := apiUser.Group("/logistics")
 		{

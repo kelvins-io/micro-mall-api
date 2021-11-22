@@ -3,9 +3,6 @@ package client
 import (
 	"crypto/tls"
 	"fmt"
-	"gitee.com/kelvins-io/common/json"
-	"github.com/google/uuid"
-	"golang.org/x/net/http2"
 	"io/ioutil"
 	"log"
 	"math"
@@ -17,6 +14,10 @@ import (
 	"sync"
 	"testing"
 	"time"
+
+	"gitee.com/kelvins-io/common/json"
+	"github.com/google/uuid"
+	"golang.org/x/net/http2"
 )
 
 func TestGateway(t *testing.T) {
@@ -47,6 +48,8 @@ func TestGateway(t *testing.T) {
 	t.Run("搜索用户", TestSearchUserInfo)
 	t.Run("交易订单搜索", TestSearchTradeOrder)
 	t.Run("获取店铺订单报告", TestGetOrderReport)
+	t.Run("交易订单-商品-排行榜", TestOrderSkuRank)
+	t.Run("交易订单-店铺-排行榜", TestOrderShopRank)
 	t.Run("用户账户充值", TestUserAccountCharge)
 	t.Run("订单评价", TestCommentsOrderCreate)
 	t.Run("获取店铺评论列表", TestGetShopCommentsList)
@@ -1155,8 +1158,8 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "506041")
-	data.Set("password", "18834515654")
+	data.Set("verify_code", "765688")
+	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1314,6 +1317,48 @@ func TestGetOrderReport(t *testing.T) {
 	commonTest(r, req, t)
 }
 
+func TestOrderShopRank(t *testing.T) {
+	r := baseUrl + rankOrderShop + "?page_size=10&page_num=1"
+	t.Logf("request url: %s", r)
+	// 下面参数应该放在query中
+	//data := url.Values{}
+	//data.Set("shop_id", "30071")
+	//data.Set("start_time", "2000-11-22 08:46:41")
+	//data.Set("end_time", "2022-12-04 18:46:41")
+	//data.Set("page_size", "100")
+	//data.Set("page_num", "1")
+	req, err := http.NewRequest(http.MethodGet, r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestOrderSkuRank(t *testing.T) {
+	r := baseUrl + rankOrderSku + "?page_size=10&page_num=1&name="
+	t.Logf("request url: %s", r)
+	// 下面参数应该放在query中
+	//data := url.Values{}
+	//data.Set("shop_id", "30071")
+	//data.Set("sku_code", "30071")
+	//data.Set("name", "30071")
+	//data.Set("start_time", "2000-11-22 08:46:41")
+	//data.Set("end_time", "2022-12-04 18:46:41")
+	//data.Set("page_size", "100")
+	//data.Set("page_num", "1")
+	req, err := http.NewRequest(http.MethodGet, r, nil)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
 func TestSkuBusinessSupplement(t *testing.T) {
 	r := baseUrl + skuBusinessSupplement
 	t.Logf("request url: %s", r)
@@ -1396,15 +1441,15 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 	//}
 	t.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
-		t.Errorf("StatusCode(%v) != 200\n",rsp.StatusCode)
+		t.Errorf("StatusCode(%v) != 200\n", rsp.StatusCode)
 		return
 	}
 	body, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
 	if err != nil {
 		t.Error(err)
 		return
 	}
+	defer rsp.Body.Close()
 	t.Logf("req url: %v body : \n%s", r, body)
 	var obj HttpCommonRsp
 	err = json.Unmarshal(string(body), &obj)

@@ -1,13 +1,14 @@
 package v1
 
 import (
+	"net/http"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/app"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"net/http"
 )
 
 func CreateTradeOrderApi(c *gin.Context) {
@@ -100,5 +101,29 @@ func GetOrderReportApi(c *gin.Context) {
 		return
 	}
 	rsp, retCode := service.GetOrderReport(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+}
+
+func GetOrderShopRankApi(c *gin.Context) {
+	var form args.OrderShopRankArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	rsp, retCode := service.OrderShopRank(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+}
+
+func GetOrderSkuRankApi(c *gin.Context) {
+	var form args.OrderSkuRankArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	rsp, retCode := service.OrderSkuRank(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, rsp)
 }

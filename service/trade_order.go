@@ -3,6 +3,9 @@ package service
 import (
 	"context"
 	"fmt"
+	"strings"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -15,7 +18,6 @@ import (
 	"gitee.com/kelvins-io/common/json"
 	"gitee.com/kelvins-io/kelvins"
 	"golang.org/x/sync/errgroup"
-	"time"
 )
 
 func GenOrderCode(ctx context.Context, uid int64) (string, int) {
@@ -434,6 +436,109 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 		retCode = code.ERROR
 		return
 	}
+}
+
+func OrderShopRank(ctx context.Context, req *args.OrderShopRankArgs) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallOrder
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return
+	}
+	client := order_business.NewOrderBusinessServiceClient(conn)
+	reqRpc := &order_business.OrderShopRankRequest{
+		Option: &order_business.OrderShopRankOption{},
+		PageMeta: &order_business.PageMeta{
+			PageNum:  int32(req.PageNum),
+			PageSize: int32(req.PageSize),
+		},
+	}
+	if req.ShopId > 0 {
+		reqRpc.Option.ShopId = []int64{req.ShopId}
+	}
+	if req.Uid > 0 {
+		reqRpc.Option.Uid = []int64{req.Uid}
+	}
+	if req.StartTime != "" {
+		reqRpc.Option.StartTime = req.StartTime
+	}
+	if req.EndTime != "" {
+		reqRpc.Option.EndTime = req.EndTime
+	}
+	rsp, err := client.OrderShopRank(ctx, reqRpc)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "OrderShopRank err: %v, query: %v", err, json.MarshalToStringNoError(req))
+		return
+	}
+	if rsp.Common.Code == order_business.RetCode_SUCCESS {
+		result = rsp.GetList()
+		return
+	}
+	switch rsp.Common.GetCode() {
+	case order_business.RetCode_ERR_REQUEST_DATA_FORMAT:
+		retCode = code.InvalidParams
+	case order_business.RetCode_INVALID_TIME_FORMAT:
+		retCode = code.ErrTimeFormat
+	default:
+		retCode = code.ERROR
+	}
+	return
+}
+
+func OrderSkuRank(ctx context.Context, req *args.OrderSkuRankArgs) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallOrder
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return
+	}
+	client := order_business.NewOrderBusinessServiceClient(conn)
+	reqRpc := &order_business.OrderSkuRankRequest{
+		Option: &order_business.OrderSkuRankOption{},
+		PageMeta: &order_business.PageMeta{
+			PageNum:  int32(req.PageNum),
+			PageSize: int32(req.PageSize),
+		},
+	}
+	if req.ShopId > 0 {
+		reqRpc.Option.ShopId = []int64{req.ShopId}
+	}
+	if req.SkuCode != "" {
+		reqRpc.Option.SkuCode = strings.Split(req.SkuCode, ",")
+	}
+	if req.Name != "" {
+		reqRpc.Option.GoodsName = strings.Split(req.Name, ",")
+	}
+	if req.StartTime != "" {
+		reqRpc.Option.StartTime = req.StartTime
+	}
+	if req.EndTime != "" {
+		reqRpc.Option.EndTime = req.EndTime
+	}
+	rsp, err := client.OrderSkuRank(ctx, reqRpc)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "OrderSkuRank err: %v, query: %v", err, json.MarshalToStringNoError(req))
+		return
+	}
+	if rsp.Common.Code == order_business.RetCode_SUCCESS {
+		result = rsp.GetList()
+		return
+	}
+	switch rsp.Common.GetCode() {
+	case order_business.RetCode_ERR_REQUEST_DATA_FORMAT:
+		retCode = code.InvalidParams
+	case order_business.RetCode_INVALID_TIME_FORMAT:
+		retCode = code.ErrTimeFormat
+	default:
+		retCode = code.ERROR
+	}
+	return
 }
 
 func GetOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (*args.GetOrderReportRsp, int) {

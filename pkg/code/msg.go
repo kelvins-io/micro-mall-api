@@ -5,6 +5,7 @@ var MsgFlags = map[int]string{
 	ERROR:                     "服务器出错",
 	TooManyRequests:           "请求太多，稍后再试",
 	InvalidParams:             "请求参数错误",
+	ErrTimeFormat:             "时间参数格式错误",
 	IdNotEmpty:                "ID为空",
 	ErrorTokenEmpty:           "用户token为空",
 	ErrorTokenInvalid:         "用户token无效",

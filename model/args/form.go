@@ -1,9 +1,10 @@
 package args
 
 import (
+	"strconv"
+
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"github.com/astaxie/beego/validation"
-	"strconv"
 )
 
 type UserAccountChargeArgs struct {
@@ -676,6 +677,63 @@ func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
 		return
 	}
 	if t.ShopId <= 0 {
+		_ = v.SetError("ShopId", "店铺ID不能为空")
+		return
+	}
+	if t.PageNum < 1 {
+		_ = v.SetError("PageNum", "分页起始页码需要大于0")
+		return
+	}
+}
+
+type OrderShopRankArgs struct {
+	Uid       int64  `form:"uid" json:"uid"`
+	ShopId    int64  `form:"shop_id" json:"shop_id"`
+	StartTime string `form:"start_time" json:"start_time"`
+	EndTime   string `form:"end_time" json:"end_time"`
+	PageSize  int    `form:"page_size" json:"page_size"`
+	PageNum   int    `form:"page_num" json:"page_num"`
+}
+
+func (t *OrderShopRankArgs) Valid(v *validation.Validation) {
+	if t.PageSize > 1000 {
+		_ = v.SetError("PageSize", "分页大小超过限制(1000)")
+		return
+	}
+	if t.PageSize < 1 {
+		_ = v.SetError("PageSize", "分页单页数量应该大于0")
+		return
+	}
+	if t.ShopId < 0 {
+		_ = v.SetError("ShopId", "店铺ID不能为空")
+		return
+	}
+	if t.PageNum < 1 {
+		_ = v.SetError("PageNum", "分页起始页码需要大于0")
+		return
+	}
+}
+
+type OrderSkuRankArgs struct {
+	ShopId    int64  `form:"shop_id" json:"shop_id"`
+	SkuCode   string `form:"sku_code" json:"sku_code"`
+	Name      string `form:"name" json:"name"`
+	StartTime string `form:"start_time" json:"start_time"`
+	EndTime   string `form:"end_time" json:"end_time"`
+	PageSize  int    `form:"page_size" json:"page_size"`
+	PageNum   int    `form:"page_num" json:"page_num"`
+}
+
+func (t *OrderSkuRankArgs) Valid(v *validation.Validation) {
+	if t.PageSize > 1000 {
+		_ = v.SetError("PageSize", "分页大小超过限制(1000)")
+		return
+	}
+	if t.PageSize < 1 {
+		_ = v.SetError("PageSize", "分页单页数量应该大于0")
+		return
+	}
+	if t.ShopId < 0 {
 		_ = v.SetError("ShopId", "店铺ID不能为空")
 		return
 	}

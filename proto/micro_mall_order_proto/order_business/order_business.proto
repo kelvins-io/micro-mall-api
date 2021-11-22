@@ -78,12 +78,25 @@ service OrderBusinessService {
             get: "/v1/order/search"
         };
     }
+    // 订单店铺交易榜单
+    rpc OrderShopRank(OrderShopRankRequest) returns (OrderShopRankResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/shop/rank"
+        };
+    }
+    // 订单商品交易榜单
+    rpc OrderSkuRank(OrderSkuRankRequest) returns (OrderSkuRankResponse) {
+        option (google.api.http) = {
+            get: "/v1/order/sku/rank"
+        };
+    }
 }
 
 enum RetCode {
     SUCCESS = 0;
     ERROR = 500;
     ERR_REQUEST_DATA_FORMAT = 40000;
+    INVALID_TIME_FORMAT = 40001;
     USER_NOT_EXIST = 50001;
     USER_EXIST = 50002;
     MERCHANT_NOT_EXIST = 50003;
@@ -216,6 +229,55 @@ message SearchTradeOrderRequest {
 message SearchTradeOrderResponse {
     CommonResponse common = 1;
     repeated SearchTradeOrderInfo list = 2;
+}
+
+message OrderShopRankOption {
+    repeated int64 shop_id = 1;
+    repeated int64 uid = 2;
+    string start_time = 3;
+    string end_time = 4;
+}
+
+message OrderShopRankRequest {
+    OrderShopRankOption option = 1;
+    PageMeta page_meta = 2;
+}
+
+message OrderShopRankEntry {
+    int64 shop_id = 1;
+    int64 uid = 2;
+    string money = 3;
+    int64 amount = 4;
+}
+
+message OrderShopRankResponse {
+    CommonResponse common = 1;
+    repeated OrderShopRankEntry list = 2;
+}
+
+message OrderSkuRankOption {
+    repeated int64 shop_id = 1;
+    repeated string sku_code = 2;
+    repeated string goods_name = 3;
+    string start_time = 4;
+    string end_time = 5;
+}
+
+message OrderSkuRankRequest {
+    OrderSkuRankOption option = 1;
+    PageMeta page_meta = 2;
+}
+
+message OrderSkuRankEntry {
+    int64 shop_id = 1;
+    string sku_code = 2;
+    string goods_name = 3;
+    int64 amount = 4;
+}
+
+message OrderSkuRankResponse {
+    CommonResponse common = 1;
+    repeated OrderSkuRankEntry list = 2;
 }
 
 message SearchTradeOrderInfo {
