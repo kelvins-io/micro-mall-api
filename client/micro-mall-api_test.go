@@ -1054,7 +1054,7 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("age", "33")
 	data.Set("country_code", "86")
 	data.Set("phone", "98501707783")
-	data.Set("email", "565608463@gmail.com")
+	data.Set("email", "98501707783@gmail.com")
 	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
