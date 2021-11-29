@@ -17,7 +17,7 @@ func GetVerifyCode(businessType int, countryCode, phone, verifyCode string) (*my
 	var result mysql.VerifyCodeRecord
 	var err error
 	_, err = vars.DBEngineXORM.Table(mysql.TableVerifyCodeRecord).
-		Select("id,expire").
+		Select("id,expire,verify_code").
 		Where("business_type = ? AND country_code = ? AND phone = ? AND verify_code = ?", businessType, countryCode, phone, verifyCode).
 		Desc("id").
 		Get(&result)
