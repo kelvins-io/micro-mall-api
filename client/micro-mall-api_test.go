@@ -57,7 +57,7 @@ func TestGateway(t *testing.T) {
 	t.Run("获取评论标签", TestCommentsTagList)
 }
 
-const benchCount = 90000
+const benchCount = 1
 
 func BenchmarkGateway(b *testing.B) {
 	b.Run("批量充值", BenchmarkUserAccountCharge)
@@ -270,7 +270,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "4997dac4-29d1-4d88-9d7e-f3cffbce9fa6")
+	data.Set("tx_code", "ab9eb74e-01c7-44c7-934d-1fe08013cba7")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -422,7 +422,7 @@ func TestUserAccountCharge(t *testing.T) {
 	data.Set("account_type", "0")
 	data.Set("coin_type", "0")
 	data.Set("out_trade_no", uuid.New().String())
-	data.Set("amount", "1000.99")
+	data.Set("amount", "1009999990.99")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -573,14 +573,14 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
 		Price:   "2.9",
 		Amount:  1,
-		Name:    "清风抽纸",
+		Name:    GetFullName(),
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
 		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
 		Price:   "23.78",
 		Amount:  1,
-		Name:    "百威淡色拉格啤酒",
+		Name:    GetFullName(),
 		Version: 1,
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
@@ -591,9 +591,9 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
 				Id:       30071,
-				Name:     "福建交个朋友",
-				AreaCode: "福建",
-				Address:  "福建交个朋友",
+				Name:     GetFullName(),
+				AreaCode: GetFullName(),
+				Address:  GetFullName(),
 			},
 		},
 	}
@@ -601,7 +601,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
 		Price:   "19.9",
 		Amount:  1,
-		Name:    "三只松鼠无骨凤爪",
+		Name:    GetFullName(),
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
@@ -611,16 +611,16 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
 				Id:       30072,
-				Name:     "深圳市交个朋友科技有限公司",
-				AreaCode: "深圳市南山区",
-				Address:  "深圳市交个朋友科技有限公司",
+				Name:     GetFullName(),
+				AreaCode: GetFullName(),
+				Address:  GetFullName(),
 			},
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "双12预热",
-		DeviceId:       "Galaxy Note20 Ultra",
-		UserDeliveryId: 132,
+		Description:    GetFullName(),
+		DeviceId:       GetFullName(),
+		UserDeliveryId: 220,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	for i := 0; i < benchCount; i++ {
@@ -631,7 +631,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("token", token_10048)
+		req.Header.Set("token", qToken)
 		rsp, err := clientH2.Do(req)
 		if err != nil {
 			b.Error(err)
@@ -671,7 +671,7 @@ func BenchmarkTestOrderTrade_1(b *testing.B) {
 			return
 		}
 		req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		req.Header.Set("token", token_79845)
+		req.Header.Set("token", qToken)
 		commonBenchmarkTest(orderTradeUrl, req, b)
 	}
 	b.ReportAllocs()
@@ -1472,7 +1472,7 @@ func commonBenchmarkTest(r string, req *http.Request, b *testing.B) {
 	}
 	b.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
-		b.Error("StatusCode != 200")
+		b.Errorf("StatusCode != 200 %v\n", rsp.StatusCode)
 		return
 	}
 	body, err := ioutil.ReadAll(rsp.Body)
