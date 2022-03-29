@@ -18,30 +18,6 @@ MaxConcurrent = 0
 Secret = "&WJof0jaY4ByTHR2"
 TokenExpireSecond = 2592000
 
-[micro-mall-verify_code]
-ExpireMinute = 100
-SendPeriodLimitCount = 10
-SendPeriodLimitExpireSecond = 3600
-SendIntervalExpireSecond = 60
-
-[micro-mall-mysql]
-Host = "127.0.0.1:3306"
-UserName = "root"
-Password = "oyuioyuioy"
-DBName = "micro_mall"
-Charset = "utf8mb4"
-PoolNum =  10
-MaxIdleConns = 5
-ConnMaxLifeSecond = 3600
-MultiStatements = true
-ParseTime = true
-
-[micro-mall-redis]
-Host = "127.0.0.1:6379"
-Password = "oyuioyiuoyui"
-DB = 1
-PoolNum = 10
-
 [micro-mall-g2cache]
 CacheDebug = false
 CacheMonitor = false

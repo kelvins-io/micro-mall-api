@@ -3,28 +3,18 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
-	"time"
 )
 
 func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.RegisterUserRsp, int) {
 	var result args.RegisterUserRsp
-	// 检查验证码
-	reqCheckVerifyCode := checkVerifyCodeArgs{
-		businessType: args.VerifyCodeRegister,
-		countryCode:  req.CountryCode,
-		phone:        req.Phone,
-		verifyCode:   req.VerifyCode,
-	}
-	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
-		return &result, retCode
-	}
-
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
@@ -32,25 +22,6 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		return &result, code.ERROR
 	}
 	client := users.NewUsersServiceClient(conn)
-	//defer conn.Close()
-	inviteId := int64(0)
-	if req.InviteCode != "" {
-		// 检查邀请码
-		inviteUserReq := &users.GetUserByInviteCodeRequest{InviteCode: req.InviteCode}
-		inviteUser, err := client.GetUserInfoByInviteCode(ctx, inviteUserReq)
-		if err != nil {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode err: %v,req: %q", err, req.InviteCode)
-			return &result, code.ERROR
-		}
-		if inviteUser.Common.Code != users.RetCode_SUCCESS {
-			vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %q, resp: %v", req.InviteCode, json.MarshalToStringNoError(inviteUser))
-			return &result, code.ERROR
-		}
-		if inviteUser.Info.Uid <= 0 {
-			return &result, code.ErrorInviteCodeNotExist
-		}
-		inviteId = int64(int(inviteUser.Info.Uid))
-	}
 	// 注册用户
 	registerReq := &users.RegisterRequest{
 		UserName:    req.UserName,
@@ -59,10 +30,11 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		Phone:       req.Phone,
 		Email:       req.Email,
 		IdCardNo:    req.IdCardNo,
-		InviterUser: inviteId,
+		InviterUser: req.InviteCode,
 		ContactAddr: req.ContactAddr,
 		Age:         int32(req.Age),
 		Password:    req.Password,
+		VerifyCode:  req.VerifyCode,
 	}
 	registerRsp, err := client.Register(ctx, registerReq)
 	if err != nil {
@@ -73,10 +45,19 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 		result.InviteCode = registerRsp.Result.InviteCode
 		return &result, code.SUCCESS
 	}
+
 	vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %v, resp: %v", json.MarshalToStringNoError(registerReq), json.MarshalToStringNoError(registerRsp))
 	switch registerRsp.Common.Code {
 	case users.RetCode_USER_EXIST:
 		return &result, code.ErrorUserExist
+	case users.RetCode_USER_INVITE_CODE_INVALID:
+		return &result, code.ErrorInviteCodeNotExist
+	case users.RetCode_USER_VERIFY_CODE_INVALID:
+		return &result, code.ErrorVerifyCodeInvalid
+	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
+		return &result, code.ErrorVerifyCodeExpire
+	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
+		return &result, code.ErrorVerifyCodeForbidden
 	case users.RetCode_TRANSACTION_FAILED:
 		return &result, code.TransactionFailed
 	default:
@@ -86,22 +67,12 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 
 func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (string, int) {
 	var token string
-	reqCheckVerifyCode := checkVerifyCodeArgs{
-		businessType: args.VerifyCodeLogin,
-		countryCode:  req.CountryCode,
-		phone:        req.Phone,
-		verifyCode:   req.VerifyCode,
-	}
-	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
-		return token, retCode
-	}
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
 		LoginType: users.LoginType_VERIFY_CODE,
@@ -127,8 +98,16 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 	switch loginRsp.Common.Code {
+	case users.RetCode_USER_STATE_NOT_VERIFY:
+		return "", code.UserStateNotVerify
 	case users.RetCode_USER_NOT_EXIST:
 		return "", code.ErrorUserNotExist
+	case users.RetCode_USER_VERIFY_CODE_INVALID:
+		return "", code.ErrorVerifyCodeInvalid
+	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
+		return "", code.ErrorVerifyCodeExpire
+	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
+		return "", code.ErrorVerifyCodeForbidden
 	case users.RetCode_USER_PWD_NOT_MATCH:
 		return "", code.ErrorUserPwd
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
@@ -181,7 +160,6 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
 		return "", code.ERROR
 	}
-	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
 		LoginType: users.LoginType_PWD,
@@ -215,6 +193,8 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_PWD_NOT_MATCH:
 		return "", code.ErrorUserPwd
+	case users.RetCode_USER_STATE_NOT_VERIFY:
+		return "", code.UserStateNotVerify
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
 		return "", code.UserStateForbiddenLogin
 	default:
@@ -223,10 +203,6 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 }
 
 func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
-	userInfoRsp, ret := GetUserInfo(ctx, req.Uid)
-	if ret != code.SUCCESS {
-		return ret
-	}
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
@@ -235,19 +211,10 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	}
 	//defer conn.Close()
 	client := users.NewUsersServiceClient(conn)
-
-	reqCheckVerifyCode := checkVerifyCodeArgs{
-		businessType: args.VerifyCodePassword,
-		countryCode:  userInfoRsp.CountryCode,
-		phone:        userInfoRsp.Phone,
-		verifyCode:   req.VerifyCode,
-	}
-	if retCode := checkVerifyCode(ctx, &reqCheckVerifyCode); retCode != code.SUCCESS {
-		return retCode
-	}
 	pwdResetReq := &users.PasswordResetRequest{
-		Uid: int64(req.Uid),
-		Pwd: req.Password,
+		Uid:        int64(req.Uid),
+		Pwd:        req.Password,
+		VerifyCode: req.VerifyCode,
 	}
 	pwdResetRsp, err := client.PasswordReset(ctx, pwdResetReq)
 	if err != nil {
@@ -260,6 +227,14 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	}
 	vars.ErrorLogger.Errorf(ctx, "PasswordReset req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(pwdResetRsp))
 	switch pwdResetRsp.Common.Code {
+	case users.RetCode_USER_STATE_NOT_VERIFY:
+		return code.UserStateNotVerify
+	case users.RetCode_USER_VERIFY_CODE_INVALID:
+		return code.ErrorVerifyCodeInvalid
+	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
+		return code.ErrorVerifyCodeExpire
+	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
+		return code.ErrorVerifyCodeForbidden
 	case users.RetCode_USER_NOT_EXIST:
 		return code.ErrorUserNotExist
 	case users.RetCode_TRANSACTION_FAILED:

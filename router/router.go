@@ -29,10 +29,13 @@ func InitRouter() *gin.Engine {
 	r.Static("/static", "./static")
 	apiG := r.Group("/api")
 	apiV1 := apiG.Group("/v1")
-	apiV1.POST("/verify_code/send", v1.GetVerifyCodeApi)            // 验证码发送
-	apiV1.POST("/register", v1.RegisterUserApi)                     // 注册
-	apiV1.POST("/login/verify_code", v1.LoginUserWithVerifyCodeApi) // 验证码登陆
-	apiV1.POST("/login/pwd", v1.LoginUserWithPwdApi)                // 密码登陆
+	apiV1.POST("/verify_code/send", v1.GetVerifyCodeApi) // 验证码发送
+	apiV1.POST("/register", v1.RegisterUserApi)          // 注册
+	apiUserLogin := apiV1.Group("/login")
+	{
+		apiUserLogin.POST("/verify_code", v1.LoginUserWithVerifyCodeApi) // 验证码登陆
+		apiUserLogin.POST("/pwd", v1.LoginUserWithPwdApi)                // 密码登陆
+	}
 	apiUser := apiV1.Group("/user")
 	apiUser.Use(middleware.CheckUserToken())
 	{

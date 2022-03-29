@@ -57,14 +57,14 @@ func TestGateway(t *testing.T) {
 	t.Run("获取评论标签", TestCommentsTagList)
 }
 
-const benchCount = 1
+const benchCount = math.MaxInt32
 
 func BenchmarkGateway(b *testing.B) {
 	b.Run("批量充值", BenchmarkUserAccountCharge)
-	b.Run("批量创建订单", BenchmarkTradeCreateOrder)
+	//b.Run("批量创建订单", BenchmarkTradeCreateOrder)
 	b.Run("批量创建订单并支付-用户1", BenchmarkTestOrderTrade_1)
-	b.Run("批量创建订单并支付-用户2", BenchmarkTestOrderTrade_2)
-	b.Run("批量创建订单并支付-用户3", BenchmarkTestOrderTrade_3)
+	//b.Run("批量创建订单并支付-用户2", BenchmarkTestOrderTrade_2)
+	//b.Run("批量创建订单并支付-用户3", BenchmarkTestOrderTrade_3)
 }
 
 var (
@@ -93,7 +93,7 @@ func TestGetUserInfo(t *testing.T) {
 }
 
 func TestSearchUserInfo(t *testing.T) {
-	r := baseUrl + searchUserInfo + "?query=王友"
+	r := baseUrl + searchUserInfo + "?query=任锦"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -270,7 +270,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "ab9eb74e-01c7-44c7-934d-1fe08013cba7")
+	data.Set("tx_code", "06f3e848-eec5-495b-bb4f-85f085b1aada")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1001,7 +1001,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "98501707783")
+	data.Set("phone", "28728714129")
 	data.Set("business_type", "3")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
@@ -1053,9 +1053,9 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "98501707783")
-	data.Set("email", "98501707783@gmail.com")
-	data.Set("verify_code", "177918")
+	data.Set("phone", "28728714129")
+	data.Set("email", "565608463@qq.com")
+	data.Set("verify_code", "506041")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
 	data.Set("invite_code", "495bda950000065")
@@ -1075,8 +1075,8 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "98501707783")
-	data.Set("verify_code", "506042")
+	data.Set("phone", "28728714129")
+	data.Set("verify_code", "378493")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1158,7 +1158,7 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "765688")
+	data.Set("verify_code", "719905")
 	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))

@@ -3,17 +3,17 @@ package app
 import (
 	"flag"
 	"fmt"
+	"os"
+	"sync"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/config/setting"
 	"gitee.com/cristiane/micro-mall-api/internal/config"
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
-	"gitee.com/cristiane/micro-mall-api/internal/setup"
 	"gitee.com/cristiane/micro-mall-api/internal/util/startup"
 	varsInternal "gitee.com/cristiane/micro-mall-api/internal/vars"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/log"
-	"os"
-	"sync"
-	"time"
 )
 
 var (
@@ -117,20 +117,20 @@ func setupCommonVars(application *vars.WEBApplication) error {
 	if err != nil {
 		return err
 	}
-	if vars.MysqlSettingMicroMall != nil && vars.MysqlSettingMicroMall.Host != "" {
-		vars.MysqlSettingMicroMall.Environment = application.Environment
-		vars.MysqlSettingMicroMall.LoggerLevel = application.LoggerLevel
-		xormEngine, err := setup.NewMySQLWithXORM(vars.MysqlSettingMicroMall)
-		if err != nil {
-			return err
-		}
-		vars.DBEngineXORM = xormEngine
-		gormEngine, err := setup.NewMySQLWithGORM(vars.MysqlSettingMicroMall)
-		if err != nil {
-			return err
-		}
-		vars.DBEngineGORM = gormEngine
-	}
+	//if vars.MysqlSettingMicroMall != nil && vars.MysqlSettingMicroMall.Host != "" {
+	//	vars.MysqlSettingMicroMall.Environment = application.Environment
+	//	vars.MysqlSettingMicroMall.LoggerLevel = application.LoggerLevel
+	//	xormEngine, err := setup.NewMySQLWithXORM(vars.MysqlSettingMicroMall)
+	//	if err != nil {
+	//		return err
+	//	}
+	//	vars.DBEngineXORM = xormEngine
+	//	gormEngine, err := setup.NewMySQLWithGORM(vars.MysqlSettingMicroMall)
+	//	if err != nil {
+	//		return err
+	//	}
+	//	vars.DBEngineGORM = gormEngine
+	//}
 	if vars.ServerSetting.PIDFile == "" {
 		wd, _ := os.Getwd()
 		vars.ServerSetting.PIDFile = fmt.Sprintf("%s/%s.pid", wd, application.Name)

@@ -38,6 +38,13 @@ service UsersService {
             body: "*"
         };
     }
+    // 验证码
+    rpc GenVerifyCode(GenVerifyCodeRequest) returns(GenVerifyCodeResponse) {
+        option (google.api.http) = {
+            post: "/v1/user/verify_code/gen"
+            body: "*"
+        };
+    }
     // 登录
     rpc LoginUser(LoginUserRequest) returns (LoginUserResponse) {
         option (google.api.http) = {
@@ -163,7 +170,6 @@ enum RetCode {
     ACCOUNT_EXIST = 50005;
     ACCOUNT_NOT_EXIST = 50006;
     USER_PWD_NOT_MATCH = 50007;
-//    USER_LOGIN_NOT_ALLOW = 50008;
     USER_DELIVERY_INFO_EXIST = 50009;
     USER_DELIVERY_INFO_NOT_EXIST = 50010;
     TRANSACTION_FAILED = 50011;
@@ -174,6 +180,12 @@ enum RetCode {
     USER_CHARGE_TRADE_NO_EMPTY = 50016;
     USER_STATE_NOT_VERIFY = 50017;
     USER_STATE_FORBIDDEN_LOGIN = 50018;
+    USER_VERIFY_CODE_LIMITED = 50019;
+    USER_VERIFY_CODE_INTERVAL = 50020; // 验证码生成错误
+    USER_VERIFY_CODE_FORBIDDEN = 50021;
+    USER_VERIFY_CODE_EXPIRE = 50022;
+    USER_VERIFY_CODE_INVALID = 50023;
+    USER_INVITE_CODE_INVALID = 50024;
 }
 
 enum OperationType {
@@ -363,6 +375,7 @@ message LoginUserResponse {
 message PasswordResetRequest {
     int64 uid = 1;
     string pwd = 2;
+    string verify_code = 3;
 }
 
 message PasswordResetResponse {
@@ -391,10 +404,11 @@ message RegisterRequest {
     string email = 5;
     int32 state = 6;
     string id_card_no = 7;
-    int64 inviter_user = 8;
+    string inviter_user = 8;
     string contact_addr = 9;
     int32 age = 10;
     string password  = 11;
+    string verify_code = 12;
 }
 
 message RegisterResult {
@@ -404,6 +418,20 @@ message RegisterResult {
 message RegisterResponse {
     CommonResponse common = 1;
     RegisterResult result = 2;
+}
+
+message GenVerifyCodeRequest {
+    int64 uid = 1;
+    string country_code = 2;
+    string phone = 3;
+    int32 business_type = 4;
+    string receiver = 5;
+}
+
+message GenVerifyCodeResponse {
+    CommonResponse common = 1;
+    string verify_code = 2;
+    int64 expire = 3;
 }
 
 message CheckUserByPhoneRequest {

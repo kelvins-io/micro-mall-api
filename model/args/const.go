@@ -5,7 +5,6 @@ const (
 	VerifyCodeRegister = 1
 	VerifyCodeLogin    = 2
 	VerifyCodePassword = 3
-	VerifyCodeTemplate = "【%v】验证码 %v，用于%v，%v分钟内有效，验证码提供给其他人可能导致账号被盗，请勿泄漏，谨防被骗。"
 )
 
 const (
@@ -45,6 +44,11 @@ var MsgFlags = map[int]string{
 	UserStateEventTypePwdModify: "修改密码",
 	UserStateEventTypeLogin:     "登录上线",
 	UserStateEventTypeLogout:    "退出登录",
+}
+
+type UserVerifyCode struct {
+	VerifyCode string `json:"verify_code"`
+	Expire     int64  `json:"expire"`
 }
 
 type CommonBusinessMsg struct {
