@@ -3,13 +3,14 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
-	"time"
 )
 
 func ModifyUserSettingDeliveryAddress(ctx context.Context, req *args.UserSettingAddressPutArgs) int {
@@ -79,7 +80,7 @@ func GetUserSettingDeliveryInfoAddress(ctx context.Context, uid, deliveryId int)
 		return &list, nil
 	})
 	if err != nil {
-		retCode = code.ERROR
+		retCode = errorToRetCode(err)
 		return
 	}
 	return
@@ -112,7 +113,7 @@ func getUserSettingDeliveryInfoAddress(ctx context.Context, uid, deliveryId int)
 			retCode = code.ErrorUserNotExist
 			return
 		case users.RetCode_USER_DELIVERY_INFO_NOT_EXIST:
-			retCode =  code.UserDeliveryInfoNotExist
+			retCode = code.UserDeliveryInfoNotExist
 			return
 		default:
 			return

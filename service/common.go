@@ -1,9 +1,11 @@
 package service
 
 import (
-	"github.com/satori/go.uuid"
-	"github.com/sony/sonyflake"
 	"strconv"
+
+	"gitee.com/cristiane/micro-mall-api/pkg/code"
+	uuid "github.com/satori/go.uuid"
+	"github.com/sony/sonyflake"
 )
 
 func genUUID() string {
@@ -21,4 +23,22 @@ func GenInviterCode() string {
 
 func GenAccountId() string {
 	return genUUID()
+}
+
+func errorToRetCode(err error) (retCode int) {
+	if err == nil {
+		retCode = code.SUCCESS
+		return
+	}
+	errRet := err.Error()
+	if errRet == "" {
+		retCode = code.ERROR
+		return
+	}
+	retCode, errAoi := strconv.Atoi(errRet)
+	if errAoi != nil {
+		retCode = code.ERROR
+		return
+	}
+	return
 }
