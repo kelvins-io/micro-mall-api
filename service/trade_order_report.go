@@ -3,6 +3,8 @@ package service
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -13,13 +15,11 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
 	"golang.org/x/sync/errgroup"
-	"strconv"
-	"time"
 )
 
 func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *args.GetOrderReportRsp, retCode int) {
 	result = &args.GetOrderReportRsp{
-		ReportFilePath: "暂无报告",
+		ReportFilePath: "",
 	}
 	retCode = code.SUCCESS
 	// 查找订单信息
@@ -118,11 +118,12 @@ func getOrderReport(ctx context.Context, req *args.GetOrderReportArgs) (result *
 	if retCode != code.SUCCESS {
 		return
 	}
-	addr := "localhost:52001"
-	if vars.ServerSetting != nil && vars.ServerSetting.EndPort != 0 {
-		addr = "localhost:" + strconv.Itoa(vars.ServerSetting.EndPort)
-	}
-	result.ReportFilePath = "http://" + addr + "/static/" + filePath
+	//addr := "localhost:52001"
+	//if vars.ServerSetting != nil && vars.ServerSetting.EndPort != 0 {
+	//	addr = "localhost:" + strconv.Itoa(vars.ServerSetting.EndPort)
+	//}
+	//result.ReportFilePath = "http://" + addr + "/static/" + filePath
+	result.ReportFilePath = "/static/" + filePath
 
 	return
 }

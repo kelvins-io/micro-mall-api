@@ -2,10 +2,11 @@ package app
 
 import (
 	"fmt"
+	"time"
+
 	varsInternal "gitee.com/cristiane/micro-mall-api/internal/vars"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 func JsonResponse(ctx *gin.Context, httpCode, retCode int, data interface{}) {
@@ -20,6 +21,16 @@ func JsonResponse(ctx *gin.Context, httpCode, retCode int, data interface{}) {
 func ProtoBufResponse(ctx *gin.Context, httpCode int, data interface{}) {
 	echoStatics(ctx)
 	ctx.ProtoBuf(httpCode, data)
+}
+
+func RedirectResponse(ctx *gin.Context, httpCode int, location string) {
+	echoStatics(ctx)
+	ctx.Redirect(httpCode, location)
+}
+
+func HtmlResponse(ctx *gin.Context, httpCode int, data string) {
+	echoStatics(ctx)
+	ctx.String(httpCode, data)
 }
 
 func echoStatics(ctx *gin.Context) {

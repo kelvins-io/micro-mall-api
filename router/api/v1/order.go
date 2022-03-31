@@ -101,7 +101,11 @@ func GetOrderReportApi(c *gin.Context) {
 		return
 	}
 	rsp, retCode := service.GetOrderReport(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	if retCode != code.SUCCESS {
+		app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	} else {
+		app.RedirectResponse(c, http.StatusMovedPermanently, rsp.ReportFilePath)
+	}
 }
 
 func GetOrderShopRankApi(c *gin.Context) {

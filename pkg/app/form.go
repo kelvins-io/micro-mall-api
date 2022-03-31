@@ -3,12 +3,12 @@ package app
 import (
 	"errors"
 	"fmt"
+	"strings"
+
 	"gitee.com/cristiane/micro-mall-api/internal/logging"
 	"gitee.com/cristiane/micro-mall-api/vars"
-	"gitee.com/kelvins-io/common/json"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
-	"strings"
 )
 
 func BindAndValid(c *gin.Context, form interface{}) error {
@@ -37,12 +37,12 @@ func buildFormErr(errs []*validation.Error) error {
 		} else {
 			msg.WriteString(v.Name)
 		}
-		msg.WriteString(" : ")
-		msg.WriteString(json.MarshalToStringNoError(v.Value))
-		msg.WriteString(" => ")
+		msg.WriteString("：")
+		//msg.WriteString(json.MarshalToStringNoError(v.Value))
+		//msg.WriteString(" => ")
 		msg.WriteString(v.Error())
-		msg.WriteString(" should=> ")
-		msg.WriteString(json.MarshalToStringNoError(v.LimitValue))
+		//msg.WriteString(" should=> ")
+		//msg.WriteString(json.MarshalToStringNoError(v.LimitValue))
 	}
 	return errors.New(msg.String())
 }

@@ -2,6 +2,7 @@ package args
 
 import (
 	"strconv"
+	"time"
 
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
 	"github.com/astaxie/beego/validation"
@@ -672,6 +673,15 @@ type GetOrderReportArgs struct {
 }
 
 func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
+	if t.StartTime == "" {
+		t.StartTime = time.Now().AddDate(0, 0, -3).Format("2006-01-02 15:04:05")
+	}
+	if t.EndTime == "" {
+		t.EndTime = time.Now().Format("2006-01-02 15:04:05")
+	}
+	if t.PageSize <= 0 {
+		t.PageSize = 100
+	}
 	if t.PageSize > 1000 {
 		_ = v.SetError("PageSize", "分页大小超过限制(1000)")
 		return
@@ -681,8 +691,7 @@ func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
 		return
 	}
 	if t.PageNum < 1 {
-		_ = v.SetError("PageNum", "分页起始页码需要大于0")
-		return
+		t.PageNum = 1
 	}
 }
 

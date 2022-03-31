@@ -79,7 +79,7 @@ func InitRouter() *gin.Engine {
 			apiOrder.GET("/code/gen", v1.GenTradeOrderCodeApi) // 生成订单号
 			apiOrder.POST("/create", v1.CreateTradeOrderApi)   // 生成订单
 			apiOrder.POST("/trade", v1.OrderTradeApi)          // 订单支付
-			apiOrder.POST("/report", v1.GetOrderReportApi)     // 获取订单列表
+			apiOrder.Any("/report", v1.GetOrderReportApi)      // 获取订单列表
 			apiOrder.GET("/rank/shop", v1.GetOrderShopRankApi) // 订单店铺业绩排行
 			apiOrder.GET("/rank/sku", v1.GetOrderSkuRankApi)   // 订单商品排行
 		}
