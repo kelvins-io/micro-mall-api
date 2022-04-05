@@ -682,8 +682,8 @@ func (t *GetOrderReportArgs) Valid(v *validation.Validation) {
 	if t.PageSize <= 0 {
 		t.PageSize = 100
 	}
-	if t.PageSize > 1000 {
-		_ = v.SetError("PageSize", "分页大小超过限制(1000)")
+	if t.PageSize > 10000 {
+		_ = v.SetError("PageSize", "分页大小超过限制(10000)")
 		return
 	}
 	if t.ShopId <= 0 {

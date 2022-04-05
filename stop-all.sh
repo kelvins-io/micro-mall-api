@@ -12,12 +12,8 @@ project_names=(
 "micro-mall-order"
 "micro-mall-order-cron"
 "micro-mall-order-consumer"
-"micro-mall-order-consumer1"
-"micro-mall-order-consumer2"
 "micro-mall-pay"
 "micro-mall-pay-consumer"
-"micro-mall-pay-consumer1"
-"micro-mall-pay-consumer2"
 "micro-mall-logistics"
 "micro-mall-comments"
 "micro-mall-search"
@@ -26,8 +22,6 @@ project_names=(
 "micro-mall-search-sku-consumer"
 "micro-mall-search-users-consumer"
 "micro-mall-search-order-consumer"
-"micro-mall-search-order-consumer1"
-"micro-mall-search-order-consumer2"
 )
 
 # 遍历所有目录停止进程
