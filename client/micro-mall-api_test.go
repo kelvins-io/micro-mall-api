@@ -1299,15 +1299,15 @@ func TestGenOrderCode(t *testing.T) {
 }
 
 func TestGetOrderReport(t *testing.T) {
-	r := baseUrl + reportOrder
-	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("shop_id", "30071")
 	data.Set("start_time", "2000-11-22 08:46:41")
 	data.Set("end_time", "2022-12-04 18:46:41")
 	data.Set("page_size", "1000")
 	data.Set("page_num", "1")
-	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	r := baseUrl + reportOrder + "?" + data.Encode()
+	t.Logf("request url: %s", r)
+	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
 		t.Error(err)
 		return

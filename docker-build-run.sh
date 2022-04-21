@@ -75,9 +75,17 @@ echo 构建中间件服务容器基础环境
 echo 这些中间件服务的标准端口会映射到物理机端口-当然你也可以自行注释掉
 echo 中间件服务容器端口映射到物理机是为了方便在物理机上就能给其安装插件或初始配置
 docker-compose up -d
+# shellcheck disable=SC2009
+ps -ef | grep mysql5_7
+ps -ef | grep redis
+ps -ef | grep rabbitmq
+ps -ef | grep mongo
+ps -ef | grep elasticsearch
 echo 中间件服务容器构建完成后还需要进行初始配置比如导入SQL-rabbitmq配置-elasticsearch创建index以及安装中文分词插件
 
 echo 构建并运行容器项目
 docker-compose -f docker-compose-build.yml up -d
 
+# shellcheck disable=SC2009
+ps -ef | grep micro-mall
 echo 开启micro-mall的旅行吧

@@ -92,7 +92,7 @@ services:
     ports:
       - "13306:3306"
     volumes:
-      - mysql:/var/lib/mysql:rw
+      - mysql:/var/lib/mysql
       - ./micro_mall.sql:/docker-entrypoint-initdb.d/micro_mall.sql:ro
       - ./micro_mall_comments.sql:/docker-entrypoint-initdb.d/micro_mall_comments.sql:ro
       - ./micro_mall_logistics.sql:/docker-entrypoint-initdb.d/micro_mall_logistics.sql:ro
@@ -111,6 +111,7 @@ services:
       - "16379:6379"
     volumes:
       - redis:/data
+
   rabbitmq:
     image: rabbitmq:3.8.19-management
     container_name: rabbitmq
@@ -118,32 +119,54 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=micro-mall
-    command:
-      - rabbitmqctl add_vhost micro-mall
-      - rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*"
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice
-      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
+#    command:
+#      -- rabbitmqctl add_vhost micro-mall
+#      -- rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*"
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice
+#      -- rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
+
+#    echo 因为执行上述命令会导致容器启动失败，因此暂时请进入容器执行如下命令
+#    rabbitmqctl add_vhost micro-mall &&
+#    rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*" &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice &&
+#    rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
     ports:
       - "25672:15672"
       - "5672"
     volumes:
-      - rabbitmq:/data
+      - rabbitmq:/var/lib/rabbitmq
 
   elasticsearch:
     image: elasticsearch:7.5.2
@@ -151,21 +174,31 @@ services:
     restart: always
     environment:
       - "discovery.type=single-node"
-    command:
-      - elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
-      - curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
-      - curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
-      - curl -X PUT "localhost:9200/micro-mall-shop?pretty"
-      - curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
-      - curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
-      - curl -X GET "localhost:9200/_cat/indices?v"
+#    command:
+#      -- elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
+#      -- curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
+#      -- curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
+#      -- curl -X PUT "localhost:9200/micro-mall-shop?pretty"
+#      -- curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
+#      -- curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
+#      -- curl -X GET "localhost:9200/_cat/indices?v"
+#    echo 因为执行上述命令会导致容器启动失败，因此暂时请进入容器执行如下命令
+#    sudo elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip &&
+#    curl -X PUT "localhost:9200/micro-mall-user-info?pretty" &&
+#    curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty" &&
+#    curl -X PUT "localhost:9200/micro-mall-shop?pretty" &&
+#    curl -X PUT "localhost:9200/micro-mall-trade-order?pretty" &&
+#    curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty" &&
+#    curl -X GET "localhost:9200/_cat/indices?v"
     ports:
       - "19200:9200"
       - "9300"
     volumes:
-      - elasticsearch:/data
+      - elasticsearch:/usr/share/elasticsearch/data
 
 volumes:
   mysql: {}
   redis: {}
   mongo: {}
+  elasticsearch: {}
+  rabbitmq: {}
