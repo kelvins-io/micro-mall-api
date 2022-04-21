@@ -257,7 +257,7 @@ prometheus_metrics接口
 
 ### 如何构建开发环境
 micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
-你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN）    
+你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN，参考golang-install.sh）    
 然后看看下面的环节      
 
 #### 关于go mod
@@ -265,11 +265,14 @@ micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，�
 GOPROXY="https://goproxy.cn,https://goproxy.io,direct"
 
 #### 利用docker构建etcd集群
+仅限于裸机运行项目   
+需要先安装docker以及docker-compose，参考docker-install.sh   
 建议本机也安装etcd工具（方便检测集群是否构建成功）   
 运行sh docker-etcd-build.sh
 
 
 #### 服务注册说明
+仅限于裸机运行项目   
 由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档    
 下面配置<利用docker构建etcd集群>的地址   
 export  ETCDV3_SERVER_URLS=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379   
@@ -302,8 +305,9 @@ micro-mall-search-users-consumer   用户信息同步消费
 micro-mall-search-order-consumer   交易订单信息同步消费
 
 #### 克隆仓库
+克隆之前GOPATH要配置好   
 将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地    
-为了方便clone仓库，特此提供了一键clone micro-mall系列脚本（需要Git支持），在本仓库根目录   
+为了方便clone仓库，特此提供了一键clone micro-mall系列脚本（需要安装有git），在本仓库根目录   
 mac/linux：sh batch-clone-project.sh   
 windows请使用git bash shell运行：sh batch-clone-project.sh      
 
@@ -318,7 +322,7 @@ windows请使用git bash shell运行：sh batch-clone-project.sh
 部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
 go 1.13.15+   
 goland or vscode   
-mysql，redis，rabbitmq，etcd集群环境，MongoDB，elasticsearch       
+mysql，redis，rabbitmq，etcd-cluster，mongo（可以不开启），elasticsearch       
 protoc   安装方法如下   
 ```
 wget https://github.com/google/protobuf/releases/download/v3.14.0/protobuf-all-3.14.0.zip
@@ -339,6 +343,7 @@ go get -u github.com/elazarl/go-bindata-assetfs/...
 python 2.7或3.5   
 
 #### 数据库设计
+仅限于裸机运行项目   
 1. 安装MySQL   
 Mac下：brew install mysql   
 2. 启动并初始MySQL   
@@ -349,7 +354,7 @@ micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立
 Mac下：brew install redis   
 4. 启动并配置   
 Mac下：brew services start redis  
-5. 安装MongoDB   
+5. 安装MongoDB（可以不安装）   
 Mac下：brew install mongodb-community   
 6. 启动并配置   
 Mac下：brew services start mongodb-community   
@@ -375,7 +380,7 @@ MongoDB需要注册一个admin用户和数据库micro_mall_sku
 看看下面说明
 
 ##### 为什么要生成pb,gw代码
-因为项目使用了gRPC+protobuf，grpc-gateway协议转换中间件，swagger文档托管中间件    
+因为项目使用了gRPC+protobuf，grpc-gateway协议转换代理中间件，swagger文档托管中间件    
 
 ##### 有哪些仓库需要生成
 大部分列出的服务基本上都需要，基本上micro-mall-xxx-proto就是micro-mall-xxx系列服务的依赖proto仓库   
@@ -388,7 +393,7 @@ MongoDB需要注册一个admin用户和数据库micro_mall_sku
 在micro-mall-xxx根目录执行python genpb.py .../micro-xxx-proto   
 例如：为micro-mall-api项目添加micro-users-proto的pb代码   
 cd $GOPATH   
-cd src/gitee.com/cristiane/ #没有则创建   
+cd src/gitee.com/cristiane/ #没有则需要创建   
 git clone https://gitee.com/cristiane/micro-mall-users-proto.git   
 git clone https://gitee.com/cristiane/micro-mall-api.git   
 cd micro-mall-api   
@@ -409,7 +414,7 @@ python genpb.py ../micro-mall-users-proto
 在需要运行的项目根目录下etc/app.ini更改自己开发环境的配置info（可以参考默认提供的）      
 
 ##### rabbitmq如何配置
-
+仅限于裸机运行项目   
 1. 安装   
 Mac下：brew install rabbitmq   
 
@@ -423,8 +428,9 @@ sudo rabbitmq-server
    如果mq使用rabbitmq（也可不用rabbitmq），则需要   
    创建用户，密码：micro-mall/szJ9aePR   
    创建vhost：micro-mall（下面的exchange和queue均在此vhost下面）   
-   创建exchange：user_register_notice，模式为direct或fanout   
-   创建exchange：user_state_notice，模式为direct或fanout   
+   为当前用户赋予micro-mall虚拟host访问权限    
+   创建exchange：user_register_notice，模式为direct    
+   创建exchange：user_state_notice，模式为direct     
    创建exchange：trade_order_notice，模式为direct   
    创建exchange：trade_order_pay_callback，模式为direct   
    创建exchange：trade_pay_notice，模式为direct   
@@ -459,17 +465,20 @@ TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
 ```
 
 #### elasticsearch配置
+仅限于裸机运行项目   
 1. 安装elasticsearch   
 Mac下：   
 使用brew install elasticsearch   
 其它平台参考网络教程   
 2. 启动并安装对应版本的中文分词插件   
+通过docker启动项目的也需要进入elasticsearch容器执行如下操作    
 Mac下：   
 brew services start elasticsearch   
 ```shell
 elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
 ```
 3. 创建索引   
+通过docker启动项目的也需要进入elasticsearch容器执行如下操作   
 ```shell
 # 用户信息索引
 curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
@@ -497,6 +506,7 @@ yellow open   micro-mall-merchants-material-info WAzVixxOQ4-QPFjGWEWnWA   1   1 
 ### 管理服务
 
 #### 如何启动
+仅限于裸机启动   
 运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh    
 构建且运行系列服务：   
 sh build-run-all.sh   
@@ -508,7 +518,7 @@ sh restart-all.sh
 sh stop-all.sh   
 
 #### 如何用docker来一键构建运行micro-mall系列项目
-如果你有docker环境（docker环境可以避免安装依赖的中间件）那么你可以：   
+如果你有docker以及compose环境（docker环境可以避免安装依赖的中间件）那么你可以：   
 sh docker-build-run.sh
 
 #### 在此特别鸣谢osc为micro-mall系列项目支持docker编排方案
@@ -584,8 +594,8 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 ### 接口文档
 开发环境地址：  http://127.0.0.1:52001/   
 监控地址：   
-pprof：http://localhost:52002/debug/pprof/   
-Prometheus：http://localhost:52002/debug/metrics   
+pprof：http://localhost:52001/debug/pprof/   
+Prometheus：http://localhost:52001/debug/metrics   
 
 返回码错误code：  
 
@@ -690,7 +700,7 @@ POST   /api/v1/verify_code/send
 country_code |国际码 | string | 86
 phone |手机号 | string | 11位手机号
 business_type |业务类型 | int | 1注册，2登录，3修改或重置密码
-receive_email |接收验证码邮箱 | string | xxxx@xx.com
+receive_email |接收验证码邮箱，需要在配置项主动配置email | string | xxxx@xx.com
 
 同一手机号一段时间内同一业务只能获取一次验证码   
 
@@ -1286,7 +1296,7 @@ get /search/shop?keyword=交个朋友
 ```
 
 获取店铺订单报告   
-post  /user/order/report   
+get  /user/order/report   
 header token   
 
 参数 | 含义 |  类型 | 备注  
