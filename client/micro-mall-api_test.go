@@ -1002,7 +1002,7 @@ func TestVerifyCodeSend(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "28728714129")
-	data.Set("business_type", "3")
+	data.Set("business_type", "1")
 	data.Set("receive_email", "610905744@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1055,10 +1055,10 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("country_code", "86")
 	data.Set("phone", "28728714129")
 	data.Set("email", "565608463@qq.com")
-	data.Set("verify_code", "506041")
+	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
-	data.Set("invite_code", "495bda950000065")
+	data.Set("invite_code", "")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {

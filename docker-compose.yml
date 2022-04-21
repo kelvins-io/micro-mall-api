@@ -20,8 +20,8 @@ services:
       - ETCD_INITIAL_CLUSTER_STATE=new
       - ETCDCTL_API=3
     ports:
-      - 12379:2379
-      - 2380
+      - "12379:2379"
+      - "2380"
   etcd2:
     image:  quay.io/coreos/etcd:v3.2.32
     container_name: etcd2
@@ -38,8 +38,8 @@ services:
       - ETCD_INITIAL_CLUSTER_STATE=new
       - ETCDCTL_API=3
     ports:
-      - 22379:2379
-      - 2380
+      - "22379:2379"
+      - "2380"
   etcd3:
     image:  quay.io/coreos/etcd:v3.2.32
     container_name: etcd3
@@ -56,8 +56,8 @@ services:
       - ETCD_INITIAL_CLUSTER_STATE=new
       - ETCDCTL_API=3
     ports:
-      - 32379:2379
-      - 2380
+      - "32379:2379"
+      - "2380"
   mongo:
     image: mongo
     container_name: mongo
@@ -66,28 +66,49 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: micro-mall
     ports:
-      - 27017
+      - "27017"
     volumes:
       - mongo:/data/db
   mysql57:
     image: mysql:5.7
     container_name: mysql5_7
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    command:
+      --init-file /docker-entrypoint-initdb.d/micro_mall.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_comments.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_logistics.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_order.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_pay.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_shop.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_sku.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_trolley.sql
+      --init-file /docker-entrypoint-initdb.d/micro_mall_user.sql
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
     environment:
       MYSQL_ROOT_PASSWORD: micro-mall
       MYSQL_DATABASE: micro_mall
     ports:
-      - 13306:3306
+      - "13306:3306"
     volumes:
-      - mysql:/var/lib/mysql
+      - mysql:/var/lib/mysql:rw
+      - ./micro_mall.sql:/docker-entrypoint-initdb.d/micro_mall.sql:ro
+      - ./micro_mall_comments.sql:/docker-entrypoint-initdb.d/micro_mall_comments.sql:ro
+      - ./micro_mall_logistics.sql:/docker-entrypoint-initdb.d/micro_mall_logistics.sql:ro
+      - ./micro_mall_order.sql:/docker-entrypoint-initdb.d/micro_mall_order.sql:ro
+      - ./micro_mall_pay.sql:/docker-entrypoint-initdb.d/micro_mall_pay.sql:ro
+      - ./micro_mall_shop.sql:/docker-entrypoint-initdb.d/micro_mall_shop.sql:ro
+      - ./micro_mall_sku.sql:/docker-entrypoint-initdb.d/micro_mall_sku.sql:ro
+      - ./micro_mall_trolley.sql:/docker-entrypoint-initdb.d/micro_mall_trolley.sql:ro
+      - ./micro_mall_user.sql:/docker-entrypoint-initdb.d/micro_mall_user.sql:ro
   redis:
     image: redis
     container_name: redis
     restart: always
     command: redis-server --requirepass oyuioyiuoyui
     ports:
-      - 16379:6379
+      - "16379:6379"
     volumes:
       - redis:/data
   rabbitmq:
@@ -97,18 +118,52 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=micro-mall
+    command:
+      - rabbitmqctl add_vhost micro-mall
+      - rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*"
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice
+      - rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
     ports:
-      - 25672:15672
-      - 5672
+      - "25672:15672"
+      - "5672"
+    volumes:
+      - rabbitmq:/data
+
   elasticsearch:
     image: elasticsearch:7.5.2
     container_name: elasticsearch
     restart: always
     environment:
       - "discovery.type=single-node"
+    command:
+      - elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
+      - curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
+      - curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
+      - curl -X PUT "localhost:9200/micro-mall-shop?pretty"
+      - curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
+      - curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
+      - curl -X GET "localhost:9200/_cat/indices?v"
     ports:
-      - 19200:9200
-      - 9300
+      - "19200:9200"
+      - "9300"
+    volumes:
+      - elasticsearch:/data
 
 volumes:
   mysql: {}
