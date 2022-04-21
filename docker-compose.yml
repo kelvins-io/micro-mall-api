@@ -18,8 +18,9 @@ services:
       - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
       - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
       - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCDCTL_API=3
     ports:
-      - 2379
+      - 12379:2379
       - 2380
   etcd2:
     image:  quay.io/coreos/etcd:v3.2.32
@@ -35,8 +36,9 @@ services:
       - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
       - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
       - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCDCTL_API=3
     ports:
-      - 2379
+      - 22379:2379
       - 2380
   etcd3:
     image:  quay.io/coreos/etcd:v3.2.32
@@ -52,8 +54,9 @@ services:
       - ETCD_INITIAL_CLUSTER_TOKEN=etcd-cluster
       - ETCD_INITIAL_CLUSTER=etcd1=http://etcd1:2380,etcd2=http://etcd2:2380,etcd3=http://etcd3:2380
       - ETCD_INITIAL_CLUSTER_STATE=new
+      - ETCDCTL_API=3
     ports:
-      - 2379
+      - 32379:2379
       - 2380
   mongo:
     image: mongo
@@ -75,7 +78,7 @@ services:
       MYSQL_ROOT_PASSWORD: micro-mall
       MYSQL_DATABASE: micro_mall
     ports:
-      - 3306
+      - 13306:3306
     volumes:
       - mysql:/var/lib/mysql
   redis:
@@ -84,7 +87,7 @@ services:
     restart: always
     command: redis-server --requirepass oyuioyiuoyui
     ports:
-      - 6379
+      - 16379:6379
     volumes:
       - redis:/data
   rabbitmq:
@@ -95,7 +98,7 @@ services:
       - RABBITMQ_DEFAULT_USER=root
       - RABBITMQ_DEFAULT_PASS=micro-mall
     ports:
-      - 15672
+      - 25672:15672
       - 5672
   elasticsearch:
     image: elasticsearch:7.5.2
@@ -104,7 +107,7 @@ services:
     environment:
       - "discovery.type=single-node"
     ports:
-      - 9200
+      - 19200:9200
       - 9300
 
 volumes:

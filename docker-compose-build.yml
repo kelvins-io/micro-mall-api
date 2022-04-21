@@ -8,9 +8,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-api
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -24,9 +23,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-users
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -38,9 +36,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-users-cron
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -52,9 +49,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-users-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -66,9 +62,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-pay
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -80,9 +75,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-sku
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -95,9 +89,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-shop
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -109,9 +102,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-shop-cron
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -123,9 +115,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-trolley
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -137,9 +128,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-comments
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -151,9 +141,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search-cron
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -165,9 +154,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search-shop-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -179,9 +167,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search-sku-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -193,9 +180,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search-users-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -207,9 +193,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search-order-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -221,9 +206,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-order-cron
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -235,9 +219,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-search
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -249,9 +232,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-order
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -263,9 +245,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-pay-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -277,9 +258,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-logistics
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -291,9 +271,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-order-consumer
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:
@@ -305,9 +284,8 @@ services:
     image: ubuntu:latest
     container_name: micro-mall-sku-cron
     environment:
-      - ETCDV3_SERVER_URL=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
       - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
-      - GO_ENV=dev
+      - ETCDCTL_API=3
     restart: always
     working_dir: /www
     volumes:

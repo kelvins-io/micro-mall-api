@@ -1,7 +1,8 @@
-FROM golang:1.13.15-buster as gobuild
+FROM golang:1.16.15-buster as gobuild
 WORKDIR $GOPATH/src/gitee.com/cristiane/micro-mall-api
 COPY . .
-ENV GOPROXY=https://goproxy.io,direct
+ENV GOPROXY=https://goproxy.cn,https://goproxy.io,direct
+ENV GO111MODULE=on
 RUN bash ./build.sh
 ## FROM alpine:latest as gorun
 FROM ubuntu:latest as gorun
