@@ -1,5 +1,10 @@
 package code
 
+import (
+	"fmt"
+	"sort"
+)
+
 var MsgFlags = map[int]string{
 	SUCCESS:                   "ok",
 	ERROR:                     "服务器出错",
@@ -14,13 +19,14 @@ var MsgFlags = map[int]string{
 	ErrorUserExist:            "用户已存在",
 	UserStateForbiddenLogin:   "用户被禁止登录（登录失败次数过多，请24小时候重试）",
 	ErrorEmailSend:            "邮件发送错误",
+	ErrUserStateNotVerify:     "用户身份未审核或账户被锁定",
 	ErrorVerifyCodeEmpty:      "验证码为空",
 	ErrorVerifyCodeInvalid:    "验证码无效",
 	ErrorVerifyCodeExpire:     "验证码过期",
 	ErrorVerifyCodeInterval:   "验证码仍在请求时间间隔内",
 	ErrorVerifyCodeLimited:    "验证码在请求时间段达到最大限制",
 	ErrorVerifyCodeForbidden:  "用户验证码被禁止（错误尝试次数太多，请24小时后重试）",
-	DbDuplicateEntry:          "Duplicate entry",
+	DbDuplicateEntry:          "数据重复",
 	ErrorUserPwd:              "用户密码错误",
 	ErrorMerchantNotExist:     "商户未提交过认证资料",
 	ErrorMerchantExist:        "商户认证资料已存在",
@@ -61,16 +67,21 @@ var MsgFlags = map[int]string{
 	CommentsTagNotExist:       "评论标签不存在",
 	UserOrderNotExist:         "用户订单不存在",
 	OutTradeEmpty:             "外部交易号为空",
-	UserStateNotVerify:        "用户状态未验证或审核或被锁定",
 	ShopStateNotVerify:        "店铺状态未审核或被冻结",
 	OrderPayIng:               "交易单号正在支付中",
 }
 
-//func init() {
-//	for k, v := range MsgFlags {
-//		fmt.Println(k, "\t\t", v, "\t\t\t")
-//	}
-//}
+func init() {
+	fmt.Println("本仓库用到的全部错误码以及含义如下：")
+	codes := make([]int, 0)
+	for k, _ := range MsgFlags {
+		codes = append(codes, k)
+	}
+	sort.Ints(codes)
+	for _, v := range codes {
+		fmt.Println(v, "\t\t | ", MsgFlags[v], "\t\t\t")
+	}
+}
 
 func GetMsg(code int) string {
 	msg, ok := MsgFlags[code]

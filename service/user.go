@@ -99,7 +99,7 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return "", code.UserStateNotVerify
+		return "", code.ErrUserStateNotVerify
 	case users.RetCode_USER_NOT_EXIST:
 		return "", code.ErrorUserNotExist
 	case users.RetCode_USER_VERIFY_CODE_INVALID:
@@ -194,7 +194,7 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 	case users.RetCode_USER_PWD_NOT_MATCH:
 		return "", code.ErrorUserPwd
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return "", code.UserStateNotVerify
+		return "", code.ErrUserStateNotVerify
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
 		return "", code.UserStateForbiddenLogin
 	default:
@@ -228,7 +228,7 @@ func PasswordReset(ctx context.Context, req *args.PasswordResetArgs) int {
 	vars.ErrorLogger.Errorf(ctx, "PasswordReset req: %v, resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(pwdResetRsp))
 	switch pwdResetRsp.Common.Code {
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return code.UserStateNotVerify
+		return code.ErrUserStateNotVerify
 	case users.RetCode_USER_VERIFY_CODE_INVALID:
 		return code.ErrorVerifyCodeInvalid
 	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
@@ -412,6 +412,10 @@ func verifyUserDeliveryInfo(ctx context.Context, uid int64, userDeliveryId int32
 	return code.SUCCESS
 }
 
+func VerifyUserState(ctx context.Context, uid int64) int {
+	return verifyUserState(ctx, uid)
+}
+
 func verifyUserState(ctx context.Context, uid int64) int {
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
@@ -433,7 +437,7 @@ func verifyUserState(ctx context.Context, uid int64) int {
 	case users.RetCode_USER_NOT_EXIST:
 		return code.ErrorUserNotExist
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return code.UserStateNotVerify
+		return code.ErrUserStateNotVerify
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
 		return code.UserStateForbiddenLogin
 	default:

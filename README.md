@@ -62,6 +62,7 @@ p神 | 1000.00 | 2021-12-5 | 个人赞助
 沈** | 1000.00 | 2022-3-29 | 私有化
 （*） | 66.66 | 2022-4-3 | 多谢开源项目
 （*生） | 20.00 | 2022-4-4 | 进交流群
+A | 66.00 | 2022-4-23 | 直播打赏
 
 
 #### 软件架构
@@ -107,6 +108,8 @@ prometheus_metrics接口
 ├── docker-compose.yml  基础组件compose构建文件
 ├── docker-compose-build.yml  micro-mall系列项目compose构建文件
 ├── docker-etcd-build.sh  etcd集群构建 shell
+├── golang-install.sh  centos环境golang安装 shell
+├── docker-install.sh  centos环境docker安装 shell
 ├── etcd_cluster
 │   └── docker-compose-etcd.yml etcd集群构建docker镜像
 ├── test-gateway-http.sh  运行client目录下测试用例 shell
@@ -246,9 +249,6 @@ prometheus_metrics接口
 │   ├── setting.go    全局setting
 │   └── vars.go   全局变量
 ├── 交流群.JPG
-├── etcd环境部署-centos.pdf
-├── etcd环境部署-ubuntu.pdf
-├── etcd环境部署-docker.pdf
 ├── 微信赞赏码.JPG
 ├── 支付宝赞赏码.JPG
 ├── 微商城需求文档.pdf
@@ -597,70 +597,94 @@ https://gitee.com/cristiane/micro-mall-comments-proto
 pprof：http://localhost:52001/debug/pprof/   
 Prometheus：http://localhost:52001/debug/metrics   
 
-返回码错误code：  
+返回HTTP响应码遵循HTTP通用code含义   
 
 code | 含义
 ---|---
-200 	 |	 ok   
-400 	 |	 请求参数错误   
-500 	 |	 服务器出错   
-600003 	 |	 用户账户不存在   	
-600027 	 |	 订单过期   
-600032 	 |	 评论标签已存在   
-50007 	 |   验证码在请求时间段达到最大限制   	
-600002 	 |	 用户账户被锁定   
-4004 	 |	 用户token过期   
-4012 	 |	 商品sku-code已存在系统   	
-600018   |  订单事务号为空   
-600021 	 |	 用户设置记录不存在   
-600036 	 |	 用户状态未验证或审核或被锁定   	
-4005 	 |	 用户不存在   
-4006 	 |	 用户已存在   
-50000 	 |	 Duplicate entry   	
-4011 	 |	 商户未提交过店铺认证资料   
-4007 	 |	 用户密码错误   
-600017 	 |	 支付时间过期   	
-600012 	 |	 订单正在支付中   
-600025 	 |	 订单状态无效   	
-50004 	 |	 验证码过期   
-4016 	 |	 邀请码不存在   
-600013 	 |	 订单已完成支付   
-600024 	 |	 商品价格版本不存在   
-600029 	 |	 用户账户无效   
-4002 	 |	 用户token为空   
-50001 	 |	 邮件发送错误   
-50003 	 |	 验证码无效   
-600005 	 |	 商户账户被锁定   
-600028 	 |	 订单已完成支付   
-600035 	 |	 外部交易号为空   
-600023 	 |	 交易订单不匹配当前用户   
-600026 	 |	 订单状态被锁定   
-4010 	 |	 店铺认证资料已存在   
-4013 	 |	 商品sku-code不存在   
-50005 	 |	 商品库存不够   
-600001 	 |	 用户余额不足   
-600000 	 |	 金额格式解析错误   
-600019 	 |	 订单已存在   
-50002 	 |	 验证码为空   
-4014 	 |	 店铺ID不存在   
-4008 	 |	 商户未提交过认证资料   
-4003 	 |	 用户token无效   
-4015 	 |	 店铺ID已存在   
-600011 	 |	 交易号不存在   
-600020 	 |	 用户设置信息已存在   
-4001 	 |	 ID为空   
-600016 	 |	 用户暂时不允许登录   
-4009 	 |	 商户认证资料已存在   
-600010   |   事务执行失败   
-600034 	 |	 用户订单不存在   
-600004 	 |	 商户账户不存在   
-600014 	 |	 物流记录已存在   
-50006    |   验证码仍在请求时间间隔内   
-600015	 |	 物流记录不存在   
-600022 	 |	 用户物流收货地址不存在   
-600033   |   评论标签不存在   
-600037   |   店铺状态未审核或被冻结
-600038   |   交易单号正在支付中
+200 | 成功
+400 | authorization
+401 | 用户未登录
+403 | 用户被禁止登录
+429 | 请求被限速
+500 | 服务器内部错误
+
+HTTP 200返回body（非200时不用解析body） JSON结构：   
+```json
+{
+   "code": 200,
+   "msg": "",
+   "data": {
+      
+   }
+}
+```
+code含义如下：  
+
+code | 含义
+---|---
+200 		 |  ok
+400 		 |  请求参数错误
+401 		 |  请求太多，稍后再试
+500 		 |  服务器出错
+40001 		 |  ID为空
+40002 		 |  用户token为空
+40003 		 |  用户token无效
+40004 		 |  用户token过期
+40005 		 |  用户不存在
+40006 		 |  用户已存在
+40007 		 |  用户密码错误
+40008 		 |  商户未提交过认证资料
+40009 		 |  商户认证资料已存在
+40010 		 |  店铺认证资料已存在
+40011 		 |  商户未提交过店铺认证资料
+40012 		 |  商品sku已入库
+40013 		 |  商品sku未入库
+40014 		 |  店铺ID不存在
+40015 		 |  店铺ID已存在
+40016 		 |  邀请码不存在
+40017 		 |  时间参数格式错误
+40018 		 |  用户状态未审核或被禁止登录
+50000 		 |  数据重复
+50001 		 |  邮件发送错误
+50002 		 |  验证码为空
+50003 		 |  验证码无效
+50004 		 |  验证码过期
+50005 		 |  商品库存不够
+50006 		 |  验证码仍在请求时间间隔内
+50007 		 |  验证码在请求时间段达到最大限制
+50008 		 |  用户验证码被禁止（错误尝试次数太多，请24小时后重试）
+600000 		 |  金额格式解析错误
+600001 		 |  用户余额不足
+600002 		 |  用户账户被锁定
+600003 		 |  用户账户不存在
+600004 		 |  商户账户不存在
+600005 		 |  商户账户被锁定
+600010 		 |  事务执行失败
+600011 		 |  交易号不存在
+600012 		 |  订单正在支付中
+600013 		 |  订单已完成支付
+600014 		 |  物流记录已存在
+600015 		 |  物流记录不存在
+600016 		 |  用户被禁止登录（登录失败次数过多，请24小时候重试）
+600017 		 |  支付时间过期
+600018 		 |  订单事务号为空
+600019 		 |  订单已存在
+600020 		 |  用户设置信息已存在
+600021 		 |  用户设置记录不存在
+600022 		 |  用户物流收货地址不存在
+600023 		 |  交易订单不匹配当前用户
+600024 		 |  商品价格版本不存在
+600025 		 |  订单状态无效
+600026 		 |  订单状态被锁定
+600027 		 |  订单过期
+600028 		 |  订单已完成支付
+600029 		 |  用户账户无效
+600032 		 |  评论标签已存在
+600033 		 |  评论标签不存在
+600034 		 |  用户订单不存在
+600035 		 |  外部交易号为空
+600037 		 |  店铺状态未审核或被冻结
+600038 		 |  交易单号正在支付中
 
 接口列表（由于未及时更新，以实际接口返回为准）：   
 ####【说明】post请求没指明content-type的接口表单和json都支持   
@@ -764,7 +788,7 @@ password | 密码 | string | 可传md5值
 
 7 重置用户密码   
 PUT    /api/v1/user/password/reset   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -779,7 +803,7 @@ password | 密码 | string | 可传md5值
 
 8 获取用户信息   
 GET    /api/v1/user/user_info     
-header token   
+header/query  token   
 
 返回body： 
 ```json
@@ -808,7 +832,7 @@ header token
 
 8.1 列举用户    
 GET /api/v1/user/user_info/list?page_size=500&page_num=1&token=xxx   
-header token   
+header/query  token   
 
 返回body：   
 ```json
@@ -832,7 +856,7 @@ header token
 
 9 提交商户认证资料   
 PUT    /api/v1/user/merchants/material   
-header token   
+header/query  token   
 请求参数：    
 
 参数 | 含义 |  类型 | 备注  
@@ -853,7 +877,7 @@ tax_card_no | 纳税人证号 | string | 大于16位字符
 
 10 添加商品到购物车   
 PUT    /api/v1/user/trolley/sku/join   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -871,7 +895,7 @@ selected | 是否选中 | bool | true,false
 
 11 从购物车中移除商品   
 DELETE /api/v1/user/trolley/sku/remove   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -887,7 +911,7 @@ amount | 数量 | int | 要移除的数量，-1表示全部移除该商品
 
 12  获取用户购物车   
 GET    /api/v1/user/trolley/sku/list   
-header token   
+header/query  token   
 返回body： 
 ```json
 {"code":200,"data":{"list":[{"sku_code":"df1a9633-b060-4682-9502-bc934f89392b","shop_id":29914,"count":534252790,"time":"2020-09-11 23:01:25","selected":true}]},"msg":"ok"}
@@ -895,7 +919,7 @@ header token
 
 13  商户申请店铺   
 POST   /api/v1/shop_business/shop/apply   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -927,7 +951,7 @@ PUT    /api/v1/shop_business/shop/pledge
 
 15  商品上架   
 POST   /api/v1/sku_business/sku/put_away   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -960,7 +984,7 @@ operation_type等于4时，参数只需要shop_id,sku_code,amount
 
 16   补充商品扩展信息   
 PUT    /api/v1/sku_business/sku/supplement   
-header token   
+header/query  token   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -984,7 +1008,7 @@ shelf_life | 有效期 | string | 描述过期截止时间
 
 17   获取店铺上架商品列表   
 GET    /api/v1/sku_business/sku/list   
-header token   
+header/query  token   
 返回body： 
 
 ```json
@@ -1297,7 +1321,7 @@ get /search/shop?keyword=交个朋友
 
 获取店铺订单报告   
 get  /user/order/report   
-header token   
+header/query  token   
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
@@ -1307,21 +1331,12 @@ end_time | 统计结束时间 | string | 如，2020-12-04 18:46:41
 page_size | 分页大小 | int | 500，最小1
 page_num | 分页号 | int | 最小1
 
-返回body   
-```json
-{
-	"code": 200,
-	"data": {
-		"report_file_path": "http://localhost:52001/static/order-report-30070-1606124289.xlsx"
-	},
-	"msg": "ok"
-}
-```
-report_file_path 报告的下载地址   
+返回body：Excel报告   
+
 
 用户账户充值   
 post  /user/account/charge   
-header token   
+header/query  token   
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
@@ -1339,7 +1354,7 @@ out_trade_no | 外部交易号 | string | uuid
 
 订单评价   
 post/json  /user/comments/order/create   
-header token   
+header/query  token   
 
 ```json
 {

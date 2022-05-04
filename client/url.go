@@ -1,10 +1,7 @@
 package client
 
 const (
-	baseUrlProd    = "https://xxx.xxx.xx/api"
-	baseUrlTestAli = "http://xx.xx.xx.xx:xxx/api"
-	baseUrlDev     = "http://xx.xx.xx.56:xx/api"
-	baseUrlLocal   = "http://106.75.173.152:52001/api"
+	baseUrlLocal = "http://127.0.0.1:52001/api"
 )
 
 const (
@@ -45,7 +42,6 @@ const (
 
 const (
 	apiV1 = "/v1"
-	apiV2 = "/v2"
 )
 
 var apiVersion = apiV1

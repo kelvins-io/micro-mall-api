@@ -1076,7 +1076,7 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "28728714129")
-	data.Set("verify_code", "378493")
+	data.Set("verify_code", "506041")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1093,7 +1093,7 @@ func TestLoginUserWithPwd(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "98501707783")
+	data.Set("phone", "28728714129")
 	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1158,7 +1158,7 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "719905")
+	data.Set("verify_code", "177918")
 	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
@@ -1212,7 +1212,7 @@ func TestShopBusinessApply(t *testing.T) {
 	data.Set("nick_name", "京港市趣味来电制造厂")
 	data.Set("full_name", "京港市趣味来电制造厂")
 	data.Set("register_addr", "京港市趣味来电制造厂")
-	data.Set("merchant_id", "1172")
+	data.Set("merchant_id", "1")
 	data.Set("business_addr", "京港市趣味来电制造厂")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -1235,7 +1235,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30080")
+	data.Set("shop_id", "1")
 	data.Set("sku_code", uuid.New().String())
 	data.Set("name", "百威淡色拉格啤酒")
 	data.Set("price", "23.78")
@@ -1250,7 +1250,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 	data.Set("specification", "一盒200抽")
 	data.Set("desc_link", "https://item.jd.com/2877592.html")
 	data.Set("state", "1")
-	data.Set("amount", "99999999999999999")
+	data.Set("amount", "99")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1442,7 +1442,6 @@ func commonTest(r string, req *http.Request, t *testing.T) {
 	t.Logf("req url: %v status : %v", r, rsp.Status)
 	if rsp.StatusCode != http.StatusOK {
 		t.Errorf("StatusCode(%v) != 200\n", rsp.StatusCode)
-		return
 	}
 	body, err := ioutil.ReadAll(rsp.Body)
 	if err != nil {
