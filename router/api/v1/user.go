@@ -1,12 +1,13 @@
 package v1
 
 import (
+	"net/http"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/app"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func RegisterUserApi(c *gin.Context) {
@@ -55,6 +56,23 @@ func LoginUserWithPwdApi(c *gin.Context) {
 	app.JsonResponse(c, http.StatusOK, code.SUCCESS, token)
 }
 
+func LoginUserWithAccountApi(c *gin.Context) {
+	var form args.LoginUserWithAccountArgs
+	var err error
+	err = app.BindAndValid(c, &form)
+	if err != nil {
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		return
+	}
+	token, retCode := service.LoginUserWithAccount(c, &form)
+	if retCode != code.SUCCESS {
+		app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
+		return
+	}
+	c.Writer.Header().Add("token", token)
+	app.JsonResponse(c, http.StatusOK, code.SUCCESS, token)
+}
+
 func GetVerifyCodeApi(c *gin.Context) {
 	var form args.GenVerifyCodeArgs
 	value, exist := c.Get("uid")
@@ -72,8 +90,8 @@ func GetVerifyCodeApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	retCode, verifyCode := service.GenVerifyCode(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, verifyCode)
+	retCode := service.GenVerifyCode(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, nil)
 }
 
 func PasswordResetApi(c *gin.Context) {

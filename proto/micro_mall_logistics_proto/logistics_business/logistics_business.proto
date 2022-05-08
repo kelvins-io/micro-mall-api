@@ -109,9 +109,11 @@ message CustomerInfo {
     string send_addr = 2;
     string send_phone = 3;
     string send_time = 4;
+    int64 send_user_id = 5;
     string receive_user = 31;
     string receive_addr = 32;
     string receive_phone = 33;
+    int64 receive_user_id = 34;
 }
 
 message GoodsInfo {

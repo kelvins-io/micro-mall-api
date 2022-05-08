@@ -108,19 +108,21 @@ type QueryLogisticsRecordRsp struct {
 }
 
 type ApplyLogisticsArgs struct {
-	Uid          int              `json:"uid"`
-	OutTradeNo   string           `json:"out_trade_no" form:"out_trade_no"`
-	Courier      string           `json:"courier" form:"courier"`
-	CourierType  int              `json:"courier_type" form:"courier_type"`
-	ReceiveType  int              `json:"receive_type" form:"receive_type"`
-	SendUser     string           `json:"send_user" form:"send_user"`
-	SendAddr     string           `json:"send_addr" form:"send_addr"`
-	SendPhone    string           `json:"send_phone" form:"send_phone"`
-	SendTime     string           `json:"send_time" form:"send_time"`
-	ReceiveUser  string           `json:"receive_user" form:"receive_user"`
-	ReceiveAddr  string           `json:"receive_addr" form:"receive_addr"`
-	ReceivePhone string           `json:"receive_phone" form:"receive_phone"`
-	Goods        []GoodsLogistics `json:"goods" form:"goods"`
+	Uid           int              `json:"uid"`
+	OutTradeNo    string           `json:"out_trade_no" form:"out_trade_no"`
+	Courier       string           `json:"courier" form:"courier"`
+	CourierType   int              `json:"courier_type" form:"courier_type"`
+	ReceiveType   int              `json:"receive_type" form:"receive_type"`
+	SendUserId    int64            `json:"send_user_id" form:"send_user_id"`
+	SendUser      string           `json:"send_user" form:"send_user"`
+	SendAddr      string           `json:"send_addr" form:"send_addr"`
+	SendPhone     string           `json:"send_phone" form:"send_phone"`
+	SendTime      string           `json:"send_time" form:"send_time"`
+	ReceiveUser   string           `json:"receive_user" form:"receive_user"`
+	ReceiveUserId int64            `json:"receive_user_id" form:"receive_user_id"`
+	ReceiveAddr   string           `json:"receive_addr" form:"receive_addr"`
+	ReceivePhone  string           `json:"receive_phone" form:"receive_phone"`
+	Goods         []GoodsLogistics `json:"goods" form:"goods"`
 }
 
 type GoodsLogistics struct {
@@ -146,6 +148,7 @@ type RegisterUserArgs struct {
 	VerifyCode  string `form:"verify_code" json:"verify_code"`
 	IdCardNo    string `form:"id_card_no" json:"id_card_no"`
 	InviteCode  string `form:"invite_code" json:"invite_code"`
+	AccountId   string `form:"account_id" json:"account_id"`
 }
 
 func (t *RegisterUserArgs) Valid(v *validation.Validation) {
@@ -155,11 +158,22 @@ func (t *RegisterUserArgs) Valid(v *validation.Validation) {
 	if len(t.Password) < 6 {
 		v.SetError("Password", "密码长度不能少于6位")
 	}
+	if len(t.Password) > 128 {
+		v.SetError("Password", "密码长度不能多余128位")
+	}
+	if t.CountryCode == "" {
+		t.CountryCode = "86"
+	}
+	if t.AccountId != "" {
+		if len(t.AccountId) > 36 {
+			v.SetError("AccountId", "账号长度不能多余36位")
+		}
+	}
 	if len(t.CountryCode) < 2 {
 		v.SetError("CountryCode", "国际码不能少于2位")
 	}
-	if len(t.Phone) < 11 {
-		v.SetError("Phone", "手机号不能少于11位")
+	if len(t.Phone) != 11 {
+		v.SetError("Phone", "手机号只能为11位")
 	}
 	if len(t.VerifyCode) < 6 {
 		v.SetError("VerifyCode", "验证码不能少于6位")
@@ -185,11 +199,29 @@ func (t *LoginUserWithVerifyCodeArgs) Valid(v *validation.Validation) {
 	if len(t.CountryCode) < 2 {
 		v.SetError("CountryCode", "国际码不能少于2位")
 	}
-	if len(t.Phone) < 11 {
-		v.SetError("Phone", "手机号不能少于11位")
+	if len(t.Phone) != 11 {
+		v.SetError("Phone", "手机号只能为111位")
 	}
 	if len(t.VerifyCode) < 6 {
 		v.SetError("VerifyCode", "验证码不能少于6位")
+	}
+}
+
+type LoginUserWithAccountArgs struct {
+	AccountId string `json:"account_id" form:"account_id"`
+	Password  string `form:"password" json:"password"`
+}
+
+func (t *LoginUserWithAccountArgs) Valid(v *validation.Validation) {
+	if len(t.AccountId) == 0 {
+		v.SetError("AccountId", "账号不能为空")
+	} else {
+		if len(t.AccountId) > 36 {
+			v.SetError("AccountId", "账号不能多余36位")
+		}
+	}
+	if len(t.Password) < 6 {
+		v.SetError("Password", "密码长度不能少于6位")
 	}
 }
 
@@ -206,8 +238,8 @@ func (t *LoginUserWithPwdArgs) Valid(v *validation.Validation) {
 	if len(t.CountryCode) < 2 {
 		v.SetError("CountryCode", "国际码不能少于2位")
 	}
-	if len(t.Phone) < 11 {
-		v.SetError("Phone", "手机号不能少于11位")
+	if len(t.Phone) != 11 {
+		v.SetError("Phone", "手机号只能为11位")
 	}
 }
 
@@ -224,8 +256,8 @@ func (t *GenVerifyCodeArgs) Valid(v *validation.Validation) {
 		if len(t.CountryCode) < 2 {
 			v.SetError("CountryCode", "国际码不能少于2位")
 		}
-		if len(t.Phone) < 11 {
-			v.SetError("Phone", "手机号不能少于11位")
+		if len(t.Phone) != 11 {
+			v.SetError("Phone", "手机号只能为11位")
 		}
 	}
 

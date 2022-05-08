@@ -36,6 +36,7 @@ func CheckUserToken() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
 		// 校验用户状态
 		retCode := service.VerifyUserState(c, int64(claims.Uid))
 		if retCode != code.SUCCESS {

@@ -24,6 +24,7 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	client := users.NewUsersServiceClient(conn)
 	// 注册用户
 	registerReq := &users.RegisterRequest{
+		AccountId:   req.AccountId,
 		UserName:    req.UserName,
 		Sex:         int32(req.Sex),
 		CountryCode: req.CountryCode,
@@ -149,6 +150,55 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 		return code.ErrorUserNotExist
 	default:
 		return code.ERROR
+	}
+}
+
+func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArgs) (string, int) {
+	var token string
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
+		return "", code.ERROR
+	}
+	client := users.NewUsersServiceClient(conn)
+	loginReq := &users.LoginUserRequest{
+		LoginType: users.LoginType_PWD,
+		LoginInfo: &users.LoginUserRequest_Pwd{
+			Pwd: &users.LoginByPassword{
+				LoginKind: users.LoginPwdKind_ACCOUNT,
+				Info: &users.LoginByPassword_Account{
+					Account: &users.Account{
+						AccountId: req.AccountId,
+					},
+				},
+				Pwd: req.Password,
+			},
+		},
+	}
+	loginRsp, err := client.LoginUser(ctx, loginReq)
+	if err != nil {
+		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
+		return "", code.ERROR
+	}
+	if loginRsp.Common.Code == users.RetCode_SUCCESS {
+		token = loginRsp.IdentityToken
+		return token, code.SUCCESS
+	}
+
+	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
+
+	switch loginRsp.Common.Code {
+	case users.RetCode_USER_NOT_EXIST:
+		return "", code.ErrorUserNotExist
+	case users.RetCode_USER_PWD_NOT_MATCH:
+		return "", code.ErrorUserPwd
+	case users.RetCode_USER_STATE_NOT_VERIFY:
+		return "", code.ErrUserStateNotVerify
+	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
+		return "", code.UserStateForbiddenLogin
+	default:
+		return "", code.ERROR
 	}
 }
 

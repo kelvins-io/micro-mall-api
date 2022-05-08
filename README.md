@@ -742,12 +742,13 @@ POST   /api/v1/register
 user_name |用户名 | string | 
 password |密码 | string | 可以是密文
 sex |性别 | int | 1男，2女
-email |接收验证码邮箱 | string | xxxx@xx.com
-country_code |国际码 | string | 
+email | 邮箱 | string | xxxx@xx.com
+country_code |国际码 | string | 86
 phone |手机号 | string | 11位手机号
 verify_code |验证码 | string | 6位验证码
 id_card_no | 身份证号 | string | 选填
-invite_code |邀请码 | string | xxx
+account_id | 账号 | string | 选填，最长36位
+invite_code |邀请码 | string | 选填
 
 返回body：   
 
@@ -761,7 +762,7 @@ POST   /api/v1/login/verify_code
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
-country_code |国际码 | string | 
+country_code |国际码 | string | 86
 phone |手机号 | string | 11位手机号
 verify_code |验证码 | string | 6位验证码
 
@@ -777,14 +778,30 @@ POST   /api/v1/login/pwd
 
 参数 | 含义 |  类型 | 备注  
 ---|------|------|---
-country_code |国际码 | string | 
+country_code |国际码 | string | 86
 phone |手机号 | string | 11位手机号
 password | 密码 | string | 可传md5值
 
 返回body：   
 ```json
-{"code":200,"data":{},"msg":"ok"}
+{"code":200,"data":"token","msg":"ok"}
 ```
+
+6 账号登录   
+POST /api/v1/login/account   
+
+请求参数：   
+
+参数 | 含义 |  类型 | 备注
+---|------|------|---
+account_id | 账号 | string | 最长36位
+password | 密码 | string | 可传md5值
+
+返回body：
+```json
+{"code":200,"data":"token","msg":"ok"}
+```
+
 
 7 重置用户密码   
 PUT    /api/v1/user/password/reset   
@@ -1144,11 +1161,13 @@ out_trade_no | 订单交易号 | string | 不能为空
 courier | 承运人 | string | 如，微商城快递
 courier_type | 承运类型 | string | 0-普通，1-铁路，2-空运，3-加急，4-延迟
 receive_type | 收件类型 | string | 0-普通，1-本人接收，2-代理接收
-send_user | 发送方 | string | 李云龙
-send_addr | 发送地址 | string | 河北省邯郸市东方路198号怡和豪庭10栋
+send_user | 发送方 | string | 汉东省京州市月牙湖房地产开发公司
+send_user_id | 发送方用户id | int64 | 用户ID
+send_addr | 发送地址 | string | 汉东省京州市月牙湖房地产开发公司
 send_phone | 发送方联系方式 | string | 如，13683749374
 send_time | 发送时间 | string | 如，2020-10-10 10:10:10
 receive_user | 接收方 | string | 赵富贵
+receive_user_id | 接收方用户id | int64 | 用户ID
 receive_addr | 接收方地址 | string | 四川省成都市武侯区98号
 receive_phone | 接收方联系方式 | string | 如，0838-10182827
 goods | 需要承运的货物 | string | 如，下面序列化后的值
@@ -1159,7 +1178,7 @@ goods示范
 	"sku_code": "2131d-f111-45e1-b68a-d602c2f0f1b3",
 	"name": "怡宝矿泉水",
 	"kind": "饮用水",
-	"count": 98
+	"count": 3
 }]
 ```
 

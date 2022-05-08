@@ -10,7 +10,7 @@ import (
 	"gitee.com/cristiane/micro-mall-api/vars"
 )
 
-func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int, verifyCode args.UserVerifyCode) {
+func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode int) {
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
@@ -34,8 +34,6 @@ func GenVerifyCode(ctx context.Context, req *args.GenVerifyCodeArgs) (retCode in
 	}
 
 	if verifyCodeRsp.Common.Code == users.RetCode_SUCCESS {
-		verifyCode.VerifyCode = verifyCodeRsp.GetVerifyCode()
-		verifyCode.Expire = verifyCodeRsp.GetExpire()
 		return
 	}
 

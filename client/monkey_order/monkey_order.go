@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 	"math/rand"
 	"net"
 	"net/http"
@@ -18,7 +17,7 @@ import (
 	"golang.org/x/net/http2"
 )
 
-var benchCount = math.MaxInt32
+var benchCount = 3
 var randSleep = time.Duration(rand.Intn(200)) * time.Millisecond
 
 func main() {

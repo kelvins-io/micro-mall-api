@@ -222,6 +222,10 @@ message Email {
     string content = 1;
 }
 
+message Account {
+    string account_id = 1;
+}
+
 message MobilePhone {
     string country_code = 1;
     string phone = 2;
@@ -230,6 +234,7 @@ message MobilePhone {
 enum LoginPwdKind {
     MOBILE_PHONE = 0;
     EMAIL = 1;
+    ACCOUNT = 2;
 }
 
 message LoginByPassword {
@@ -237,6 +242,7 @@ message LoginByPassword {
     oneof info {
         Email email = 100;
         MobilePhone phone = 101;
+        Account account = 102;
     }
     string pwd = 2;
 }
@@ -409,6 +415,7 @@ message RegisterRequest {
     int32 age = 10;
     string password  = 11;
     string verify_code = 12;
+    string account_id = 13;
 }
 
 message RegisterResult {
@@ -430,8 +437,6 @@ message GenVerifyCodeRequest {
 
 message GenVerifyCodeResponse {
     CommonResponse common = 1;
-    string verify_code = 2;
-    int64 expire = 3;
 }
 
 message CheckUserByPhoneRequest {
@@ -482,15 +487,17 @@ message GetUserInfoResponse {
 }
 
 message MerchantsMaterialInfo {
-    int64 uid =1;
-    int64 material_id =2;
+    int64 uid = 1;
+    int64 material_id = 2;
     string register_addr = 3;
-    string health_card_no =4;
-    int32 identity =5;
-    int32 state =6;
-    string tax_card_no =7;
+    string health_card_no = 4;
+    int32 identity = 5;
+    int32 state = 6;
+    string tax_card_no = 7;
     string create_time = 8;
     string update_time = 9;
+    string merchant_name = 10;
+    string merchant_email = 11;
 }
 
 message MerchantsMaterialRequest {

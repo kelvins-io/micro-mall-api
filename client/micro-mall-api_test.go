@@ -25,6 +25,7 @@ func TestGateway(t *testing.T) {
 	t.Run("注册用户", TestRegisterUser)
 	t.Run("登录用户-验证码", TestLoginUserWithVerifyCode)
 	t.Run("登录用户-密码", TestLoginUserWithPwd)
+	t.Run("登录用户-账号", TestLoginUserWithAccount)
 	t.Run("重置密码", TestLoginUserPwdReset)
 	t.Run("获取用户信息", TestGetUserInfo)
 	t.Run("list用户info", TestListUserInfo)
@@ -270,7 +271,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "06f3e848-eec5-495b-bb4f-85f085b1aada")
+	data.Set("tx_code", "c18fc94a-b6e3-405e-b5b9-b9643dee0397")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -435,19 +436,20 @@ func TestUserAccountCharge(t *testing.T) {
 }
 
 type ApplyLogisticsArgs struct {
-	Uid          int              `json:"uid"`
-	OutTradeNo   string           `json:"out_trade_no" form:"out_trade_no"`
-	Courier      string           `json:"courier" form:"courier"`
-	CourierType  int              `json:"courier_type" form:"courier_type"`
-	ReceiveType  int              `json:"receive_type" form:"receive_type"`
-	SendUser     string           `json:"send_user" form:"send_user"`
-	SendAddr     string           `json:"send_addr" form:"send_addr"`
-	SendPhone    string           `json:"send_phone" form:"send_phone"`
-	SendTime     string           `json:"send_time" form:"send_time"`
-	ReceiveUser  string           `json:"receive_user" form:"receive_user"`
-	ReceiveAddr  string           `json:"receive_addr" form:"receive_addr"`
-	ReceivePhone string           `json:"receive_phone" form:"receive_phone"`
-	Goods        []GoodsLogistics `json:"goods" form:"goods"`
+	OutTradeNo    string           `json:"out_trade_no" form:"out_trade_no"`
+	Courier       string           `json:"courier" form:"courier"`
+	CourierType   int              `json:"courier_type" form:"courier_type"`
+	ReceiveType   int              `json:"receive_type" form:"receive_type"`
+	SendUser      string           `json:"send_user" form:"send_user"`
+	SendUserId    int64            `json:"send_user_id" form:"send_user_id"`
+	SendAddr      string           `json:"send_addr" form:"send_addr"`
+	SendPhone     string           `json:"send_phone" form:"send_phone"`
+	SendTime      string           `json:"send_time" form:"send_time"`
+	ReceiveUser   string           `json:"receive_user" form:"receive_user"`
+	ReceiveUserId int64            `json:"receive_user_id" form:"receive_user_id"`
+	ReceiveAddr   string           `json:"receive_addr" form:"receive_addr"`
+	ReceivePhone  string           `json:"receive_phone" form:"receive_phone"`
+	Goods         []GoodsLogistics `json:"goods" form:"goods"`
 }
 
 type GoodsLogistics struct {
@@ -461,13 +463,13 @@ func TestLogisticsApply(t *testing.T) {
 	r := baseUrl + logisticsApply
 	t.Logf("request url: %s", r)
 	applyReq := ApplyLogisticsArgs{
-		Uid:          0,
 		OutTradeNo:   uuid.New().String(),
 		Courier:      "微商城快递",
 		CourierType:  1,
 		ReceiveType:  1,
-		SendUser:     "李云龙",
-		SendAddr:     "河北省石家庄市丰县迎宾路123号",
+		SendUserId:   30781, // shop id
+		SendUser:     "汉东省京州市月牙湖房地产开发公司",
+		SendAddr:     "汉东省京州市月牙湖房地产开发公司123号",
 		SendPhone:    "1550170773",
 		SendTime:     "2020-10-09 12:12:12",
 		ReceiveUser:  "马司令",
@@ -478,7 +480,7 @@ func TestLogisticsApply(t *testing.T) {
 				SkuCode: "2131d-f111-45e1-b68a-d602c2f0f1b3",
 				Name:    "怡宝矿泉水",
 				Kind:    "饮用水",
-				Count:   98,
+				Count:   2,
 			},
 		},
 	}
@@ -1001,9 +1003,9 @@ func TestVerifyCodeSend(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "28728714129")
-	data.Set("business_type", "1")
-	data.Set("receive_email", "610905744@qq.com")
+	data.Set("phone", "98501707783")
+	data.Set("business_type", "2")
+	data.Set("receive_email", "565608463@qq.com")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1053,11 +1055,12 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "28728714129")
+	data.Set("phone", "48728714121")
 	data.Set("email", "565608463@qq.com")
-	data.Set("verify_code", "177918")
+	data.Set("verify_code", "298415")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
+	data.Set("account_id", "")
 	data.Set("invite_code", "")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1075,8 +1078,8 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
-	data.Set("phone", "28728714129")
-	data.Set("verify_code", "506041")
+	data.Set("phone", "98501707783")
+	data.Set("verify_code", "177918")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1094,6 +1097,23 @@ func TestLoginUserWithPwd(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "28728714129")
+	data.Set("password", "35501707783")
+	t.Logf("req data: %v", data)
+	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("token", qToken)
+	commonTest(r, req, t)
+}
+
+func TestLoginUserWithAccount(t *testing.T) {
+	r := baseUrl + loginUserWithAccount
+	t.Logf("request url: %s", r)
+	data := url.Values{}
+	data.Set("account_id", "38728714129")
 	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
@@ -1158,7 +1178,7 @@ func TestLoginUserPwdReset(t *testing.T) {
 	r := baseUrl + userPwdReset
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("verify_code", "177918")
+	data.Set("verify_code", "883510")
 	data.Set("password", "35501707783")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("PUT", r, strings.NewReader(data.Encode()))
@@ -1175,7 +1195,7 @@ func TestMerchantsMaterial(t *testing.T) {
 	r := baseUrl + merchantsMaterial
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "0")
+	data.Set("operation_type", "1")
 	data.Set("register_addr", "京港市上海路111号")
 	data.Set("health_card_no", "R8nJ65TDUGAlqrwerSdb9")
 	data.Set("identity", "1")
@@ -1207,13 +1227,13 @@ func TestShopBusinessApply(t *testing.T) {
 	r := baseUrl + shopBusinessApply
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "0")
-	data.Set("shop_id", "0")
-	data.Set("nick_name", "京港市趣味来电制造厂")
-	data.Set("full_name", "京港市趣味来电制造厂")
-	data.Set("register_addr", "京港市趣味来电制造厂")
-	data.Set("merchant_id", "1")
-	data.Set("business_addr", "京港市趣味来电制造厂")
+	data.Set("operation_type", "1")
+	data.Set("shop_id", "30083")
+	data.Set("nick_name", "汉东省京州市月牙湖房地产开发公司")
+	data.Set("full_name", "汉东省京州市月牙湖房地产开发公司")
+	data.Set("register_addr", "汉东省京州市月牙湖房地产开发公司")
+	data.Set("merchant_id", "1317")
+	data.Set("business_addr", "汉东省京州市月牙湖房地产开发公司")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
 	data.Set("business_desc", "qX2MkznWrlvO4sIp7")

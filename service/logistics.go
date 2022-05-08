@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/pkg/util"
@@ -38,15 +39,23 @@ func ApplyLogistics(ctx context.Context, req *args.ApplyLogisticsArgs) (result *
 		ReceiveType: int32(req.ReceiveType),
 		SendTime:    req.SendTime,
 		Customer: &logistics_business.CustomerInfo{
-			SendUser:     req.SendUser,
-			SendAddr:     req.SendAddr,
-			SendPhone:    req.SendPhone,
-			SendTime:     req.SendTime,
-			ReceiveUser:  req.ReceiveUser,
-			ReceiveAddr:  req.ReceiveAddr,
-			ReceivePhone: req.ReceivePhone,
+			SendUserId:    req.SendUserId,
+			SendUser:      req.SendUser,
+			SendAddr:      req.SendAddr,
+			SendPhone:     req.SendPhone,
+			SendTime:      req.SendTime,
+			ReceiveUser:   req.ReceiveUser,
+			ReceiveAddr:   req.ReceiveAddr,
+			ReceivePhone:  req.ReceivePhone,
+			ReceiveUserId: req.ReceiveUserId,
 		},
 		Goods: goods,
+	}
+	if logisticsReq.Customer.SendUserId == 0 {
+		logisticsReq.Customer.SendUserId = int64(req.Uid)
+	}
+	if logisticsReq.Customer.ReceiveUserId == 0 {
+		logisticsReq.Customer.ReceiveUserId = int64(req.Uid)
 	}
 	logisticsRsp, err := client.ApplyLogistics(ctx, &logisticsReq)
 	if err != nil {

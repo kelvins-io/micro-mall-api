@@ -35,6 +35,7 @@ func InitRouter() *gin.Engine {
 	{
 		apiUserLogin.POST("/verify_code", v1.LoginUserWithVerifyCodeApi) // 验证码登陆
 		apiUserLogin.POST("/pwd", v1.LoginUserWithPwdApi)                // 密码登陆
+		apiUserLogin.POST("/account", v1.LoginUserWithAccountApi)        // 账号登录
 	}
 	apiUser := apiV1.Group("/user")
 	apiUser.Use(middleware.CheckUserToken())
