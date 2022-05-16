@@ -66,13 +66,15 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	}
 }
 
-func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (string, int) {
-	var token string
+func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (loginInfo *args.UserLoginRsp, retCode int) {
+	loginInfo = &args.UserLoginRsp{}
+	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
@@ -90,31 +92,61 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	loginRsp, err := client.LoginUser(ctx, loginReq)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	if loginRsp.Common.Code == users.RetCode_SUCCESS {
-		token = loginRsp.IdentityToken
-		return token, code.SUCCESS
+		loginInfo.Token = loginRsp.Token
+		v := loginRsp.GetUserInfo()
+		if v != nil {
+			userInfo := args.UserInfoRsp{
+				Id:          int(v.Uid),
+				AccountId:   v.AccountId,
+				UserName:    v.UserName,
+				Sex:         int(v.Sex),
+				Phone:       v.Phone,
+				CountryCode: v.CountryCode,
+				Email:       v.Email,
+				State:       int(v.State),
+				IdCardNo:    v.IdCardNo,
+				Inviter:     int(v.Inviter),
+				InviteCode:  v.InviterCode,
+				ContactAddr: v.ContactAddr,
+				Age:         int(v.Age),
+				CreateTime:  v.CreateTime,
+				UpdateTime:  v.UpdateTime,
+			}
+			loginInfo.UserInfo = userInfo
+		}
+		return
 	}
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return "", code.ErrUserStateNotVerify
+		retCode = code.ErrUserStateNotVerify
+		return
 	case users.RetCode_USER_NOT_EXIST:
-		return "", code.ErrorUserNotExist
+		retCode = code.ErrorUserNotExist
+		return
 	case users.RetCode_USER_VERIFY_CODE_INVALID:
-		return "", code.ErrorVerifyCodeInvalid
+		retCode = code.ErrorVerifyCodeInvalid
+		return
 	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
-		return "", code.ErrorVerifyCodeExpire
+		retCode = code.ErrorVerifyCodeExpire
+		return
 	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
-		return "", code.ErrorVerifyCodeForbidden
+		retCode = code.ErrorVerifyCodeForbidden
+		return
 	case users.RetCode_USER_PWD_NOT_MATCH:
-		return "", code.ErrorUserPwd
+		retCode = code.ErrorUserPwd
+		return
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
-		return "", code.UserStateForbiddenLogin
+		retCode = code.UserStateForbiddenLogin
+		return
 	default:
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 }
 
@@ -153,13 +185,15 @@ func updateUserStateLogin(ctx context.Context, uid int) int {
 	}
 }
 
-func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArgs) (string, int) {
-	var token string
+func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArgs) (loginInfo *args.UserLoginRsp, retCode int) {
+	loginInfo = &args.UserLoginRsp{}
+	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
@@ -179,36 +213,64 @@ func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArg
 	loginRsp, err := client.LoginUser(ctx, loginReq)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	if loginRsp.Common.Code == users.RetCode_SUCCESS {
-		token = loginRsp.IdentityToken
-		return token, code.SUCCESS
+		loginInfo.Token = loginRsp.Token
+		v := loginRsp.GetUserInfo()
+		if v != nil {
+			loginInfo.UserInfo = args.UserInfoRsp{
+				Id:          int(v.Uid),
+				AccountId:   v.AccountId,
+				UserName:    v.UserName,
+				Sex:         int(v.Sex),
+				Phone:       v.Phone,
+				CountryCode: v.CountryCode,
+				Email:       v.Email,
+				State:       int(v.State),
+				IdCardNo:    v.IdCardNo,
+				Inviter:     int(v.Inviter),
+				InviteCode:  v.InviterCode,
+				ContactAddr: v.ContactAddr,
+				Age:         int(v.Age),
+				CreateTime:  v.CreateTime,
+				UpdateTime:  v.UpdateTime,
+			}
+		}
+		return
 	}
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
-		return "", code.ErrorUserNotExist
+		retCode = code.ErrorUserNotExist
+		return
 	case users.RetCode_USER_PWD_NOT_MATCH:
-		return "", code.ErrorUserPwd
+		retCode = code.ErrorUserPwd
+		return
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return "", code.ErrUserStateNotVerify
+		retCode = code.ErrUserStateNotVerify
+		return
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
-		return "", code.UserStateForbiddenLogin
+		retCode = code.UserStateForbiddenLogin
+		return
 	default:
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 }
 
-func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (string, int) {
-	var token string
+func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (loginInfo *args.UserLoginRsp, retCode int) {
+	loginInfo = &args.UserLoginRsp{}
+	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient  %q err: %v", serverName, err)
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	client := users.NewUsersServiceClient(conn)
 	loginReq := &users.LoginUserRequest{
@@ -229,26 +291,53 @@ func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (stri
 	loginRsp, err := client.LoginUser(ctx, loginReq)
 	if err != nil {
 		vars.ErrorLogger.Errorf(ctx, "LoginUser err: %v,req: %v", err, json.MarshalToStringNoError(req))
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 	if loginRsp.Common.Code == users.RetCode_SUCCESS {
-		token = loginRsp.IdentityToken
-		return token, code.SUCCESS
+		loginInfo.Token = loginRsp.Token
+		v := loginRsp.GetUserInfo()
+		if v != nil {
+			userInfo := args.UserInfoRsp{
+				Id:          int(v.Uid),
+				AccountId:   v.AccountId,
+				UserName:    v.UserName,
+				Sex:         int(v.Sex),
+				Phone:       v.Phone,
+				CountryCode: v.CountryCode,
+				Email:       v.Email,
+				State:       int(v.State),
+				IdCardNo:    v.IdCardNo,
+				Inviter:     int(v.Inviter),
+				InviteCode:  v.InviterCode,
+				ContactAddr: v.ContactAddr,
+				Age:         int(v.Age),
+				CreateTime:  v.CreateTime,
+				UpdateTime:  v.UpdateTime,
+			}
+			loginInfo.UserInfo = userInfo
+		}
+		return
 	}
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 
 	switch loginRsp.Common.Code {
 	case users.RetCode_USER_NOT_EXIST:
-		return "", code.ErrorUserNotExist
+		retCode = code.ErrorUserNotExist
+		return
 	case users.RetCode_USER_PWD_NOT_MATCH:
-		return "", code.ErrorUserPwd
+		retCode = code.ErrorUserPwd
+		return
 	case users.RetCode_USER_STATE_NOT_VERIFY:
-		return "", code.ErrUserStateNotVerify
+		retCode = code.ErrUserStateNotVerify
+		return
 	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
-		return "", code.UserStateForbiddenLogin
+		retCode = code.UserStateForbiddenLogin
+		return
 	default:
-		return "", code.ERROR
+		retCode = code.ERROR
+		return
 	}
 }
 

@@ -30,13 +30,8 @@ func LoginUserWithVerifyCodeApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	token, retCode := service.LoginUserWithVerifyCode(c, &form)
-	if retCode != code.SUCCESS {
-		app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
-		return
-	}
-	c.Writer.Header().Add("token", token)
-	app.JsonResponse(c, http.StatusOK, code.SUCCESS, token)
+	loginInfo, retCode := service.LoginUserWithVerifyCode(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
 }
 
 func LoginUserWithPwdApi(c *gin.Context) {
@@ -47,13 +42,8 @@ func LoginUserWithPwdApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	token, retCode := service.LoginUserWithPwd(c, &form)
-	if retCode != code.SUCCESS {
-		app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
-		return
-	}
-	c.Writer.Header().Add("token", token)
-	app.JsonResponse(c, http.StatusOK, code.SUCCESS, token)
+	loginInfo, retCode := service.LoginUserWithPwd(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
 }
 
 func LoginUserWithAccountApi(c *gin.Context) {
@@ -64,13 +54,8 @@ func LoginUserWithAccountApi(c *gin.Context) {
 		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
 		return
 	}
-	token, retCode := service.LoginUserWithAccount(c, &form)
-	if retCode != code.SUCCESS {
-		app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
-		return
-	}
-	c.Writer.Header().Add("token", token)
-	app.JsonResponse(c, http.StatusOK, code.SUCCESS, token)
+	loginInfo, retCode := service.LoginUserWithAccount(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
 }
 
 func GetVerifyCodeApi(c *gin.Context) {

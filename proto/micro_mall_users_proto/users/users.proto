@@ -375,7 +375,8 @@ message LoginUserRequest {
 
 message LoginUserResponse {
     CommonResponse common = 1;
-    string identity_token = 2;
+    string token = 2;
+    UserInfo user_info = 3;
 }
 
 message PasswordResetRequest {

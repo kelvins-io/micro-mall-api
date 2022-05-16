@@ -533,6 +533,11 @@ type UserInfoRsp struct {
 	UpdateTime  string `json:"update_time"`
 }
 
+type UserLoginRsp struct {
+	UserInfo UserInfoRsp `json:"user_info"`
+	Token    string      `json:"token"`
+}
+
 type ListUserInfoArgs struct {
 	PageMeta
 	Token string `form:"token" json:"token"`

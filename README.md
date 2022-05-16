@@ -773,7 +773,30 @@ verify_code |验证码 | string | 6位验证码
 返回body：   
 
 ```json
-{"code":200,"data":"token","msg":"ok"}
+{
+   "code": 200,
+   "data": {
+      "user_info": {
+         "id": 79860,
+         "account_id": "38728714129",
+         "user_name": "韦唯",
+         "sex": 1,
+         "phone": "38728714129",
+         "country_code": "86",
+         "email": "565608463@qq.com",
+         "state": 3,
+         "id_card_no": "100000001651933865",
+         "inviter": 0,
+         "invite_code": "5a4d78e48000065",
+         "contact_addr": "深圳市安河桥路18号安和大院",
+         "age": 33,
+         "create_time": "2022-05-07 22:31:05",
+         "update_time": "2022-05-07 22:31:05"
+      },
+      "token": "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLpn6bllK8iLCJ1aWQiOjc5ODYwLCJleHAiOjE2NTUyOTc4NTgsImlzcyI6IndlYl9naW5fdGVtcGxhdGUifQ.Vr44kIbx5N48EkHli5P4M8COHo9gS3u52xhtTHuXBZiP-0csj4kyq0fl9L4KPeV9"
+   },
+   "msg": "ok"
+}
 ```
 
 6 密码登陆   
@@ -788,7 +811,30 @@ password | 密码 | string | 可传md5值
 
 返回body：   
 ```json
-{"code":200,"data":"token","msg":"ok"}
+{
+   "code": 200,
+   "data": {
+      "user_info": {
+         "id": 79860,
+         "account_id": "38728714129",
+         "user_name": "韦唯",
+         "sex": 1,
+         "phone": "38728714129",
+         "country_code": "86",
+         "email": "565608463@qq.com",
+         "state": 3,
+         "id_card_no": "100000001651933865",
+         "inviter": 0,
+         "invite_code": "5a4d78e48000065",
+         "contact_addr": "深圳市安河桥路18号安和大院",
+         "age": 33,
+         "create_time": "2022-05-07 22:31:05",
+         "update_time": "2022-05-07 22:31:05"
+      },
+      "token": "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLpn6bllK8iLCJ1aWQiOjc5ODYwLCJleHAiOjE2NTUyOTc4NTgsImlzcyI6IndlYl9naW5fdGVtcGxhdGUifQ.Vr44kIbx5N48EkHli5P4M8COHo9gS3u52xhtTHuXBZiP-0csj4kyq0fl9L4KPeV9"
+   },
+   "msg": "ok"
+}
 ```
 
 6 账号登录   
@@ -803,7 +849,30 @@ password | 密码 | string | 可传md5值
 
 返回body：
 ```json
-{"code":200,"data":"token","msg":"ok"}
+{
+   "code": 200,
+   "data": {
+      "user_info": {
+         "id": 79860,
+         "account_id": "38728714129",
+         "user_name": "韦唯",
+         "sex": 1,
+         "phone": "38728714129",
+         "country_code": "86",
+         "email": "565608463@qq.com",
+         "state": 3,
+         "id_card_no": "100000001651933865",
+         "inviter": 0,
+         "invite_code": "5a4d78e48000065",
+         "contact_addr": "深圳市安河桥路18号安和大院",
+         "age": 33,
+         "create_time": "2022-05-07 22:31:05",
+         "update_time": "2022-05-07 22:31:05"
+      },
+      "token": "eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiLpn6bllK8iLCJ1aWQiOjc5ODYwLCJleHAiOjE2NTUyOTc4NTgsImlzcyI6IndlYl9naW5fdGVtcGxhdGUifQ.Vr44kIbx5N48EkHli5P4M8COHo9gS3u52xhtTHuXBZiP-0csj4kyq0fl9L4KPeV9"
+   },
+   "msg": "ok"
+}
 ```
 
 
