@@ -23,9 +23,9 @@ import (
 func TestGateway(t *testing.T) {
 	t.Run("发送验证码", TestVerifyCodeSend)
 	t.Run("注册用户", TestRegisterUser)
-	t.Run("登录用户-验证码", TestLoginUserWithVerifyCode)
-	t.Run("登录用户-密码", TestLoginUserWithPwd)
-	t.Run("登录用户-账号", TestLoginUserWithAccount)
+	t.Run("登录用户-手机号验证码", TestLoginUserWithVerifyCode)
+	t.Run("登录用户-手机号密码", TestLoginUserWithPhone)
+	t.Run("登录用户-账号密码", TestLoginUserWithAccount)
 	t.Run("重置密码", TestLoginUserPwdReset)
 	t.Run("获取用户信息", TestGetUserInfo)
 	t.Run("list用户info", TestListUserInfo)
@@ -1091,8 +1091,8 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func TestLoginUserWithPwd(t *testing.T) {
-	r := baseUrl + loginUserWithPwd
+func TestLoginUserWithPhone(t *testing.T) {
+	r := baseUrl + loginUserWithPhone
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")
@@ -1126,8 +1126,8 @@ func TestLoginUserWithAccount(t *testing.T) {
 	commonTest(r, req, t)
 }
 
-func BenchmarkTestLoginUserWithPwd(b *testing.B) {
-	r := baseUrl + loginUserWithPwd
+func BenchmarkTestLoginUserWithPhone(b *testing.B) {
+	r := baseUrl + loginUserWithPhone
 	b.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("country_code", "86")

@@ -18,21 +18,21 @@ func CheckUserToken() gin.HandlerFunc {
 			token = c.Query("token")
 		}
 		if token == "" {
-			app.JsonResponse(c, http.StatusUnauthorized, code.ErrorTokenEmpty, code.GetMsg(code.ErrorTokenEmpty))
+			app.JsonResponse(c, http.StatusUnauthorized, code.ErrorTokenEmpty, code.GetMsg(code.ErrorTokenEmpty), nil)
 			c.Abort()
 			return
 		}
 		claims, err := util.ParseToken(token)
 		if err != nil {
-			app.JsonResponse(c, http.StatusForbidden, code.ErrorTokenInvalid, code.GetMsg(code.ErrorTokenInvalid))
+			app.JsonResponse(c, http.StatusForbidden, code.ErrorTokenInvalid, code.GetMsg(code.ErrorTokenInvalid), nil)
 			c.Abort()
 			return
 		} else if claims == nil || claims.Uid == 0 {
-			app.JsonResponse(c, http.StatusForbidden, code.ErrorUserNotExist, code.GetMsg(code.ErrorUserNotExist))
+			app.JsonResponse(c, http.StatusForbidden, code.ErrorUserNotExist, code.GetMsg(code.ErrorUserNotExist), nil)
 			c.Abort()
 			return
 		} else if time.Now().Unix() > claims.ExpiresAt {
-			app.JsonResponse(c, http.StatusForbidden, code.ErrorTokenExpire, code.GetMsg(code.ErrorTokenExpire))
+			app.JsonResponse(c, http.StatusForbidden, code.ErrorTokenExpire, code.GetMsg(code.ErrorTokenExpire), nil)
 			c.Abort()
 			return
 		}
@@ -40,7 +40,7 @@ func CheckUserToken() gin.HandlerFunc {
 		// 校验用户状态
 		retCode := service.VerifyUserState(c, int64(claims.Uid))
 		if retCode != code.SUCCESS {
-			app.JsonResponse(c, http.StatusForbidden, code.ErrUserStateNotVerify, code.GetMsg(code.ErrUserStateNotVerify))
+			app.JsonResponse(c, http.StatusForbidden, code.ErrUserStateNotVerify, code.GetMsg(code.ErrUserStateNotVerify), nil)
 			c.Abort()
 			return
 		}

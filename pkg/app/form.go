@@ -38,11 +38,7 @@ func buildFormErr(errs []*validation.Error) error {
 			msg.WriteString(v.Name)
 		}
 		msg.WriteString("：")
-		//msg.WriteString(json.MarshalToStringNoError(v.Value))
-		//msg.WriteString(" => ")
 		msg.WriteString(v.Error())
-		//msg.WriteString(" should=> ")
-		//msg.WriteString(json.MarshalToStringNoError(v.LimitValue))
 	}
 	return errors.New(msg.String())
 }

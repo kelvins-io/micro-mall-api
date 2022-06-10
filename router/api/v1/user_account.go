@@ -1,25 +1,19 @@
 package v1
 
 import (
+	"net/http"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/app"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"net/http"
 )
 
 func UserAccountChargeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.UserAccountChargeArgs
@@ -28,12 +22,12 @@ func UserAccountChargeApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	if form.OutTradeNo == "" {
 		form.OutTradeNo = uuid.New().String()
 	}
 	retCode := service.UserAccountCharge(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, "")
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), nil)
 }

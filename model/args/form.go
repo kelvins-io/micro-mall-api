@@ -225,13 +225,13 @@ func (t *LoginUserWithAccountArgs) Valid(v *validation.Validation) {
 	}
 }
 
-type LoginUserWithPwdArgs struct {
+type LoginUserWithPhoneArgs struct {
 	CountryCode string `form:"country_code" json:"country_code"`
 	Phone       string `form:"phone" json:"phone"`
 	Password    string `form:"password" json:"password"`
 }
 
-func (t *LoginUserWithPwdArgs) Valid(v *validation.Validation) {
+func (t *LoginUserWithPhoneArgs) Valid(v *validation.Validation) {
 	if len(t.Password) < 6 {
 		v.SetError("Password", "密码长度不能少于6位")
 	}

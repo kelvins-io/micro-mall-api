@@ -7,9 +7,9 @@ const (
 const (
 	verifyCodeSend          = "/verify_code/send"
 	registerUser            = "/register"
-	loginUserWithVerifyCode = "/login/verify_code"
-	loginUserWithPwd        = "/login/pwd"
-	loginUserWithAccount    = "/login/account"
+	loginUserWithVerifyCode = "/login/verify_code/phone"
+	loginUserWithPhone      = "/login/pwd/phone"
+	loginUserWithAccount    = "/login/pwd/account"
 	userPwdReset            = "/user/password/reset"
 	userInfo                = "/user/user_info"
 	userInfoList            = "/user/user_info/list"

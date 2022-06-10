@@ -15,11 +15,11 @@ func RegisterUserApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.CreateUser(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func LoginUserWithVerifyCodeApi(c *gin.Context) {
@@ -27,23 +27,23 @@ func LoginUserWithVerifyCodeApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	loginInfo, retCode := service.LoginUserWithVerifyCode(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), loginInfo)
 }
 
-func LoginUserWithPwdApi(c *gin.Context) {
-	var form args.LoginUserWithPwdArgs
+func LoginUserWithPhoneApi(c *gin.Context) {
+	var form args.LoginUserWithPhoneArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
-	loginInfo, retCode := service.LoginUserWithPwd(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
+	loginInfo, retCode := service.LoginUserWithPhone(c, &form)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), loginInfo)
 }
 
 func LoginUserWithAccountApi(c *gin.Context) {
@@ -51,44 +51,30 @@ func LoginUserWithAccountApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	loginInfo, retCode := service.LoginUserWithAccount(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, loginInfo)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), loginInfo)
 }
 
 func GetVerifyCodeApi(c *gin.Context) {
 	var form args.GenVerifyCodeArgs
-	value, exist := c.Get("uid")
-	if exist {
-		uid, ok := value.(int)
-		if !ok {
-			app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-			return
-		}
-		form.Uid = uid
-	}
+	uid := getUserId(c)
+	form.Uid = uid
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	retCode := service.GenVerifyCode(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, nil)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), nil)
 }
 
 func PasswordResetApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.PasswordResetArgs
@@ -96,45 +82,36 @@ func PasswordResetApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 
 	retCode := service.PasswordReset(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode))
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), nil)
 }
 
 func GetUserInfoApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-
 	userInfo, retCode := service.GetUserInfo(c, uid)
-	app.JsonResponse(c, http.StatusOK, retCode, userInfo)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), userInfo)
 }
 
 func ListUserInfoApi(c *gin.Context) {
-	_, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.ListUserInfoArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 
 	userInfoList, retCode := service.ListUserInfo(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, userInfoList)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), userInfoList)
 }

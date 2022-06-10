@@ -5,15 +5,14 @@ import (
 	"time"
 
 	varsInternal "gitee.com/cristiane/micro-mall-api/internal/vars"
-	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"github.com/gin-gonic/gin"
 )
 
-func JsonResponse(ctx *gin.Context, httpCode, retCode int, data interface{}) {
+func JsonResponse(ctx *gin.Context, httpCode, retCode int, msg string, data interface{}) {
 	echoStatics(ctx)
 	ctx.JSON(httpCode, gin.H{
 		"code": retCode,
-		"msg":  code.GetMsg(retCode),
+		"msg":  msg,
 		"data": data,
 	})
 }

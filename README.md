@@ -699,7 +699,7 @@ GET    /
 ```json
 {
 	"code": 200,
-	"data": "Welcome to micro-mall-api",
+	"data": {},
 	"msg": "ok"
 }
 ```
@@ -711,7 +711,9 @@ GET    /ping
 ```json
 {
 	"code": 200,
-	"data": "2020-09-11T21:55:28.873726+08:00",
+	"data": {
+       
+    },
 	"msg": "ok"
 }
 ```
@@ -734,7 +736,7 @@ receive_email |接收验证码邮箱，需要在配置项主动配置email | str
 
 返回body：   
 ```json
-{"code":200,"data":"ok","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 4 注册用户   
@@ -761,7 +763,7 @@ invite_code |邀请码 | string | 选填
 ```
 
 5 验证码登陆   
-POST   /api/v1/login/verify_code   
+POST   /api/v1/login/verify_code/phone   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -799,8 +801,8 @@ verify_code |验证码 | string | 6位验证码
 }
 ```
 
-6 密码登陆   
-POST   /api/v1/login/pwd   
+6 手机号密码登陆   
+POST   /api/v1/login/pwd/phone   
 请求参数：   
 
 参数 | 含义 |  类型 | 备注  
@@ -837,8 +839,8 @@ password | 密码 | string | 可传md5值
 }
 ```
 
-6 账号登录   
-POST /api/v1/login/account   
+6 账号密码登录   
+POST /api/v1/login/pwd/account   
 
 请求参数：   
 
@@ -888,7 +890,7 @@ password | 密码 | string | 可传md5值
 
 返回body：   
 ```json
-{"code":200,"data":"token","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 8 获取用户信息   
@@ -980,7 +982,7 @@ selected | 是否选中 | bool | true,false
 
 返回body： 
 ```json
-{"code":200,"data":"ok","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 11 从购物车中移除商品   
@@ -996,7 +998,7 @@ amount | 数量 | int | 要移除的数量，-1表示全部移除该商品
 
 返回body： 
 ```json
-{"code":200,"data":"ok","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 12  获取用户购物车   
@@ -1204,7 +1206,7 @@ header token
 
 返回body   
 ```json
-{"code": 200,"data": "","msg": ""}
+{"code": 200,"data": {},"msg": ""}
 ```
 
 22  订单支付   
@@ -1220,7 +1222,7 @@ tx_code | 订单交易号 | string | 不能为空
 
 返回body   
 ```json
-{"code": 200,"data": "","msg": ""}
+{"code": 200,"data": {},"msg": ""}
 ```
 
 23  申请物流
@@ -1275,7 +1277,7 @@ post json
 
 返回body   
 ```json
-{"code":200,"data":"","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 24 用户查询收货地址列表   
@@ -1441,7 +1443,7 @@ out_trade_no | 外部交易号 | string | uuid
 
 返回body   
 ```json
-{"code":200,"data":"","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 订单评价   
@@ -1474,7 +1476,7 @@ header/query  token
 
 返回body   
 ```json
-{"code":200,"data":"","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 获取店铺评价   
@@ -1511,7 +1513,7 @@ content | 平台 | string | 标签内容
 
 返回body   
 ```json
-{"code":200,"data":"","msg":"ok"}
+{"code":200,"data":{},"msg":"ok"}
 ```
 
 获取标签列表   

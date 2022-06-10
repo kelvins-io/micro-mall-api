@@ -12,22 +12,15 @@ import (
 )
 
 func CreateTradeOrderApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.CreateTradeOrderArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	if form.OrderTxCode == "" {
@@ -36,60 +29,39 @@ func CreateTradeOrderApi(c *gin.Context) {
 	form.Uid = int64(uid)
 	form.ClientIp = c.ClientIP()
 	rsp, retCode := service.CreateTradeOrder(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func GenTradeOrderCodeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	rsp, retCode := service.GenOrderCode(c, int64(uid))
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func OrderTradeApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.OrderTradeArgs
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	form.OpUid = int64(uid)
 	form.OpIp = c.ClientIP()
 	rsp, retCode := service.OrderTrade(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func GetOrderReportApi(c *gin.Context) {
-	var uid int
-	value, exist := c.Get("uid")
-	if !exist {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
-		return
-	}
-	uid, ok := value.(int)
-	if !ok {
-		app.JsonResponse(c, http.StatusOK, code.ErrorTokenEmpty, nil)
+	uid := checkUserLogin(c)
+	if uid <= 0 {
 		return
 	}
 	var form args.GetOrderReportArgs
@@ -97,12 +69,12 @@ func GetOrderReportApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.GetOrderReport(c, &form)
 	if retCode != code.SUCCESS {
-		app.JsonResponse(c, http.StatusOK, retCode, rsp)
+		app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 	} else {
 		app.RedirectResponse(c, http.StatusMovedPermanently, rsp.ReportFilePath)
 	}
@@ -113,11 +85,11 @@ func GetOrderShopRankApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.OrderShopRank(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func GetOrderSkuRankApi(c *gin.Context) {
@@ -125,9 +97,9 @@ func GetOrderSkuRankApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.OrderSkuRank(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }

@@ -262,7 +262,7 @@ func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArg
 	}
 }
 
-func LoginUserWithPwd(ctx context.Context, req *args.LoginUserWithPwdArgs) (loginInfo *args.UserLoginRsp, retCode int) {
+func LoginUserWithPhone(ctx context.Context, req *args.LoginUserWithPhoneArgs) (loginInfo *args.UserLoginRsp, retCode int) {
 	loginInfo = &args.UserLoginRsp{}
 	retCode = code.SUCCESS
 	serverName := args.RpcServiceMicroMallUsers

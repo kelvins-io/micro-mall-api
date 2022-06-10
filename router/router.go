@@ -33,9 +33,9 @@ func InitRouter() *gin.Engine {
 	apiV1.POST("/register", v1.RegisterUserApi)          // 注册
 	apiUserLogin := apiV1.Group("/login")
 	{
-		apiUserLogin.POST("/verify_code", v1.LoginUserWithVerifyCodeApi) // 验证码登陆
-		apiUserLogin.POST("/pwd", v1.LoginUserWithPwdApi)                // 密码登陆
-		apiUserLogin.POST("/account", v1.LoginUserWithAccountApi)        // 账号登录
+		apiUserLogin.POST("/verify_code/phone", v1.LoginUserWithVerifyCodeApi) // 手机号验证码登陆
+		apiUserLogin.POST("/pwd/phone", v1.LoginUserWithPhoneApi)              // 手机号密码登陆
+		apiUserLogin.POST("/pwd/account", v1.LoginUserWithAccountApi)          // 账号密码登录
 	}
 	apiUser := apiV1.Group("/user")
 	apiUser.Use(middleware.CheckUserToken())

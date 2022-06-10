@@ -1,12 +1,13 @@
 package v1
 
 import (
+	"net/http"
+
 	"gitee.com/cristiane/micro-mall-api/model/args"
 	"gitee.com/cristiane/micro-mall-api/pkg/app"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/service"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func SearchSkuInventoryApi(c *gin.Context) {
@@ -14,11 +15,11 @@ func SearchSkuInventoryApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.SearchSkuInventory(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func SearchShopApi(c *gin.Context) {
@@ -26,11 +27,11 @@ func SearchShopApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	rsp, retCode := service.SearchShop(c, &form)
-	app.JsonResponse(c, http.StatusOK, retCode, rsp)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), rsp)
 }
 
 func SearchUserInfoApi(c *gin.Context) {
@@ -38,11 +39,11 @@ func SearchUserInfoApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	list, retCode := service.SearchUserInfo(c, form.Query)
-	app.JsonResponse(c, http.StatusOK, retCode, list)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), list)
 }
 
 func SearchMerchantInfoApi(c *gin.Context) {
@@ -50,11 +51,11 @@ func SearchMerchantInfoApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	list, retCode := service.SearchMerchantInfo(c, form.Query)
-	app.JsonResponse(c, http.StatusOK, retCode, list)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), list)
 }
 
 func SearchTradeOrderApi(c *gin.Context) {
@@ -62,9 +63,9 @@ func SearchTradeOrderApi(c *gin.Context) {
 	var err error
 	err = app.BindAndValid(c, &form)
 	if err != nil {
-		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error())
+		app.JsonResponse(c, http.StatusOK, code.InvalidParams, err.Error(), nil)
 		return
 	}
 	list, retCode := service.SearchTradeOrderInfo(c, form.Query)
-	app.JsonResponse(c, http.StatusOK, retCode, list)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), list)
 }

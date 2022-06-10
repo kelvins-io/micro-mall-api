@@ -1,12 +1,13 @@
 package middleware
 
 import (
+	"net/http"
+	"sync/atomic"
+
 	"gitee.com/cristiane/micro-mall-api/pkg/app"
 	"gitee.com/cristiane/micro-mall-api/pkg/code"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"sync/atomic"
 )
 
 func RateLimit(maxConcurrent int) gin.HandlerFunc {
@@ -17,7 +18,7 @@ func RateLimit(maxConcurrent int) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if limiter != nil {
 			if limiter.Limit() {
-				app.JsonResponse(c, http.StatusTooManyRequests, code.TooManyRequests, code.GetMsg(code.TooManyRequests))
+				app.JsonResponse(c, http.StatusTooManyRequests, code.TooManyRequests, code.GetMsg(code.TooManyRequests), nil)
 				c.Abort()
 				return
 			}
