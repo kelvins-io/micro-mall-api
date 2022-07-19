@@ -117,20 +117,6 @@ func setupCommonVars(application *vars.WEBApplication) error {
 	if err != nil {
 		return err
 	}
-	//if vars.MysqlSettingMicroMall != nil && vars.MysqlSettingMicroMall.Host != "" {
-	//	vars.MysqlSettingMicroMall.Environment = application.Environment
-	//	vars.MysqlSettingMicroMall.LoggerLevel = application.LoggerLevel
-	//	xormEngine, err := setup.NewMySQLWithXORM(vars.MysqlSettingMicroMall)
-	//	if err != nil {
-	//		return err
-	//	}
-	//	vars.DBEngineXORM = xormEngine
-	//	gormEngine, err := setup.NewMySQLWithGORM(vars.MysqlSettingMicroMall)
-	//	if err != nil {
-	//		return err
-	//	}
-	//	vars.DBEngineGORM = gormEngine
-	//}
 	if vars.ServerSetting.PIDFile == "" {
 		wd, _ := os.Getwd()
 		vars.ServerSetting.PIDFile = fmt.Sprintf("%s/%s.pid", wd, application.Name)

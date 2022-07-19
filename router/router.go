@@ -23,8 +23,11 @@ func InitRouter() *gin.Engine {
 		r.Use(middleware.RateLimit(vars.RateLimitSetting.MaxConcurrent))
 	}
 	r.GET("/", v1.IndexApi)
-	pprof.Register(r, "/debug")
-	r.GET("/debug/metrics", process.MetricsApi)
+	environ := vars.Environment
+	if environ == config.DefaultEnvironmentDev || environ == config.DefaultEnvironmentTest {
+		pprof.Register(r, "/debug")
+		r.GET("/debug/metrics", process.MetricsApi)
+	}
 	r.GET("/ping", v1.PingApi) // ping
 	r.Static("/static", "./static")
 	apiG := r.Group("/api")

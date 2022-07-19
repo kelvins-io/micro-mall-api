@@ -2,10 +2,11 @@ package email
 
 import (
 	"context"
-	"gitee.com/cristiane/micro-mall-api/vars"
 	"strings"
 	"sync"
 	"time"
+
+	"gitee.com/cristiane/micro-mall-api/vars"
 )
 
 var (
@@ -21,7 +22,10 @@ const maxRetrySendTimes = 3
 const retryIdleTime = 500 * time.Millisecond
 
 func SendEmailNotice(ctx context.Context, receivers, subject, msg string) error {
-	if vars.EmailConfigSetting == nil || !vars.EmailConfigSetting.Enable {
+	if vars.EmailConfigSetting == nil || !vars.EmailConfigSetting.Enable || receivers == "" {
+		return nil
+	}
+	if receivers == "" {
 		return nil
 	}
 	one.Do(func() {
