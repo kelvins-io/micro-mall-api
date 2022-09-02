@@ -271,7 +271,7 @@ func TestOrderTradePay(t *testing.T) {
 	r := baseUrl + tradeOrderPay
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("tx_code", "4f08610a-48ef-457f-ac64-e59eab69eb48")
+	data.Set("tx_code", "2b06e8ff-eb81-4236-b6ae-26cf960fbf57")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -920,14 +920,14 @@ func TestTradeCreateOrder(t *testing.T) {
 	r := baseUrl + tradeCreateOrder
 	t.Logf("request url: %s", r)
 	goods1 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-4898-a2b5-bcfebccb713b",
-		Price:   "2.9",
+		SkuCode: "edeedead-03f7-4d01-ab4a-a1d44465553f",
+		Price:   "23.78",
 		Amount:  1,
 		Name:    "高乐低儿童遥控玩具",
 		Version: 1,
 	}
 	goods2 := OrderShopGoods{
-		SkuCode: "a3e5da0a-d3aa-43e2-a7b8-2c5e264e2a09",
+		SkuCode: "93974b52-71a0-4663-a7a8-228de69e5d79",
 		Price:   "23.78",
 		Amount:  2,
 		Name:    "富源不爱龟苓膏",
@@ -935,12 +935,12 @@ func TestTradeCreateOrder(t *testing.T) {
 	}
 	// b882a5c9-564a-4912-a5d4-ce77de71577c
 	detail := OrderShopDetail{
-		ShopId:   30071,
+		ShopId:   1,
 		CoinType: 0, // 0-rmb,1-usdt
 		Goods:    []*OrderShopGoods{&goods1, &goods2},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30071,
+				Id:       1,
 				Name:     "大发发连锁超市",
 				AreaCode: "浙江舟山",
 				Address:  "舟山市来福路90号来福花园5栋1单元2309",
@@ -948,26 +948,26 @@ func TestTradeCreateOrder(t *testing.T) {
 		},
 	}
 	goods3 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
-		Price:   "19.9",
+		SkuCode: "edeedead-03f7-4d01-ab4a-a1d44465553f",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "张宇解百纳龟苓膏",
+		Name:    "高乐低儿童遥控玩具",
 		Version: 1,
 	}
 	goods4 := OrderShopGoods{
-		SkuCode: "dd13b4aa-4121-a2b5-a2b5-bcfebccb4898",
-		Price:   "19.9",
+		SkuCode: "edeedead-03f7-4d01-ab4a-a1d44465553f",
+		Price:   "23.78",
 		Amount:  1,
-		Name:    "张鱼解百纳2008窖藏特曲红酒",
+		Name:    "高乐低儿童遥控玩具",
 		Version: 1,
 	}
 	detail2 := OrderShopDetail{
-		ShopId:   30072,
+		ShopId:   1,
 		CoinType: 0,
 		Goods:    []*OrderShopGoods{&goods3, &goods4},
 		SceneInfo: &OrderShopSceneInfo{
 			StoreInfo: &OrderShopStoreInfo{
-				Id:       30072,
+				Id:       1,
 				Name:     "辽宁省葫芦岛电子商务公司",
 				AreaCode: "葫芦岛市",
 				Address:  "辽宁省葫芦岛市迎宾路33号轻工业产业园67号",
@@ -975,10 +975,10 @@ func TestTradeCreateOrder(t *testing.T) {
 		},
 	}
 	data := CreateTradeOrderArgs{
-		Description:    "国庆大促",
-		DeviceId:       "iPhone14 XS Max",
+		Description:    "docker大促",
+		DeviceId:       "iPhone12 XS Max",
 		OrderTxCode:    "",
-		UserDeliveryId: 220,
+		UserDeliveryId: 1,
 		Detail:         []*OrderShopDetail{&detail, &detail2},
 	}
 	//log.Println(json.MarshalToStringNoError(data))
@@ -1055,9 +1055,9 @@ func TestRegisterUser(t *testing.T) {
 	data.Set("sex", "1")
 	data.Set("age", "33")
 	data.Set("country_code", "86")
-	data.Set("phone", "48728714121")
+	data.Set("phone", "98501707783")
 	data.Set("email", "565608463@qq.com")
-	data.Set("verify_code", "298415")
+	data.Set("verify_code", "177918")
 	data.Set("id_card_no", fmt.Sprintf("10000000%d", time.Now().Unix()))
 	data.Set("contact_addr", "深圳市安河桥路18号安和大院")
 	data.Set("account_id", "")
@@ -1079,7 +1079,7 @@ func TestLoginUserWithVerifyCode(t *testing.T) {
 	data := url.Values{}
 	data.Set("country_code", "86")
 	data.Set("phone", "98501707783")
-	data.Set("verify_code", "177918")
+	data.Set("verify_code", "563043")
 	t.Logf("req data: %v", data)
 	req, err := http.NewRequest("POST", r, strings.NewReader(data.Encode()))
 	if err != nil {
@@ -1195,7 +1195,7 @@ func TestMerchantsMaterial(t *testing.T) {
 	r := baseUrl + merchantsMaterial
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "1")
+	data.Set("operation_type", "0")
 	data.Set("register_addr", "京港市上海路111号")
 	data.Set("health_card_no", "R8nJ65TDUGAlqrwerSdb9")
 	data.Set("identity", "1")
@@ -1227,12 +1227,12 @@ func TestShopBusinessApply(t *testing.T) {
 	r := baseUrl + shopBusinessApply
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("operation_type", "1")
+	data.Set("operation_type", "0")
 	data.Set("shop_id", "30083")
 	data.Set("nick_name", "汉东省京州市月牙湖房地产开发公司")
 	data.Set("full_name", "汉东省京州市月牙湖房地产开发公司")
 	data.Set("register_addr", "汉东省京州市月牙湖房地产开发公司")
-	data.Set("merchant_id", "1317")
+	data.Set("merchant_id", "1")
 	data.Set("business_addr", "汉东省京州市月牙湖房地产开发公司")
 	data.Set("business_license", "qX2MkznWrlvO4sIp7")
 	data.Set("tax_card_no", "qX2MkznWrlvO4sIp7")
@@ -1283,7 +1283,7 @@ func TestSkuBusinessPutAway(t *testing.T) {
 }
 
 func TestGetSkuList(t *testing.T) {
-	r := baseUrl + skuBusinessGetSkuList + "?shop_id=30080"
+	r := baseUrl + skuBusinessGetSkuList + "?shop_id=1"
 	t.Logf("request url: %s", r)
 	req, err := http.NewRequest("GET", r, nil)
 	if err != nil {
@@ -1384,8 +1384,8 @@ func TestSkuBusinessSupplement(t *testing.T) {
 	t.Logf("request url: %s", r)
 	data := url.Values{}
 	data.Set("operation_type", "0")
-	data.Set("shop_id", "30080")
-	data.Set("sku_code", "74bc6c3e-ab6e-4639-a0a4-62770fd66d83")
+	data.Set("shop_id", "1")
+	data.Set("sku_code", "edeedead-03f7-4d01-ab4a-a1d44465553f")
 	data.Set("name", "百威淡色拉格啤酒")
 	data.Set("size", "1.8m")
 	data.Set("shape", "长方形")
@@ -1407,8 +1407,8 @@ func TestSkuJoinUserTrolley(t *testing.T) {
 	r := baseUrl + skuJoinUserTrolley
 	t.Logf("request url: %s", r)
 	data := url.Values{}
-	data.Set("shop_id", "30078")
-	data.Set("sku_code", "171dd271-5229-47de-817e-0eb20ae0896f")
+	data.Set("shop_id", "1")
+	data.Set("sku_code", "edeedead-03f7-4d01-ab4a-a1d44465553f")
 	data.Set("count", "100")
 	data.Set("time", "2020-09-08 23:32:35")
 	data.Set("selected", "true")

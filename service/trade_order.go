@@ -16,7 +16,6 @@ import (
 	"gitee.com/cristiane/micro-mall-api/proto/micro_mall_users_proto/users"
 	"gitee.com/cristiane/micro-mall-api/vars"
 	"gitee.com/kelvins-io/common/json"
-	"gitee.com/kelvins-io/kelvins"
 	"golang.org/x/sync/errgroup"
 )
 
@@ -230,7 +229,7 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 	serverName = args.RpcServiceMicroMallShop
 	conn, err = util.GetGrpcClient(ctx, serverName)
 	if err != nil {
-		kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %v,err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -241,12 +240,12 @@ func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result arg
 	}
 	rspShop, err := serveShop.GetShopMajorInfo(ctx, &rShop)
 	if err != nil {
-		kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo %v,err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo %v,err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
 	if rspShop.Common.Code != shop_business.RetCode_SUCCESS {
-		kelvins.ErrLogger.Errorf(ctx, "GetShopMajorInfo  req %v,rspShop: %v", json.MarshalToStringNoError(shopIdList), json.MarshalToStringNoError(rspShop))
+		vars.ErrorLogger.Errorf(ctx, "GetShopMajorInfo  req %v,rspShop: %v", json.MarshalToStringNoError(shopIdList), json.MarshalToStringNoError(rspShop))
 		switch rspShop.Common.Code {
 		case shop_business.RetCode_SHOP_STATE_NOT_VERIFY:
 			retCode = code.ShopStateNotVerify
@@ -291,7 +290,7 @@ func tradePayVerifyUser(ctx context.Context, uid int64) (account string, retCode
 	serverName := args.RpcServiceMicroMallUsers
 	conn, err := util.GetGrpcClient(ctx, serverName)
 	if err != nil {
-		kelvins.ErrLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q err: %v", serverName, err)
 		retCode = code.ERROR
 		return
 	}
@@ -302,7 +301,7 @@ func tradePayVerifyUser(ctx context.Context, uid int64) (account string, retCode
 	}
 	rsp, err := client.GetUserAccountId(ctx, &r)
 	if err != nil {
-		kelvins.ErrLogger.Errorf(ctx, "GetUserAccountId err: %v, req: %v", err, uid)
+		vars.ErrorLogger.Errorf(ctx, "GetUserAccountId err: %v, req: %v", err, uid)
 		retCode = code.ERROR
 		return
 	}

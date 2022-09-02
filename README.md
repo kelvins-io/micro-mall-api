@@ -108,6 +108,7 @@ prometheus_metrics接口
 我的架构图都是在[processON在线画图，点击领7天会员福利](https://www.processon.com/i/5ac1db5ee4b0cf24e963bd80) 上面画的，有超多UML，软件架构，产品原型模板可以选择。
 
 ### 项目目录结构
+由于开发任务繁忙，目录结构不一定及时更新，以实际为准   
 ```
 .
 ├── batch-clone-project.sh  一键克隆本项目 shell
@@ -126,6 +127,7 @@ prometheus_metrics接口
 ├── docker-etcd-build.sh  etcd集群构建 shell
 ├── golang-install.sh  centos环境golang安装 shell
 ├── docker-install.sh  centos环境docker安装 shell
+├── docker_daemon.json  docker国内镜像加速站点
 ├── etcd_cluster
 │   └── docker-compose-etcd.yml etcd集群构建docker镜像
 ├── test-gateway-http.sh  运行client目录下测试用例 shell
@@ -271,33 +273,8 @@ prometheus_metrics接口
 └── 微商城系统架构设计.png
 ```
 
-### 如何构建开发环境
-micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
-你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN，参考golang-install.sh）    
-然后看看下面的环节      
-
-#### 关于go mod
-请各位一定配置go proxy   
-GOPROXY="https://goproxy.cn,https://goproxy.io,direct"
-
-#### 利用docker构建etcd集群
-仅限于裸机运行项目   
-需要先安装docker以及docker-compose，参考docker-install.sh   
-建议本机也安装etcd工具（方便检测集群是否构建成功）   
-运行sh docker-etcd-build.sh
-
-
-#### 服务注册说明
-仅限于裸机运行项目   
-由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档    
-下面配置<利用docker构建etcd集群>的地址   
-export  ETCDV3_SERVER_URLS=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379   
-export  ETCDV3_SERVER_URL=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379   
-export ETCDCTL_API=3 
-
-
 #### 都有哪些服务
-micro-mall-api   接入层   
+micro-mall-api   接入层，所有外部请求都访问这个服务   
 micro-mall-users  用户服务   
 micro-mall-users-cron  用户定时服务   
 micro-mall-users-consumer  用户事件消费者   
@@ -320,15 +297,234 @@ micro-mall-search-sku-consumer   商品库存信息同步消费
 micro-mall-search-users-consumer   用户信息同步消费   
 micro-mall-search-order-consumer   交易订单信息同步消费
 
+#### 关于本项目提供的shell命令
+为了达到执行效果尽量在root级别下运行   
+
 #### 克隆仓库
 克隆之前GOPATH要配置好   
-将这些服务（目前共16个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地    
+将这些服务（目前共22个服务以及它们依赖的proto仓库，在模块分类环节可以了解到）clone到本地（$GOPATH/src/gitee.com/cristiane/）    
 为了方便clone仓库，特此提供了一键clone micro-mall系列脚本（需要安装有git），在本仓库根目录   
 mac/linux：sh batch-clone-project.sh   
-windows请使用git bash shell运行：sh batch-clone-project.sh      
+windows请使用git bash shell运行：sh batch-clone-project.sh
 
-#### 服务启动端口说明
-均可以在./etc/app.ini中配置，并在运行日志nohup.out显示当前使用的端口，进程ID   
+#### 关于go mod
+请各位一定配置go proxy   
+GOPROXY="https://goproxy.cn,https://goproxy.io,direct"
+
+#### 配置文件说明
+etc/app.ini.example是裸机运行服务使用的配置样式文件   
+etc/app-docker.ini.example是docker环境下使用的配置样式文件   
+etc/app.ini是项目最终运行用到的配置文件   
+再看看下面环节
+
+#### 日志文件说明
+每个服务的日志文件都在当前目录logs下，access接入日志，business业务日志，err错误日志，framework基础框架日志   
+
+#### 服务构建方式说明
+1.基于docker环境构建，需要安装docker   
+2.裸机构建运行，需要自行安装中间件
+
+#### 如何用docker来一键构建运行micro-mall系列项目
+如果你有docker以及compose环境（docker环境可以避免单独安装依赖的中间件），centos环境下参考docker-install.sh安装，docker启动项目唯一需要自行配置的参数是"./etc/app-docker.ini.example#email-config"   
+准备好一切后那么你可以：   
+sh docker-build-run.sh
+#### 在此特别鸣谢osc为micro-mall系列项目支持docker编排基础方案
+
+#### 利用docker构建etcd集群
+仅限于裸机运行项目   
+需要先安装docker以及docker-compose，centos下参考docker-install.sh   
+建议本机也安装etcd工具（方便检测集群是否构建成功）   
+运行sh docker-etcd-build.sh    
+然后裸机运行项目时就可以在环境变量ETCDV3_SERVER_URLS中使用该etcd集群
+
+#### 服务注册说明
+仅限于裸机运行项目   
+由于micro-mall系列服务是通过etcd来注册的，所以是需要etcd集群的，搭建步骤参考本仓库的etcd集群部署文档    
+下面配置<利用docker构建etcd集群>的地址   
+export  ETCDV3_SERVER_URLS=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379   
+export  ETCDV3_SERVER_URL=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379   
+export ETCDCTL_API=3
+
+##### 需要配置什么
+基本上就是日志路径，MySQL，Redis，rabbitmq，elasticsearch，MongoDB（可选），email这些，如果是基于docker构建项目则只需要配置email参数
+
+##### 如何配置
+在需要运行的项目根目录下etc/app.ini更改自己环境的配置info（可以参考默认提供的）
+
+##### rabbitmq如何配置
+仅限于裸机运行项目
+1. 安装   
+   Mac下：brew install rabbitmq
+
+2. 启动：   
+   Mac下：   
+   rabbitmq-plugins enable rabbitmq_management   
+   sudo rabbitmq-server
+
+3. 配置
+   在rabbit-manger管理页面配置：   
+   如果mq使用rabbitmq（也可不用rabbitmq），则需要   
+   创建用户，密码：micro-mall/szJ9aePR   
+   创建vhost：micro-mall（下面的exchange和queue均在此vhost下面）   
+   为当前用户赋予micro-mall虚拟host访问权限    
+   创建exchange：user_register_notice，模式为direct    
+   创建exchange：user_state_notice，模式为direct     
+   创建exchange：trade_order_notice，模式为direct   
+   创建exchange：trade_order_pay_callback，模式为direct   
+   创建exchange：trade_pay_notice，模式为direct   
+   创建exchange：shop_info_search_notice，模式为direct   
+   创建exchange：sku_inventory_search_notice，模式为direct   
+   创建exchange：user_info_search_notice，模式为direct   
+   创建exchange：trade_order_info_search_notice，模式为direct   
+   创建queue：user_register_notice，持久化为true   
+   创建queue：user_state_notice，持久化为true   
+   创建queue：trade_order_notice，持久化为true   
+   创建queue：trade_order_pay_callback，持久化为true   
+   创建queue：trade_pay_notice，持久化为true   
+   创建queue：shop_info_search_notice，持久化为true   
+   创建queue：sku_inventory_search_notice，持久化为true   
+   创建queue：user_info_search_notice，持久化为true   
+   创建queue：trade_order_info_search_notice，持久化为true   
+   或者通过命令行配置：
+```shell
+rabbitmqctl add_vhost micro-mall
+rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*"
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
+```
+
+5. 填写配置文件
+   配置文件app.ini中关于rabbitmq配置说明（仅供参考）
+```toml
+[kelvins-queue-amqp]
+Broker = "amqp://用户名:密码R@地址:端口/创建的vhost"
+DefaultQueue = "队列名"
+ResultBackend = "redis://redis的密码@127.0.0.1:6379/10" #队列消费结果保存地址
+ResultsExpireIn = 36000 # 队列任务消费结果的保存过期时间
+Exchange = "交换机"
+ExchangeType = "交换机类型"
+BindingKey = "绑定key，一般与队列名一样"
+PrefetchCount = 5 #每次从队列取任务个数
+TaskRetryCount = 3 #任务失败后重试上限
+TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
+```
+
+#### elasticsearch配置
+仅限于裸机运行项目
+1. 安装elasticsearch   
+   Mac下：   
+   使用brew install elasticsearch   
+   其它平台参考网络教程
+2. 启动并安装对应版本的中文分词插件    
+   Mac下：   
+   brew services start elasticsearch
+```shell
+echo y |elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
+```
+3. 创建索引
+```shell
+# 用户信息索引
+curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
+# 商户申请信息索引
+curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
+# 店铺信息索引
+curl -X PUT "localhost:9200/micro-mall-shop?pretty"
+# 交易订单息索引
+curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
+# 商品库存息索引
+curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
+# 列举索引
+curl -X GET "localhost:9200/_cat/indices?v"
+health status index                              uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   micro-mall-shop                    93u2W6uLTn--EuzifHKFgQ   1   1         25            2       57kb           57kb
+yellow open   micro-mall-user-info               WUFGM9IrR2u9d3egU-krWg   1   1      15562         5262      2.7mb          2.7mb
+yellow open   micro-mall-sku-inventory           XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
+yellow open   micro-mall-trade-order             XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
+yellow open   micro-mall-merchants-material-info WAzVixxOQ4-QPFjGWEWnWA   1   1          8            0     57.9kb         57.9kb
+```
+
+#### email配置
+email配置主要用来接收验证码，邮件通知等   
+```shell
+[email-config]
+Enable = false
+User = "xxxx@qq.com"
+Password = "xxxx"
+Host = "smtp.qq.com"
+Port = "465"
+```
+Enable表示是否开启邮件功能
+
+#### 数据库设计
+仅限于裸机运行项目
+1. 安装MySQL   
+   Mac下：brew install mysql
+2. 启动并初始MySQL   
+   Mac下：brew services start mysql   
+   micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立的缓存，独立的事件消息   
+   将本仓库根目录下的micro_mall*.sql（共9个sql文件） 导入同名数据库中初始化表结构
+3. 安装Redis   
+   Mac下：brew install redis
+4. 启动并配置   
+   Mac下：brew services start redis
+5. 安装MongoDB（可以不安装）   
+   Mac下：brew install mongodb-community
+6. 启动并配置   
+   Mac下：brew services start mongodb-community
+```shell
+use admin  
+db.createUser({
+  user: 'admin',
+  pwd: 'xxxx',
+  roles:[{
+    role: 'root',
+    db: 'admin'
+  }]
+})
+```
+修改配置文件，追加如下：
+```shell
+security:
+  authorization: enabled
+```
+MongoDB需要注册一个admin用户和数据库micro_mall_sku
+
+#### 负载均衡
+所有服务均可启动多个实例
+
+### 管理服务
+
+#### 如何启动
+仅限于裸机启动   
+构建且运行系列服务：   
+sh build-run-all.sh   
+运行系列服务   
+sh start-all.sh   
+重启系列服务（Windows不支持）   
+sh restart-all.sh   
+停止系列服务   
+sh stop-all.sh
+
+### 如何构建开发环境
+micro-mall-xxx系列服务，希望开发者有中高级go后端开发经验，了解电商业务，mysql redis MQ使用经验     
+你需要安装golang并配置golang开发环境（设置GOPATH,GOROOT,GOBIN，参考golang-install.sh）    
+然后看看下面的环节
 
 #### 为什么本项目建议你安装python环境
 这是因为本项目提供的生成pb.gw工具是python脚本，因此需要你有python环境。   
@@ -336,7 +532,7 @@ windows请使用git bash shell运行：sh batch-clone-project.sh
 
 #### 开发项目都有哪些依赖
 部分依赖文件安装需要科学上网环境，演示安装步骤都是Mac环境下(同时也建议开发者使用Linux或Mac环境)，Windows请参考安装或自行Google安装   
-go 1.13.15+   
+推荐go1.16版本      
 goland or vscode   
 mysql，redis，rabbitmq，etcd-cluster，mongo（可以不开启），elasticsearch       
 protoc   安装方法如下   
@@ -357,40 +553,6 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger
 go get -u github.com/jteeuwen/go-bindata/...   
 go get -u github.com/elazarl/go-bindata-assetfs/...   
 python 2.7或3.5   
-
-#### 数据库设计
-仅限于裸机运行项目   
-1. 安装MySQL   
-Mac下：brew install mysql   
-2. 启动并初始MySQL   
-Mac下：brew services start mysql   
-micro-mall-系列采用分库存储，各服务拥有独立的数据库，独立的缓存，独立的事件消息   
-将本仓库根目录下的micro_mall*.sql（共9个sql文件） 导入同名数据库中初始化表结构
-3. 安装Redis   
-Mac下：brew install redis   
-4. 启动并配置   
-Mac下：brew services start redis  
-5. 安装MongoDB（可以不安装）   
-Mac下：brew install mongodb-community   
-6. 启动并配置   
-Mac下：brew services start mongodb-community   
-```shell
-use admin  
-db.createUser({
-  user: 'admin',
-  pwd: 'xxxx',
-  roles:[{
-    role: 'root',
-    db: 'admin'
-  }]
-})
-```
-修改配置文件，追加如下：   
-```shell
-security:
-  authorization: enabled
-```
-MongoDB需要注册一个admin用户和数据库micro_mall_sku      
 
 #### pb.gw 代码生成
 看看下面说明
@@ -419,125 +581,6 @@ python genpb.py ../micro-mall-users-proto
 
 #### micro-mall-api仓库现有依赖proto如何一键更新成代码
 如果你不想手动执行python脚本来生成，请执行sh build-project-proto.sh      
-
-#### 配置文件
-看看下面环节   
-
-##### 需要配置什么
-基本上就是日志路径，MySQL，Redis，rabbitmq，elasticsearch，MongoDB，email这些      
-
-##### 如何配置
-在需要运行的项目根目录下etc/app.ini更改自己开发环境的配置info（可以参考默认提供的）      
-
-##### rabbitmq如何配置
-仅限于裸机运行项目   
-1. 安装   
-Mac下：brew install rabbitmq   
-
-2. 启动：   
-Mac下：   
-rabbitmq-plugins enable rabbitmq_management   
-sudo rabbitmq-server   
-
-3. 配置
-   在rabbit-manger页面配置：   
-   如果mq使用rabbitmq（也可不用rabbitmq），则需要   
-   创建用户，密码：micro-mall/szJ9aePR   
-   创建vhost：micro-mall（下面的exchange和queue均在此vhost下面）   
-   为当前用户赋予micro-mall虚拟host访问权限    
-   创建exchange：user_register_notice，模式为direct    
-   创建exchange：user_state_notice，模式为direct     
-   创建exchange：trade_order_notice，模式为direct   
-   创建exchange：trade_order_pay_callback，模式为direct   
-   创建exchange：trade_pay_notice，模式为direct   
-   创建exchange：shop_info_search_notice，模式为direct   
-   创建exchange：sku_inventory_search_notice，模式为direct   
-   创建exchange：user_info_search_notice，模式为direct   
-   创建exchange：trade_order_info_search_notice，模式为direct   
-   创建queue：user_register_notice，持久化为true   
-   创建queue：user_state_notice，持久化为true   
-   创建queue：trade_order_notice，持久化为true   
-   创建queue：trade_order_pay_callback，持久化为true   
-   创建queue：trade_pay_notice，持久化为true   
-   创建queue：shop_info_search_notice，持久化为true   
-   创建queue：sku_inventory_search_notice，持久化为true   
-   创建queue：user_info_search_notice，持久化为true   
-   创建queue：trade_order_info_search_notice，持久化为true
-
-4. 填写配置文件
-配置文件app.ini中关于rabbitmq配置说明（仅供参考）  
-```toml
-[kelvins-queue-amqp]
-Broker = "amqp://用户名:密码R@地址:端口/创建的vhost"
-DefaultQueue = "队列名"
-ResultBackend = "redis://redis的密码@127.0.0.1:6379/10" #队列消费结果保存地址
-ResultsExpireIn = 36000 # 队列任务消费结果的保存过期时间
-Exchange = "交换机"
-ExchangeType = "交换机类型"
-BindingKey = "绑定key，一般与队列名一样"
-PrefetchCount = 5 #每次从队列取任务个数
-TaskRetryCount = 3 #任务失败后重试上限
-TaskRetryTimeout = 36000 #任务失败后重试超时，满足斐波拉契排列
-```
-
-#### elasticsearch配置
-仅限于裸机运行项目   
-1. 安装elasticsearch   
-Mac下：   
-使用brew install elasticsearch   
-其它平台参考网络教程   
-2. 启动并安装对应版本的中文分词插件   
-通过docker启动项目的也需要进入elasticsearch容器执行如下操作    
-Mac下：   
-brew services start elasticsearch   
-```shell
-elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
-```
-3. 创建索引   
-通过docker启动项目的也需要进入elasticsearch容器执行如下操作   
-```shell
-# 用户信息索引
-curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
-# 商户申请信息索引
-curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
-# 店铺信息索引
-curl -X PUT "localhost:9200/micro-mall-shop?pretty"
-# 交易订单息索引
-curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
-# 商品库存息索引
-curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
-# 列举索引
-curl -X GET "localhost:9200/_cat/indices?v"
-health status index                              uuid                   pri rep docs.count docs.deleted store.size pri.store.size
-yellow open   micro-mall-shop                    93u2W6uLTn--EuzifHKFgQ   1   1         25            2       57kb           57kb
-yellow open   micro-mall-user-info               WUFGM9IrR2u9d3egU-krWg   1   1      15562         5262      2.7mb          2.7mb
-yellow open   micro-mall-sku-inventory           XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
-yellow open   micro-mall-trade-order             XWQYjy4PTZahB7CpHbLeiw   1   1        164            1    132.5kb        132.5kb
-yellow open   micro-mall-merchants-material-info WAzVixxOQ4-QPFjGWEWnWA   1   1          8            0     57.9kb         57.9kb
-```
-
-#### 负载均衡
-所有服务均可启动多个实例   
-
-### 管理服务
-
-#### 如何启动
-仅限于裸机启动   
-运行前请确保你已经阅读完了【如何构建开发环境】，并执行了batch-clone-project.sh    
-构建且运行系列服务：   
-sh build-run-all.sh   
-运行系列服务   
-sh start-all.sh   
-重启系列服务（Windows不支持）   
-sh restart-all.sh   
-停止系列服务   
-sh stop-all.sh   
-
-#### 如何用docker来一键构建运行micro-mall系列项目
-如果你有docker以及compose环境（docker环境可以避免安装依赖的中间件）那么你可以：   
-sh docker-build-run.sh
-
-#### 在此特别鸣谢osc为micro-mall系列项目支持docker编排方案
 
 #### 在线服务治理
 参考kelvins-tools：https://gitee.com/kelvins-io/kelvins-tools   

@@ -76,16 +76,53 @@ echo 这些中间件服务的标准端口会映射到物理机端口-当然你�
 echo 中间件服务容器端口映射到物理机是为了方便在物理机上就能给其安装插件或初始配置
 docker-compose up -d
 # shellcheck disable=SC2009
+echo "显示基础组件运行情况"
 ps -ef | grep mysql5_7
 ps -ef | grep redis
 ps -ef | grep rabbitmq
 ps -ef | grep mongo
 ps -ef | grep elasticsearch
-echo 中间件服务容器构建完成后还需要进行初始配置比如导入SQL-rabbitmq配置-elasticsearch创建index以及安装中文分词插件
 
-echo 构建并运行容器项目
+echo "配置rabbitmq"
+docker exec -it $(docker ps -aqf "name=rabbitmq") /bin/bash
+rabbitmqctl add_vhost micro-mall
+rabbitmqctl set_permissions -p micro-mall root ".*" ".*" ".*"
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_register_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_state_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_pay_callback type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_pay_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=shop_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=sku_inventory_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=user_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare exchange name=trade_order_info_search_notice type=direct
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_register_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_state_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_pay_callback
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_pay_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=shop_info_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=sku_inventory_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=user_info_search_notice
+rabbitmqadmin -u root -p micro-mall -V micro-mall declare queue name=trade_order_info_search_notice
+exit
+echo "exit"
+
+echo "配置elasticsearch"
+docker exec -it $(docker ps -aqf "name=elasticsearch") /bin/bash
+echo y |elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.5.2/elasticsearch-analysis-ik-7.5.2.zip
+curl -X PUT "localhost:9200/micro-mall-user-info?pretty"
+curl -X PUT "localhost:9200/micro-mall-merchants-material-info?pretty"
+curl -X PUT "localhost:9200/micro-mall-shop?pretty"
+curl -X PUT "localhost:9200/micro-mall-trade-order?pretty"
+curl -X PUT "localhost:9200/micro-mall-sku-inventory?pretty"
+curl -X GET "localhost:9200/_cat/indices?v"
+exit
+echo "exit"
+
+echo "构建并运行容器项目"
 docker-compose -f docker-compose-build.yml up -d
 
 # shellcheck disable=SC2009
 ps -ef | grep micro-mall
-echo 开启micro-mall的旅行吧
+echo "开启micro-mall的旅行吧"

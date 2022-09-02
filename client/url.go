@@ -1,7 +1,7 @@
 package client
 
 const (
-	baseUrlLocal = "http://127.0.0.1:52001/api"
+	baseUrlLocal = "http://192.168.37.129:52001/api"
 )
 
 const (
