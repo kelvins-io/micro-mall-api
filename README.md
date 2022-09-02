@@ -325,7 +325,9 @@ etc/app.ini是项目最终运行用到的配置文件
 2.裸机构建运行，需要自行安装中间件
 
 #### 如何用docker来一键构建运行micro-mall系列项目
-如果你有docker以及compose环境（docker环境可以避免单独安装依赖的中间件），centos环境下参考docker-install.sh安装，docker启动项目唯一需要自行配置的参数是"./etc/app-docker.ini.example#email-config"   
+如果你有docker以及compose环境（docker环境可以避免单独安装依赖的中间件），centos环境下参考docker-install.sh安装   
+由于rabbitmq组件，elasticsearch组件需要额外配置一些参数和安装插件，所以需要docker-build-run.sh构建完成后手动进入容器执行命令（docker-build-run.sh文件中注释掉的部分）   
+docker启动项目需要自行配置的参数是"./etc/app-docker.ini.example#email-config"   
 准备好一切后那么你可以：   
 sh docker-build-run.sh
 #### 在此特别鸣谢osc为micro-mall系列项目支持docker编排基础方案
