@@ -27,7 +27,7 @@ services:
     ports:
       - "52001:52001"
     command: ['./micro-mall-api']
-    
+
   micro-mall-users:
     image: centos:latest
     container_name: micro-mall-users
@@ -49,6 +49,28 @@ services:
       - ../micro-mall-users/micro-mall-users:/www/micro-mall-users
       - ../micro-mall-users/etc:/www/etc
     command: ['./micro-mall-users']
+
+  micro-mall-users2:
+    image: centos:latest
+    container_name: micro-mall-users2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-users/micro-mall-users:/www/micro-mall-users2
+      - ../micro-mall-users/etc:/www/etc
+    command: ['./micro-mall-users2']
 
   micro-mall-users-cron:
     image: centos:latest
@@ -115,7 +137,29 @@ services:
       - ../micro-mall-pay/micro-mall-pay:/www/micro-mall-pay
       - ../micro-mall-pay/etc:/www/etc
     command: [ './micro-mall-pay' ]
-      
+
+  micro-mall-pay2:
+    image: centos:latest
+    container_name: micro-mall-pay2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-pay/micro-mall-pay:/www/micro-mall-pay2
+      - ../micro-mall-pay/etc:/www/etc
+    command: [ './micro-mall-pay2' ]
+
   micro-mall-sku:
     image: centos:latest
     container_name: micro-mall-sku
@@ -138,6 +182,27 @@ services:
       - ../micro-mall-sku/etc:/www/etc
     command: [ './micro-mall-sku' ]
 
+  micro-mall-sku2:
+    image: centos:latest
+    container_name: micro-mall-sku2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-sku/micro-mall-sku:/www/micro-mall-sku2
+      - ../micro-mall-sku/etc:/www/etc
+    command: [ './micro-mall-sku2' ]
 
   micro-mall-shop:
     image: centos:latest
@@ -160,6 +225,28 @@ services:
       - ../micro-mall-shop/micro-mall-shop:/www/micro-mall-shop
       - ../micro-mall-shop/etc:/www/etc
     command: [ './micro-mall-shop' ]
+
+  micro-mall-shop2:
+    image: centos:latest
+    container_name: micro-mall-shop2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-shop/micro-mall-shop:/www/micro-mall-shop2
+      - ../micro-mall-shop/etc:/www/etc
+    command: [ './micro-mall-shop2' ]
 
   micro-mall-shop-cron:
     image: centos:latest
@@ -205,6 +292,28 @@ services:
       - ../micro-mall-trolley/etc:/www/etc
     command: [ './micro-mall-trolley' ]
 
+  micro-mall-trolley2:
+    image: centos:latest
+    container_name: micro-mall-trolley2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-trolley/micro-mall-trolley:/www/micro-mall-trolley2
+      - ../micro-mall-trolley/etc:/www/etc
+    command: [ './micro-mall-trolley2' ]
+
   micro-mall-comments:
     image: centos:latest
     container_name: micro-mall-comments
@@ -226,6 +335,28 @@ services:
       - ../micro-mall-comments/micro-mall-comments:/www/micro-mall-comments
       - ../micro-mall-comments/etc:/www/etc
     command: ['./micro-mall-comments']
+
+  micro-mall-comments2:
+    image: centos:latest
+    container_name: micro-mall-comments2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-comments/micro-mall-comments:/www/micro-mall-comments2
+      - ../micro-mall-comments/etc:/www/etc
+    command: ['./micro-mall-comments2']
 
   micro-mall-search-cron:
     image: centos:latest
@@ -380,7 +511,30 @@ services:
       - ../micro-mall-search/micro-mall-search:/www/micro-mall-search
       - ../micro-mall-search/etc:/www/etc
     command: [ './micro-mall-search' ]
-      
+
+  micro-mall-search2:
+    image: centos:latest
+    container_name: micro-mall-search2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-search/micro-mall-search:/www/micro-mall-search2
+      - ../micro-mall-search/etc:/www/etc
+    command: [ './micro-mall-search2' ]
+
+
   micro-mall-order:
     image: centos:latest
     container_name: micro-mall-order
@@ -402,7 +556,30 @@ services:
       - ../micro-mall-order/micro-mall-order:/www/micro-mall-order
       - ../micro-mall-order/etc:/www/etc
     command: [ './micro-mall-order' ]
-      
+
+  micro-mall-order2:
+    image: centos:latest
+    container_name: micro-mall-order2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-order/micro-mall-order:/www/micro-mall-order2
+      - ../micro-mall-order/etc:/www/etc
+    command: [ './micro-mall-order2' ]
+
+
   micro-mall-pay-consumer:
     image: centos:latest
     container_name: micro-mall-pay-consumer
@@ -446,6 +623,29 @@ services:
       - ../micro-mall-logistics/micro-mall-logistics:/www/micro-mall-logistics
       - ../micro-mall-logistics/etc:/www/etc
     command: [ './micro-mall-logistics' ]
+
+
+  micro-mall-logistics2:
+    image: centos:latest
+    container_name: micro-mall-logistics2
+    environment:
+      - ETCDV3_SERVER_URLS=http://etcd1:2379,http://etcd2:2379,http://etcd3:2379
+      - ETCDCTL_API=3
+    restart: always
+    depends_on:
+      - etcd1
+      - etcd2
+      - etcd3
+      - mongo
+      - mysql5_7
+      - redis
+      - rabbitmq
+      - elasticsearch
+    working_dir: /www
+    volumes:
+      - ../micro-mall-logistics/micro-mall-logistics:/www/micro-mall-logistics2
+      - ../micro-mall-logistics/etc:/www/etc
+    command: [ './micro-mall-logistics2' ]
 
   micro-mall-order-consumer:
     image: centos:latest
