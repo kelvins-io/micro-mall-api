@@ -673,3 +673,28 @@ func searchMerchantInfo(ctx context.Context, query string) (result interface{}, 
 	result = rsp.GetList()
 	return
 }
+
+func LoadBalanceTest(ctx context.Context, query string) (result interface{}, retCode int) {
+	retCode = code.SUCCESS
+	serverName := args.RpcServiceMicroMallUsers
+	conn, err := util.GetGrpcClient(ctx, serverName)
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "GetGrpcClient %q  err: %v", serverName, err)
+		return
+	}
+	client := users.NewUsersServiceClient(conn)
+	rsp, err := client.LoadBalanceTest(ctx, &users.LoadBalanceTestRequest{Query: query})
+	if err != nil {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "LoadBalanceTest err: %v, query: %v", err, query)
+		return
+	}
+	if rsp.Common.Code != users.RetCode_SUCCESS {
+		retCode = code.ERROR
+		vars.ErrorLogger.Errorf(ctx, "LoadBalanceTest err: %v, query: %v, rsp: %v", err, query, json.MarshalToStringNoError(rsp))
+		return
+	}
+	result = rsp.GetStatus()
+	return
+}

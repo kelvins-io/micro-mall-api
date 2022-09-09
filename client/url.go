@@ -1,7 +1,7 @@
 package client
 
 const (
-	baseUrlLocal = "http://192.168.37.129:52001/api"
+	baseUrlLocal = "http://127.0.0.1:52001/api"
 )
 
 const (
@@ -39,6 +39,7 @@ const (
 	commentsShopList        = "/user/comments/shop/list"
 	commentsTagsModify      = "/user/comments/tags/modify"
 	commentsTagsList        = "/user/comments/tags/list"
+	loadBalanceTest         = "/user/load_balance_test"
 )
 
 const (

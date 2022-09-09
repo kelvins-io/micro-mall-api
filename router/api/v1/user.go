@@ -115,3 +115,9 @@ func ListUserInfoApi(c *gin.Context) {
 	userInfoList, retCode := service.ListUserInfo(c, &form)
 	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), userInfoList)
 }
+
+func LoadBalanceTestApi(c *gin.Context) {
+	query, _ := c.GetQuery("query")
+	result, retCode := service.LoadBalanceTest(c, query)
+	app.JsonResponse(c, http.StatusOK, retCode, code.GetMsg(retCode), result)
+}

@@ -122,6 +122,12 @@ service UsersService {
             get: "/v1/user/info/search"
         };
     }
+    // 负载均衡测试
+    rpc LoadBalanceTest(LoadBalanceTestRequest) returns (LoadBalanceTestResponse) {
+        option (google.api.http) = {
+            get: "/v1/user/load_balance_test"
+        };
+    }
 }
 
 service MerchantsService {
@@ -581,6 +587,15 @@ message SearchUserInfoResponse {
 message SearchUserInfoEntry {
     UserInfo info = 1;
     double score = 2;
+}
+
+message LoadBalanceTestRequest {
+    string query = 1;
+}
+
+message LoadBalanceTestResponse {
+    CommonResponse common = 1;
+    string status = 2;
 }
 
 message CommonResponse {
