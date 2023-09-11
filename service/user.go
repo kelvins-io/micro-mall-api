@@ -48,22 +48,22 @@ func CreateUser(ctx context.Context, req *args.RegisterUserArgs) (*args.Register
 	}
 
 	vars.ErrorLogger.Errorf(ctx, "GetUserInfoByInviteCode req: %v, resp: %v", json.MarshalToStringNoError(registerReq), json.MarshalToStringNoError(registerRsp))
-	switch registerRsp.Common.Code {
-	case users.RetCode_USER_EXIST:
-		return &result, code.ErrorUserExist
-	case users.RetCode_USER_INVITE_CODE_INVALID:
-		return &result, code.ErrorInviteCodeNotExist
-	case users.RetCode_USER_VERIFY_CODE_INVALID:
-		return &result, code.ErrorVerifyCodeInvalid
-	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
-		return &result, code.ErrorVerifyCodeExpire
-	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
-		return &result, code.ErrorVerifyCodeForbidden
-	case users.RetCode_TRANSACTION_FAILED:
-		return &result, code.TransactionFailed
-	default:
-		return &result, code.ERROR
+	retCode := code.ERROR
+	if v, ok := userRegisterRspCode[registerRsp.Common.Code]; ok {
+		retCode = v
+	} else {
+		retCode = code.ERROR
 	}
+	return &result, retCode
+}
+
+var userRegisterRspCode = map[users.RetCode]int{
+	users.RetCode_USER_EXIST:                 code.ErrorUserExist,
+	users.RetCode_USER_INVITE_CODE_INVALID:   code.ErrorInviteCodeNotExist,
+	users.RetCode_USER_VERIFY_CODE_INVALID:   code.ErrorVerifyCodeInvalid,
+	users.RetCode_USER_VERIFY_CODE_EXPIRE:    code.ErrorVerifyCodeExpire,
+	users.RetCode_USER_VERIFY_CODE_FORBIDDEN: code.ErrorVerifyCodeForbidden,
+	users.RetCode_TRANSACTION_FAILED:         code.TransactionFailed,
 }
 
 func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyCodeArgs) (loginInfo *args.UserLoginRsp, retCode int) {
@@ -122,32 +122,22 @@ func LoginUserWithVerifyCode(ctx context.Context, req *args.LoginUserWithVerifyC
 	}
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
-	switch loginRsp.Common.Code {
-	case users.RetCode_USER_STATE_NOT_VERIFY:
-		retCode = code.ErrUserStateNotVerify
-		return
-	case users.RetCode_USER_NOT_EXIST:
-		retCode = code.ErrorUserNotExist
-		return
-	case users.RetCode_USER_VERIFY_CODE_INVALID:
-		retCode = code.ErrorVerifyCodeInvalid
-		return
-	case users.RetCode_USER_VERIFY_CODE_EXPIRE:
-		retCode = code.ErrorVerifyCodeExpire
-		return
-	case users.RetCode_USER_VERIFY_CODE_FORBIDDEN:
-		retCode = code.ErrorVerifyCodeForbidden
-		return
-	case users.RetCode_USER_PWD_NOT_MATCH:
-		retCode = code.ErrorUserPwd
-		return
-	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
-		retCode = code.UserStateForbiddenLogin
-		return
-	default:
+	if v, ok := userLoginRspCode[loginRsp.Common.Code]; ok {
+		retCode = v
+	} else {
 		retCode = code.ERROR
-		return
 	}
+	return
+}
+
+var userLoginRspCode = map[users.RetCode]int{
+	users.RetCode_USER_STATE_NOT_VERIFY:      code.ErrUserStateNotVerify,
+	users.RetCode_USER_NOT_EXIST:             code.ErrorUserNotExist,
+	users.RetCode_USER_VERIFY_CODE_INVALID:   code.ErrorVerifyCodeInvalid,
+	users.RetCode_USER_VERIFY_CODE_EXPIRE:    code.ErrorVerifyCodeExpire,
+	users.RetCode_USER_VERIFY_CODE_FORBIDDEN: code.ErrorVerifyCodeForbidden,
+	users.RetCode_USER_PWD_NOT_MATCH:         code.ErrorUserPwd,
+	users.RetCode_USER_STATE_FORBIDDEN_LOGIN: code.UserStateForbiddenLogin,
 }
 
 func updateUserStateLogin(ctx context.Context, uid int) int {
@@ -243,23 +233,19 @@ func LoginUserWithAccount(ctx context.Context, req *args.LoginUserWithAccountArg
 
 	vars.ErrorLogger.Errorf(ctx, "LoginUser req: %v,resp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(loginRsp))
 
-	switch loginRsp.Common.Code {
-	case users.RetCode_USER_NOT_EXIST:
-		retCode = code.ErrorUserNotExist
-		return
-	case users.RetCode_USER_PWD_NOT_MATCH:
-		retCode = code.ErrorUserPwd
-		return
-	case users.RetCode_USER_STATE_NOT_VERIFY:
-		retCode = code.ErrUserStateNotVerify
-		return
-	case users.RetCode_USER_STATE_FORBIDDEN_LOGIN:
-		retCode = code.UserStateForbiddenLogin
-		return
-	default:
+	if v, ok := userLoginWithAccountRspCode[loginRsp.Common.Code]; ok {
+		retCode = v
+	} else {
 		retCode = code.ERROR
-		return
 	}
+	return
+}
+
+var userLoginWithAccountRspCode = map[users.RetCode]int{
+	users.RetCode_USER_NOT_EXIST:             code.ErrorUserNotExist,
+	users.RetCode_USER_PWD_NOT_MATCH:         code.ErrorUserPwd,
+	users.RetCode_USER_STATE_NOT_VERIFY:      code.ErrUserStateNotVerify,
+	users.RetCode_USER_STATE_FORBIDDEN_LOGIN: code.UserStateForbiddenLogin,
 }
 
 func LoginUserWithPhone(ctx context.Context, req *args.LoginUserWithPhoneArgs) (loginInfo *args.UserLoginRsp, retCode int) {
