@@ -41,7 +41,7 @@ func InitRouter() *gin.Engine {
 		apiUserLogin.POST("/pwd/account", v1.LoginUserWithAccountApi)          // 账号密码登录
 	}
 	apiUser := apiV1.Group("/user")
-	apiUser.GET("/load_balance_test", v1.LoadBalanceTestApi)
+	//apiUser.GET("/load_balance_test", v1.LoadBalanceTestApi)
 	apiUser.Use(middleware.CheckUserToken())
 	{
 		apiUser.PUT("/password/reset", v1.PasswordResetApi) // 重置密码

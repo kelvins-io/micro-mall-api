@@ -39,7 +39,7 @@ const (
 	commentsShopList        = "/user/comments/shop/list"
 	commentsTagsModify      = "/user/comments/tags/modify"
 	commentsTagsList        = "/user/comments/tags/list"
-	loadBalanceTest         = "/user/load_balance_test"
+	//loadBalanceTest         = "/user/load_balance_test"
 )
 
 const (

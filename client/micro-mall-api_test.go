@@ -56,7 +56,7 @@ func TestGateway(t *testing.T) {
 	t.Run("获取店铺评论列表", TestGetShopCommentsList)
 	t.Run("修改评论标签", TestCommentsModify)
 	t.Run("获取评论标签", TestCommentsTagList)
-	t.Run("LoadBalanceTest", TestLoadBalance)
+	//t.Run("LoadBalanceTest", TestLoadBalance)
 }
 
 const benchCount = math.MaxInt32
@@ -82,17 +82,17 @@ var (
 	}
 )
 
-func TestLoadBalance(t *testing.T) {
-	r := baseUrl + loadBalanceTest + "?query=10069"
-	t.Logf("request url: %s", r)
-	req, err := http.NewRequest("GET", r, nil)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	req.Header.Set("token", qToken)
-	commonTest(r, req, t)
-}
+//func TestLoadBalance(t *testing.T) {
+//	r := baseUrl + loadBalanceTest + "?query=10069"
+//	t.Logf("request url: %s", r)
+//	req, err := http.NewRequest("GET", r, nil)
+//	if err != nil {
+//		t.Error(err)
+//		return
+//	}
+//	req.Header.Set("token", qToken)
+//	commonTest(r, req, t)
+//}
 
 func TestGetUserInfo(t *testing.T) {
 	r := baseUrl + userInfo

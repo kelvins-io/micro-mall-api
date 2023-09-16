@@ -145,28 +145,24 @@ func createTradeOrder(ctx context.Context, req *args.CreateTradeOrderArgs) (*arg
 		return &result, code.SUCCESS
 	}
 	vars.ErrorLogger.Errorf(ctx, "CreateOrder req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(rsp))
-	switch rsp.Common.Code {
-	case order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST:
-		return &result, code.SkuPriceVersionNotExist
-	case order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:
-		return &result, code.UserDeliveryInfoNotExist
-	case order_business.RetCode_ORDER_TX_CODE_EMPTY:
-		return &result, code.TradeOrderTxCodeEmpty
-	case order_business.RetCode_ORDER_EXIST: // 如果订单已存在，显示创建成功，防止客户端反复重试
-		return &result, code.SUCCESS
-	case order_business.RetCode_USER_EXIST:
-		return &result, code.ErrorUserExist
-	case order_business.RetCode_SHOP_EXIST:
-		return &result, code.ErrorShopBusinessExist
-	case order_business.RetCode_SHOP_NOT_EXIST:
-		return &result, code.ErrorShopBusinessNotExist
-	case order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH:
-		return &result, code.ErrorSkuAmountNotEnough
-	case order_business.RetCode_TRANSACTION_FAILED:
-		return &result, code.TransactionFailed
-	default:
+	if v, ok := createTradeOrderRspCode[rsp.Common.Code]; ok {
+		return &result, v
+	} else {
 		return &result, code.ERROR
 	}
+
+}
+
+var createTradeOrderRspCode = map[order_business.RetCode]int{
+	order_business.RetCode_SKU_PRICE_VERSION_NOT_EXIST: code.SkuPriceVersionNotExist,
+	order_business.RetCode_ORDER_DELIVERY_NOT_EXIST:    code.UserDeliveryInfoNotExist,
+	order_business.RetCode_ORDER_TX_CODE_EMPTY:         code.TradeOrderTxCodeEmpty,
+	order_business.RetCode_ORDER_EXIST:                 code.SUCCESS, // 如果订单已存在，显示创建成功，防止客户端反复重试
+	order_business.RetCode_USER_EXIST:                  code.ErrorUserExist,
+	order_business.RetCode_SHOP_EXIST:                  code.ErrorShopBusinessExist,
+	order_business.RetCode_SHOP_NOT_EXIST:              code.ErrorShopBusinessNotExist,
+	order_business.RetCode_SKU_AMOUNT_NOT_ENOUGH:       code.ErrorSkuAmountNotEnough,
+	order_business.RetCode_TRANSACTION_FAILED:          code.TransactionFailed,
 }
 
 func verifyTradeOrder(ctx context.Context, uid int64, txCode string) (result args.TradeOrderDetail, retCode int) {
@@ -391,50 +387,29 @@ func orderTradePay(ctx context.Context, req *args.OrderTradeArgs, userAccount st
 		return
 	}
 	vars.ErrorLogger.Errorf(ctx, "TradePay req: %v, rsp: %v", json.MarshalToStringNoError(req), json.MarshalToStringNoError(payRsp))
-	switch payRsp.Common.Code {
-	case pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:
-		retCode = code.TradeOrderNotMatchUser
-		return
-	case pay_business.RetCode_USER_NOT_EXIST:
-		retCode = code.ErrorUserNotExist
-		return
-	case pay_business.RetCode_USER_ACCOUNT_NOT_EXIST:
-		retCode = code.UserAccountNotExist
-		return
-	case pay_business.RetCode_USER_BALANCE_NOT_ENOUGH:
-		retCode = code.UserBalanceNotEnough
-		return
-	case pay_business.RetCode_USER_ACCOUNT_STATE_LOCK:
-		retCode = code.UserAccountStateLock
-		return
-	case pay_business.RetCode_MERCHANT_ACCOUNT_NOT_EXIST:
-		retCode = code.MerchantAccountNotExist
-		return
-	case pay_business.RetCode_MERCHANT_ACCOUNT_STATE_LOCK:
-		retCode = code.MerchantAccountStateLock
-		return
-	case pay_business.RetCode_DECIMAL_PARSE_ERR:
-		retCode = code.DecimalParseErr
-		return
-	case pay_business.RetCode_TRANSACTION_FAILED:
-		retCode = code.TransactionFailed
-		return
-	case pay_business.RetCode_TRADE_UUID_EMPTY:
-		retCode = code.OutTradeEmpty
-		return
-	case pay_business.RetCode_TRADE_PAY_RUN:
-		retCode = code.TradePayRun
-		return
-	case pay_business.RetCode_TRADE_PAY_EXPIRE:
-		retCode = code.TradePayExpire
-		return
-	case pay_business.RetCode_TRADE_PAY_SUCCESS:
-		retCode = code.TradePaySuccess
-		return
-	default:
+
+	if v, ok := tradeOrderPayRspCode[payRsp.Common.Code]; ok {
+		retCode = v
+	} else {
 		retCode = code.ERROR
-		return
 	}
+	return
+}
+
+var tradeOrderPayRspCode = map[pay_business.RetCode]int{
+	pay_business.RetCode_TRADE_ORDER_NOT_MATCH_USER:  code.TradeOrderNotMatchUser,
+	pay_business.RetCode_USER_NOT_EXIST:              code.ErrorUserNotExist,
+	pay_business.RetCode_USER_ACCOUNT_NOT_EXIST:      code.UserAccountNotExist,
+	pay_business.RetCode_USER_BALANCE_NOT_ENOUGH:     code.UserBalanceNotEnough,
+	pay_business.RetCode_USER_ACCOUNT_STATE_LOCK:     code.UserAccountStateLock,
+	pay_business.RetCode_MERCHANT_ACCOUNT_NOT_EXIST:  code.MerchantAccountNotExist,
+	pay_business.RetCode_MERCHANT_ACCOUNT_STATE_LOCK: code.MerchantAccountStateLock,
+	pay_business.RetCode_DECIMAL_PARSE_ERR:           code.DecimalParseErr,
+	pay_business.RetCode_TRANSACTION_FAILED:          code.TransactionFailed,
+	pay_business.RetCode_TRADE_UUID_EMPTY:            code.OutTradeEmpty,
+	pay_business.RetCode_TRADE_PAY_RUN:               code.TradePayRun,
+	pay_business.RetCode_TRADE_PAY_EXPIRE:            code.TradePayExpire,
+	pay_business.RetCode_TRADE_PAY_SUCCESS:           code.TradePaySuccess,
 }
 
 func OrderShopRank(ctx context.Context, req *args.OrderShopRankArgs) (result interface{}, retCode int) {
