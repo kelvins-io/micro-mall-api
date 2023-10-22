@@ -1,6 +1,6 @@
 #! /bin/bash
 docker network create etcd-cluster
-docker-compose -f ./etcd-cluster/docker-compose-etcd.yml up -d
+docker-compose -f docker-compose-etcd.yml up -d
 
 export  ETCDV3_SERVER_URLS=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379
 export  ETCDV3_SERVER_URL=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379
